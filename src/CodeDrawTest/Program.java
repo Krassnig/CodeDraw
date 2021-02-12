@@ -30,6 +30,24 @@ public class Program {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
+		autoCloseTest();
+	}
+
+	private static void autoCloseTest() {
+		CodeDraw cd1 = new CodeDraw();
+		CodeDraw cd2 = new CodeDraw();
+
+		cd1.dispose();
+		cd2.dispose(false);
+
+		try {
+			for (int i = 0; i < 10; i++) {
+				Thread.sleep(1000);
+				System.out.println("sleeping");
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void triangleTest() {

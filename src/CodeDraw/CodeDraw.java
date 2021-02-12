@@ -505,8 +505,12 @@ public class CodeDraw {
 	 * Closes the JFrame and disposes all created resources associated with this CodeDraw instance.
 	 */
 	public void dispose() {
+		dispose(true);
+	}
+
+	public void dispose(boolean exit) {
 		g.dispose();
-		frame.dispose();
+		frame.dispose(exit);
 	}
 
 	private static int[][] mapToArray(Point[] points) {

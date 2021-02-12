@@ -13,6 +13,7 @@ import java.util.Base64;
 class CanvasFrame {
 	private static Semaphore lockWindowCount = new Semaphore(1);
 	private static int windowCount = 0;
+	private boolean exitOnLastClose = true;
 
 	public CanvasFrame(int canvasWidth, int canvasHeight) {
 		lockWindowCount.acquire();
@@ -132,7 +133,7 @@ class CanvasFrame {
 			public void windowClosed(WindowEvent e) {
 				lockWindowCount.acquire();
 				windowCount--;
-				if (windowCount == 0) {
+				if (windowCount == 0 && exitOnLastClose) {
 					System.exit(0);
 				}
 				lockWindowCount.release();
@@ -173,7 +174,11 @@ class CanvasFrame {
 	private InternalEvent<CanvasFrame, ComponentEvent> windowMove = new InternalEvent<CanvasFrame, ComponentEvent>(this);
 	public Event<CanvasFrame, ComponentEvent> windowMove() { return windowMove; }
 
-	public void dispose() {
+	public void dispose(boolean exitOnLastClose) {
+		lockWindowCount.acquire();
+		this.exitOnLastClose = exitOnLastClose;
+		lockWindowCount.release();
+
 		frame.dispose();
 	}
 
