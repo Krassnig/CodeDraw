@@ -502,12 +502,16 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Closes the JFrame and disposes all created resources associated with this CodeDraw instance.
+	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
 	 */
 	public void dispose() {
 		dispose(true);
 	}
 
+	/**
+	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
+	 * @param exit when true terminates the process when all CodeDraw instances are closed.
+	 */
 	public void dispose(boolean exit) {
 		g.dispose();
 		frame.dispose(exit);
