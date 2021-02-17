@@ -12,10 +12,10 @@ public class Palette {
 	 */
 	public static final Color BLACK = new Color(0x000000);
 	public static final Color NAVY = new Color(0x000080);
-	public static final Color DARKBLUE = new Color(0x00008B);
-	public static final Color MEDIUMBLUE = new Color(0x0000CD);
+	public static final Color DARK_BLUE = new Color(0x00008B);
+	public static final Color MEDIUM_BLUE = new Color(0x0000CD);
 	public static final Color BLUE = new Color(0x0000FF);
-	public static final Color DARKGREEN = new Color(0x006400);
+	public static final Color DARK_GREEN = new Color(0x006400);
 	public static final Color GREEN = new Color(0x008000);
 	public static final Color TEAL = new Color(0x008080);
 	public static final Color DARK_CYAN = new Color(0x008B8B);
