@@ -119,7 +119,12 @@ class CanvasFrame {
 	}
 
 	private MouseMotionListener createMouseMotionListener() {
-		return new MouseMotionAdapter() {
+		return new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				mouseMove.invoke(e);
+			}
+
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				mouseMove.invoke(e);

@@ -8,17 +8,17 @@ import java.util.function.Function;
 
 public class EventTests {
 	public static void main(String[] args) {
-		mouseTest(l -> l.mouseClick());
+		//mouseTest(l -> l.mouseClick());
 		mouseTest(l -> l.mouseMove());
-		mouseTest(l -> l.mouseDown());
-		mouseTest(l -> l.mouseUp());
-		mouseTest(l -> l.mouseLeave());
-		mouseTest(l -> l.mouseEnter());
-		mouseWheelTest();
-		keyEventTest(l -> l.keyUp());
-		keyEventTest(l -> l.keyPress());
-		keyEventTest(l -> l.keyDown());
-		windowMoveTest();
+		//mouseTest(l -> l.mouseDown());
+		//mouseTest(l -> l.mouseUp());
+		//mouseTest(l -> l.mouseLeave());
+		//mouseTest(l -> l.mouseEnter());
+		//mouseWheelTest();
+		//keyEventTest(l -> l.keyUp());
+		//keyEventTest(l -> l.keyPress());
+		//keyEventTest(l -> l.keyDown());
+		//windowMoveTest();
 	}
 
 	private static int x = 500;

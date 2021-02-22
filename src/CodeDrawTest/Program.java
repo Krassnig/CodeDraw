@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Program {
 	public static void main(String[] args) {
+		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
 		//lineSizeTest();
@@ -17,7 +18,7 @@ public class Program {
 		//smallWindowTest();
 		//sinCosTest();
 		//arcAngleTest();
-		//arcAnimationTest();
+		arcAnimationTest();
 		//fontTest();
 		//imageSaveTest();
 		//imageTestScale();
@@ -30,7 +31,6 @@ public class Program {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
-		autoCloseTest();
 	}
 
 	private static void autoCloseTest() {
