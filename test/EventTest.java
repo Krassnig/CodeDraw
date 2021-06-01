@@ -7,7 +7,7 @@ import java.util.function.Function;
 public class EventTest {
 	public static void main(String[] args) {
 		//mouseTest(l -> l.mouseClick());
-		mouseTest(l -> l.mouseMove());
+		mouseTest(l -> l.onMouseMove());
 		//mouseTest(l -> l.mouseDown());
 		//mouseTest(l -> l.mouseUp());
 		//mouseTest(l -> l.mouseLeave());
@@ -32,11 +32,11 @@ public class EventTest {
 		x = c.getFramePositionX();
 		y = c.getFramePositionY();
 
-		c.frameMove().subscribe((s, a) -> {
+		c.onFrameMove().subscribe((s, a) -> {
 			int dx = x - s.getFramePositionX();
 			int dy = y - s.getFramePositionY();
 
-			s.reset();
+			s.clear();
 			s.drawSquare(dx, dy, 100);
 			s.show();
 		});
@@ -61,8 +61,8 @@ public class EventTest {
 
 		c.setColor(Palette.RED);
 
-		c.mouseWheel().subscribe((s, a) -> {
-			s.reset();
+		c.onMouseWheel().subscribe((s, a) -> {
+			s.clear();
 			int h = l + a.getWheelRotation();
 			s.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
 			s.show();

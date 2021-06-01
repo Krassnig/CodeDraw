@@ -35,8 +35,8 @@ public class Test {
 	private static void curveTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.mouseMove().subscribe((c, e) -> {
-			c.reset();
+		cd.onMouseMove().subscribe((c, e) -> {
+			c.clear();
 			c.drawCurve(200, 200, e.getX(), e.getY(), 400, 400);
 			c.show();
 		});
@@ -79,7 +79,7 @@ public class Test {
 			l.setFramePositionX(pos);
 			l.setFramePositionY(pos);
 
-			l.reset();
+			l.clear();
 			l.drawSquare(500 - pos, 500 - pos, 100);
 			l.show(100);
 		}
@@ -130,7 +130,7 @@ public class Test {
 		int radius = 100;
 
 		for (double i = 0; true; i += Math.PI / 64) {
-			c.reset();
+			c.clear();
 
 			c.setColor(Palette.BLACK);
 			c.drawCircle(300, 300, radius);
@@ -155,7 +155,7 @@ public class Test {
 		double steps = tau / (1 << 14);
 
 		for (double i = 0; i < Math.PI / 2; i += steps) {
-			c.reset();
+			c.clear();
 
 			c.fillArc(100, 100, 800, 800, Math.PI / 2, i);
 			c.drawArc(100, 100, 850, 850, Math.PI / 2, i);
@@ -292,13 +292,13 @@ public class Test {
 
 		while (true) {
 			for (int i = 0; i < end; i++) {
-				w.reset();
+				w.clear();
 				w.drawText(offset + i * steps, offset, "I'm animated!");
 				w.show(pause);
 			}
 
 			for (int i = 0; i < end; i++) {
-				w.reset();
+				w.clear();
 				w.drawText(offset + steps * end - i * steps, offset, "I'm animated!");
 				w.show(pause);
 			}
@@ -334,7 +334,7 @@ public class Test {
 
 		for (int i = 0; i < 30; i++)
 		{
-			draw.reset();
+			draw.clear();
 
 			draw.setColor(Color.BLACK);
 			draw.drawPoint(99, 399);

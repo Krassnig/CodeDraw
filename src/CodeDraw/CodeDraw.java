@@ -73,11 +73,11 @@ public class CodeDraw {
 
 		setFont(new Font("Arial", Font.PLAIN, 16));
 		setColor(Color.BLACK);
-		reset();
+		clear();
 		show();
 		bindEvents();
 
-		keyDown().subscribe((sender, args) -> {
+		onKeyDown().subscribe((sender, args) -> {
 			if (args.isControlDown() && args.getKeyCode() == KeyEvent.VK_C) {
 				sender.frame.copyCanvasToClipboard();
 			}
@@ -160,37 +160,37 @@ public class CodeDraw {
 	}
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseClick = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseClick() { return mouseClick; }
+	public Event<CodeDraw, MouseEvent> onMouseClick() { return mouseClick; }
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseMove = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseMove() { return mouseMove; }
+	public Event<CodeDraw, MouseEvent> onMouseMove() { return mouseMove; }
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseDown = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseDown() { return mouseDown; }
+	public Event<CodeDraw, MouseEvent> onMouseDown() { return mouseDown; }
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseUp = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseUp() { return mouseUp; }
+	public Event<CodeDraw, MouseEvent> onMouseUp() { return mouseUp; }
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseEnter = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseEnter() { return mouseEnter; }
+	public Event<CodeDraw, MouseEvent> onMouseEnter() { return mouseEnter; }
 
 	private InternalEvent<CodeDraw, MouseEvent> mouseLeave = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> mouseLeave() { return mouseLeave; }
+	public Event<CodeDraw, MouseEvent> onMouseLeave() { return mouseLeave; }
 
 	private InternalEvent<CodeDraw, MouseWheelEvent> mouseWheel = new InternalEvent<CodeDraw, MouseWheelEvent>(this);
-	public Event<CodeDraw, MouseWheelEvent> mouseWheel() { return mouseWheel; }
+	public Event<CodeDraw, MouseWheelEvent> onMouseWheel() { return mouseWheel; }
 
 	private InternalEvent<CodeDraw, KeyEvent> keyDown = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> keyDown() { return keyDown; }
+	public Event<CodeDraw, KeyEvent> onKeyDown() { return keyDown; }
 
 	private InternalEvent<CodeDraw, KeyEvent> keyUp = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> keyUp() { return keyUp; }
+	public Event<CodeDraw, KeyEvent> onKeyUp() { return keyUp; }
 
 	private InternalEvent<CodeDraw, KeyEvent> keyPress = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> keyPress() { return keyPress; }
+	public Event<CodeDraw, KeyEvent> onKeyPress() { return keyPress; }
 
 	private InternalEvent<CodeDraw, ComponentEvent> frameMove = new InternalEvent<CodeDraw, ComponentEvent>(this);
-	public Event<CodeDraw, ComponentEvent> frameMove() { return frameMove; }
+	public Event<CodeDraw, ComponentEvent> onFrameMove() { return frameMove; }
 
 	/**
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
@@ -464,14 +464,14 @@ public class CodeDraw {
 	/**
 	 * Colors the whole canvas in white.
 	 */
-	public void reset() {
-		reset(Color.WHITE);
+	public void clear() {
+		clear(Color.WHITE);
 	}
 
 	/**
 	 * Colors the whole canvas in the color given as a parameter.
 	 */
-	public void reset(Color color) {
+	public void clear(Color color) {
 		if (color == null) throw createArgumentNull("color");
 
 		Color c = getColor();
