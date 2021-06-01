@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
+		//curveTest();
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
@@ -16,9 +17,9 @@ public class Test {
 		//smallWindowTest();
 		//sinCosTest();
 		//arcAngleTest();
-		arcAnimationTest();
+		//arcAnimationTest();
 		//fontTest();
-		//imageSaveTest();
+		imageSaveTest();
 		//imageTestScale();
 		//imageTest();
 		//polygonTest();
@@ -29,6 +30,18 @@ public class Test {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
+	}
+
+	private static void curveTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.mouseMove().subscribe((c, e) -> {
+			c.reset();
+			c.drawCurve(200, 200, e.getX(), e.getY(), 400, 400);
+			c.show();
+		});
+
+		cd.show();
 	}
 
 	private static void autoCloseTest() {
@@ -199,7 +212,7 @@ public class Test {
 		w.fillCircle(200, 200, 10);
 
 		try {
-			ImageIO.write(w.asImage(), "png", new File("C:\\Users\\Dewernh\\Desktop\\saved.png"));
+			ImageIO.write(w.asImage(), "png", new File("test/out.png"));
 		} catch (IOException e) {
 			System.out.println("could not save image");
 		}
@@ -211,7 +224,7 @@ public class Test {
 		CodeDraw c = new CodeDraw();
 
 		try {
-			c.drawImage(100, 100, 200, 200, ImageIO.read(new File("C:\\Users\\Dewernh\\Desktop\\test.jpg")));
+			c.drawImage(100, 100, 200, 200, ImageIO.read(new File("test/test.jpg")));
 		} catch (IOException e) {
 			System.out.println("Could not load file");
 		}
@@ -220,10 +233,10 @@ public class Test {
 	}
 
 	private static void imageTest() {
-		CodeDraw c = new CodeDraw();
+		CodeDraw c = new CodeDraw(820, 620);
 
 		try {
-			c.drawImage(10, 10, ImageIO.read(new File("C:\\Users\\Dewernh\\Desktop\\test.jpg")));
+			c.drawImage(10, 10, ImageIO.read(new File("test/test.jpg")));
 		} catch (IOException e) {
 			System.out.println("Could not load file");
 		}
