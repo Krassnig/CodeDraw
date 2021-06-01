@@ -16,8 +16,8 @@ Now you can import CodeDraw with ```import CodeDraw.*;``` at the top of your Jav
 
 ### Eclipse
 
-Open Eclipse with the project where you would like to add CodeDraw. Right click on your Project > **Properties** > **Java Build Path** > **Add External JARs...**
-Goto the downloaded CodeDraw.jar and select it and then press **OK**.
+Open Eclipse with the project where you would like to add CodeDraw. Right click on your Project > **Properties > Java Build Path > Add External JARs...**
+Go to the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with ```import CodeDraw.*;``` at the top of your Java files.
 
 
