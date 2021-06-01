@@ -7,10 +7,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
 
 /**
- * CodeDraw is an easy to use drawing library.<br>
+ * CodeDraw is an easy-to-use drawing library.<br>
  * <br>
  * How to use:<br>
  * <pre>{@code
@@ -208,6 +209,14 @@ public class CodeDraw {
 
 	public void drawLine(int startX, int startY, int endX, int endY) {
 		g.drawLine(startX, startY, endX, endY);
+	}
+
+	public void drawCurve(int startX, int startY, int controlX, int controlY, int endX, int endY) {
+		g.draw(new QuadCurve2D.Double(
+				startX, startY,
+				controlX, controlY,
+				endX, endY
+		));
 	}
 
 	/**
