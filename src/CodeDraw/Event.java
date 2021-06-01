@@ -11,7 +11,7 @@ class Event<TSender, TArgs> {
 	private ArrayList<EventHandler<TSender, TArgs>> subscribers = new ArrayList<>();
 
 	public void invoke(TArgs args) {
-		for (var subscriber : new ArrayList<>(subscribers)) {
+		for (EventHandler<TSender, TArgs> subscriber : new ArrayList<>(subscribers)) {
 			subscriber.handle(sender, args);
 		}
 	}

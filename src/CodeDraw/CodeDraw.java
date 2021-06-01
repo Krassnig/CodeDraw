@@ -9,8 +9,6 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * CodeDraw is an easy-to-use drawing library.<br>
