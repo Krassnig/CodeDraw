@@ -143,7 +143,7 @@ public class CodeDraw {
 	private void bindEvents() {
 		frame.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
 		frame.onMouseMove((s, a) -> mouseMoveEvent.invoke(a));
-		frame.onMouseDown((s, a) -> mouseMoveEvent.invoke(a));
+		frame.onMouseDown((s, a) -> mouseDownEvent.invoke(a));
 		frame.onMouseUp((s, a) -> mouseUpEvent.invoke(a));
 		frame.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
 		frame.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
