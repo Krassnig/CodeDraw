@@ -1,12 +1,10 @@
-package CodeDrawTest;
-
 import CodeDraw.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.function.Function;
 
-public class EventTests {
+public class EventTest {
 	public static void main(String[] args) {
 		//mouseTest(l -> l.mouseClick());
 		mouseTest(l -> l.mouseMove());

@@ -1,5 +1,3 @@
-package CodeDrawTest;
-
 import CodeDraw.*;
 
 import javax.imageio.ImageIO;
@@ -7,7 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Program {
+public class Test {
 	public static void main(String[] args) {
 		//autoCloseTest();
 		//triangleTest();
