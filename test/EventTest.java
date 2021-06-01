@@ -84,6 +84,7 @@ public class EventTest {
 	private static Unsubscribe unsubscribe;
 	private static EventHandler<CodeDraw, KeyEvent> key;
 	private static EventHandler<CodeDraw, MouseEvent> mouse;
+	private static int unsubscribeProgress = 0;
 
 	private static void unsubscribeTest() {
 		CodeDraw cd = new CodeDraw();
@@ -92,6 +93,7 @@ public class EventTest {
 			c.clear();
 			c.setColor(Palette.BLUE);
 			c.drawTriangle(200, 200, 400, 200, 300, 400);
+			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();
 			unsubscribe.unsubscribe();
 			unsubscribe = c.onKeyPress(key);
@@ -100,6 +102,7 @@ public class EventTest {
 			c.clear();
 			c.setColor(Palette.RED);
 			c.drawSquare(200, 200, 200);
+			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();
 			unsubscribe.unsubscribe();
 			unsubscribe = c.onMouseClick(mouse);
