@@ -2,21 +2,22 @@ import CodeDraw.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class EventTest {
 	public static void main(String[] args) {
-		//mouseTest(l -> l.mouseClick());
-		mouseTest(l -> l.onMouseMove());
-		//mouseTest(l -> l.mouseDown());
-		//mouseTest(l -> l.mouseUp());
-		//mouseTest(l -> l.mouseLeave());
-		//mouseTest(l -> l.mouseEnter());
+		//mouseTest((c, h) -> c.onMouseClick(h));
+		//mouseTest((c, h) -> c.onMouseMove(h));
+		//mouseTest((c, h) -> c.onMouseDown(h));
+		//mouseTest((c, h) -> c.onMouseUp(h));
+		//mouseTest((c, h) -> c.onMouseLeave(h));
+		//mouseTest((c, h) -> c.onMouseEnter(h));
 		//mouseWheelTest();
-		//keyEventTest(l -> l.keyUp());
-		//keyEventTest(l -> l.keyPress());
-		//keyEventTest(l -> l.keyDown());
+		//keyEventTest((c, h) -> c.onKeyDown(h));
+		//keyEventTest((c, h) -> c.onKeyPress(h));
+		//keyEventTest((c, h) -> c.onKeyUp(h));
 		//windowMoveTest();
+		unsubscribeTest();
 	}
 
 	private static int x = 500;
@@ -32,7 +33,7 @@ public class EventTest {
 		x = c.getFramePositionX();
 		y = c.getFramePositionY();
 
-		c.onFrameMove().subscribe((s, a) -> {
+		c.onFrameMove((s, a) -> {
 			int dx = x - s.getFramePositionX();
 			int dy = y - s.getFramePositionY();
 
@@ -43,12 +44,12 @@ public class EventTest {
 	}
 
 	private static String s = "";
-	private static void keyEventTest(Function<CodeDraw, Event<CodeDraw, KeyEvent>> mapToEvent) {
+	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<CodeDraw, KeyEvent>, Unsubscribe> mapToEvent) {
 		CodeDraw c = new CodeDraw();
 
 		c.setColor(Palette.RED);
 
-		mapToEvent.apply(c).subscribe((w, a) -> {
+		mapToEvent.apply(c, (w, a) -> {
 			s += a.getKeyChar();
 			w.drawText(100, 100, s);
 			w.show();
@@ -61,7 +62,7 @@ public class EventTest {
 
 		c.setColor(Palette.RED);
 
-		c.onMouseWheel().subscribe((s, a) -> {
+		c.onMouseWheel((s, a) -> {
 			s.clear();
 			int h = l + a.getWheelRotation();
 			s.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
@@ -69,14 +70,42 @@ public class EventTest {
 		});
 	}
 
-	private static void mouseTest(Function<CodeDraw, Event<CodeDraw, MouseEvent>> mapToEvent) {
+	private static void mouseTest(BiFunction<CodeDraw, EventHandler<CodeDraw, MouseEvent>, Unsubscribe> mapToEvent) {
 		CodeDraw c = new CodeDraw();
 
 		c.setColor(Palette.RED);
 
-		mapToEvent.apply(c).subscribe((w, a) -> {
+		mapToEvent.apply(c, (w, a) -> {
 			w.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
 			w.show();
 		});
+	}
+
+	private static Unsubscribe unsubscribe;
+	private static EventHandler<CodeDraw, KeyEvent> key;
+	private static EventHandler<CodeDraw, MouseEvent> mouse;
+
+	private static void unsubscribeTest() {
+		CodeDraw cd = new CodeDraw();
+
+		mouse = (c, a) -> {
+			c.clear();
+			c.setColor(Palette.BLUE);
+			c.drawTriangle(200, 200, 400, 200, 300, 400);
+			c.show();
+			unsubscribe.unsubscribe();
+			unsubscribe = c.onKeyPress(key);
+		};
+		key = (c, a) -> {
+			c.clear();
+			c.setColor(Palette.RED);
+			c.drawSquare(200, 200, 200);
+			c.show();
+			unsubscribe.unsubscribe();
+			unsubscribe = c.onMouseClick(mouse);
+		};
+
+		unsubscribe = cd.onMouseClick(mouse);
+		mouse.handle(cd, null);
 	}
 }

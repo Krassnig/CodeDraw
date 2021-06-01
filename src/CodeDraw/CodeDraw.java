@@ -9,6 +9,8 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * CodeDraw is an easy-to-use drawing library.<br>
@@ -77,7 +79,7 @@ public class CodeDraw {
 		show();
 		bindEvents();
 
-		onKeyDown().subscribe((sender, args) -> {
+		onKeyDown((sender, args) -> {
 			if (args.isControlDown() && args.getKeyCode() == KeyEvent.VK_C) {
 				sender.frame.copyCanvasToClipboard();
 			}
@@ -141,56 +143,51 @@ public class CodeDraw {
 	}
 
 	private void bindEvents() {
-		bindEvent(frame.mouseClick(), mouseClick);
-		bindEvent(frame.mouseMove(), mouseMove);
-		bindEvent(frame.mouseDown(), mouseDown);
-		bindEvent(frame.mouseUp(), mouseUp);
-		bindEvent(frame.mouseWheel(), mouseWheel);
-		bindEvent(frame.mouseEnter(), mouseEnter);
-		bindEvent(frame.mouseLeave(), mouseLeave);
-		bindEvent(frame.keyDown(), keyDown);
-		bindEvent(frame.keyUp(), keyUp);
-		bindEvent(frame.keyPress(), keyPress);
-		bindEvent(frame.windowMove(), frameMove);
+		frame.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
+		frame.onMouseMove((s, a) -> mouseMoveEvent.invoke(a));
+		frame.onMouseDown((s, a) -> mouseMoveEvent.invoke(a));
+		frame.onMouseDown((s, a) -> mouseUpEvent.invoke(a));
+		frame.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
+		frame.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
+		frame.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
+		frame.onKeyDown((s, a) -> keyDownEvent.invoke(a));
+		frame.onKeyUp((s, a) -> keyUpEvent.invoke(a));
+		frame.onKeyPress((s, a) -> keyPressEvent.invoke(a));
+		frame.onWindowMove((s, a) -> frameMoveEvent.invoke(a));
 	}
 
-	private static <TSenderTarget, TSenderSource, TArgs>
-	void bindEvent(Event<TSenderSource, TArgs> source, InternalEvent<TSenderTarget, TArgs> target) {
-		source.subscribe((s, a) -> target.invoke(a));
-	}
+	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseClick = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseClick() { return mouseClick; }
+	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseMove = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseMove() { return mouseMove; }
+	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseDown = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseDown() { return mouseDown; }
+	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseUp = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseUp() { return mouseUp; }
+	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseEnter = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseEnter() { return mouseEnter; }
+	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Unsubscribe onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseEvent> mouseLeave = new InternalEvent<CodeDraw, MouseEvent>(this);
-	public Event<CodeDraw, MouseEvent> onMouseLeave() { return mouseLeave; }
+	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
+	public Unsubscribe onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, MouseWheelEvent> mouseWheel = new InternalEvent<CodeDraw, MouseWheelEvent>(this);
-	public Event<CodeDraw, MouseWheelEvent> onMouseWheel() { return mouseWheel; }
+	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Unsubscribe onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, KeyEvent> keyDown = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> onKeyDown() { return keyDown; }
+	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Unsubscribe onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, KeyEvent> keyUp = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> onKeyUp() { return keyUp; }
+	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Unsubscribe onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
 
-	private InternalEvent<CodeDraw, KeyEvent> keyPress = new InternalEvent<CodeDraw, KeyEvent>(this);
-	public Event<CodeDraw, KeyEvent> onKeyPress() { return keyPress; }
-
-	private InternalEvent<CodeDraw, ComponentEvent> frameMove = new InternalEvent<CodeDraw, ComponentEvent>(this);
-	public Event<CodeDraw, ComponentEvent> onFrameMove() { return frameMove; }
+	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
+	public Unsubscribe onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
 
 	/**
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.

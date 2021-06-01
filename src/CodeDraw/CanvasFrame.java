@@ -51,13 +51,13 @@ class CanvasFrame {
 		canvas.copyImageToClipboard();
 	}
 
-	private KeyDownDictionary<CanvasFrame> keyDownDictionary;
+	private KeyDownMap<CanvasFrame> keyDownMap;
 	private void bindEvents() {
-		keyDownDictionary = new KeyDownDictionary<CanvasFrame>(keyDown);
+		keyDownMap = new KeyDownMap<CanvasFrame>(keyDownEvent);
 
 		canvas.addMouseListener(createMouseListener());
 		canvas.addMouseMotionListener(createMouseMotionListener());
-		canvas.addMouseWheelListener(args -> mouseWheel.invoke(args));
+		canvas.addMouseWheelListener(args -> mouseWheelEvent.invoke(args));
 
 		frame.addKeyListener(createKeyListener());
 		frame.addComponentListener(createComponentListener());
@@ -68,7 +68,7 @@ class CanvasFrame {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				windowMove.invoke(e);
+				windowMoveEvent.invoke(e);
 			}
 		};
 	}
@@ -77,27 +77,27 @@ class CanvasFrame {
 		return new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mouseClick.invoke(e);
+				mouseClickEvent.invoke(e);
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				mouseDown.invoke(e);
+				mouseDownEvent.invoke(e);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				mouseUp.invoke(e);
+				mouseUpEvent.invoke(e);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				mouseEnter.invoke(e);
+				mouseEnterEvent.invoke(e);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				mouseLeave.invoke(e);
+				mouseLeaveEvent.invoke(e);
 			}
 		};
 	}
@@ -106,14 +106,14 @@ class CanvasFrame {
 		return new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				keyDownDictionary.keyPress(e);
-				keyPress.invoke(e);
+				keyDownMap.keyPress(e);
+				keyPressEvent.invoke(e);
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				keyDownDictionary.keyRelease(e);
-				keyUp.invoke(e);
+				keyDownMap.keyRelease(e);
+				keyUpEvent.invoke(e);
 			}
 		};
 	}
@@ -122,12 +122,12 @@ class CanvasFrame {
 		return new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				mouseMove.invoke(e);
+				mouseMoveEvent.invoke(e);
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				mouseMove.invoke(e);
+				mouseMoveEvent.invoke(e);
 			}
 		};
 	}
@@ -146,38 +146,38 @@ class CanvasFrame {
 		};
 	}
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseClick = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseClick() { return mouseClick; }
+	private Event<CanvasFrame, MouseEvent> mouseClickEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseClick(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseMove = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseMove() { return mouseMove; }
+	private Event<CanvasFrame, MouseEvent> mouseMoveEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseMove(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseDown = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseDown() { return mouseDown; }
+	private Event<CanvasFrame, MouseEvent> mouseDownEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseDown(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseUp = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseUp() { return mouseUp; }
+	private Event<CanvasFrame, MouseEvent> mouseUpEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseUp(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseWheelEvent> mouseWheel = new InternalEvent<CanvasFrame, MouseWheelEvent>(this);
-	public Event<CanvasFrame, MouseWheelEvent> mouseWheel() { return mouseWheel; }
+	private Event<CanvasFrame, MouseWheelEvent> mouseWheelEvent = new Event<CanvasFrame, MouseWheelEvent>(this);
+	public Unsubscribe onMouseWheel(EventHandler<CanvasFrame, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseEnter = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseEnter() { return mouseEnter; }
+	private Event<CanvasFrame, MouseEvent> mouseEnterEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseEnter(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, MouseEvent> mouseLeave = new InternalEvent<CanvasFrame, MouseEvent>(this);
-	public Event<CanvasFrame, MouseEvent> mouseLeave() { return mouseLeave; }
+	private Event<CanvasFrame, MouseEvent> mouseLeaveEvent = new Event<CanvasFrame, MouseEvent>(this);
+	public Unsubscribe onMouseLeave(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, KeyEvent> keyDown = new InternalEvent<CanvasFrame, KeyEvent>(this);
-	public Event<CanvasFrame, KeyEvent> keyDown() { return keyDown; }
+	private Event<CanvasFrame, KeyEvent> keyDownEvent = new Event<CanvasFrame, KeyEvent>(this);
+	public Unsubscribe onKeyDown(EventHandler<CanvasFrame, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, KeyEvent> keyUp = new InternalEvent<CanvasFrame, KeyEvent>(this);
-	public Event<CanvasFrame, KeyEvent> keyUp() { return keyUp; }
+	private Event<CanvasFrame, KeyEvent> keyUpEvent = new Event<CanvasFrame, KeyEvent>(this);
+	public Unsubscribe onKeyUp(EventHandler<CanvasFrame, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, KeyEvent> keyPress = new InternalEvent<CanvasFrame, KeyEvent>(this);
-	public Event<CanvasFrame, KeyEvent> keyPress() { return keyPress; }
+	private Event<CanvasFrame, KeyEvent> keyPressEvent = new Event<CanvasFrame, KeyEvent>(this);
+	public Unsubscribe onKeyPress(EventHandler<CanvasFrame, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
 
-	private InternalEvent<CanvasFrame, ComponentEvent> windowMove = new InternalEvent<CanvasFrame, ComponentEvent>(this);
-	public Event<CanvasFrame, ComponentEvent> windowMove() { return windowMove; }
+	private Event<CanvasFrame, ComponentEvent> windowMoveEvent = new Event<CanvasFrame, ComponentEvent>(this);
+	public Unsubscribe onWindowMove(EventHandler<CanvasFrame, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
 
 	public void dispose(boolean exitOnLastClose) {
 		lockWindowCount.acquire();

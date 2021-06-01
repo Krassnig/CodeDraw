@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
-		//curveTest();
+		curveTest();
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
@@ -19,7 +19,7 @@ public class Test {
 		//arcAngleTest();
 		//arcAnimationTest();
 		//fontTest();
-		imageSaveTest();
+		//imageSaveTest();
 		//imageTestScale();
 		//imageTest();
 		//polygonTest();
@@ -35,13 +35,11 @@ public class Test {
 	private static void curveTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.onMouseMove().subscribe((c, e) -> {
+		cd.onMouseMove((c, a) -> {
 			c.clear();
-			c.drawCurve(200, 200, e.getX(), e.getY(), 400, 400);
+			c.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
 			c.show();
 		});
-
-		cd.show();
 	}
 
 	private static void autoCloseTest() {

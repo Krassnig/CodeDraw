@@ -1,8 +1,23 @@
 package CodeDraw;
 
-import java.util.function.BiConsumer;
+import java.util.ArrayList;
 
-public interface Event<TSender, TArgs> {
-	void subscribe(BiConsumer<TSender, TArgs> subscriber);
-	void unsubscribe(BiConsumer<TSender, TArgs> subscriber);
+class Event<TSender, TArgs> {
+	public Event(TSender sender) {
+		this.sender = sender;
+	}
+
+	private TSender sender;
+	private ArrayList<EventHandler<TSender, TArgs>> subscribers = new ArrayList<>();
+
+	public void invoke(TArgs args) {
+		for (var subscriber : new ArrayList<>(subscribers)) {
+			subscriber.handle(sender, args);
+		}
+	}
+
+	public Unsubscribe onInvoke(EventHandler<TSender, TArgs> handler) {
+		this.subscribers.add(handler);
+		return () -> this.subscribers.remove(handler);
+	}
 }

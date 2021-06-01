@@ -3,12 +3,12 @@ package CodeDraw;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-class KeyDownDictionary<TSender> {
-	public KeyDownDictionary(InternalEvent<TSender, KeyEvent> keyDownEvent) {
+class KeyDownMap<TSender> {
+	public KeyDownMap(Event<TSender, KeyEvent> keyDownEvent) {
 		this.event = keyDownEvent;
 	}
 
-	private InternalEvent<TSender, KeyEvent> event;
+	private Event<TSender, KeyEvent> event;
 	private HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
