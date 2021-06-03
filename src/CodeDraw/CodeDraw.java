@@ -155,37 +155,37 @@ public class CodeDraw {
 	}
 
 	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
+	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Unsubscribe onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
-	public Unsubscribe onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Unsubscribe onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Unsubscribe onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Unsubscribe onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
 
 	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
-	public Unsubscribe onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
+	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
 
 	/**
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.

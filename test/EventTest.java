@@ -44,7 +44,7 @@ public class EventTest {
 	}
 
 	private static String s = "";
-	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<CodeDraw, KeyEvent>, Unsubscribe> mapToEvent) {
+	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<CodeDraw, KeyEvent>, Subscription> mapToEvent) {
 		CodeDraw c = new CodeDraw();
 
 		c.setColor(Palette.RED);
@@ -70,7 +70,7 @@ public class EventTest {
 		});
 	}
 
-	private static void mouseTest(BiFunction<CodeDraw, EventHandler<CodeDraw, MouseEvent>, Unsubscribe> mapToEvent) {
+	private static void mouseTest(BiFunction<CodeDraw, EventHandler<CodeDraw, MouseEvent>, Subscription> mapToEvent) {
 		CodeDraw c = new CodeDraw();
 
 		c.setColor(Palette.RED);
@@ -81,7 +81,7 @@ public class EventTest {
 		});
 	}
 
-	private static Unsubscribe unsubscribe;
+	private static Subscription subscription;
 	private static EventHandler<CodeDraw, KeyEvent> key;
 	private static EventHandler<CodeDraw, MouseEvent> mouse;
 	private static int unsubscribeProgress = 0;
@@ -95,8 +95,8 @@ public class EventTest {
 			c.drawTriangle(200, 200, 400, 200, 300, 400);
 			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();
-			unsubscribe.unsubscribe();
-			unsubscribe = c.onKeyPress(key);
+			subscription.unsubscribe();
+			subscription = c.onKeyPress(key);
 		};
 		key = (c, a) -> {
 			c.clear();
@@ -104,11 +104,11 @@ public class EventTest {
 			c.drawSquare(200, 200, 200);
 			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();
-			unsubscribe.unsubscribe();
-			unsubscribe = c.onMouseClick(mouse);
+			subscription.unsubscribe();
+			subscription = c.onMouseClick(mouse);
 		};
 
-		unsubscribe = cd.onMouseClick(mouse);
+		subscription = cd.onMouseClick(mouse);
 		mouse.handle(cd, null);
 	}
 }

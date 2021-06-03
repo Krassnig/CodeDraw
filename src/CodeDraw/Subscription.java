@@ -1,5 +1,5 @@
 package CodeDraw;
 
-public interface Unsubscribe {
+public interface Subscription {
 	void unsubscribe();
 }

@@ -17,7 +17,7 @@ class Event<TSender, TArgs> {
 		}
 	}
 
-	public Unsubscribe onInvoke(EventHandler<TSender, TArgs> handler) {
+	public Subscription onInvoke(EventHandler<TSender, TArgs> handler) {
 		subscribe(handler);
 		return () -> unsubscribe(handler);
 	}
