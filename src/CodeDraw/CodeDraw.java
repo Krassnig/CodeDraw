@@ -426,8 +426,9 @@ public class CodeDraw {
 	 * cd.drawImage(100, 100, 200, 200, img);
 	 * cd.show();
 	 * }</pre>
-	 * The size of the image will be 100x100 pixel.
-	 * @param x y the position of the top left corner of the image
+	 * The size of the image will be 200x200 pixel.
+	 * @param x the position of the top left corner of the image
+	 * @param y the position of the top left corner of the image
 	 */
 	public void drawImage(int x, int y, int width, int height, Image image) {
 		if (width < 0) throw createArgumentNotNegative("width");
