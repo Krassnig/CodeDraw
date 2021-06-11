@@ -1,7 +1,7 @@
 import CodeDraw.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class Test {
 		//polygonTest();
 		//bezierTest();
 		//arcTest();
-		//animationTest2();
+		//textAnimationTest();
 		//twoWindowTest();
 		//cornerTest();
 		//animationTest();
@@ -103,19 +103,10 @@ public class Test {
 		l.setColor(Palette.BLUE);
 		l.fillSquare(100, 100, 100);
 
-		l.setColor(changeAlpha(Palette.RED, 0.3));
+		l.setColor(Palette.setAlpha(Palette.RED, 0.3));
 		l.fillSquare(150, 150, 100);
 
 		l.show();
-	}
-
-	private static Color changeAlpha(Color color, double newAlpha) {
-		return new Color(
-				color.getRed(),
-				color.getGreen(),
-				color.getBlue(),
-				(int)(newAlpha * 0xFF)
-		);
 	}
 
 	private static void smallWindowTest() {
@@ -179,7 +170,7 @@ public class Test {
 			c.show(200);
 		}
 
-		c.setColor(Color.RED);
+		c.setColor(Palette.RED);
 		c.fillArc(300, 300, 50, 50, -tau / 8, tau / 8);
 
 		c.show();
@@ -187,7 +178,9 @@ public class Test {
 
 	private static void fontTest() {
 		CodeDraw cd = new CodeDraw();
+		cd.drawText(200, 300, "MY BOLD TEXT!");
 		cd.setFont(new Font("Arial", Font.BOLD, 20));
+		cd.drawPoint(200, 200);
 		cd.drawText(200, 200, "MY BOLD TEXT!");
 		cd.show();
 	}
@@ -203,10 +196,10 @@ public class Test {
 		w.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
 		w.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.setColor(Color.ORANGE);
+		w.setColor(Palette.ORANGE);
 		w.drawRectangle(150, 150, 100, 100);
 
-		w.setColor(Color.RED);
+		w.setColor(Palette.RED);
 		w.fillCircle(200, 200, 10);
 
 		try {
@@ -256,7 +249,7 @@ public class Test {
 
 	private static void bezierTest() {
 		CodeDraw w = new CodeDraw();
-		w.drawBezier(new Point(100, 100), new Point(300, 200), new Point(200, 300), new Point(400, 400));
+		w.drawBezier(100, 100, 300, 200, 200, 300, 400, 400);
 		w.show();
 	}
 
@@ -271,16 +264,16 @@ public class Test {
 		w.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
 		w.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.setColor(Color.ORANGE);
+		w.setColor(Palette.ORANGE);
 		w.drawRectangle(150, 150, 100, 100);
 
-		w.setColor(Color.red);
+		w.setColor(Palette.RED);
 		w.fillCircle(200, 200, 10);
 
 		w.show();
 	}
 
-	private static void animationTest2() {
+	private static void textAnimationTest() {
 		CodeDraw w = new CodeDraw();
 
 		int steps = 5;
@@ -319,7 +312,7 @@ public class Test {
 
 		int size = 1;
 
-		draw.setColor(Color.RED);
+		draw.setColor(Palette.RED);
 		draw.fillRectangle(0, 0, size, size);
 		draw.fillRectangle(0, draw.getHeight() - size, size, size);
 		draw.fillRectangle(draw.getWidth() - size, 0, size, size);
@@ -334,11 +327,11 @@ public class Test {
 		{
 			draw.clear();
 
-			draw.setColor(Color.BLACK);
+			draw.setColor(Palette.BLACK);
 			draw.drawPoint(99, 399);
 			draw.drawText(100, 400, "Hello World!");
 			draw.fillRectangle(100 + i * 10, 100 + i, 100, 100);
-			draw.setColor(Color.ORANGE);
+			draw.setColor(Palette.ORANGE);
 			draw.fillEllipse(20, 40, 20, 40);
 			draw.show(30);
 		}
@@ -347,12 +340,12 @@ public class Test {
 	private static void proofOfConcept() {
 		CodeDraw d = new CodeDraw();
 
-		d.setColor(Color.RED);
+		d.setColor(Palette.RED);
 		d.fillRectangle(20, 20, 100, 100);
 
 		d.setTitle("Hello World");
 
-		d.setColor(Color.BLUE);
+		d.setColor(Palette.BLUE);
 		d.fillCircle(50, 50, 50);
 
 		d.setColor(Palette.LIGHT_BLUE);

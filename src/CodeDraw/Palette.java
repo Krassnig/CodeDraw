@@ -4,6 +4,20 @@ import java.awt.*;
 
 public final class Palette {
 	private Palette() { }
+
+	public static Color setAlpha(Color color, int alphaHex) {
+		return new Color(
+				color.getRed(),
+				color.getGreen(),
+				color.getBlue(),
+				alphaHex
+		);
+	}
+
+	public static Color setAlpha(Color color, double alpha) {
+		return setAlpha(color, (int)(alpha * 0xFF));
+	}
+
 	/*
 	 * Replacement strategy in Notepad++
 	 *    Find what: "([a-z])([A-Z])"
