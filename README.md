@@ -32,7 +32,7 @@ CodeDraw cd = new CodeDraw(); // creates a canvas of size 600x600 pixel
 
 // All following drawn objects will be red,
 // until the color is set to a different color.
-cd.setColor(Color.RED);
+cd.setColor(Palette.RED);
 
 // draws a red circle at the center of the canvas with a radius of 50 pixel.
 // The circle is not yet displayed!
@@ -41,13 +41,13 @@ cd.drawCircle(300, 300, 50);
 // Must be called to display everything that has been drawn until now!
 cd.show();
 ```
-<span style="background-color: lightgray; font-size: 30px; color: black">
-	❗ Don't forget to call .show() ❗
-</span>
+# ❗ Don't forget to call .show() ❗
 
 ### Animation Example
 
 ```java
+import CodeDraw.*;
+
 class Main {
 	static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
@@ -148,13 +148,15 @@ can be used to unsubscribe from the event.
 #### Example Event
 
 ```java
-import CodeDraw.CodeDraw;
+import java.awt.event.MouseEvent;
+import CodeDraw.*;
 
 class Main {
 	static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
 		
 		cd.drawText(cd.getWidth() / 2 - 30, cd.getHeight() / 2, "Move your mouse over here.");
+		cd.setColor(Palette.RED);
 		
 		cd.onMouseMove(Main::draw);
 	}
