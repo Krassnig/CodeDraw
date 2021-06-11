@@ -2,7 +2,6 @@ package CodeDraw;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -37,8 +36,10 @@ class CanvasFrame {
 	private JFrame frame;
 	private CanvasPanel canvas;
 
-	public Point getFramePosition() { return frame.getLocationOnScreen(); }
-	public void setFramePosition(Point location) { frame.setLocation(location); }
+	public int getFramePositionX() { return frame.getLocationOnScreen().x; }
+	public int getFramePositionY() { return frame.getLocationOnScreen().y; }
+	public void setFramePositionX(int x) { frame.setLocation(new java.awt.Point(x, getFramePositionY())); }
+	public void setFramePositionY(int y) { frame.setLocation(new java.awt.Point(getFramePositionX(), y)); }
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }
@@ -177,7 +178,7 @@ class CanvasFrame {
 	public Subscription onKeyPress(EventHandler<CanvasFrame, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
 
 	private Event<CanvasFrame, ComponentEvent> windowMoveEvent = new Event<CanvasFrame, ComponentEvent>(this);
-	public Subscription onWindowMove(EventHandler<CanvasFrame, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
+	public Subscription onFrameMove(EventHandler<CanvasFrame, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
 
 	public void dispose(boolean exitOnLastClose) {
 		lockWindowCount.acquire();

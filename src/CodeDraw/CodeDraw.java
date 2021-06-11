@@ -1,13 +1,9 @@
 package CodeDraw;
 
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.geom.Arc2D;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.QuadCurve2D;
+import java.awt.event.*;
+import java.awt.font.TextLayout;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -71,11 +67,12 @@ public class CodeDraw {
 		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
 
+		bindEvents();
 		setFont(new Font("Arial", Font.PLAIN, 16));
 		setColor(Color.BLACK);
+		setLineSize(1);
 		clear();
 		show();
-		bindEvents();
 
 		onKeyDown((sender, args) -> {
 			if (args.isControlDown() && args.getKeyCode() == KeyEvent.VK_C) {
@@ -101,11 +98,11 @@ public class CodeDraw {
 	 */
 	public int getHeight() { return height; }
 
-	public int getFramePositionX() { return frame.getFramePosition().x; }
-	public int getFramePositionY() { return frame.getFramePosition().y; }
+	public int getFramePositionX() { return frame.getFramePositionY(); }
+	public int getFramePositionY() { return frame.getFramePositionX(); }
 
-	public void setFramePositionX(int x) { frame.setFramePosition(new Point(x, getFramePositionY())); }
-	public void setFramePositionY(int y) { frame.setFramePosition(new Point(getFramePositionX(), y)); }
+	public void setFramePositionX(int x) { frame.setFramePositionX(x); }
+	public void setFramePositionY(int y) { frame.setFramePositionY(y); }
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title)  {
@@ -142,16 +139,16 @@ public class CodeDraw {
 
 	private void bindEvents() {
 		frame.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
-		frame.onMouseMove((s, a) -> mouseMoveEvent.invoke(a));
-		frame.onMouseDown((s, a) -> mouseDownEvent.invoke(a));
-		frame.onMouseUp((s, a) -> mouseUpEvent.invoke(a));
+		frame.onMouseMove ((s, a) -> mouseMoveEvent .invoke(a));
+		frame.onMouseDown ((s, a) -> mouseDownEvent .invoke(a));
+		frame.onMouseUp   ((s, a) -> mouseUpEvent   .invoke(a));
 		frame.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
 		frame.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
 		frame.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
-		frame.onKeyDown((s, a) -> keyDownEvent.invoke(a));
-		frame.onKeyUp((s, a) -> keyUpEvent.invoke(a));
-		frame.onKeyPress((s, a) -> keyPressEvent.invoke(a));
-		frame.onWindowMove((s, a) -> frameMoveEvent.invoke(a));
+		frame.onKeyDown   ((s, a) -> keyDownEvent   .invoke(a));
+		frame.onKeyUp     ((s, a) -> keyUpEvent     .invoke(a));
+		frame.onKeyPress  ((s, a) -> keyPressEvent  .invoke(a));
+		frame.onFrameMove ((s, a) -> frameMoveEvent .invoke(a));
 	}
 
 	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
@@ -190,23 +187,26 @@ public class CodeDraw {
 	/**
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
 	 */
-	public void drawText(int x, int y, String text) {
+	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
 
+		TextLayout tl = new TextLayout(text, getFont(), g.getFontRenderContext());
 		FontMetrics fm = g.getFontMetrics(getFont());
-		g.drawString(text, x + 3, y + fm.getAscent());
+		g.fill(tl.getOutline(new AffineTransform(1, 0, 0, 1, x, y + fm.getAscent())));
 	}
 
-	public void drawPoint(int x, int y) {
+	public void drawPoint(double x, double y) {
 		fillSquare(x, y, 1);
 	}
 
-
-	public void drawLine(int startX, int startY, int endX, int endY) {
-		g.drawLine(startX, startY, endX, endY);
+	public void drawLine(double startX, double startY, double endX, double endY) {
+		g.draw(new Line2D.Double(
+				startX, startY,
+				endX, endY
+		));
 	}
 
-	public void drawCurve(int startX, int startY, int controlX, int controlY, int endX, int endY) {
+	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
 		g.draw(new QuadCurve2D.Double(
 				startX, startY,
 				controlX, controlY,
@@ -217,12 +217,12 @@ public class CodeDraw {
 	/**
 	 * Draws a cubic bezier curve. See: @see <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 */
-	public void drawBezier(Point start, Point control1, Point control2, Point end) {
+	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
 		g.draw(new CubicCurve2D.Double(
-				start.x, start.y,
-				control1.x, control1.y,
-				control2.x, control2.y,
-				end.x, end.y
+				startX, startY,
+				control1X, control1Y,
+				control2X, control2Y,
+				endX, endY
 		));
 	}
 
@@ -230,7 +230,7 @@ public class CodeDraw {
 	 * @param x The top left corner of the square
 	 * @param y The top left corner of the square
 	 */
-	public void drawSquare(int x, int y, int sideLength) {
+	public void drawSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createArgumentNotNegative("size");
 
 		drawRectangle(x, y, sideLength, sideLength);
@@ -240,7 +240,7 @@ public class CodeDraw {
 	 * @param x The top left corner of the square
 	 * @param y The top left corner of the square
 	 */
-	public void fillSquare(int x, int y, int sideLength) {
+	public void fillSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createArgumentNotNegative("size");
 
 		fillRectangle(x, y, sideLength, sideLength);
@@ -250,29 +250,35 @@ public class CodeDraw {
 	 * @param x The top left corner of the rectangle
 	 * @param y The top left corner of the rectangle
 	 */
-	public void drawRectangle(int x, int y, int width, int height) {
+	public void drawRectangle(double x, double y, double width, double height) {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 
-		g.drawRect(x, y, width, height);
+		g.draw(new Rectangle2D.Double(
+				x, y,
+				width, height
+		));
 	}
 
 	/**
 	 * @param x The top left corner of the rectangle
 	 * @param y The top left corner of the rectangle
 	 */
-	public void fillRectangle(int x, int y, int width, int height) {
+	public void fillRectangle(double x, double y, double width, double height) {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 
-		g.fillRect(x, y, width, height);
+		g.fill(new Rectangle2D.Double(
+				x, y,
+				width, height
+		));
 	}
 
 	/**
 	 * @param x The center of the circle
 	 * @param y The center of the circle
 	 */
-	public void drawCircle(int x, int y, int radius) {
+	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
 		drawEllipse(x, y, radius, radius);
@@ -282,7 +288,7 @@ public class CodeDraw {
 	 * @param x The center of the circle
 	 * @param y The center of the circle
 	 */
-	public void fillCircle(int x, int y, int radius) {
+	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
 		fillEllipse(x, y, radius, radius);
@@ -292,22 +298,28 @@ public class CodeDraw {
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
 	 */
-	public void drawEllipse(int x, int y, int horizontalRadius, int verticalRadius) {
+	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.drawOval(x - horizontalRadius, y - verticalRadius, 2 * horizontalRadius, 2 * verticalRadius);
+		g.draw(new Ellipse2D.Double(
+				x - horizontalRadius, y - verticalRadius,
+				2 * horizontalRadius, 2 * verticalRadius
+		));
 	}
 
 	/**
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
 	 */
-	public void fillEllipse(int x, int y, int horizontalRadius, int verticalRadius) {
+	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.fillOval(x - horizontalRadius, y - verticalRadius, 2 * horizontalRadius, 2 * verticalRadius);
+		g.fill(new Ellipse2D.Double(
+				x - horizontalRadius, y - verticalRadius,
+				2 * horizontalRadius, 2 * verticalRadius
+		));
 	}
 
 
@@ -317,7 +329,7 @@ public class CodeDraw {
 	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
-	public void drawArc(int x, int y, int horizontalRadius, int verticalRadius, double startRadians, double sweepRadians) {
+	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
@@ -333,11 +345,12 @@ public class CodeDraw {
 	}
 
 	/**
-	 * @param x y the center of the filled arc
+	 * @param x the center of the filled arc
+	 * @param y the center of the filled arc
 	 * @param startRadians the starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians the length of the filled arc in radians from the start angle in a clockwise direction.
 	 */
-	public void fillArc(int x, int y, int horizontalRadius, int verticalRadius, double startRadians, double sweepRadians) {
+	public void fillArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
@@ -352,26 +365,24 @@ public class CodeDraw {
 		));
 	}
 
-	public void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		drawPolygon(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3));
 	}
 
-	public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		fillPolygon(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3));
 	}
 
 	public void drawPolygon(Point... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
-		int[][] arr = mapToArray(points);
-		g.drawPolygon(arr[0], arr[1], arr[0].length);
+		g.draw(pointsToPath(points));
 	}
 
 	public void fillPolygon(Point... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
-		int[][] arr = mapToArray(points);
-		g.fillPolygon(arr[0], arr[1], arr[0].length);
+		g.fill(pointsToPath(points));
 	}
 
 	/**
@@ -521,16 +532,14 @@ public class CodeDraw {
 		frame.dispose(exit);
 	}
 
-	private static int[][] mapToArray(Point[] points) {
-		int[][] result = new int[][] {
-				new int[points.length],
-				new int[points.length]
-		};
+	private static Path2D.Double pointsToPath(Point[] points) {
+		Path2D.Double result = new Path2D.Double();
 
-		for (int i = 0; i < points.length; i++) {
-			result[0][i] = points[i].x;
-			result[1][i] = points[i].y;
+		result.moveTo(points[0].getX(), points[1].getY());
+		for (int i = 1; i < points.length; i++) {
+			result.lineTo(points[i].getX(), points[i].getY());
 		}
+		result.lineTo(points[0].getX(), points[1].getY());
 
 		return result;
 	}
