@@ -1,7 +1,6 @@
 import CodeDraw.*;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.function.BiFunction;
 
 public class EventTest {

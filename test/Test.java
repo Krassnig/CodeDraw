@@ -7,7 +7,8 @@ import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
-		curveTest();
+		clockTest();
+		//curveTest();
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
@@ -30,6 +31,24 @@ public class Test {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
+	}
+
+	private static void clockTest() {
+		CodeDraw cd = new CodeDraw();
+
+		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
+			cd.clear();
+			cd.drawLine(300, 300, Math.cos(sec) * 100 + 300, Math.sin(sec) * 100 + 300);
+
+			double min = sec / 60 - Math.PI / 2;
+			cd.drawLine(300, 300, Math.cos(min) * 70 + 300, Math.sin(min) * 70 + 300);
+
+			for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
+				cd.fillCircle(Math.cos(j) * 100 + 300, Math.sin(j) * 100 + 300, 4);
+			}
+
+			cd.show(1000);
+		}
 	}
 
 	private static void curveTest() {
