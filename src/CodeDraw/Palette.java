@@ -2,7 +2,8 @@ package CodeDraw;
 
 import java.awt.*;
 
-public class Palette {
+public final class Palette {
+	private Palette() { }
 	/*
 	 * Replacement strategy in Notepad++
 	 *    Find what: "([a-z])([A-Z])"
