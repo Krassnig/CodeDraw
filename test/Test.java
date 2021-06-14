@@ -122,7 +122,7 @@ public class Test {
 		l.setColor(Palette.BLUE);
 		l.fillSquare(100, 100, 100);
 
-		l.setColor(Palette.setAlpha(Palette.RED, 0.3));
+		l.setColor(Palette.fromRGBA(Palette.RED, 77));
 		l.fillSquare(150, 150, 100);
 
 		l.show();

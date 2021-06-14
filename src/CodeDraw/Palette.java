@@ -5,17 +5,24 @@ import java.awt.*;
 public final class Palette {
 	private Palette() { }
 
-	public static Color setAlpha(Color color, int alphaHex) {
-		return new Color(
-				color.getRed(),
-				color.getGreen(),
-				color.getBlue(),
-				alphaHex
-		);
+	public static Color fromRGB(int rgb) {
+		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
 	}
 
-	public static Color setAlpha(Color color, double alpha) {
-		return setAlpha(color, (int)(alpha * 0xFF));
+	public static Color fromRGB(int red, int green, int blue) {
+		return fromRGBA(red, green, blue, 0xFF);
+	}
+
+	public static Color fromRGBA(int rgba) {
+		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
+	}
+
+	public static Color fromRGBA(Color baseColor, int alpha) {
+		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
+	}
+
+	public static Color fromRGBA(int red, int green, int blue, int alpha) {
+		return new Color(red, green, blue, alpha);
 	}
 
 	/*
