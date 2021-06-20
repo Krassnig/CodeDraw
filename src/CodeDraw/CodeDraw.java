@@ -86,7 +86,7 @@ public class CodeDraw {
 	private CanvasFrame frame;
 	private BufferedImage buffer;
 	private Graphics2D g;
-	private int lineSize = 1;
+	private double lineSize = 1;
 
 	/**
 	 * @return width of the canvas
@@ -131,9 +131,9 @@ public class CodeDraw {
 		g.setColor(color);
 	}
 
-	public int getLineSize() { return lineSize; }
-	public void setLineSize(int lineSize) {
-		if (lineSize < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller than 1");
+	public double getLineSize() { return lineSize; }
+	public void setLineSize(double lineSize) {
+		if (lineSize <= 0) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
 
 		this.lineSize = lineSize;
 		updateBrushes();

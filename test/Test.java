@@ -2,17 +2,18 @@ import CodeDraw.*;
 
 import javax.imageio.ImageIO;
 import java.awt.Font;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
-		clockTest();
+		//clockTest();
 		//curveTest();
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
-		//lineSizeTest();
+		lineSizeTest();
 		//disposeCloseTest();
 		//transparencyTest();
 		//smallWindowTest();
@@ -103,11 +104,30 @@ public class Test {
 	}
 
 	private static void lineSizeTest() {
-		CodeDraw l = new CodeDraw();
-		l.setLineSize(5);
+		CodeDraw cd = new CodeDraw(900, 900);
 
-		l.drawSquare(20, 20, 100);
-		l.show();
+		for (int i = 0; i < 8; i++) {
+			cd.setLineSize((i + 1) / 2D);
+
+			cd.drawText(10, 50 + 100 * i, "" + cd.getLineSize());
+			cd.drawLine(50, 50 + 100 * i, 100, 100 + 100 * i);
+			cd.drawSquare(150, 50 + 100 * i, 50);
+			cd.fillSquare(250, 50 + 100 * i, 50);
+		}
+
+		cd.setLineSize(50);
+		cd.drawSquare(500, 100, 100);
+		cd.fillSquare(700, 100, 100);
+
+		cd.setLineSize(1);
+		cd.drawSquare(500, 300, 100);
+		cd.fillSquare(700, 300, 100);
+
+		cd.setLineSize(0.5);
+		cd.drawSquare(500, 500, 100);
+		cd.fillSquare(700, 500, 100);
+
+		cd.show();
 	}
 
 	private static void disposeCloseTest() {
