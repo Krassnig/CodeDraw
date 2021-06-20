@@ -2,6 +2,7 @@ package CodeDraw;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -36,10 +37,17 @@ class CanvasFrame {
 	private JFrame frame;
 	private CanvasPanel canvas;
 
-	public int getFramePositionX() { return frame.getLocationOnScreen().x; }
-	public int getFramePositionY() { return frame.getLocationOnScreen().y; }
-	public void setFramePositionX(int x) { frame.setLocation(new java.awt.Point(x, getFramePositionY())); }
-	public void setFramePositionY(int y) { frame.setLocation(new java.awt.Point(getFramePositionX(), y)); }
+	public Point getFramePosition() { return frame.getLocationOnScreen(); }
+	public void setFramePosition(Point location) { frame.setLocation(location); }
+
+	public Point getCanvasPosition() { return canvas.getLocationOnScreen(); }
+	public void setCanvasPosition(Point position) {
+		setFramePosition(minus(position, minus(getCanvasPosition(), getFramePosition())));
+	}
+
+	private static Point minus(Point a, Point b) {
+		return new Point(a.x - b.x, a.y - b.y);
+	}
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }

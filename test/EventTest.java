@@ -15,8 +15,8 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyDown(h));
 		//keyEventTest((c, h) -> c.onKeyPress(h));
 		//keyEventTest((c, h) -> c.onKeyUp(h));
-		//windowMoveTest();
-		unsubscribeTest();
+		windowMoveTest();
+		//unsubscribeTest();
 	}
 
 	private static int x = 500;
@@ -26,18 +26,18 @@ public class EventTest {
 		CodeDraw c = new CodeDraw();
 
 		c.setColor(Palette.RED);
-		c.drawSquare(500, 500, 100);
+		c.drawSquare(200, 200, 100);
 		c.show();
 
-		x = c.getFramePositionX();
-		y = c.getFramePositionY();
+		x = c.getCanvasPositionX();
+		y = c.getCanvasPositionY();
 
 		c.onFrameMove((s, a) -> {
-			int dx = x - s.getFramePositionX();
-			int dy = y - s.getFramePositionY();
+			int dx = x - s.getCanvasPositionX();
+			int dy = y - s.getCanvasPositionY();
 
 			s.clear();
-			s.drawSquare(dx, dy, 100);
+			s.drawSquare(dx + 200, dy + 200, 100);
 			s.show();
 		});
 	}

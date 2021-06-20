@@ -98,11 +98,17 @@ public class CodeDraw {
 	 */
 	public int getHeight() { return height; }
 
-	public int getFramePositionX() { return frame.getFramePositionY(); }
-	public int getFramePositionY() { return frame.getFramePositionX(); }
+	public int getFramePositionX() { return frame.getFramePosition().x; }
+	public int getFramePositionY() { return frame.getFramePosition().y; }
 
-	public void setFramePositionX(int x) { frame.setFramePositionX(x); }
-	public void setFramePositionY(int y) { frame.setFramePositionY(y); }
+	public void setFramePositionX(int x) { frame.setFramePosition(new Point(x, getFramePositionY())); }
+	public void setFramePositionY(int y) { frame.setFramePosition(new Point(getFramePositionX(), y)); }
+
+	public int getCanvasPositionX() { return frame.getCanvasPosition().x; }
+	public int getCanvasPositionY() { return frame.getCanvasPosition().y; }
+
+	public void setCanvasPositionX(int x) { frame.setCanvasPosition(new Point(x, getCanvasPositionY())); }
+	public void setCanvasPositionY(int y) { frame.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title)  {
