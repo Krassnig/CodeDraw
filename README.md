@@ -8,7 +8,7 @@ so that once you switch to those, your intuition should match how you have to us
 
 ## How to install
 
-Go to https://github.com/Krassnig/CodeDrawForJava/releases and download the newest CodeDraw.jar.
+Go to [releases](https://github.com/Krassnig/CodeDrawForJava/releases) and download the newest CodeDraw.jar.
 
 ### Intellij
 
@@ -28,7 +28,7 @@ Now you can import CodeDraw with ```import CodeDraw.*;``` at the top of your Jav
 ## Example
 
 ```java
-CodeDraw cd = new CodeDraw(); // creates a canvas of size 600x600 pixel
+CodeDraw cd = new CodeDraw(300, 300); // creates a canvas of size 300x300 pixel
 
 // All following drawn objects will be red,
 // until the color is set to a different color.
@@ -36,12 +36,14 @@ cd.setColor(Palette.RED);
 
 // draws a red circle at the center of the canvas with a radius of 50 pixel.
 // The circle is not yet displayed!
-cd.drawCircle(300, 300, 50);
+cd.drawCircle(150, 150, 50);
 
 // Must be called to display everything that has been drawn until now!
 cd.show();
 ```
 # ❗ Don't forget to call .show() ❗
+
+![An illustration of what happens when the code above gets executed](https://github.com/Krassnig/CodeDrawForJava/blob/450ce7d17d071a3f74168fa459eae28aa519b4de/illustrations/basics.png)
 
 ### Animation Example
 
@@ -66,7 +68,6 @@ class Main {
 		}
 	}
 }
-
 ```
 
 ## Concepts
@@ -102,6 +103,8 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 
 ### Drawing Methods
 
+Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
+
 - [DrawText](https://github.com/Krassnig/CodeDrawForJava/blob/3b3f0d94ab674e355c17e1f2f7fa30ab1efc442f/src/CodeDraw/CodeDraw.java#L194)
 - DrawPoint
 - DrawLine
@@ -123,6 +126,8 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 - FillTriangle
 - FillPolygon
 - Clear
+
+Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Events
 
@@ -151,16 +156,17 @@ can be used to unsubscribe from the event.
 import java.awt.event.MouseEvent;
 import CodeDraw.*;
 
-class Main {
-	static void main(String[] args) {
+public class Main {
+	public static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
-		
-		cd.drawText(cd.getWidth() / 2 - 30, cd.getHeight() / 2, "Move your mouse over here.");
+
+		cd.drawText(200, 200, "Move your mouse over here.");
+		cd.show();
 		cd.setColor(Palette.RED);
-		
+
 		cd.onMouseMove(Main::draw);
 	}
-	
+
 	// This method will be called by CodeDraw everytime the user moves their mouse
 	static void draw(CodeDraw cd, MouseEvent me) {
 		cd.fillSquare(me.getX() - 2, me.getY() - 2, 4);
