@@ -69,7 +69,8 @@ class Main {
 	}
 }
 ```
-https://github.com/Krassnig/CodeDrawForJava/blob/33d7c1255e86ffce8e5c6ebc1cc509589f6c0a73/illustrations/clock.mp4
+
+https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-863f-ffdb3f3f8017.mp4
 
 ## Concepts
 
@@ -175,4 +176,5 @@ public class Main {
 	}
 }
 ```
-https://github.com/Krassnig/CodeDrawForJava/blob/33d7c1255e86ffce8e5c6ebc1cc509589f6c0a73/illustrations/event.mp4
+
+https://user-images.githubusercontent.com/24553082/122690528-4a2f3800-d22a-11eb-9a8d-72162af9c50f.mp4
