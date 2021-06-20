@@ -40,6 +40,7 @@ import java.awt.image.BufferedImage;
  * <br>
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>
  * <br>
+ *
  * @author Niklas Krassnig
  */
 public class CodeDraw {
@@ -52,7 +53,8 @@ public class CodeDraw {
 
 	/**
 	 * Creates a canvas with the specified size. The frame surrounding the canvas will be slightly bigger.
-	 * @param canvasWidth must be at least 150 pixel
+	 *
+	 * @param canvasWidth  must be at least 150 pixel
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
@@ -91,41 +93,67 @@ public class CodeDraw {
 	/**
 	 * @return width of the canvas
 	 */
-	public int getWidth() { return width; }
+	public int getWidth() {
+		return width;
+	}
 
 	/**
 	 * @return height of the canvas
 	 */
-	public int getHeight() { return height; }
+	public int getHeight() {
+		return height;
+	}
 
-	public int getFramePositionX() { return frame.getFramePositionY(); }
-	public int getFramePositionY() { return frame.getFramePositionX(); }
+	public int getFramePositionX() {
+		return frame.getFramePositionY();
+	}
 
-	public void setFramePositionX(int x) { frame.setFramePositionX(x); }
-	public void setFramePositionY(int y) { frame.setFramePositionY(y); }
+	public int getFramePositionY() {
+		return frame.getFramePositionX();
+	}
 
-	public String getTitle() { return frame.getTitle(); }
-	public void setTitle(String title)  {
+	public void setFramePositionX(int x) {
+		frame.setFramePositionX(x);
+	}
+
+	public void setFramePositionY(int y) {
+		frame.setFramePositionY(y);
+	}
+
+	public String getTitle() {
+		return frame.getTitle();
+	}
+
+	public void setTitle(String title) {
 		if (title == null) throw createArgumentNull("title");
 
 		frame.setTitle(title);
 	}
 
-	public Font getFont() { return g.getFont(); }
+	public Font getFont() {
+		return g.getFont();
+	}
+
 	public void setFont(Font font) {
 		if (font == null) throw createArgumentNull("font");
 
 		g.setFont(font);
 	}
 
-	public Color getColor() { return g.getColor(); }
+	public Color getColor() {
+		return g.getColor();
+	}
+
 	public void setColor(Color color) {
 		if (color == null) throw createArgumentNull("color");
 
 		g.setColor(color);
 	}
 
-	public int getLineSize() { return lineSize; }
+	public int getLineSize() {
+		return lineSize;
+	}
+
 	public void setLineSize(int lineSize) {
 		if (lineSize < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller than 1");
 
@@ -139,60 +167,98 @@ public class CodeDraw {
 
 	private void bindEvents() {
 		frame.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
-		frame.onMouseMove ((s, a) -> mouseMoveEvent .invoke(a));
-		frame.onMouseDown ((s, a) -> mouseDownEvent .invoke(a));
-		frame.onMouseUp   ((s, a) -> mouseUpEvent   .invoke(a));
+		frame.onMouseMove((s, a) -> mouseMoveEvent.invoke(a));
+		frame.onMouseDown((s, a) -> mouseDownEvent.invoke(a));
+		frame.onMouseUp((s, a) -> mouseUpEvent.invoke(a));
 		frame.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
 		frame.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
 		frame.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
-		frame.onKeyDown   ((s, a) -> keyDownEvent   .invoke(a));
-		frame.onKeyUp     ((s, a) -> keyUpEvent     .invoke(a));
-		frame.onKeyPress  ((s, a) -> keyPressEvent  .invoke(a));
-		frame.onFrameMove ((s, a) -> frameMoveEvent .invoke(a));
+		frame.onKeyDown((s, a) -> keyDownEvent.invoke(a));
+		frame.onKeyUp((s, a) -> keyUpEvent.invoke(a));
+		frame.onKeyPress((s, a) -> keyPressEvent.invoke(a));
+		frame.onFrameMove((s, a) -> frameMoveEvent.invoke(a));
 	}
 
 	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
+
+	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseClickEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
+
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseMoveEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
+
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseDownEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
+
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseUpEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
+
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseEnterEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
+
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) {
+		return mouseLeaveEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
+
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) {
+		return mouseWheelEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
+
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) {
+		return keyDownEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
+
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) {
+		return keyUpEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
+
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) {
+		return keyPressEvent.onInvoke(handler);
+	}
 
 	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
-	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
+
+	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) {
+		return frameMoveEvent.onInvoke(handler);
+	}
 
 	/**
-	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
+	 * Draws text starting at the right and below the xy-coordinate. The text will be left aligned.
 	 */
 	public void drawText(double x, double y, String text) {
+		drawText(x, y, text, new TextFormatOption());
+	}
+
+	public void drawText(double x, double y, String text, TextFormatOption textFormatOption) {
 		if (text == null) throw createArgumentNull("text");
 
-		TextLayout tl = new TextLayout(text, getFont(), g.getFontRenderContext());
-		FontMetrics fm = g.getFontMetrics(getFont());
-		g.fill(tl.getOutline(new AffineTransform(1, 0, 0, 1, x, y + fm.getAscent())));
+		x -= getHorizontalOffset(text, textFormatOption.getHorizontalAlignment());
+		y -= getVerticalOffset(textFormatOption.getVerticalAlignment());
+
+		g.drawString(text, (float) x, (float) y);
 	}
 
 	public void drawPoint(double x, double y) {
@@ -324,8 +390,8 @@ public class CodeDraw {
 
 
 	/**
-	 * @param x The center of the arc
-	 * @param y The center of the arc
+	 * @param x            The center of the arc
+	 * @param y            The center of the arc
 	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
@@ -345,8 +411,8 @@ public class CodeDraw {
 	}
 
 	/**
-	 * @param x the center of the filled arc
-	 * @param y the center of the filled arc
+	 * @param x            the center of the filled arc
+	 * @param y            the center of the filled arc
 	 * @param startRadians the starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians the length of the filled arc in radians from the start angle in a clockwise direction.
 	 */
@@ -374,13 +440,15 @@ public class CodeDraw {
 	}
 
 	public void drawPolygon(Point... points) {
-		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
+		if (points.length < 2)
+			throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
 		g.draw(pointsToPath(points));
 	}
 
 	public void fillPolygon(Point... points) {
-		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
+		if (points.length < 2)
+			throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
 		g.fill(pointsToPath(points));
 	}
@@ -401,6 +469,7 @@ public class CodeDraw {
 	 * cd.drawImage(100, 100, img);
 	 * cd.show();
 	 * }</pre>
+	 *
 	 * @param x The position of the top left corner of the image
 	 * @param y The position of the top left corner of the image
 	 */
@@ -427,6 +496,7 @@ public class CodeDraw {
 	 * cd.show();
 	 * }</pre>
 	 * The size of the image will be 200x200 pixel.
+	 *
 	 * @param x the position of the top left corner of the image
 	 * @param y the position of the top left corner of the image
 	 */
@@ -503,6 +573,7 @@ public class CodeDraw {
 	 * 30 fps = 33ms<br>
 	 * 60 fps = 16ms<br>
 	 * 120 fps = 8ms<br>
+	 *
 	 * @param waitMilliseconds Time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
@@ -526,11 +597,34 @@ public class CodeDraw {
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
+	 *
 	 * @param exit when true terminates the process when all CodeDraw instances are closed.
 	 */
 	public void dispose(boolean exit) {
 		g.dispose();
 		frame.dispose(exit);
+	}
+
+
+	private double getVerticalOffset(TextFormatOption.VerticalAlignment verticalAlignment) {
+		double offset = 0;
+		if (verticalAlignment == TextFormatOption.VerticalAlignment.CENTER) {
+			offset = getFont().getSize() / 2.;
+		} else if (verticalAlignment == TextFormatOption.VerticalAlignment.TOP) {
+			offset = getFont().getSize();
+		}
+		return offset;
+	}
+
+	private double getHorizontalOffset(String text, TextFormatOption.HorizontalAlignment horizontalAlignment) {
+		double offset = 0;
+		FontMetrics fm = g.getFontMetrics(getFont());
+		if (horizontalAlignment == TextFormatOption.HorizontalAlignment.CENTER) {
+			offset = fm.stringWidth(text) / 2.;
+		} else if (horizontalAlignment == TextFormatOption.HorizontalAlignment.RIGHT) {
+			offset = fm.stringWidth(text);
+		}
+		return offset;
 	}
 
 	private static Path2D.Double pointsToPath(Point[] points) {
@@ -550,7 +644,7 @@ public class CodeDraw {
 	}
 
 	private static double transformSweep(double sweepRadians) {
-		return - Math.toDegrees(sweepRadians);
+		return -Math.toDegrees(sweepRadians);
 	}
 
 	private static NullPointerException createArgumentNull(String argumentName) {
