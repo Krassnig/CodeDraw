@@ -7,7 +7,10 @@ import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
-		clockTest();
+		textAlignmentTest();
+		centerTextTest();
+		//textAlignmentTest();
+		//clockTest();
 		//curveTest();
 		//autoCloseTest();
 		//triangleTest();
@@ -31,6 +34,36 @@ public class Test {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
+	}
+
+	private static void textAlignmentTest() {
+		CodeDraw cd = new CodeDraw();
+		TextFormatOption option = new TextFormatOption();
+		double baseLineX = 300;
+		double baseLineY = 32;
+		cd.drawLine(baseLineX, 0, baseLineX, 600);
+		for (int i = 0; i < 3; i++) {
+			option.setHorizontalAlignment(TextFormatOption.HorizontalAlignment.values()[i]);
+			for (int j = 0; j < 3; j++) {
+
+				option.setVerticalAlignment(TextFormatOption.VerticalAlignment.values()[j]);
+				String text = "Horz: " + option.getHorizontalAlignment() + ", Vert: " + option.getVerticalAlignment();
+				double y = (i * 3 + j + 1) * baseLineY;
+				cd.drawText(baseLineX, y, text, option);
+				cd.drawLine(0, y, 600, y);
+			}
+		}
+		cd.show();
+	}
+
+	private static void centerTextTest() {
+		CodeDraw cd = new CodeDraw();
+		TextFormatOption option = new TextFormatOption();
+		option.setVerticalAlignment(TextFormatOption.VerticalAlignment.CENTER);
+		option.setHorizontalAlignment(TextFormatOption.HorizontalAlignment.CENTER);
+		cd.setFont(new Font("Courier", Font.BOLD | Font.ITALIC, 20));
+		cd.drawText(300, 300, "CENTER Test", option);
+		cd.show();
 	}
 
 	private static void clockTest() {
@@ -144,8 +177,8 @@ public class Test {
 			c.drawCircle(300, 300, radius);
 
 			c.setColor(Palette.BLUE);
-			int newx = 300 + (int)(radius * Math.sin(-i));
-			int newy = 300 + (int)(radius * Math.cos(-i));
+			int newx = 300 + (int) (radius * Math.sin(-i));
+			int newy = 300 + (int) (radius * Math.cos(-i));
 			c.drawLine(300, 300, newx, 300);
 			c.drawLine(newx, 300, newx, newy);
 
@@ -181,8 +214,7 @@ public class Test {
 
 		double inc = tau / 16;
 
-		for (double i = 0; i < tau; i += inc)
-		{
+		for (double i = 0; i < tau; i += inc) {
 			c.fillArc(300, 300, 100, 100, i, inc);
 			c.drawArc(300, 300, 150, 150, i, inc);
 
@@ -342,8 +374,7 @@ public class Test {
 	private static void animationTest() {
 		CodeDraw draw = new CodeDraw();
 
-		for (int i = 0; i < 30; i++)
-		{
+		for (int i = 0; i < 30; i++) {
 			draw.clear();
 
 			draw.setColor(Palette.BLACK);
