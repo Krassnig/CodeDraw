@@ -258,9 +258,9 @@ public class Test {
 		CodeDraw c = new CodeDraw();
 
 		c.fillPolygon(
-				new Point(10, 40),
-				new Point(200, 200),
-				new Point(100, 36)
+				new Point2D.Double(10, 40),
+				new Point2D.Double(200, 200),
+				new Point2D.Double(100, 36)
 		);
 
 		c.show();

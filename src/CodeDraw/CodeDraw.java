@@ -366,20 +366,20 @@ public class CodeDraw {
 	}
 
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		drawPolygon(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3));
+		drawPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
 	}
 
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		fillPolygon(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3));
+		fillPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
 	}
 
-	public void drawPolygon(Point... points) {
+	public void drawPolygon(Point2D... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
 		g.draw(pointsToPath(points));
 	}
 
-	public void fillPolygon(Point... points) {
+	public void fillPolygon(Point2D... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
 		g.fill(pointsToPath(points));
@@ -533,7 +533,7 @@ public class CodeDraw {
 		frame.dispose(exit);
 	}
 
-	private static Path2D.Double pointsToPath(Point[] points) {
+	private static Path2D.Double pointsToPath(Point2D[] points) {
 		Path2D.Double result = new Path2D.Double();
 
 		result.moveTo(points[0].getX(), points[1].getY());
