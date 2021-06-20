@@ -66,6 +66,7 @@ public class CodeDraw {
 		frame.setTitle("CodeDraw");
 		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
+		g.addRenderingHints(createDefaultRenderingHints());
 
 		bindEvents();
 		setFont(new Font("Arial", Font.PLAIN, 16));
@@ -196,9 +197,12 @@ public class CodeDraw {
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
 
-		TextLayout tl = new TextLayout(text, getFont(), g.getFontRenderContext());
 		FontMetrics fm = g.getFontMetrics(getFont());
-		g.fill(tl.getOutline(new AffineTransform(1, 0, 0, 1, x, y + fm.getAscent())));
+		g.drawString(text, (float)(x + 3), (float)(y + fm.getAscent()));
+
+		//TextLayout tl = new TextLayout(text, getFont(), g.getFontRenderContext());
+		//FontMetrics fm = g.getFontMetrics();
+		//g.fill(tl.getOutline(new AffineTransform(1, 0, 0, 1, x, y + fm.getAscent())));
 	}
 
 	public void drawPoint(double x, double y) {
@@ -565,5 +569,11 @@ public class CodeDraw {
 
 	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {
 		return new IllegalArgumentException("Argument " + argumentName + " cannot be negative.");
+	}
+
+	private static RenderingHints createDefaultRenderingHints() {
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		return rh;
 	}
 }
