@@ -69,6 +69,7 @@ class Main {
 	}
 }
 ```
+![An illustration of the clock code above](https://github.com/Krassnig/CodeDrawForJava/blob/33d7c1255e86ffce8e5c6ebc1cc509589f6c0a73/illustrations/clock.mp4)
 
 ## Concepts
 
@@ -174,3 +175,4 @@ public class Main {
 	}
 }
 ```
+![An illustration of the event example above](https://github.com/Krassnig/CodeDrawForJava/blob/33d7c1255e86ffce8e5c6ebc1cc509589f6c0a73/illustrations/event.mp4)
