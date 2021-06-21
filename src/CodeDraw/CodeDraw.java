@@ -1,5 +1,7 @@
 package CodeDraw;
 
+import CodeDraw.TextFormat.TextFormat;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextLayout;
@@ -195,14 +197,13 @@ public class CodeDraw {
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
 	 */
 	public void drawText(double x, double y, String text) {
+		drawText(x, y, text, new TextFormat());
+	}
+
+	public void drawText(double x, double y, String text, TextFormat format){
 		if (text == null) throw createArgumentNull("text");
-
-		FontMetrics fm = g.getFontMetrics(getFont());
-		g.drawString(text, (float)(x + 3), (float)(y + fm.getAscent()));
-
-		//TextLayout tl = new TextLayout(text, getFont(), g.getFontRenderContext());
-		//FontMetrics fm = g.getFontMetrics();
-		//g.fill(tl.getOutline(new AffineTransform(1, 0, 0, 1, x, y + fm.getAscent())));
+		if (format == null) throw createArgumentNull("format");
+		format.renderText(g, x, y, text);
 	}
 
 	public void drawPoint(double x, double y) {
