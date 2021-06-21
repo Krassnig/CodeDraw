@@ -1,14 +1,13 @@
 import CodeDraw.*;
-import CodeDraw.TextFormat.HorizontalAlignment;
+import CodeDraw.TextFormat.HorizontalAlign;
 import CodeDraw.TextFormat.TextFormat;
-import CodeDraw.TextFormat.VerticalAlignment;
+import CodeDraw.TextFormat.VerticalAlign;
 
 import javax.imageio.ImageIO;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.EnumSet;
 
 public class Test {
 	public static void main(String[] args) {
@@ -48,11 +47,11 @@ public class Test {
 		double baseLineY = 32;
 		cd.drawLine(baseLineX, 0, baseLineX, 600);
 		for (int i = 0; i < 3; i++) {
-			option.setHorizontalAlignment(HorizontalAlignment.values()[i]);
+			option.setHorizontalAlign(HorizontalAlign.values()[i]);
 			for (int j = 0; j < 3; j++) {
 
-				option.setVerticalAlignment(VerticalAlignment.values()[j]);
-				String text = "Horz: " + option.getHorizontalAlignment() + ", Vert: " + option.getVerticalAlignment();
+				option.setVerticalAlign(VerticalAlign.values()[j]);
+				String text = "Horz: " + option.getHorizontalAlign() + ", Vert: " + option.getVerticalAlign();
 				double y = (i * 3 + j + 1) * baseLineY;
 				cd.drawText(baseLineX, y, text, option);
 				cd.drawLine(0, y, 600, y);
@@ -64,8 +63,8 @@ public class Test {
 	private static void centerTextTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat option = new TextFormat();
-		option.setVerticalAlignment(VerticalAlignment.CENTER);
-		option.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		option.setVerticalAlign(VerticalAlign.MIDDLE);
+		option.setHorizontalAlign(HorizontalAlign.CENTER);
 		cd.setFont(new Font("Courier", Font.BOLD | Font.ITALIC, 20));
 		cd.drawText(300, 300, "CENTER Test", option);
 		cd.show();

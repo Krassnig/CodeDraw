@@ -3,24 +3,24 @@ package CodeDraw.TextFormat;
 import java.awt.*;
 
 public class TextFormat {
-	private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
-	private VerticalAlignment verticalAlignment = VerticalAlignment.BOTTOM;
+	private HorizontalAlign horizontalAlign = HorizontalAlign.LEFT;
+	private VerticalAlign verticalAlign = VerticalAlign.TOP;
 
 
-	public HorizontalAlignment getHorizontalAlignment() {
-		return horizontalAlignment;
+	public HorizontalAlign getHorizontalAlign() {
+		return horizontalAlign;
 	}
 
-	public void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
-		this.horizontalAlignment = horizontalAlignment;
+	public void setHorizontalAlign(HorizontalAlign horizontalAlign) {
+		this.horizontalAlign = horizontalAlign;
 	}
 
-	public VerticalAlignment getVerticalAlignment() {
-		return verticalAlignment;
+	public VerticalAlign getVerticalAlign() {
+		return verticalAlign;
 	}
 
-	public void setVerticalAlignment(VerticalAlignment verticalAlignment) {
-		this.verticalAlignment = verticalAlignment;
+	public void setVerticalAlign(VerticalAlign verticalAlign) {
+		this.verticalAlign = verticalAlign;
 	}
 
 	public void renderText(Graphics2D graphics2D, double x, double y, String text) {
@@ -32,12 +32,12 @@ public class TextFormat {
 	}
 
 	private double getVerticalOffset(Font font) {
-		switch (verticalAlignment) {
-			case BOTTOM:
-				return 0;
+		switch (verticalAlign) {
 			case TOP:
+				return 0;
+			case BOTTOM:
 				return font.getSize();
-			case CENTER:
+			case MIDDLE:
 				return font.getSize() / 2.0;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option");
@@ -46,7 +46,7 @@ public class TextFormat {
 
 	private double getHorizontalOffset(Graphics2D graphics, String text) {
 		FontMetrics fm = graphics.getFontMetrics(graphics.getFont());
-		switch (horizontalAlignment) {
+		switch (horizontalAlign) {
 			case LEFT:
 				return 0;
 			case RIGHT:

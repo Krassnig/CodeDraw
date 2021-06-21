@@ -1,5 +1,5 @@
 package CodeDraw.TextFormat;
 
-public enum HorizontalAlignment {
+public enum HorizontalAlign {
 	LEFT, CENTER, RIGHT
 }
