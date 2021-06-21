@@ -71,9 +71,9 @@ public class CodeDraw {
 		g.addRenderingHints(createDefaultRenderingHints());
 
 		bindEvents();
-		setFont(new Font("Arial", Font.PLAIN, 16));
 		setColor(Color.BLACK);
 		setLineSize(1);
+		setFormat(new TextFormat());
 		clear();
 		show();
 
@@ -90,6 +90,7 @@ public class CodeDraw {
 	private BufferedImage buffer;
 	private Graphics2D g;
 	private int lineSize;
+	private TextFormat textFormat;
 
 	/**
 	 * @return width of the canvas
@@ -120,11 +121,11 @@ public class CodeDraw {
 		frame.setTitle(title);
 	}
 
-	public Font getFont() { return g.getFont(); }
-	public void setFont(Font font) {
-		if (font == null) throw createArgumentNull("font");
+	public TextFormat getFormat(){ return textFormat; }
+	public void setFormat(TextFormat textFormat){
+		if(textFormat == null) throw createArgumentNull("textFormat");
 
-		g.setFont(font);
+		this.textFormat = textFormat;
 	}
 
 	public Color getColor() { return g.getColor(); }
@@ -197,7 +198,7 @@ public class CodeDraw {
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
 	 */
 	public void drawText(double x, double y, String text) {
-		drawText(x, y, text, new TextFormat());
+		drawText(x, y, text, textFormat);
 	}
 
 	public void drawText(double x, double y, String text, TextFormat format){
@@ -564,8 +565,8 @@ public class CodeDraw {
 		return - Math.toDegrees(sweepRadians);
 	}
 
-	private static NullPointerException createArgumentNull(String argumentName) {
-		return new NullPointerException("The parameter " + argumentName + " cannot be null.");
+	private static IllegalArgumentException createArgumentNull(String argumentName) {
+		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
 	}
 
 	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {

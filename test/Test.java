@@ -1,18 +1,14 @@
 import CodeDraw.*;
-import CodeDraw.TextFormat.HorizontalAlign;
-import CodeDraw.TextFormat.TextFormat;
-import CodeDraw.TextFormat.VerticalAlign;
+import CodeDraw.TextFormat.*;
 
 import javax.imageio.ImageIO;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 
 public class Test {
 	public static void main(String[] args) {
-		textAlignmentTest();
-		centerTextTest();
 		//clockTest();
 		//curveTest();
 		//autoCloseTest();
@@ -37,37 +33,6 @@ public class Test {
 		//cornerTest();
 		//animationTest();
 		//proofOfConcept();
-	}
-
-
-	private static void textAlignmentTest() {
-		CodeDraw cd = new CodeDraw();
-		TextFormat option = new TextFormat();
-		double baseLineX = 300;
-		double baseLineY = 32;
-		cd.drawLine(baseLineX, 0, baseLineX, 600);
-		for (int i = 0; i < 3; i++) {
-			option.setHorizontalAlign(HorizontalAlign.values()[i]);
-			for (int j = 0; j < 3; j++) {
-
-				option.setVerticalAlign(VerticalAlign.values()[j]);
-				String text = "Horz: " + option.getHorizontalAlign() + ", Vert: " + option.getVerticalAlign();
-				double y = (i * 3 + j + 1) * baseLineY;
-				cd.drawText(baseLineX, y, text, option);
-				cd.drawLine(0, y, 600, y);
-			}
-		}
-		cd.show();
-	}
-
-	private static void centerTextTest() {
-		CodeDraw cd = new CodeDraw();
-		TextFormat option = new TextFormat();
-		option.setVerticalAlign(VerticalAlign.MIDDLE);
-		option.setHorizontalAlign(HorizontalAlign.CENTER);
-		cd.setFont(new Font("Courier", Font.BOLD | Font.ITALIC, 20));
-		cd.drawText(300, 300, "CENTER Test", option);
-		cd.show();
 	}
 
 	private static void clockTest() {
@@ -249,7 +214,7 @@ public class Test {
 	private static void fontTest() {
 		CodeDraw cd = new CodeDraw();
 		cd.drawText(200, 300, "MY BOLD TEXT!");
-		cd.setFont(new Font("Arial", Font.BOLD, 20));
+		cd.getFormat().setWeight(FontWeight.BOLD);
 		cd.drawPoint(200, 200);
 		cd.drawText(200, 200, "MY BOLD TEXT!");
 		cd.show();
