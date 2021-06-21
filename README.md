@@ -92,6 +92,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 - Height
 - Width
 - FramePosition
+- CanvasPosition
 - Title
 - Font
 - Color
