@@ -107,7 +107,7 @@ public class Test {
 		CodeDraw cd = new CodeDraw(900, 900);
 
 		for (int i = 0; i < 8; i++) {
-			cd.setLineSize((i + 1) / 2D);
+			cd.setLineSize(i + 1);
 
 			cd.drawText(10, 50 + 100 * i, "" + cd.getLineSize());
 			cd.drawLine(50, 50 + 100 * i, 100, 100 + 100 * i);
@@ -122,10 +122,6 @@ public class Test {
 		cd.setLineSize(1);
 		cd.drawSquare(500, 300, 100);
 		cd.fillSquare(700, 300, 100);
-
-		cd.setLineSize(0.5);
-		cd.drawSquare(500, 500, 100);
-		cd.fillSquare(700, 500, 100);
 
 		cd.show();
 	}
