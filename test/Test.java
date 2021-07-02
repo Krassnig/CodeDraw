@@ -214,7 +214,7 @@ public class Test {
 	private static void fontTest() {
 		CodeDraw cd = new CodeDraw();
 		cd.drawText(200, 300, "MY BOLD TEXT!");
-		cd.getFormat().setWeight(FontWeight.BOLD);
+		cd.getFormat().setBold(true);
 		cd.drawPoint(200, 200);
 		cd.drawText(200, 200, "MY BOLD TEXT!");
 		cd.show();

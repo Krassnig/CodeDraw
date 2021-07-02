@@ -1,5 +1,8 @@
 import CodeDraw.CodeDraw;
-import CodeDraw.TextFormat.*;
+import CodeDraw.TextFormat.HorizontalAlign;
+import CodeDraw.TextFormat.TextFormat;
+import CodeDraw.TextFormat.UnderlineType;
+import CodeDraw.TextFormat.VerticalAlign;
 
 public class TextFormatTest {
 	public static void main(String[] args) {
@@ -17,10 +20,9 @@ public class TextFormatTest {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
-		for (float f = -1.0f; f <= 1.0; f += 0.25) {
-			format.setPosture(f);
-			testDraw(cd, "Posture " + f);
-		}
+		testDraw(cd, "Not Italic");
+		format.setItalic(true);
+		testDraw(cd, "Italic");
 		cd.show();
 	}
 
@@ -28,10 +30,9 @@ public class TextFormatTest {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
-		for (float f = 0.5f; f <= 5.0; f += 0.25) {
-			format.setWeight(f);
-			testDraw(cd, "Weight " + f);
-		}
+		testDraw(cd, "Not Bold");
+		format.setBold(true);
+		testDraw(cd, "Bold");
 		cd.show();
 	}
 

@@ -4,10 +4,14 @@ import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.*;
 
-public class TextFormat {
+public final class TextFormat {
 
 	public TextFormat() {
 	}
+
+	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
+
+
 
 	private HorizontalAlign horizontalAlign = HorizontalAlign.LEFT;
 	private VerticalAlign verticalAlign = VerticalAlign.TOP;
@@ -20,7 +24,8 @@ public class TextFormat {
 	private int underline = -1;
 	private int kerning = 0;
 	private boolean strikethrough = false;
-	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
+
+
 
 	public HorizontalAlign getHorizontalAlign() {
 		return horizontalAlign;
@@ -62,16 +67,16 @@ public class TextFormat {
 		else setPosture(0);
 	}
 
-	public void setPosture(float posture) {
+	private void setPosture(float posture) {
 		this.posture = posture;
 	}
 
-	public void setWeight(FontWeight fontWeight) {
-		if (fontWeight == null) throw createArgumentNull("fontWeight");
-		setWeight(fontWeight.getWeight());
+	public void setBold(boolean isBold){
+		if(isBold) setWeight(2.0f);
+		else setWeight(1);
 	}
 
-	public void setWeight(float weight) {
+	private void setWeight(float weight) {
 		if (weight <= 0) throw createArgumentNotNegative("weight");
 		this.weight = weight;
 	}
