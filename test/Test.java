@@ -1,7 +1,8 @@
 import CodeDraw.*;
+import CodeDraw.TextFormat.*;
 
 import javax.imageio.ImageIO;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class Test {
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
-		lineSizeTest();
+		//lineSizeTest();
 		//disposeCloseTest();
 		//transparencyTest();
 		//smallWindowTest();
@@ -160,8 +161,8 @@ public class Test {
 			c.drawCircle(300, 300, radius);
 
 			c.setColor(Palette.BLUE);
-			int newx = 300 + (int)(radius * Math.sin(-i));
-			int newy = 300 + (int)(radius * Math.cos(-i));
+			int newx = 300 + (int) (radius * Math.sin(-i));
+			int newy = 300 + (int) (radius * Math.cos(-i));
 			c.drawLine(300, 300, newx, 300);
 			c.drawLine(newx, 300, newx, newy);
 
@@ -197,8 +198,7 @@ public class Test {
 
 		double inc = tau / 16;
 
-		for (double i = 0; i < tau; i += inc)
-		{
+		for (double i = 0; i < tau; i += inc) {
 			c.fillArc(300, 300, 100, 100, i, inc);
 			c.drawArc(300, 300, 150, 150, i, inc);
 
@@ -214,7 +214,7 @@ public class Test {
 	private static void fontTest() {
 		CodeDraw cd = new CodeDraw();
 		cd.drawText(200, 300, "MY BOLD TEXT!");
-		cd.setFont(new Font("Arial", Font.BOLD, 20));
+		cd.getFormat().setBold(true);
 		cd.drawPoint(200, 200);
 		cd.drawText(200, 200, "MY BOLD TEXT!");
 		cd.show();
@@ -358,8 +358,7 @@ public class Test {
 	private static void animationTest() {
 		CodeDraw draw = new CodeDraw();
 
-		for (int i = 0; i < 30; i++)
-		{
+		for (int i = 0; i < 30; i++) {
 			draw.clear();
 
 			draw.setColor(Palette.BLACK);
