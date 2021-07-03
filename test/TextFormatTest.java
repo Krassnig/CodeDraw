@@ -4,8 +4,12 @@ import CodeDraw.TextFormat.TextFormat;
 import CodeDraw.TextFormat.UnderlineType;
 import CodeDraw.TextFormat.VerticalAlign;
 
+import java.awt.*;
+import java.util.Arrays;
+
 public class TextFormatTest {
 	public static void main(String[] args) {
+		//textFontNameTest();
 		//textFormatPostureTest();
 		textFormatWeightTest();
 		//textFormatKerningTest();
@@ -14,6 +18,20 @@ public class TextFormatTest {
 		//textFormatTest();
 		//textAlignmentTest();
 		//centerTextTest();
+	}
+
+	private static void textFontNameTest() {
+		CodeDraw cd = new CodeDraw();
+		TextFormat format = cd.getFormat();
+		format.setFontSize(16);
+		testDraw(cd, "Arial");
+		int i = 1;
+		for(String font: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()){
+			format.setFontName(font);
+			testDraw(cd, font + i++);
+			if(i == 30) break;
+		}
+		cd.show();
 	}
 
 	private static void textFormatPostureTest() {
@@ -66,12 +84,6 @@ public class TextFormatTest {
 		cd.show();
 	}
 
-	private static int num = 1;
-
-	private static void testDraw(CodeDraw cd, String text) {
-		cd.drawText(50, 20 * num++, text);
-	}
-
 	private static void textAlignmentTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat option = new TextFormat();
@@ -100,4 +112,13 @@ public class TextFormatTest {
 		cd.drawText(300, 300, "CENTER Test", option);
 		cd.show();
 	}
+
+
+
+	private static int num = 1;
+
+	private static void testDraw(CodeDraw cd, String text) {
+		cd.drawText(50, 20 * num++, text);
+	}
+
 }
