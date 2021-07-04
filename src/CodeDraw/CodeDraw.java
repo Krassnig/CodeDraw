@@ -198,13 +198,8 @@ public class CodeDraw {
 	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
 	 */
 	public void drawText(double x, double y, String text) {
-		drawText(x, y, text, textFormat);
-	}
-
-	public void drawText(double x, double y, String text, TextFormat format){
 		if (text == null) throw createArgumentNull("text");
-		if (format == null) throw createArgumentNull("format");
-		format.renderText(g, x, y, text);
+		textFormat.renderText(g, x, y, text);
 	}
 
 	public void drawPoint(double x, double y) {

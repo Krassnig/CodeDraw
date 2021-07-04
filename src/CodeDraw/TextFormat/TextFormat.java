@@ -12,19 +12,17 @@ public final class TextFormat {
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
 
 
-
 	private HorizontalAlign horizontalAlign = HorizontalAlign.LEFT;
 	private VerticalAlign verticalAlign = VerticalAlign.TOP;
 
 	//Font Properties
 	private int fontSize = 16;
 	private String fontName = "Arial";
-	private float weight = 1f;
-	private float posture = 0;
-	private int underline = -1;
-	private int kerning = 0;
+	private boolean bold = false;
+	private boolean italic = false;
+	private UnderlineType underlineType = UnderlineType.NONE;
+	private boolean kerning = false;
 	private boolean strikethrough = false;
-
 
 
 	public HorizontalAlign getHorizontalAlign() {
@@ -58,37 +56,25 @@ public final class TextFormat {
 
 	}
 
-	private boolean isFontAvailable(String fontName) {
+	private static boolean isFontAvailable(String fontName) {
 		return availableFonts.contains(fontName);
 	}
 
 	public void setItalic(boolean isItalic) {
-		if (isItalic) setPosture(0.2f);
-		else setPosture(0);
+		this.italic = isItalic;
 	}
 
-	private void setPosture(float posture) {
-		this.posture = posture;
-	}
-
-	public void setBold(boolean isBold){
-		if(isBold) setWeight(2.0f);
-		else setWeight(1);
-	}
-
-	private void setWeight(float weight) {
-		if (weight <= 0) throw createArgumentNotNegative("weight");
-		this.weight = weight;
+	public void setBold(boolean isBold) {
+		this.bold = isBold;
 	}
 
 	public void setUnderlined(UnderlineType underlineType) {
 		if (underlineType == null) throw createArgumentNull("underline");
-		this.underline = underlineType.getUnderline();
+		this.underlineType = underlineType;
 	}
 
-	public void setKerning(boolean kerning) {
-		if (kerning) this.kerning = TextAttribute.KERNING_ON;
-		else this.kerning = 0;
+	public void setKerning(boolean isKerning) {
+		this.kerning = isKerning;
 	}
 
 	public void setStrikethrough(boolean strikethrough) {
@@ -107,12 +93,12 @@ public final class TextFormat {
 
 	private Font createFont() {
 		Font font = new Font(fontName, Font.PLAIN, fontSize);
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>(){
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
 			{
-				put(TextAttribute.POSTURE, posture);
-				put(TextAttribute.UNDERLINE, underline);
-				put(TextAttribute.WEIGHT, weight);
-				put(TextAttribute.KERNING, kerning);
+				put(TextAttribute.POSTURE, italic ? 0.2f : 0);
+				put(TextAttribute.UNDERLINE, underlineType.getUnderline());
+				put(TextAttribute.WEIGHT, bold ? 2.0f : 1.0f);
+				put(TextAttribute.KERNING, kerning ? TextAttribute.KERNING_ON : 0); // 0 == KERNING_OFF
 				put(TextAttribute.STRIKETHROUGH, strikethrough);
 			}
 		};
