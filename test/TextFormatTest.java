@@ -97,7 +97,7 @@ public class TextFormatTest {
 				option.setVerticalAlign(VerticalAlign.values()[j]);
 				String text = "Horz: " + option.getHorizontalAlign() + ", Vert: " + option.getVerticalAlign();
 				double y = (i * 3 + j + 1) * baseLineY;
-				cd.drawText(baseLineX, y, text, option);
+				cd.drawText(baseLineX, y, text);
 				cd.drawLine(0, y, 600, y);
 			}
 		}
@@ -109,7 +109,8 @@ public class TextFormatTest {
 		TextFormat option = new TextFormat();
 		option.setVerticalAlign(VerticalAlign.MIDDLE);
 		option.setHorizontalAlign(HorizontalAlign.CENTER);
-		cd.drawText(300, 300, "CENTER Test", option);
+		cd.setFormat(option);
+		cd.drawText(300, 300, "CENTER Test");
 		cd.show();
 	}
 
