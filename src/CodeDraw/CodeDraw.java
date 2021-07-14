@@ -4,7 +4,6 @@ import CodeDraw.TextFormat.TextFormat;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.TextLayout;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
@@ -72,7 +71,7 @@ public class CodeDraw {
 
 		bindEvents();
 		setColor(Color.BLACK);
-		setLineSize(1);
+		setLineWidth(1);
 		setFormat(new TextFormat());
 		clear();
 		show();
@@ -89,7 +88,7 @@ public class CodeDraw {
 	private CanvasFrame frame;
 	private BufferedImage buffer;
 	private Graphics2D g;
-	private int lineSize;
+	private int lineWidth;
 	private TextFormat textFormat;
 
 	/**
@@ -135,16 +134,16 @@ public class CodeDraw {
 		g.setColor(color);
 	}
 
-	public int getLineSize() { return lineSize; }
-	public void setLineSize(int lineSize) {
-		if (lineSize < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
+	public int getLineWidth() { return lineWidth; }
+	public void setLineWidth(int lineWidth) {
+		if (lineWidth < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
 
-		this.lineSize = lineSize;
+		this.lineWidth = lineWidth;
 		updateBrushes();
 	}
 
 	private void updateBrushes() {
-		g.setStroke(new BasicStroke(lineSize));
+		g.setStroke(new BasicStroke(lineWidth));
 	}
 
 	private void bindEvents() {

@@ -10,7 +10,7 @@ public class CodeDrawTest {
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
-		//lineSizeTest();
+		lineWidthTest();
 		//disposeCloseTest();
 		//transparencyTest();
 		//smallWindowTest();
@@ -66,23 +66,23 @@ public class CodeDrawTest {
 		}
 	}
 
-	private static void lineSizeTest() {
+	private static void lineWidthTest() {
 		CodeDraw cd = new CodeDraw(900, 900);
 
 		for (int i = 0; i < 8; i++) {
-			cd.setLineSize(i + 1);
+			cd.setLineWidth(i + 1);
 
-			cd.drawText(10, 50 + 100 * i, "" + cd.getLineSize());
+			cd.drawText(10, 50 + 100 * i, "" + cd.getLineWidth());
 			cd.drawLine(50, 50 + 100 * i, 100, 100 + 100 * i);
 			cd.drawSquare(150, 50 + 100 * i, 50);
 			cd.fillSquare(250, 50 + 100 * i, 50);
 		}
 
-		cd.setLineSize(50);
+		cd.setLineWidth(50);
 		cd.drawSquare(500, 100, 100);
 		cd.fillSquare(700, 100, 100);
 
-		cd.setLineSize(1);
+		cd.setLineWidth(1);
 		cd.drawSquare(500, 300, 100);
 		cd.fillSquare(700, 300, 100);
 
@@ -236,7 +236,7 @@ public class CodeDrawTest {
 		d.fillCircle(50, 50, 50);
 
 		d.setColor(Palette.LIGHT_BLUE);
-		d.setLineSize(5);
+		d.setLineWidth(5);
 		d.drawRectangle(30, 30, 200, 200);
 
 		d.show();
