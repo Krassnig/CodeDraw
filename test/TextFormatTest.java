@@ -1,125 +1,123 @@
-import CodeDraw.CodeDraw;
-import CodeDraw.TextFormat.HorizontalAlign;
-import CodeDraw.TextFormat.TextFormat;
-import CodeDraw.TextFormat.UnderlineType;
-import CodeDraw.TextFormat.VerticalAlign;
+import CodeDraw.*;
+import CodeDraw.TextFormat.*;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class TextFormatTest {
 	public static void main(String[] args) {
-		//textFontNameTest();
-		//textFormatPostureTest();
-		textFormatWeightTest();
-		//textFormatKerningTest();
-		//textFormatStrikeThroughTest();
-		//textFormatUnderlineTest();
-		//textFormatTest();
-		//textAlignmentTest();
-		//centerTextTest();
+		//fontNameTest();
+		//italicTest();
+		//boldTest();
+		//strikethroughTest();
+		//underlineTest();
+		//alignmentTest();
+		//fontSizeTest();
 	}
 
-	private static void textFontNameTest() {
+	private static void fontSizeTest() {
+		CodeDraw cd = new CodeDraw();
+		TextFormat format = cd.getFormat();
+
+		for (int i = 1; i < 35; i++) {
+			format.setFontSize(i);
+			cd.drawText(30, 10 + ((i * (i + 1)) / 2D), i + " Bigger!");
+		}
+
+		cd.show();
+	}
+
+	private static void fontNameTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setFontSize(16);
-		testDraw(cd, "Arial");
-		int i = 1;
-		for(String font: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()){
-			format.setFontName(font);
-			testDraw(cd, font + i++);
-			if(i == 30) break;
+
+		String[] fonts = getAvailableFontNames();
+
+		for (int i = 0; i < 60 && i < fonts.length; i++) {
+			format.setFontName(fonts[i]);
+			if (i < 30) {
+				cd.drawText(30, 30 + i * 20, i + "    Hello World!");
+			}
+			else {
+				cd.drawText(330, 30 + (i - 30) * 20, i + "   Hello World!");
+			}
 		}
+
 		cd.show();
 	}
 
-	private static void textFormatPostureTest() {
+	private static void italicTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
-		testDraw(cd, "Not Italic");
+		cd.drawText(30, 100, "Not Italic");
 		format.setItalic(true);
-		testDraw(cd, "Italic");
+		cd.drawText(30, 150, "Italic");
 		cd.show();
 	}
 
-	private static void textFormatWeightTest() {
+	private static void boldTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
-		testDraw(cd, "Not Bold");
+		cd.drawText(30, 100, "Not Bold");
 		format.setBold(true);
-		testDraw(cd, "Bold");
+		cd.drawText(30, 150, "Bold");
 		cd.show();
 	}
 
-	private static void textFormatKerningTest() {
-		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
-		format.setKerning(true);
-		testDraw(cd, "Kerning");
-		format.setKerning(false);
-		testDraw(cd, "No Kerning");
-		cd.show();
-	}
-
-	private static void textFormatStrikeThroughTest() {
+	private static void strikethroughTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 		format.setStrikethrough(true);
-		testDraw(cd, "strikethrough");
+		cd.drawText(30, 100, "Strikethrough");
 		format.setStrikethrough(false);
-		testDraw(cd, "No strikethrough");
+		cd.drawText(30, 150, "No strikethrough");
 		cd.show();
 	}
 
-	private static void textFormatUnderlineTest() {
+	private static void underlineTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
+
+		int i = 0;
 		for (UnderlineType underlineType : UnderlineType.values()) {
 			format.setUnderlined(underlineType);
-			testDraw(cd, underlineType.name());
+			cd.drawText(30, 30 + i++ * 20, underlineType.name().toLowerCase());
 		}
+
 		cd.show();
 	}
 
-	private static void textAlignmentTest() {
+	private static void alignmentTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat option = new TextFormat();
-		double baseLineX = 300;
-		double baseLineY = 32;
-		cd.drawLine(baseLineX, 0, baseLineX, 600);
-		for (int i = 0; i < 3; i++) {
-			option.setHorizontalAlign(HorizontalAlign.values()[i]);
-			for (int j = 0; j < 3; j++) {
 
-				option.setVerticalAlign(VerticalAlign.values()[j]);
-				String text = "Horz: " + option.getHorizontalAlign() + ", Vert: " + option.getVerticalAlign();
-				double y = (i * 3 + j + 1) * baseLineY;
-				cd.drawText(baseLineX, y, text);
-				cd.drawLine(0, y, 600, y);
-			}
-		}
+		drawAlignment(cd, 100, 100, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
+		drawAlignment(cd, 300, 100, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
+		drawAlignment(cd, 500, 100, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
+		drawAlignment(cd, 100, 300, VerticalAlign.MIDDLE, HorizontalAlign.LEFT);
+		drawAlignment(cd, 300, 300, VerticalAlign.MIDDLE, HorizontalAlign.CENTER);
+		drawAlignment(cd, 500, 300, VerticalAlign.MIDDLE, HorizontalAlign.RIGHT);
+		drawAlignment(cd, 100, 500, VerticalAlign.TOP, HorizontalAlign.LEFT);
+		drawAlignment(cd, 300, 500, VerticalAlign.TOP, HorizontalAlign.CENTER);
+		drawAlignment(cd, 500, 500, VerticalAlign.TOP, HorizontalAlign.RIGHT);
+
 		cd.show();
 	}
 
-	private static void centerTextTest() {
-		CodeDraw cd = new CodeDraw();
-		TextFormat option = new TextFormat();
-		option.setVerticalAlign(VerticalAlign.MIDDLE);
-		option.setHorizontalAlign(HorizontalAlign.CENTER);
-		cd.setFormat(option);
-		cd.drawText(300, 300, "CENTER Test");
-		cd.show();
+	private static void drawAlignment(CodeDraw cd, double x, double y, VerticalAlign va, HorizontalAlign ha) {
+		TextFormat format = cd.getFormat();
+		format.setVerticalAlign(va);
+		format.setHorizontalAlign(ha);
+
+		cd.setColor(Palette.BLACK);
+		cd.drawText(x, y, va + " " + (ha + "").toLowerCase());
+		cd.setColor(Palette.RED);
+		cd.drawLine(x - 80, y, x + 80, y);
+		cd.drawLine(x, y - 80, x, y + 80);
 	}
 
-
-
-	private static int num = 1;
-
-	private static void testDraw(CodeDraw cd, String text) {
-		cd.drawText(50, 20 * num++, text);
+	private static String[] getAvailableFontNames() {
+		return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 	}
-
 }

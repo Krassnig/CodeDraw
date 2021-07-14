@@ -5,78 +5,61 @@ import java.awt.font.TextAttribute;
 import java.util.*;
 
 public final class TextFormat {
-
-	public TextFormat() {
-	}
-
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
 
+	public TextFormat() { }
 
 	private HorizontalAlign horizontalAlign = HorizontalAlign.LEFT;
-	private VerticalAlign verticalAlign = VerticalAlign.TOP;
-
-	//Font Properties
-	private int fontSize = 16;
-	private String fontName = "Arial";
-	private boolean bold = false;
-	private boolean italic = false;
-	private UnderlineType underlineType = UnderlineType.NONE;
-	private boolean kerning = false;
-	private boolean strikethrough = false;
-
-
-	public HorizontalAlign getHorizontalAlign() {
-		return horizontalAlign;
-	}
-
+	public HorizontalAlign getHorizontalAlign() { return horizontalAlign; }
 	public void setHorizontalAlign(HorizontalAlign horizontalAlign) {
+		if (horizontalAlign == null) throw createArgumentNull("horizontalAlign");
 		this.horizontalAlign = horizontalAlign;
 	}
 
-	public VerticalAlign getVerticalAlign() {
-		return verticalAlign;
-	}
-
+	private VerticalAlign verticalAlign = VerticalAlign.TOP;
+	public VerticalAlign getVerticalAlign() { return verticalAlign; }
 	public void setVerticalAlign(VerticalAlign verticalAlign) {
+		if (horizontalAlign == null) throw createArgumentNull("verticalAlign");
 		this.verticalAlign = verticalAlign;
 	}
 
+	private int fontSize = 16;
+	public int getFontSize() { return fontSize; }
 	public void setFontSize(int fontSize) {
 		if (fontSize < 1) throw createArgumentNotNegative("fontSize");
-
 		this.fontSize = fontSize;
 	}
 
+	private String fontName = "Arial";
+	public String getFontName() { return fontName; }
 	public void setFontName(String fontName) {
 		if (fontName == null) throw createArgumentNull("fontName");
-		if (!isFontAvailable(fontName))
+		if (!availableFonts.contains(fontName))
 			throw new IllegalArgumentException("Font with the name " + fontName + " is not available");
-
 		this.fontName = fontName;
 
 	}
 
-	private static boolean isFontAvailable(String fontName) {
-		return availableFonts.contains(fontName);
-	}
-
-	public void setItalic(boolean isItalic) {
-		this.italic = isItalic;
-	}
-
+	private boolean bold = false;
+	public boolean getBold() { return bold; }
 	public void setBold(boolean isBold) {
 		this.bold = isBold;
 	}
 
+	private boolean italic = false;
+	public boolean getItalic() { return italic; }
+	public void setItalic(boolean isItalic) { this.italic = isItalic; }
+
+	private UnderlineType underlineType = UnderlineType.NONE;
+	public UnderlineType getUnderlineType() { return underlineType; }
 	public void setUnderlined(UnderlineType underlineType) {
 		if (underlineType == null) throw createArgumentNull("underline");
+
 		this.underlineType = underlineType;
 	}
 
-	public void setKerning(boolean isKerning) {
-		this.kerning = isKerning;
-	}
-
+	private boolean strikethrough = false;
+	public boolean getStrikethrough() { return strikethrough; }
 	public void setStrikethrough(boolean strikethrough) {
 		this.strikethrough = strikethrough;
 	}
@@ -98,7 +81,7 @@ public final class TextFormat {
 				put(TextAttribute.POSTURE, italic ? 0.2f : 0);
 				put(TextAttribute.UNDERLINE, underlineType.getUnderline());
 				put(TextAttribute.WEIGHT, bold ? 2.0f : 1.0f);
-				put(TextAttribute.KERNING, kerning ? TextAttribute.KERNING_ON : 0); // 0 == KERNING_OFF
+				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 				put(TextAttribute.STRIKETHROUGH, strikethrough);
 			}
 		};
@@ -110,9 +93,9 @@ public final class TextFormat {
 			case TOP:
 				return 0;
 			case BOTTOM:
-				return font.getSize();
+				return -font.getSize();
 			case MIDDLE:
-				return font.getSize() / 2.0;
+				return -font.getSize() / 2.0;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option");
 		}
