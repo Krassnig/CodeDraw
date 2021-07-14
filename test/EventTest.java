@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 
 public class EventTest {
 	public static void main(String[] args) {
+		curveTest();
 		//mouseTest((c, h) -> c.onMouseClick(h));
 		//mouseTest((c, h) -> c.onMouseMove(h));
 		//mouseTest((c, h) -> c.onMouseDown(h));
@@ -15,8 +16,18 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyDown(h));
 		//keyEventTest((c, h) -> c.onKeyPress(h));
 		//keyEventTest((c, h) -> c.onKeyUp(h));
-		windowMoveTest();
+		//windowMoveTest();
 		//unsubscribeTest();
+	}
+
+	private static void curveTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.onMouseMove((c, a) -> {
+			c.clear();
+			c.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
+			c.show();
+		});
 	}
 
 	private static int x = 500;
