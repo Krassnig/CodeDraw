@@ -1,32 +1,32 @@
-# codedraw
+# CodeDraw
 
-codedraw is an easy-to-use drawing library.
+CodeDraw is an easy-to-use drawing library.
 It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
 ## How to install
 
-Go to [releases](https://github.com/Krassnig/CodeDrawForJava/releases) and download the newest codedraw.jar.
+Go to [releases](https://github.com/Krassnig/CodeDrawForJava/releases) and download the newest CodeDraw.jar.
 
 ### Intellij
 
-Open Intellij with the project where you would like to add codedraw. Click on **File > Project Structure...**.
+Open Intellij with the project where you would like to add CodeDraw. Click on **File > Project Structure...**.
 In **Project Settings** select **Modules**.
 At the bottom left click on the small **plus icon** and select the **JARs or Directories...** option.
-Goto the downloaded codedraw.jar and select it and then press **OK**.
-Now you can import codedraw with ```import codedraw.*;``` at the top of your Java files.
+Goto the downloaded CodeDraw.jar and select it and then press **OK**.
+Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
 
 ### Eclipse
 
-Open Eclipse with the project where you would like to add codedraw. Right click on your Project > **Properties > Java Build Path > Add External JARs...**
-Go to the downloaded codedraw.jar and select it and then press **OK**.
-Now you can import codedraw with ```import codedraw.*;``` at the top of your Java files.
+Open Eclipse with the project where you would like to add CodeDraw. Right click on your Project > **Properties > Java Build Path > Add External JARs...**
+Go to the downloaded CodeDraw.jar and select it and then press **OK**.
+Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
 
 
 ## Example
 
 ```java
-codedraw cd = new codedraw(300, 300); // creates a canvas of size 300x300 pixel
+CodeDraw cd = new CodeDraw(300, 300); // creates a canvas of size 300x300 pixel
 
 // All following drawn objects will be red,
 // until the color is set to a different color.
@@ -50,7 +50,7 @@ import codedraw.*;
 
 class Main {
 	static void main(String[] args) {
-		codedraw cd = new codedraw();
+		CodeDraw cd = new CodeDraw();
 
 		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
 			// clears the entire canvas
@@ -83,7 +83,7 @@ Once the size is set via the constructor the size of the canvas remains fixed.
 ### Frame
 
 Is the frame surrounding the canvas. It is larger than the size given to the constructor
-of codedraw. It contains the closing and minimize button, the title and the codedraw icon.
+of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
 
 ## Api
 
@@ -136,7 +136,7 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 
 An event is something that occurs based on user input like the user
 pressing a button or moving the mouse. You can subscribe to an Event
-by passing a method reference or lambda to codedraw.
+by passing a method reference or lambda to CodeDRaw.
 All events start with the 'on' keyword.
 Subscribing to an event method will return a Subscription which
 can be used to unsubscribe from the event.
@@ -161,7 +161,7 @@ import codedraw.*;
 
 public class Main {
 	public static void main(String[] args) {
-		codedraw cd = new codedraw();
+		CodeDraw cd = new CodeDraw();
 
 		cd.drawText(200, 200, "Move your mouse over here.");
 		cd.show();
@@ -170,8 +170,8 @@ public class Main {
 		cd.onMouseMove(Main::draw);
 	}
 
-	// This method will be called by codedraw everytime the user moves their mouse
-	static void draw(codedraw cd, MouseEvent me) {
+	// This method will be called by CodeDraw everytime the user moves their mouse
+	static void draw(CodeDraw cd, MouseEvent me) {
 		cd.fillSquare(me.getX() - 2, me.getY() - 2, 4);
 		cd.show();
 	}

@@ -80,7 +80,7 @@ public class CodeDraw {
 
 		bindEvents();
 
-		setTitle("codedraw");
+		setTitle("CodeDraw");
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());
