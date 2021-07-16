@@ -1,4 +1,4 @@
-import CodeDraw.*;
+import codedraw.*;
 
 import java.awt.event.*;
 import java.util.function.BiFunction;

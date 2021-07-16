@@ -1,4 +1,4 @@
-import CodeDraw.*;
+import codedraw.*;
 
 public class AnimationTest {
 	public static void main(String[] args) {

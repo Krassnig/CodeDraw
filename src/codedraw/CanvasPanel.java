@@ -1,4 +1,4 @@
-package CodeDraw;
+package codedraw;
 
 import javax.swing.*;
 import java.awt.*;

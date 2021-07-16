@@ -1,4 +1,4 @@
-package CodeDraw.TextFormat;
+package codedraw.textformat;
 
 public enum VerticalAlign {
 	/**

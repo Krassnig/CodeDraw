@@ -1,4 +1,4 @@
-package CodeDraw;
+package codedraw;
 
 /**
  * A Subscription can be used to stop the triggering of an EventHandler at a later time.

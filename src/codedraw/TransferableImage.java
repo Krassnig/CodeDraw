@@ -1,4 +1,4 @@
-package CodeDraw;
+package codedraw;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;

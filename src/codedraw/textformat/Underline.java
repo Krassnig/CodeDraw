@@ -1,4 +1,4 @@
-package CodeDraw.TextFormat;
+package codedraw.textformat;
 
 import java.awt.font.TextAttribute;
 

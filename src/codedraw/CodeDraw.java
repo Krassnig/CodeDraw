@@ -1,6 +1,6 @@
-package CodeDraw;
+package codedraw;
 
-import CodeDraw.TextFormat.*;
+import codedraw.textformat.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -80,7 +80,7 @@ public class CodeDraw {
 
 		bindEvents();
 
-		setTitle("CodeDraw");
+		setTitle("codedraw");
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());

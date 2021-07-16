@@ -1,4 +1,4 @@
-import CodeDraw.*;
+import codedraw.*;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.Point2D;

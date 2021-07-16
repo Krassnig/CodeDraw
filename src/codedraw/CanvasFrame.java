@@ -1,4 +1,4 @@
-package CodeDraw;
+package codedraw;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

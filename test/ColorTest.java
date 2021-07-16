@@ -1,4 +1,4 @@
-import CodeDraw.Palette;
+import codedraw.Palette;
 import org.junit.Test;
 
 import java.awt.*;

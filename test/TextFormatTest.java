@@ -1,5 +1,5 @@
-import CodeDraw.*;
-import CodeDraw.TextFormat.*;
+import codedraw.*;
+import codedraw.textformat.*;
 
 import java.awt.*;
 

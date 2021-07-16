@@ -1,4 +1,4 @@
-package CodeDraw;
+package codedraw;
 
 class Semaphore {
 	public Semaphore(int initialCount) {
