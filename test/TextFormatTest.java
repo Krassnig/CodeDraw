@@ -81,9 +81,9 @@ public class TextFormatTest {
 		TextFormat format = cd.getFormat();
 
 		int i = 0;
-		for (UnderlineType underlineType : UnderlineType.values()) {
-			format.setUnderlined(underlineType);
-			cd.drawText(30, 30 + i++ * 20, underlineType.name().toLowerCase());
+		for (Underline underline : Underline.values()) {
+			format.setUnderlined(underline);
+			cd.drawText(30, 30 + i++ * 20, underline.name().toLowerCase());
 		}
 
 		cd.show();

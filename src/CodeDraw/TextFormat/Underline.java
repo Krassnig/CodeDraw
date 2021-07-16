@@ -2,7 +2,7 @@ package CodeDraw.TextFormat;
 
 import java.awt.font.TextAttribute;
 
-public enum UnderlineType {
+public enum Underline {
 	NONE(-1),
 	NORMAL(TextAttribute.UNDERLINE_ON),
 	DASHED(TextAttribute.UNDERLINE_LOW_DASHED),
@@ -12,11 +12,11 @@ public enum UnderlineType {
 
 	private final int underline;
 
-	UnderlineType(int underline) {
+	Underline(int underline) {
 		this.underline = underline;
 	}
 
-	public int getUnderline() {
+	int getUnderline() {
 		return underline;
 	}
 }

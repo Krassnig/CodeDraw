@@ -37,7 +37,6 @@ public final class TextFormat {
 		if (!availableFonts.contains(fontName))
 			throw new IllegalArgumentException("Font with the name " + fontName + " is not available");
 		this.fontName = fontName;
-
 	}
 
 	private boolean bold = false;
@@ -50,12 +49,12 @@ public final class TextFormat {
 	public boolean getItalic() { return italic; }
 	public void setItalic(boolean isItalic) { this.italic = isItalic; }
 
-	private UnderlineType underlineType = UnderlineType.NONE;
-	public UnderlineType getUnderlineType() { return underlineType; }
-	public void setUnderlined(UnderlineType underlineType) {
-		if (underlineType == null) throw createArgumentNull("underline");
+	private Underline underline = Underline.NONE;
+	public Underline getUnderline() { return underline; }
+	public void setUnderlined(Underline underline) {
+		if (underline == null) throw createArgumentNull("underline");
 
-		this.underlineType = underlineType;
+		this.underline = underline;
 	}
 
 	private boolean strikethrough = false;
@@ -79,7 +78,7 @@ public final class TextFormat {
 		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
 			{
 				put(TextAttribute.POSTURE, italic ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, underlineType.getUnderline());
+				put(TextAttribute.UNDERLINE, underline.getUnderline());
 				put(TextAttribute.WEIGHT, bold ? 2.0f : 1.0f);
 				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 				put(TextAttribute.STRIKETHROUGH, strikethrough);
