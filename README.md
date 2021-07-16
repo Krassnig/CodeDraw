@@ -1,10 +1,8 @@
 # CodeDraw
 
 CodeDraw is an easy-to-use drawing library.
-It is made for beginners that understand little about programming and enables them
-to draw and animate various shapes and images to a canvas.
-It is made with more advanced drawing and rendering libraries in mind
-so that once you switch to those, your intuition should match how you have to use other libraries. 
+It is made for beginners that understand little about programming
+and makes it very simple to draw and animate various shapes and images to a canvas.
 
 ## How to install
 
@@ -55,6 +53,7 @@ class Main {
 		CodeDraw cd = new CodeDraw();
 
 		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
+			// clears the entire canvas
 			cd.clear();
 			// draws the second hand
 			cd.drawLine(300, 300, Math.cos(sec) * 100 + 300, Math.sin(sec) * 100 + 300);
@@ -64,6 +63,7 @@ class Main {
 				cd.fillCircle(Math.cos(j) * 100 + 300, Math.sin(j) * 100 + 300, 4);
 			}
 
+			// displays the drawn objects and waits 1 second
 			cd.show(1000);
 		}
 	}
@@ -89,69 +89,69 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 
 ### Properties
 
-- Height
-- Width
-- FramePosition
-- CanvasPosition
-- Title
-- Font
-- Color
-- LineSize
+- width
+- height
+- framePosition
+- canvasPosition
+- title
+- format
+- color
+- lineWidth
 
 ### Methods
 
-- Show
-- AsImage
-- Dispose
+- show: Displays the drawn shapes and images on the canvas.
+- asImage: Copies the canvas as an Image.
+- dispose: Closes the canvas and frees all associated resources.
+- clear: Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Drawing Methods
 
 Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
+The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
 
-- [DrawText](https://github.com/Krassnig/CodeDrawForJava/blob/3b3f0d94ab674e355c17e1f2f7fa30ab1efc442f/src/CodeDraw/CodeDraw.java#L194)
-- DrawPoint
-- DrawLine
-- DrawCurve
-- DrawBezier
-- DrawSquare
-- DrawRectangle
-- DrawCircle
-- DrawEllipse
-- DrawArc
-- DrawTriangle
-- DrawPolygon
-- DrawImage
-- FillSquare
-- FillRectangle
-- FillCircle
-- FillEllipse
-- FillArc
-- FillTriangle
-- FillPolygon
-- Clear
+- [drawText](https://github.com/Krassnig/CodeDrawForJava/blob/3b3f0d94ab674e355c17e1f2f7fa30ab1efc442f/src/CodeDraw/CodeDraw.java#L194)
+- drawPoint
+- drawLine
+- drawCurve
+- drawBezier
+- drawSquare
+- drawRectangle
+- drawCircle
+- drawEllipse
+- drawArc
+- drawTriangle
+- drawPolygon
+- drawImage
+- fillSquare
+- fillRectangle
+- fillCircle
+- fillEllipse
+- fillArc
+- fillTriangle
+- fillPolygon
 
-Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Events
 
 An event is something that occurs based on user input like the user
 pressing a button or moving the mouse. You can subscribe to an Event
 by passing a method reference or lambda to CodeDraw.
-All events are marked by starting with the 'on' keyword.
-Subscribing to a event method will return a Subscription which
+All events start with the 'on' keyword.
+Subscribing to an event method will return a Subscription which
 can be used to unsubscribe from the event.
 
-- OnMouseClick
-- OnMouseMove
-- OnMouseDown
-- OnMouseUp
-- OnMouseEnter
-- OnMouseLeave
-- OnMouseWheel
-- OnKeyDown
-- OnKeyUp
-- OnKeyPress
-- OnFrameMove
+- onMouseClick
+- onMouseMove
+- onMouseDown
+- onMouseUp
+- onMouseEnter
+- onMouseLeave
+- onMouseWheel
+- onKeyDown
+- onKeyUp
+- onKeyPress
+- onFrameMove
 
 #### Example Event
 

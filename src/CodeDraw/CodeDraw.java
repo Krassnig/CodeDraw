@@ -25,21 +25,27 @@ import java.awt.image.BufferedImage;
  * // Must be called to display everything that has been drawn until now!
  * cd.show();
  * }</pre>
- * There are a few key ideas described by certain keywords used in this library:<br>
+ * There are a few key ideas described by certain keywords used in this library:
  * <br>
- * <b>canvas</b> - Is the rectangle on the screen that is used for drawing. It's origin<br>
- * point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.<br>
- * Once the size is set via the constructor the size of the canvas remains fixed.<br>
  * <br>
- * <b>frame</b> - Is the frame surrounding the canvas. It is larger than the size given<br>
- * to the constructor of CodeDraw. It contains the closing and minimize button.<br>
+ * <b>canvas</b> - Is the rectangle on the screen that is used for drawing. It's origin
+ * point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.
+ * Once the size is set via the constructor the size of the canvas remains fixed.
  * <br>
- * <b>event</b> - An event is something that occurs based on user input like the user<br>
- * pressing a button or moving the mouse. You can subscribe to an Event<br>
- * by passing a method reference or lambda to CodeDraw. All events are<br>
- * marked by starting with the 'on' keyword. Like: onMouseMove or onKeyPress.<br>
  * <br>
- * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>
+ * <b>frame</b> - Is the frame surrounding the canvas. It is larger than the size given
+ * to the constructor of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
+ * <br>
+ * <br>
+ * <b>event</b> - An event is something that occurs based on user input like the user
+ * pressing a button or moving the mouse. You can subscribe to an Event
+ * by passing a method reference or lambda to CodeDraw. All events start with the 'on' keyword.
+ * Subscribing to an event method will return a Subscription which can be used to unsubscribe from the event.
+ * Example events: {@link #onMouseMove} or {@link #onKeyPress(CodeDraw.EventHandler)}.
+ * <br>
+ * <br>
+ * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>
+ * <br>
  * <br>
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
