@@ -597,11 +597,11 @@ public class CodeDraw {
 	private static Path2D.Double pointsToPath(Point2D[] points) {
 		Path2D.Double result = new Path2D.Double();
 
-		result.moveTo(points[0].getX(), points[1].getY());
+		result.moveTo(points[0].getX(), points[0].getY());
 		for (int i = 1; i < points.length; i++) {
 			result.lineTo(points[i].getX(), points[i].getY());
 		}
-		result.lineTo(points[0].getX(), points[1].getY());
+		result.closePath();
 
 		return result;
 	}

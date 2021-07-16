@@ -10,14 +10,14 @@ public class CodeDrawTest {
 		//autoCloseTest();
 		//triangleTest();
 		//framePositionTest();
-		lineWidthTest();
+		//lineWidthTest();
 		//disposeCloseTest();
 		//transparencyTest();
 		//smallWindowTest();
 		//imageSaveTest();
 		//imageTestScale();
 		//imageTest();
-		//polygonTest();
+		polygonTest();
 		//bezierTest();
 		//arcTest();
 		//twoWindowTest();
@@ -165,11 +165,17 @@ public class CodeDrawTest {
 	private static void polygonTest() {
 		CodeDraw c = new CodeDraw();
 
+		c.setColor(Palette.BLACK);
 		c.fillPolygon(
-				new Point2D.Double(10, 40),
-				new Point2D.Double(200, 200),
-				new Point2D.Double(100, 36)
+				new Point2D.Double(50, 100),
+				new Point2D.Double(240, 200),
+				new Point2D.Double(140, 36)
 		);
+
+		c.setColor(Palette.RED);
+		c.drawCircle(50, 100, 5);
+		c.drawCircle(240, 200, 5);
+		c.drawCircle(140, 36, 5);
 
 		c.show();
 	}
