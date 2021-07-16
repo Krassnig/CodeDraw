@@ -80,10 +80,13 @@ public class TextFormatTest {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
 
+		format.setFontName("Times New Roman");
+		format.setFontSize(30);
+
 		int i = 0;
 		for (Underline underline : Underline.values()) {
 			format.setUnderlined(underline);
-			cd.drawText(30, 30 + i++ * 20, underline.name().toLowerCase());
+			cd.drawText(30, 30 + i++ * 30, underline.name().toLowerCase());
 		}
 
 		cd.show();
