@@ -41,7 +41,7 @@ import java.awt.image.BufferedImage;
  * <br>
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>
  * <br>
- * @author Niklas Krassnig
+ * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw {
 	/**
