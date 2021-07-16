@@ -53,7 +53,6 @@ public final class TextFormat {
 	public Underline getUnderline() { return underline; }
 	public void setUnderlined(Underline underline) {
 		if (underline == null) throw createArgumentNull("underline");
-
 		this.underline = underline;
 	}
 
@@ -90,11 +89,11 @@ public final class TextFormat {
 	private double getVerticalOffset(Font font) {
 		switch (verticalAlign) {
 			case TOP:
-				return 0;
-			case BOTTOM:
 				return -font.getSize();
 			case MIDDLE:
 				return -font.getSize() / 2.0;
+			case BOTTOM:
+				return 0;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option");
 		}
@@ -105,10 +104,10 @@ public final class TextFormat {
 		switch (horizontalAlign) {
 			case LEFT:
 				return 0;
-			case RIGHT:
-				return fm.stringWidth(text);
 			case CENTER:
 				return fm.stringWidth(text) / 2.0;
+			case RIGHT:
+				return fm.stringWidth(text);
 			default:
 				throw new RuntimeException("Unknown horizontal alignment option");
 		}

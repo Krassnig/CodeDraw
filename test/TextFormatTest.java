@@ -9,9 +9,21 @@ public class TextFormatTest {
 		//italicTest();
 		//boldTest();
 		//strikethroughTest();
-		//underlineTest();
+		underlineTest();
 		//alignmentTest();
 		//fontSizeTest();
+		//defaultAlignmentTest();
+	}
+
+	private static void defaultAlignmentTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.drawLine(200, 100, 200, 300);
+		cd.drawLine(100, 200, 300, 200);
+
+		cd.drawText(200, 200, "Hello World!");
+
+		cd.show();
 	}
 
 	private static void fontSizeTest() {
@@ -95,15 +107,15 @@ public class TextFormatTest {
 	private static void alignmentTest() {
 		CodeDraw cd = new CodeDraw();
 
-		drawAlignment(cd, 100, 100, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
-		drawAlignment(cd, 300, 100, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
-		drawAlignment(cd, 500, 100, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
+		drawAlignment(cd, 100, 100, VerticalAlign.TOP   , HorizontalAlign.LEFT);
+		drawAlignment(cd, 300, 100, VerticalAlign.TOP   , HorizontalAlign.CENTER);
+		drawAlignment(cd, 500, 100, VerticalAlign.TOP   , HorizontalAlign.RIGHT);
 		drawAlignment(cd, 100, 300, VerticalAlign.MIDDLE, HorizontalAlign.LEFT);
 		drawAlignment(cd, 300, 300, VerticalAlign.MIDDLE, HorizontalAlign.CENTER);
 		drawAlignment(cd, 500, 300, VerticalAlign.MIDDLE, HorizontalAlign.RIGHT);
-		drawAlignment(cd, 100, 500, VerticalAlign.TOP, HorizontalAlign.LEFT);
-		drawAlignment(cd, 300, 500, VerticalAlign.TOP, HorizontalAlign.CENTER);
-		drawAlignment(cd, 500, 500, VerticalAlign.TOP, HorizontalAlign.RIGHT);
+		drawAlignment(cd, 100, 500, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
+		drawAlignment(cd, 300, 500, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
+		drawAlignment(cd, 500, 500, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
 
 		cd.show();
 	}
