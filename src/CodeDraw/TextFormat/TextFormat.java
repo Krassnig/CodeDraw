@@ -1,7 +1,6 @@
 package CodeDraw.TextFormat;
 
 import java.awt.*;
-import java.awt.font.TextAttribute;
 import java.util.*;
 
 /**
@@ -65,56 +64,6 @@ public final class TextFormat {
 		this.strikethrough = strikethrough;
 	}
 
-	public void renderText(Graphics2D graphics2D, double x, double y, String text) {
-		Font font = createFont();
-		graphics2D.setFont(font);
-
-		x -= getHorizontalOffset(graphics2D, text);
-		y -= getVerticalOffset(graphics2D.getFont());
-
-		graphics2D.drawString(text, (float) x, (float) y);
-	}
-
-	private Font createFont() {
-		Font font = new Font(fontName, Font.PLAIN, fontSize);
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
-			{
-				put(TextAttribute.POSTURE, italic ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, underline.getUnderline());
-				put(TextAttribute.WEIGHT, bold ? 2.0f : 1.0f);
-				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
-				put(TextAttribute.STRIKETHROUGH, strikethrough);
-			}
-		};
-		return font.deriveFont(attributes);
-	}
-
-	private double getVerticalOffset(Font font) {
-		switch (verticalAlign) {
-			case TOP:
-				return -font.getSize();
-			case MIDDLE:
-				return -font.getSize() / 2.0;
-			case BOTTOM:
-				return 0;
-			default:
-				throw new RuntimeException("Unknown vertical alignment option");
-		}
-	}
-
-	private double getHorizontalOffset(Graphics2D graphics, String text) {
-		FontMetrics fm = graphics.getFontMetrics(graphics.getFont());
-		switch (horizontalAlign) {
-			case LEFT:
-				return 0;
-			case CENTER:
-				return fm.stringWidth(text) / 2.0;
-			case RIGHT:
-				return fm.stringWidth(text);
-			default:
-				throw new RuntimeException("Unknown horizontal alignment option");
-		}
-	}
 
 	private static IllegalArgumentException createArgumentNull(String argumentName) {
 		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");

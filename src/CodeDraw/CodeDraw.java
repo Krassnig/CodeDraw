@@ -1,11 +1,14 @@
 package CodeDraw;
 
-import CodeDraw.TextFormat.TextFormat;
+import CodeDraw.TextFormat.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.TextAttribute;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * CodeDraw is an easy-to-use drawing library.<br>
@@ -97,7 +100,7 @@ public class CodeDraw {
 	private BufferedImage buffer;
 	private Graphics2D g;
 	private int lineWidth;
-	private TextFormat textFormat;
+	private TextFormat format;
 
 	/**
 	 * @return width of the canvas
@@ -128,11 +131,11 @@ public class CodeDraw {
 		frame.setTitle(title);
 	}
 
-	public TextFormat getFormat(){ return textFormat; }
+	public TextFormat getFormat(){ return format; }
 	public void setFormat(TextFormat textFormat){
 		if(textFormat == null) throw createArgumentNull("textFormat");
 
-		this.textFormat = textFormat;
+		this.format = textFormat;
 	}
 
 	public Color getColor() { return g.getColor(); }
@@ -248,7 +251,54 @@ public class CodeDraw {
 	 */
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
-		textFormat.renderText(g, x, y, text);
+
+		Font font = createFont(format);
+		g.setFont(font);
+
+		x -= getHorizontalOffset(format.getHorizontalAlign(), g.getFontMetrics(font), text);
+		y -= getVerticalOffset(format.getVerticalAlign(), font);
+
+		g.drawString(text, (float) x, (float) y);
+	}
+
+	private static Font createFont(TextFormat format) {
+		Font font = new Font(format.getFontName(), Font.PLAIN, format.getFontSize());
+		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
+			{
+				put(TextAttribute.POSTURE, format.getItalic() ? 0.2f : 0);
+				put(TextAttribute.UNDERLINE, format.getUnderline());
+				put(TextAttribute.WEIGHT, format.getBold() ? 2.0f : 1.0f);
+				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
+				put(TextAttribute.STRIKETHROUGH, format.getStrikethrough());
+			}
+		};
+		return font.deriveFont(attributes);
+	}
+
+	private static double getVerticalOffset(VerticalAlign verticalAlign, Font font) {
+		switch (verticalAlign) {
+			case TOP:
+				return -font.getSize();
+			case MIDDLE:
+				return -font.getSize() / 2.0;
+			case BOTTOM:
+				return 0;
+			default:
+				throw new RuntimeException("Unknown vertical alignment option");
+		}
+	}
+
+	private static double getHorizontalOffset(HorizontalAlign horizontalAlign, FontMetrics fontMetrics, String text) {
+		switch (horizontalAlign) {
+			case LEFT:
+				return 0;
+			case CENTER:
+				return fontMetrics.stringWidth(text) / 2.0;
+			case RIGHT:
+				return fontMetrics.stringWidth(text);
+			default:
+				throw new RuntimeException("Unknown horizontal alignment option");
+		}
 	}
 
 	/**
