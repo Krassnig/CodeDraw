@@ -15,18 +15,47 @@ public final class Palette {
 		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
 	}
 
+	/**
+	 * Creates an rgba color with the alpha implicitly being 255.
+	 *
+	 * @param red The value can be 0 to 255.
+	 * @param green The value can be 0 to 255.
+	 * @param blue The value can be 0 to 255.
+	 */
 	public static Color fromRGB(int red, int green, int blue) {
 		return fromRGBA(red, green, blue, 0xFF);
 	}
 
+	/**
+	 * Creates an rgba color.
+	 * The 8 most significant bits represent red.
+	 * The following 8 bits represent green.
+	 * The next 8 bits represent blue .
+	 * The 8 least significant bits represent the alpha value.
+	 *
+	 * For example Palette.fromRGB(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
+	 */
 	public static Color fromRGBA(int rgba) {
 		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
 	}
 
+	/**
+	 * Creates a new Color based of the baseColor but with a different alpha value.
+	 * @param baseColor Any color. It's alpha value will be ignored when creating the new color.
+	 * @param alpha The value can be 0 to 255
+	 */
 	public static Color fromRGBA(Color baseColor, int alpha) {
 		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
 	}
 
+	/**
+	 * Creates an rgba color.
+	 *
+	 * @param red can be 0 to 255
+	 * @param green can be 0 to 255
+	 * @param blue can be 0 to 255
+	 * @param alpha can be 0 to 255
+	 */
 	public static Color fromRGBA(int red, int green, int blue, int alpha) {
 		return new Color(red, green, blue, alpha);
 	}

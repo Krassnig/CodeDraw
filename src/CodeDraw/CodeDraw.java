@@ -53,6 +53,7 @@ public class CodeDraw {
 
 	/**
 	 * Creates a canvas with the specified size. The frame surrounding the canvas will be slightly bigger.
+	 * Once the size is set via this constructor it remains fixed.
 	 * @param canvasWidth must be at least 150 pixel
 	 * @param canvasHeight must be at least 1 pixel
 	 */
@@ -234,8 +235,10 @@ public class CodeDraw {
 	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
 
 	/**
-	 * Format options can be set via the TextFormat object. See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the TextFormat class.
-	 * If not specified otherwise in the TextFormat object the x and y coordinates will be in the top left corner of the text.
+	 * Format options can be set via the TextFormat object.
+	 * See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the TextFormat class.
+	 * If not specified otherwise in the TextFormat object
+	 * the x and y coordinates will be in the top left corner of the text.
 	 */
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
@@ -330,7 +333,6 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the circle
 	 * @param y The center of the circle
-	 * @param radius The radius of the circle
 	 */
 	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -341,7 +343,6 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the circle
 	 * @param y The center of the circle
-	 * @param radius The radius of the circle
 	 */
 	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -352,6 +353,8 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the ellipse
+	 * @param verticalRadius 2 * verticalRadius is the height of the ellipse
 	 */
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
@@ -366,6 +369,8 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the ellipse
+	 * @param verticalRadius 2 * verticalRadius is the height of the ellipse
 	 */
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
@@ -379,14 +384,31 @@ public class CodeDraw {
 
 	/**
 	 * Draws an arc with the center being the x y coordinates.
-	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
-	 * The arc starts at the 12 o'clock position offset by the startRadians variable.
-	 * The total length of the arc is defined by the sweepRadians variable.
+	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the arc is defined by the sweepRadians parameter.
 	 *
 	 * @param x The center of the arc
 	 * @param y The center of the arc
-	 * @param horizontalRadius The radius of the arc
-	 * @param verticalRadius The radius of the arc
+	 * @param radius The radius of the arc
+	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
+	 */
+	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createArgumentNotNegative("radius");
+
+		drawArc(x, y, radius, radius, startRadians, sweepRadians);
+	}
+
+	/**
+	 * Draws an arc with the center being the x y coordinates.
+	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
+	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the arc is defined by the sweepRadians parameter.
+	 *
+	 * @param x The center of the arc.
+	 * @param y The center of the arc.
+	 * @param horizontalRadius horizontalRadius * 2 is the width of the arc.
+	 * @param verticalRadius verticalRadius * 2 is the height of the arc.
 	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
@@ -406,10 +428,34 @@ public class CodeDraw {
 	}
 
 	/**
-	 * @param x the center of the filled arc
-	 * @param y the center of the filled arc
-	 * @param startRadians the starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
-	 * @param sweepRadians the length of the filled arc in radians from the start angle in a clockwise direction.
+	 * Draws an filled arc with the center being the x y coordinates.
+	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the arc is defined by the sweepRadians parameter.
+	 *
+	 * @param x The center of the arc
+	 * @param y The center of the arc
+	 * @param radius The radius of the arc
+	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
+	 */
+	public void fillArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createArgumentNotNegative("radius");
+
+		fillArc(x, y, radius, radius, startRadians, sweepRadians);
+	}
+
+	/**
+	 * Draws a filled arc with the center being the x y coordinates.
+	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
+	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the arc is defined by the sweepRadians parameter.
+	 *
+	 * @param x The center of the arc
+	 * @param y The center of the arc
+	 * @param horizontalRadius The radius of the arc
+	 * @param verticalRadius The radius of the arc
+	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void fillArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
@@ -434,12 +480,40 @@ public class CodeDraw {
 		fillPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
 	}
 
+	/**
+	 * Accepts an arbitrary amount of points to draw a polygon.
+	 * Must be called with at least two points.
+	 * Each point passed to drawPolygon will be connected to the following points and the last point will be connected
+	 * ot the first point.
+	 *
+	 * <pre>{@code
+	 * drawPolygon(
+	 *     new Point2D.Double(200, 100),
+	 *     new Point2D.Double(100, 200),
+	 *     new Point2D.Double(300, 200)
+	 * );
+	 * }</pre>
+	 */
 	public void drawPolygon(Point2D... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
 		g.draw(pointsToPath(points));
 	}
 
+	/**
+	 * Accepts an arbitrary amount of points to draw a polygon.
+	 * Must be called with at least two points.
+	 * Each point passed to drawPolygon will be connected to the following points and the last point will be connected
+	 * ot the first point.
+	 *
+	 * <pre>{@code
+	 * drawPolygon(
+	 *     new Point2D.Double(200, 100),
+	 *     new Point2D.Double(100, 200),
+	 *     new Point2D.Double(300, 200)
+	 * );
+	 * }</pre>
+	 */
 	public void fillPolygon(Point2D... points) {
 		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 
@@ -549,22 +623,22 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Displays the drawn graphics on the canvas.
+	 * Displays the drawn shapes and images on the canvas.
 	 */
 	public void show() {
 		frame.render(buffer);
 	}
 
 	/**
-	 * Displays the drawn graphics on the canvas and then waits for the given amount of milliseconds.
+	 * Displays the drawn shapes and images on the canvas and then waits for the given amount of milliseconds.
 	 * The copying of the buffer to the screen also takes a bit of time so the wait time might be
 	 * larger than the given amount of milliseconds.<br>
 	 * How many milliseconds the program must pause in order to display a certain amount of frames per second:
 	 * <br>
-	 * 30 fps = 33ms<br>
-	 * 60 fps = 16ms<br>
-	 * 120 fps = 8ms<br>
-	 * @param waitMilliseconds Time it takes this function to return.
+	 * 30 fps ~ 33ms<br>
+	 * 60 fps ~ 16ms<br>
+	 * 120 fps ~ 8ms<br>
+	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
 		if (waitMilliseconds < 0) throw createArgumentNotNegative("waitMilliseconds");
@@ -580,6 +654,8 @@ public class CodeDraw {
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
+	 * Terminates the process when all CodeDraw instances are closed.
+	 * To prevent this behavior pass false to this function. See {@link #dispose(boolean)}.
 	 */
 	public void dispose() {
 		dispose(true);
@@ -588,6 +664,7 @@ public class CodeDraw {
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
 	 * @param exit when true terminates the process when all CodeDraw instances are closed.
+	 *             When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void dispose(boolean exit) {
 		g.dispose();

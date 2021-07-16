@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.*;
 
+/**
+ * The TextFormat class can be used to specify how CodeDraw formats, places and styles it's drawn text.
+ */
 public final class TextFormat {
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
 
