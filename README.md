@@ -110,7 +110,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
 The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
 
-- [drawText](https://github.com/Krassnig/CodeDrawForJava/blob/3b3f0d94ab674e355c17e1f2f7fa30ab1efc442f/src/CodeDraw/CodeDraw.java#L194)
+- drawText
 - drawPoint
 - drawLine
 - drawCurve
