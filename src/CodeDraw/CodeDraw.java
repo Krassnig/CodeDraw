@@ -64,12 +64,13 @@ public class CodeDraw {
 		this.height = canvasHeight;
 
 		frame = new CanvasFrame(canvasWidth, canvasHeight);
-		frame.setTitle("CodeDraw");
 		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
 		g.addRenderingHints(createDefaultRenderingHints());
 
 		bindEvents();
+
+		setTitle("CodeDraw");
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());
@@ -134,7 +135,13 @@ public class CodeDraw {
 		g.setColor(color);
 	}
 
+	/**
+	 * Defines the width or thickness of drawn shapes and lines.
+	 */
 	public int getLineWidth() { return lineWidth; }
+	/**
+	 * Defines the width or thickness of drawn shapes and lines.
+	 */
 	public void setLineWidth(int lineWidth) {
 		if (lineWidth < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
 
@@ -160,47 +167,84 @@ public class CodeDraw {
 		frame.onFrameMove ((s, a) -> frameMoveEvent .invoke(a));
 	}
 
-	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
+	/**
+	 * Triggers once when a mouse button is pressed down and quickly released again.
+	 */
 	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
-
-	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
-	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
 
 	/**
-	 * Draws text to the right and below the xy-coordinate. The text will be left aligned.
+	 * Triggers continuously while the mouse is being moved.
+	 */
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
+
+	/**
+	 * Triggers exactly once when a mouse button is pressed down.
+	 */
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
+
+	/**
+	 * Triggers when a mouse button is released.
+	 */
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
+
+	/**
+	 * Triggers when the mouse enters the canvas.
+	 */
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
+
+	/**
+	 * Triggers when the mouse leaves the canvas.
+	 */
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
+
+	/**
+	 * Triggers each time the mouse wheel is turned
+	 */
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
+	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
+
+	/**
+	 * Trigger exactly once when a key is pressed down.
+	 */
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
+	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
+
+	/**
+	 * Trigger when a key is released.
+	 */
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
+	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
+
+	/**
+	 * onKeyPress will continuously trigger while a key is being held down.
+	 */
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
+	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
+
+	/**
+	 * Triggers every time the CodeDraw window is moved.
+	 */
+	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
+	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
+
+	/**
+	 * Format options can be set via the TextFormat object. See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the TextFormat class.
+	 * If not specified otherwise in the TextFormat object the x and y coordinates will be in the top left corner of the text.
 	 */
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
 		textFormat.renderText(g, x, y, text);
 	}
 
+	/**
+	 * Draws a point which is exactly 1x1 pixel in size.
+	 */
 	public void drawPoint(double x, double y) {
 		fillSquare(x, y, 1);
 	}
@@ -212,6 +256,9 @@ public class CodeDraw {
 		));
 	}
 
+	/**
+	 * Draws a quadratic bezier curve. See: @see <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
 		g.draw(new QuadCurve2D.Double(
 				startX, startY,
@@ -283,6 +330,7 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the circle
 	 * @param y The center of the circle
+	 * @param radius The radius of the circle
 	 */
 	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -293,6 +341,7 @@ public class CodeDraw {
 	/**
 	 * @param x The center of the circle
 	 * @param y The center of the circle
+	 * @param radius The radius of the circle
 	 */
 	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -328,10 +377,16 @@ public class CodeDraw {
 		));
 	}
 
-
 	/**
+	 * Draws an arc with the center being the x y coordinates.
+	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
+	 * The arc starts at the 12 o'clock position offset by the startRadians variable.
+	 * The total length of the arc is defined by the sweepRadians variable.
+	 *
 	 * @param x The center of the arc
 	 * @param y The center of the arc
+	 * @param horizontalRadius The radius of the arc
+	 * @param verticalRadius The radius of the arc
 	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */

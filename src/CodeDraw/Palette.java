@@ -5,6 +5,12 @@ import java.awt.*;
 public final class Palette {
 	private Palette() { }
 
+	/**
+	 * Creates an rgba color with the alpha implicitly being 255. The 8 most significant bits are ignored.
+	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
+	 *
+	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
+	 */
 	public static Color fromRGB(int rgb) {
 		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
 	}
