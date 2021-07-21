@@ -11,8 +11,8 @@ Go to [releases](https://github.com/Krassnig/CodeDrawForJava/releases) and downl
 ### Intellij
 
 Open Intellij with the project where you would like to add CodeDraw. Click on **File > Project Structure...**.
-In **Project Settings** select **Modules**.
-At the bottom left click on the small **plus icon** and select the **JARs or Directories...** option.
+Under **Project Settings** select **Libraries**.
+At the top left click on the small **plus icon** and select the **Java** option.
 Goto the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
 
