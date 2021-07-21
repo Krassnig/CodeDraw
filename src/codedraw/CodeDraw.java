@@ -304,8 +304,15 @@ public class CodeDraw {
 	/**
 	 * Draws a point which is exactly 1x1 pixel in size.
 	 */
-	public void drawPoint(double x, double y) {
+	public void drawPixel(double x, double y) {
 		fillSquare(x, y, 1);
+	}
+
+	/**
+	 * Draws a point which changes size depending on the {@link #getLineWidth()}
+	 */
+	public void drawPoint(double x, double y) {
+		fillCircle(x, y, getLineWidth() / 2.0);
 	}
 
 	public void drawLine(double startX, double startY, double endX, double endY) {
