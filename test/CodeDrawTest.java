@@ -1,25 +1,18 @@
 import codedraw.*;
 
 import javax.imageio.ImageIO;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 
 public class CodeDrawTest {
 	public static void main(String[] args) {
 		//autoCloseTest();
-		//triangleTest();
 		//framePositionTest();
-		//lineWidthTest();
 		//disposeCloseTest();
-		//transparencyTest();
 		//smallWindowTest();
 		//imageSaveTest();
 		//imageTestScale();
 		//imageTest();
-		polygonTest();
-		//bezierTest();
-		//arcTest();
 		//twoWindowTest();
 		//cornerTest();
 		//proofOfConcept();
@@ -42,13 +35,6 @@ public class CodeDrawTest {
 		}
 	}
 
-	private static void triangleTest() {
-		CodeDraw l = new CodeDraw();
-
-		l.drawTriangle(100, 100, 200, 300, 50, 220);
-		l.show();
-	}
-
 	private static void framePositionTest() {
 		CodeDraw l = new CodeDraw();
 		l.setFramePositionX(0);
@@ -66,45 +52,10 @@ public class CodeDrawTest {
 		}
 	}
 
-	private static void lineWidthTest() {
-		CodeDraw cd = new CodeDraw(900, 900);
-
-		for (int i = 0; i < 8; i++) {
-			cd.setLineWidth(i + 1);
-
-			cd.drawText(10, 50 + 100 * i, "" + cd.getLineWidth());
-			cd.drawLine(50, 50 + 100 * i, 100, 100 + 100 * i);
-			cd.drawSquare(150, 50 + 100 * i, 50);
-			cd.fillSquare(250, 50 + 100 * i, 50);
-		}
-
-		cd.setLineWidth(50);
-		cd.drawSquare(500, 100, 100);
-		cd.fillSquare(700, 100, 100);
-
-		cd.setLineWidth(1);
-		cd.drawSquare(500, 300, 100);
-		cd.fillSquare(700, 300, 100);
-
-		cd.show();
-	}
-
 	private static void disposeCloseTest() {
 		CodeDraw l1 = new CodeDraw();
 		CodeDraw l2 = new CodeDraw();
 		l1.dispose();
-	}
-
-	private static void transparencyTest() {
-		CodeDraw l = new CodeDraw();
-
-		l.setColor(Palette.BLUE);
-		l.fillSquare(100, 100, 100);
-
-		l.setColor(Palette.fromRGBA(Palette.RED, 77));
-		l.fillSquare(150, 150, 100);
-
-		l.show();
 	}
 
 	private static void smallWindowTest() {
@@ -160,50 +111,6 @@ public class CodeDrawTest {
 		}
 
 		c.show();
-	}
-
-	private static void polygonTest() {
-		CodeDraw c = new CodeDraw();
-
-		c.setColor(Palette.BLACK);
-		c.fillPolygon(
-				new Point2D.Double(50, 100),
-				new Point2D.Double(240, 200),
-				new Point2D.Double(140, 36)
-		);
-
-		c.setColor(Palette.RED);
-		c.drawCircle(50, 100, 5);
-		c.drawCircle(240, 200, 5);
-		c.drawCircle(140, 36, 5);
-
-		c.show();
-	}
-
-	private static void bezierTest() {
-		CodeDraw w = new CodeDraw();
-		w.drawBezier(100, 100, 300, 200, 200, 300, 400, 400);
-		w.show();
-	}
-
-	private static void arcTest() {
-		CodeDraw w = new CodeDraw();
-
-		w.setColor(Palette.BLUE_VIOLET);
-
-		w.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
-
-		w.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
-
-		w.setColor(Palette.ORANGE);
-		w.drawRectangle(150, 150, 100, 100);
-
-		w.setColor(Palette.RED);
-		w.fillCircle(200, 200, 10);
-
-		w.show();
 	}
 
 	private static void twoWindowTest() {
