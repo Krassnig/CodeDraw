@@ -76,7 +76,7 @@ public class CodeDraw {
 		frame = new CanvasFrame(canvasWidth, canvasHeight);
 		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
-		g.addRenderingHints(createDefaultRenderingHints());
+		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
 
 		bindEvents();
 
@@ -84,6 +84,8 @@ public class CodeDraw {
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());
+		setAntialiasing(true);
+		setCorner(Corner.Sharp);
 		clear();
 		show();
 
@@ -94,23 +96,16 @@ public class CodeDraw {
 		});
 	}
 
-	private int width;
-	private int height;
 	private CanvasFrame frame;
 	private BufferedImage buffer;
 	private Graphics2D g;
-	private int lineWidth;
+
+	private int width;
+	private int height;
+	private double lineWidth;
 	private TextFormat format;
-
-	/**
-	 * @return width of the canvas
-	 */
-	public int getWidth() { return width; }
-
-	/**
-	 * @return height of the canvas
-	 */
-	public int getHeight() { return height; }
+	private boolean antialiasing;
+	private Corner corner = Corner.Sharp;
 
 	public int getFramePositionX() { return frame.getFramePosition().x; }
 	public int getFramePositionY() { return frame.getFramePosition().y; }
@@ -124,18 +119,62 @@ public class CodeDraw {
 	public void setCanvasPositionX(int x) { frame.setCanvasPosition(new Point(x, getCanvasPositionY())); }
 	public void setCanvasPositionY(int y) { frame.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
 
+	/**
+	 * @return width of the canvas
+	 */
+	public int getWidth() { return width; }
+
+	/**
+	 * @return height of the canvas
+	 */
+	public int getHeight() { return height; }
+
+	/**
+	 * Defines the width or thickness of drawn shapes and lines.
+	 */
+	public double getLineWidth() { return lineWidth; }
+	/**
+	 * Defines the width or thickness of drawn shapes and lines.
+	 */
+	public void setLineWidth(double lineWidth) {
+		if (lineWidth < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
+
+		this.lineWidth = lineWidth;
+		updateBrushes();
+	}
+
+	public TextFormat getFormat() { return format; }
+	public void setFormat(TextFormat textFormat){
+		if(textFormat == null) throw createArgumentNull("textFormat");
+
+		this.format = textFormat;
+	}
+
+	public boolean getAntialiasing() { return antialiasing; }
+	public void setAntialiasing(boolean enabled) {
+		antialiasing = enabled;
+		g.addRenderingHints(new RenderingHints(
+				RenderingHints.KEY_ANTIALIASING,
+				enabled ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
+		));
+		g.addRenderingHints(new RenderingHints(
+				RenderingHints.KEY_TEXT_ANTIALIASING,
+				enabled ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
+		));
+	}
+
+	public Corner getCorner() { return corner; }
+	public void setCorner(Corner corner) {
+		if (corner == null) throw createArgumentNull("corner");
+		this.corner = corner;
+		updateBrushes();
+	}
+
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title)  {
 		if (title == null) throw createArgumentNull("title");
 
 		frame.setTitle(title);
-	}
-
-	public TextFormat getFormat(){ return format; }
-	public void setFormat(TextFormat textFormat){
-		if(textFormat == null) throw createArgumentNull("textFormat");
-
-		this.format = textFormat;
 	}
 
 	public Color getColor() { return g.getColor(); }
@@ -145,22 +184,26 @@ public class CodeDraw {
 		g.setColor(color);
 	}
 
-	/**
-	 * Defines the width or thickness of drawn shapes and lines.
-	 */
-	public int getLineWidth() { return lineWidth; }
-	/**
-	 * Defines the width or thickness of drawn shapes and lines.
-	 */
-	public void setLineWidth(int lineWidth) {
-		if (lineWidth < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
-
-		this.lineWidth = lineWidth;
-		updateBrushes();
+	private void updateBrushes() {
+		g.setStroke(new BasicStroke((float)lineWidth, getCap(corner), getJoin(corner)));
 	}
 
-	private void updateBrushes() {
-		g.setStroke(new BasicStroke(lineWidth));
+	private static int getCap(Corner corner) {
+		switch (corner) {
+			case Sharp: return BasicStroke.CAP_SQUARE;
+			case Round: return BasicStroke.CAP_ROUND;
+			case Bevel: return BasicStroke.CAP_BUTT;
+			default: throw new RuntimeException("Unknown corner type.");
+		}
+	}
+
+	private static int getJoin(Corner corner) {
+		switch (corner) {
+			case Sharp: return BasicStroke.JOIN_MITER;
+			case Round: return BasicStroke.JOIN_ROUND;
+			case Bevel: return BasicStroke.JOIN_BEVEL;
+			default: throw new RuntimeException("Unknown corner type.");
+		}
 	}
 
 	private void bindEvents() {
@@ -760,11 +803,5 @@ public class CodeDraw {
 
 	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {
 		return new IllegalArgumentException("Argument " + argumentName + " cannot be negative.");
-	}
-
-	private static RenderingHints createDefaultRenderingHints() {
-		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		return rh;
 	}
 }
