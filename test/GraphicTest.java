@@ -11,7 +11,7 @@ public class GraphicTest {
 		//transparencyTest();
 		//triangleTest();
 		//antialiasingTest();
-		//lineWidthTest();
+		lineWidthTest();
 		//cornerTest();
 	}
 
@@ -104,7 +104,7 @@ public class GraphicTest {
 		CodeDraw cd = new CodeDraw(900, 900);
 
 		for (int i = 0; i < 8; i++) {
-			cd.setLineWidth(i * 0.5 + 1);
+			cd.setLineWidth(i * 0.5 + 0.5);
 
 			cd.drawText(10, 50 + 100 * i, "" + cd.getLineWidth());
 			cd.drawLine(50, 50 + 100 * i, 100, 100 + 100 * i);

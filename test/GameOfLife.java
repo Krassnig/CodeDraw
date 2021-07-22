@@ -1,7 +1,6 @@
 import codedraw.*;
 
 public class GameOfLife {
-
 	public static void main(String[] args) {
 		GameOfLife gof = new GameOfLife(6, 10);
 
@@ -11,7 +10,6 @@ public class GameOfLife {
 	}
 
 	public GameOfLife(int logSize, int fieldSize) {
-		this.logSize = logSize;
 		size = 1 << logSize;
 		mask = size - 1;
 		this.fieldSize = fieldSize;
@@ -24,7 +22,6 @@ public class GameOfLife {
 
 	private CodeDraw cd;
 	private boolean[][] field;
-	private int logSize;
 	private int size;
 	private int mask;
 	private int fieldSize;
@@ -61,7 +58,7 @@ public class GameOfLife {
 
 			for (int x = 0; x < size; x++) {
 				for (int y = 0; y < size; y++) {
-					nextField[x][y] = filterGameOfLife(6152, field[x][y], new boolean[]{
+					nextField[x][y] = filterLifeLike(6152, field[x][y], new boolean[]{
 							field[(x + 1) & mask][(y + 1) & mask],
 							field[(x + 1) & mask][(y) & mask],
 							field[(x + 1) & mask][(y - 1) & mask],
@@ -88,7 +85,7 @@ public class GameOfLife {
 		}
 	}
 
-	private static boolean filterGameOfLife(int rule, boolean center, boolean[] n) {
+	private static boolean filterLifeLike(int rule, boolean center, boolean[] n) {
 		int sum = 0;
 		for (int i = 0; i < n.length; i++) {
 			sum += n[i] ? 1 : 0;
