@@ -44,7 +44,7 @@ import java.util.Map;
  * pressing a button or moving the mouse. You can subscribe to an Event
  * by passing a method reference or lambda to CodeDraw. All events start with the 'on' keyword.
  * Subscribing to an event method will return a Subscription which can be used to unsubscribe from the event.
- * Example events: {@link #onMouseMove} or {@link #onKeyPress(CodeDraw.EventHandler)}.
+ * Example events: {@link #onMouseMove} or {@link #onKeyPress(codedraw.EventHandler)}.
  * <br>
  * <br>
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>
