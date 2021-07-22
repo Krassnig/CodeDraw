@@ -137,7 +137,7 @@ public class CodeDraw {
 	 * Defines the width or thickness of drawn shapes and lines.
 	 */
 	public void setLineWidth(double lineWidth) {
-		if (lineWidth < 1) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
+		if (lineWidth <= 0) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
 
 		this.lineWidth = lineWidth;
 		updateBrushes();
