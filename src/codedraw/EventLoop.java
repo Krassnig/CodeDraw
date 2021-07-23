@@ -4,17 +4,15 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 class EventLoop {
-	private EventLoop() { }
-
-	static {
-		new Thread(EventLoop::eventLoop).start();
+	public EventLoop() {
+		new Thread(this::eventLoop).start();
 	}
 
-	private static Semaphore queueLock = new Semaphore(1);
-	private static Queue<Runnable> queue = new ArrayDeque<>();
-	private static Semaphore queueCanTake = new Semaphore(0);
+	private Semaphore queueLock = new Semaphore(1);
+	private Queue<Runnable> queue = new ArrayDeque<>();
+	private Semaphore queueCanTake = new Semaphore(0);
 
-	public static void queue(Runnable runnable) {
+	public void queue(Runnable runnable) {
 		queueLock.acquire();
 		queue.add(runnable);
 		queueLock.release();
@@ -22,7 +20,7 @@ class EventLoop {
 		queueCanTake.release();
 	}
 
-	private static void eventLoop() {
+	private void eventLoop() {
 		while (true) {
 			queueCanTake.acquire();
 

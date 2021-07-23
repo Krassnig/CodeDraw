@@ -3,6 +3,8 @@ package codedraw;
 import java.util.ArrayList;
 
 class Event<TSender, TArgs> {
+	private static EventLoop eventLoop = new EventLoop();
+
 	public Event(TSender sender) {
 		this.sender = sender;
 	}
@@ -12,7 +14,7 @@ class Event<TSender, TArgs> {
 	private Semaphore subscriberLock = new Semaphore(1);
 
 	public void invoke(TArgs args) {
-		EventLoop.queue(() -> invokeAll(args));
+		eventLoop.queue(() -> invokeAll(args));
 	}
 
 	private void invokeAll(TArgs args) {
