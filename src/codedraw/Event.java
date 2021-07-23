@@ -12,6 +12,10 @@ class Event<TSender, TArgs> {
 	private Semaphore subscriberLock = new Semaphore(1);
 
 	public void invoke(TArgs args) {
+		EventLoop.queue(() -> invokeAll(args));
+	}
+
+	private void invokeAll(TArgs args) {
 		for (EventHandler<TSender, TArgs> subscriber : getSubscribers()) {
 			subscriber.handle(sender, args);
 		}
