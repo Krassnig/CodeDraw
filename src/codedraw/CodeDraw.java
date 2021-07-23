@@ -308,11 +308,11 @@ public class CodeDraw {
 		Font font = new Font(format.getFontName(), Font.PLAIN, format.getFontSize());
 		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
 			{
-				put(TextAttribute.POSTURE, format.getItalic() ? 0.2f : 0);
+				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
 				put(TextAttribute.UNDERLINE, format.getUnderline());
-				put(TextAttribute.WEIGHT, format.getBold() ? 2.0f : 1.0f);
+				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
 				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
-				put(TextAttribute.STRIKETHROUGH, format.getStrikethrough());
+				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
 			}
 		};
 		return font.deriveFont(attributes);
