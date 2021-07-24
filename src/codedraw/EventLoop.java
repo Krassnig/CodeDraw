@@ -31,7 +31,7 @@ class EventLoop {
 			try {
 				runnable.run();
 			}
-			catch (Throwable e) {
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

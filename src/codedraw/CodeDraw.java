@@ -681,7 +681,7 @@ public class CodeDraw {
 
 	/**
 	 * Creates a copy of the current buffer (not the displayed image) and returns
-	 * it as a buffered image. A BufferedImage can be saved as a file with this code:
+	 * it as a buffered image. A BufferedImage can be saved as a file with the following code:
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
