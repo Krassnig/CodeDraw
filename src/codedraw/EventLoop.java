@@ -1,35 +1,23 @@
 package codedraw;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 class EventLoop {
 	public EventLoop() {
-		new Thread(this::eventLoop).start();
+		thread = new Thread(this::eventLoop);
+		thread.start();
+		thread.setPriority(Thread.MAX_PRIORITY);
 	}
 
-	private Semaphore queueLock = new Semaphore(1);
-	private Queue<Runnable> queue = new ArrayDeque<>();
-	private Semaphore queueCanTake = new Semaphore(0);
+	private Thread thread;
+	private ConcurrentQueue<Runnable> queue = new ConcurrentQueue<>();
 
 	public void queue(Runnable runnable) {
-		queueLock.acquire();
-		queue.add(runnable);
-		queueLock.release();
-
-		queueCanTake.release();
+		queue.push(runnable);
 	}
 
 	private void eventLoop() {
 		while (true) {
-			queueCanTake.acquire();
-
-			queueLock.acquire();
-			Runnable runnable = queue.remove();
-			queueLock.release();
-
 			try {
-				runnable.run();
+				queue.pop().run();
 			}
 			catch (Exception e) {
 				e.printStackTrace();
