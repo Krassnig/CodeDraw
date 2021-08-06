@@ -1,15 +1,22 @@
 import codedraw.*;
 
-public class GameOfLife {
+public class LifeLikeCellularAutomaton {
 	public static void main(String[] args) {
-		GameOfLife gof = new GameOfLife(6, 10);
+		LifeLikeCellularAutomaton gof = new LifeLikeCellularAutomaton(6152, 6, 10);
 
-		while (true) {
-			gof.simulateAndWait(100);
+		for (int i = 0; true; i++) {
+			if (i % 8 == 0) {
+				// will simulate a new generation every 128ms
+				gof.simulate(1);
+			}
+
+			// renders about 60 frames per second
+			gof.renderAndWait(16);
 		}
 	}
 
-	public GameOfLife(int logSize, int fieldSize) {
+	public LifeLikeCellularAutomaton(int rule, int logSize, int fieldSize) {
+		this.rule = rule;
 		size = 1 << logSize;
 		mask = size - 1;
 		this.fieldSize = fieldSize;
@@ -20,11 +27,13 @@ public class GameOfLife {
 		bindEvents();
 	}
 
-	private CodeDraw cd;
+	private final CodeDraw cd;
+	private final int rule;
+	private final int size;
+	private final int mask;
+	private final int fieldSize;
+
 	private boolean[][] field;
-	private int size;
-	private int mask;
-	private int fieldSize;
 	private boolean isMouseDown = false;
 	private boolean setValue = false;
 
@@ -37,28 +46,29 @@ public class GameOfLife {
 		cd.onMouseLeave((c, a) -> isMouseDown = false);
 		cd.onMouseMove((c, a) -> {
 			if (isMouseDown) {
-				int x = a.getX() / fieldSize;
-				int y = a.getY() / fieldSize;
-				field[x][y] = setValue;
-				sendToBuffer();
-				cd.show();
+				field[a.getX() / fieldSize][a.getY() / fieldSize] = setValue;
 			}
 		});
 	}
 
-	public void simulateAndWait(int waitMilliseconds) {
-		simulate(1);
-		sendToBuffer();
-		cd.show(waitMilliseconds);
+	public void renderAndWait(int milliSeconds) {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				cd.setColor(field[x][y] ? Palette.BLACK : Palette.WHITE);
+				cd.fillSquare(fieldSize * x, fieldSize * y, fieldSize);
+			}
+		}
+
+		cd.show(milliSeconds);
 	}
 
-	private void simulate(int generations) {
+	public void simulate(int generations) {
 		for (int g = 0; g < generations; g++) {
 			boolean[][] nextField = new boolean[size][size];
 
 			for (int x = 0; x < size; x++) {
 				for (int y = 0; y < size; y++) {
-					nextField[x][y] = filterLifeLike(6152, field[x][y], new boolean[]{
+					nextField[x][y] = filterLifeLike(rule, field[x][y], new boolean[]{
 							field[(x + 1) & mask][(y + 1) & mask],
 							field[(x + 1) & mask][(y) & mask],
 							field[(x + 1) & mask][(y - 1) & mask],
@@ -73,15 +83,6 @@ public class GameOfLife {
 			}
 
 			field = nextField;
-		}
-	}
-
-	private void sendToBuffer() {
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				cd.setColor(field[x][y] ? Palette.BLACK : Palette.WHITE);
-				cd.fillSquare(fieldSize * x, fieldSize * y, fieldSize);
-			}
 		}
 	}
 
