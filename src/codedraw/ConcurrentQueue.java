@@ -6,9 +6,9 @@ class ConcurrentQueue<T> {
 	}
 
 	public ConcurrentQueue(int initialCapacity) {
-		if (initialCapacity <= 2) throw new RuntimeException("Initial capacity must be greater than 2");
+		if (initialCapacity <= 0) throw new RuntimeException("Initial capacity must be larger than zero.");
 
-		list = createArray(initialCapacity);
+		list = createGenericArray(initialCapacity);
 	}
 
 	private T[] list;
@@ -67,11 +67,12 @@ class ConcurrentQueue<T> {
 	}
 
 	private void doubleCapacity() {
-		T[] newList = createArray(capacity() * 2);
+		T[] newList = createGenericArray(capacity() << 1);
 
 		int firstPartCount = capacity() - offset;
 		arrayCopy(list, offset, newList, 0, firstPartCount);
 		arrayCopy(list, 0, newList, firstPartCount, offset);
+		list = newList;
 		offset = 0;
 	}
 
@@ -79,7 +80,7 @@ class ConcurrentQueue<T> {
 		System.arraycopy(source, sourceOffset, target, targetOffset, length);
 	}
 
-	private static <T> T[] createArray(int length) {
+	private static <T> T[] createGenericArray(int length) {
 		return (T[]) new Object[length];
 	}
 }
