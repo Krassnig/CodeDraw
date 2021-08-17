@@ -7,7 +7,7 @@ public class AnimationTest {
 		//granularAngleTest();
 		//arcOriginTest();
 		//textAnimationTest();
-		//animationTest();
+		animationTest();
 	}
 
 	private static void clockTest() {
@@ -30,68 +30,68 @@ public class AnimationTest {
 
 
 	private static void sinCosTest() {
-		CodeDraw c = new CodeDraw(600, 600);
+		CodeDraw cd = new CodeDraw(600, 600);
 		int radius = 100;
 
 		for (double i = 0; true; i += Math.PI / 64) {
-			c.clear();
+			cd.clear();
 
-			c.setColor(Palette.BLACK);
-			c.drawCircle(300, 300, radius);
+			cd.setColor(Palette.BLACK);
+			cd.drawCircle(300, 300, radius);
 
-			c.setColor(Palette.BLUE);
+			cd.setColor(Palette.BLUE);
 			int newx = 300 + (int) (radius * Math.sin(-i));
 			int newy = 300 + (int) (radius * Math.cos(-i));
-			c.drawLine(300, 300, newx, 300);
-			c.drawLine(newx, 300, newx, newy);
+			cd.drawLine(300, 300, newx, 300);
+			cd.drawLine(newx, 300, newx, newy);
 
-			c.setColor(Palette.RED);
-			c.drawLine(300, 300, newx, newy);
+			cd.setColor(Palette.RED);
+			cd.drawLine(300, 300, newx, newy);
 
-			c.show(16);
+			cd.show(16);
 		}
 	}
 
 	private static void granularAngleTest() {
-		CodeDraw c = new CodeDraw(1000, 1000);
+		CodeDraw cd = new CodeDraw(1000, 1000);
 
 		double tau = Math.PI * 2;
 		double steps = tau / (1 << 14);
 
 		for (double i = 0; i < Math.PI / 2; i += steps) {
-			c.clear();
+			cd.clear();
 
-			c.fillArc(100, 100, 800, 800, Math.PI / 2, i);
-			c.drawArc(100, 100, 850, 850, Math.PI / 2, i);
+			cd.fillArc(100, 100, 800, 800, Math.PI / 2, i);
+			cd.drawArc(100, 100, 850, 850, Math.PI / 2, i);
 
-			c.show();
+			cd.show();
 		}
 
-		c.show();
+		cd.show();
 	}
 
 	private static void arcOriginTest() {
 		double tau = Math.PI * 2;
 
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
 		double inc = tau / 16;
 
 		for (double i = 0; i < tau; i += inc) {
-			c.fillArc(300, 300, 100, 100, i, inc);
-			c.drawArc(300, 300, 150, 150, i, inc);
+			cd.fillArc(300, 300, 100, 100, i, inc);
+			cd.drawArc(300, 300, 150, 150, i, inc);
 
-			c.show(200);
+			cd.show(200);
 		}
 
-		c.setColor(Palette.RED);
-		c.fillArc(300, 300, 50, 50, -tau / 8, tau / 8);
+		cd.setColor(Palette.RED);
+		cd.fillArc(300, 300, 50, 50, -tau / 8, tau / 8);
 
-		c.show();
+		cd.show();
 	}
 
 	private static void textAnimationTest() {
-		CodeDraw w = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
 		int steps = 5;
 		int end = 80;
@@ -100,32 +100,32 @@ public class AnimationTest {
 
 		while (true) {
 			for (int i = 0; i < end; i++) {
-				w.clear();
-				w.drawText(offset + i * steps, offset, "I'm animated!");
-				w.show(pause);
+				cd.clear();
+				cd.drawText(offset + i * steps, offset, "I'm animated!");
+				cd.show(pause);
 			}
 
 			for (int i = 0; i < end; i++) {
-				w.clear();
-				w.drawText(offset + steps * end - i * steps, offset, "I'm animated!");
-				w.show(pause);
+				cd.clear();
+				cd.drawText(offset + steps * end - i * steps, offset, "I'm animated!");
+				cd.show(pause);
 			}
 		}
 	}
 
 	private static void animationTest() {
-		CodeDraw draw = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
 		for (int i = 0; i < 30; i++) {
-			draw.clear();
+			cd.clear();
 
-			draw.setColor(Palette.BLACK);
-			draw.drawPoint(99, 399);
-			draw.drawText(100, 400, "Hello World!");
-			draw.fillRectangle(100 + i * 10, 100 + i, 100, 100);
-			draw.setColor(Palette.ORANGE);
-			draw.fillEllipse(20, 40, 20, 40);
-			draw.show(30);
+			cd.setColor(Palette.BLACK);
+			cd.drawPoint(99, 399);
+			cd.drawText(100, 400, "Hello World!");
+			cd.fillRectangle(100 + i * 10, 100 + i, 100, 100);
+			cd.setColor(Palette.ORANGE);
+			cd.fillEllipse(20, 40, 20, 40);
+			cd.show(30);
 		}
 	}
 

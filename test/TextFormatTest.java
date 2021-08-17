@@ -9,10 +9,10 @@ public class TextFormatTest {
 		//italicTest();
 		//boldTest();
 		//strikethroughTest();
-		underlineTest();
+		//underlineTest();
 		//alignmentTest();
 		//fontSizeTest();
-		//defaultAlignmentTest();
+		defaultAlignmentTest();
 	}
 
 	private static void defaultAlignmentTest() {
@@ -125,11 +125,11 @@ public class TextFormatTest {
 		format.setVerticalAlign(va);
 		format.setHorizontalAlign(ha);
 
-		cd.setColor(Palette.BLACK);
-		cd.drawText(x, y, va + " " + (ha + "").toLowerCase());
 		cd.setColor(Palette.RED);
 		cd.drawLine(x - 80, y, x + 80, y);
 		cd.drawLine(x, y - 80, x, y + 80);
+		cd.setColor(Palette.BLACK);
+		cd.drawText(x, y, va + " " + (ha + "").toLowerCase());
 	}
 
 	private static String[] getAvailableFontNames() {

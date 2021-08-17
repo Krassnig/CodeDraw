@@ -11,71 +11,81 @@ public class GraphicTest {
 		//transparencyTest();
 		//triangleTest();
 		//antialiasingTest();
-		lineWidthTest();
-		//cornerTest();
+		//lineWidthTest();
+		cornerTest();
 	}
 
 	private static void arcTest() {
-		CodeDraw w = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		w.setColor(Palette.BLUE_VIOLET);
+		cd.setColor(Palette.BLUE_VIOLET);
 
-		w.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
+		cd.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
+		cd.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.setColor(Palette.ORANGE);
-		w.drawRectangle(150, 150, 100, 100);
+		cd.setColor(Palette.ORANGE);
+		cd.drawRectangle(150, 150, 100, 100);
 
-		w.setColor(Palette.RED);
-		w.fillCircle(200, 200, 10);
+		cd.setColor(Palette.RED);
+		cd.fillCircle(200, 200, 10);
 
-		w.show();
+		cd.show();
 	}
 
 	private static void bezierTest() {
-		CodeDraw w = new CodeDraw();
-		w.drawBezier(100, 100, 300, 200, 200, 300, 400, 400);
-		w.show();
+		CodeDraw cd = new CodeDraw();
+
+		cd.drawPoint(300, 200);
+		cd.drawPoint(200, 300);
+		cd.drawBezier(100, 100, 300, 200, 200, 300, 400, 400);
+
+		cd.show();
 	}
 
 	private static void polygonTest() {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		c.setColor(Palette.BLACK);
-		c.fillPolygon(
+		cd.setColor(Palette.BLACK);
+		cd.fillPolygon(
 				new Point2D.Double(50, 100),
 				new Point2D.Double(240, 200),
 				new Point2D.Double(140, 36)
 		);
 
-		c.setColor(Palette.RED);
-		c.drawCircle(50, 100, 5);
-		c.drawCircle(240, 200, 5);
-		c.drawCircle(140, 36, 5);
+		cd.setColor(Palette.RED);
+		cd.drawCircle(50, 100, 5);
+		cd.drawCircle(240, 200, 5);
+		cd.drawCircle(140, 36, 5);
 
-		c.show();
+		cd.show();
 	}
 
 	private static void transparencyTest() {
-		CodeDraw l = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		l.setColor(Palette.BLUE);
-		l.fillSquare(100, 100, 100);
+		cd.setColor(Palette.BLUE);
+		cd.fillSquare(100, 100, 100);
 
-		l.setColor(Palette.fromRGBA(Palette.RED, 77));
-		l.fillSquare(150, 150, 100);
+		cd.setColor(Palette.fromRGBA(Palette.RED, 77));
+		cd.fillSquare(150, 150, 100);
 
-		l.show();
+		cd.show();
 	}
 
 	private static void triangleTest() {
-		CodeDraw l = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		l.drawTriangle(100, 100, 200, 300, 50, 220);
-		l.show();
+		cd.drawTriangle(100, 100, 200, 300, 50, 220);
+
+		cd.setColor(Palette.RED);
+		cd.drawCircle(100, 100, 5);
+		cd.drawCircle(200, 300, 5);
+		cd.drawCircle(50, 220, 5);
+
+		cd.show();
 	}
 
 	private static void antialiasingTest() {

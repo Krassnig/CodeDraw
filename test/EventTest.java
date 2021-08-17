@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 
 public class EventTest {
 	public static void main(String[] args) {
-		eventSleep();
+		//eventSleep();
 		//curveTest();
 		//mouseTest((c, h) -> c.onMouseClick(h));
 		//mouseTest((c, h) -> c.onMouseMove(h));
@@ -18,21 +18,27 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyPress(h));
 		//keyEventTest((c, h) -> c.onKeyUp(h));
 		//windowMoveTest();
-		//unsubscribeTest();
+		unsubscribeTest();
 	}
 
 	private static void eventSleep() {
 		CodeDraw cd = new CodeDraw();
 
+		cd.drawText(50, 50, "Click Here, then I will turn blue, then green!");
 		cd.setColor(Palette.RED);
 		cd.fillSquare(100, 100, 100);
 		cd.show();
 
-		cd.onKeyDown((c, a) -> {
+		cd.onMouseDown((c, a) -> {
+			c.clear();
 			c.setColor(Palette.BLUE);
+			c.drawText(50, 50, "I'm blue da ba dee!");
 			c.fillSquare(100, 100, 100);
 			c.show(3000);
+
+			c.clear();
 			c.setColor(Palette.GREEN);
+			c.drawText(50, 50, "Now I'm green.");
 			c.fillSquare(100, 100, 100);
 			c.show();
 		});
@@ -52,60 +58,60 @@ public class EventTest {
 	private static int y = 500;
 
 	private static void windowMoveTest() {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		c.setColor(Palette.RED);
-		c.drawSquare(200, 200, 100);
-		c.show();
+		cd.setColor(Palette.RED);
+		cd.drawSquare(200, 200, 100);
+		cd.show();
 
-		x = c.getCanvasPositionX();
-		y = c.getCanvasPositionY();
+		x = cd.getCanvasPositionX();
+		y = cd.getCanvasPositionY();
 
-		c.onFrameMove((s, a) -> {
-			int dx = x - s.getCanvasPositionX();
-			int dy = y - s.getCanvasPositionY();
+		cd.onFrameMove((c, a) -> {
+			int dx = x - c.getCanvasPositionX();
+			int dy = y - c.getCanvasPositionY();
 
-			s.clear();
-			s.drawSquare(dx + 200, dy + 200, 100);
-			s.show();
+			c.clear();
+			c.drawSquare(dx + 200, dy + 200, 100);
+			c.show();
 		});
 	}
 
 	private static String s = "";
 	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<CodeDraw, KeyEvent>, Subscription> mapToEvent) {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		c.setColor(Palette.RED);
+		cd.setColor(Palette.RED);
 
-		mapToEvent.apply(c, (w, a) -> {
+		mapToEvent.apply(cd, (c, a) -> {
 			s += a.getKeyChar();
-			w.drawText(100, 100, s);
-			w.show();
+			c.drawText(100, 100, s);
+			c.show();
 		});
 	}
 
 	private static int l = 0;
 	private static void mouseWheelTest() {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		c.setColor(Palette.RED);
+		cd.setColor(Palette.RED);
 
-		c.onMouseWheel((s, a) -> {
-			s.clear();
+		cd.onMouseWheel((c, a) -> {
+			c.clear();
 			int h = l + a.getWheelRotation();
-			s.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
-			s.show();
+			c.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
+			c.show();
 		});
 	}
 
 	private static void mouseTest(BiFunction<CodeDraw, EventHandler<CodeDraw, MouseEvent>, Subscription> mapToEvent) {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		c.setColor(Palette.RED);
+		cd.setColor(Palette.RED);
 
-		mapToEvent.apply(c, (w, a) -> {
-			w.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
-			w.show();
+		mapToEvent.apply(cd, (c, a) -> {
+			c.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
+			c.show();
 		});
 	}
 
@@ -120,6 +126,7 @@ public class EventTest {
 		mouse = (c, a) -> {
 			c.clear();
 			c.setColor(Palette.BLUE);
+			c.drawText(200, 100, "Press a key on your keyboard.");
 			c.drawTriangle(200, 200, 400, 200, 300, 400);
 			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();
@@ -129,6 +136,7 @@ public class EventTest {
 		key = (c, a) -> {
 			c.clear();
 			c.setColor(Palette.RED);
+			c.drawText(200, 100, "Press a button on your mouse.");
 			c.drawSquare(200, 200, 200);
 			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
 			c.show();

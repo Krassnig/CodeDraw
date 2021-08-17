@@ -15,7 +15,7 @@ public class CodeDrawTest {
 		//imageTest();
 		//twoWindowTest();
 		//cornerTest();
-		//proofOfConcept();
+		proofOfConcept();
 	}
 
 	private static void autoCloseTest() {
@@ -26,132 +26,144 @@ public class CodeDrawTest {
 		cd2.dispose(false);
 
 		try {
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 5; i++) {
 				Thread.sleep(1000);
 				System.out.println("sleeping");
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Process should now exit.");
 	}
 
 	private static void framePositionTest() {
-		CodeDraw l = new CodeDraw();
-		l.setFramePositionX(0);
-		l.setFramePositionY(0);
+		CodeDraw cd = new CodeDraw();
+		cd.setFramePositionX(0);
+		cd.setFramePositionY(0);
 
-		for (int i = 0; i < 80; i++) {
+		for (int i = 0; i < 60; i++) {
 			int pos = i * 10;
 
-			l.setFramePositionX(pos);
-			l.setFramePositionY(pos);
+			cd.setFramePositionX(pos);
+			cd.setFramePositionY(pos);
 
-			l.clear();
-			l.drawSquare(500 - pos, 500 - pos, 100);
-			l.show(100);
+			cd.clear();
+			cd.drawSquare(500 - pos, 500 - pos, 100);
+			cd.show(100);
 		}
 	}
 
 	private static void disposeCloseTest() {
-		CodeDraw l1 = new CodeDraw();
-		CodeDraw l2 = new CodeDraw();
-		l1.dispose();
+		CodeDraw cd1 = new CodeDraw();
+		cd1.drawText(300, 300, "I should close.");
+		cd1.show();
+
+		CodeDraw cd2 = new CodeDraw();
+		cd2.drawText(300, 300, "I should stay open.");
+		cd2.show();
+
+		cd1.dispose();
 	}
 
 	private static void smallWindowTest() {
-		CodeDraw l = new CodeDraw(150, 1);
-		l.show();
+		CodeDraw cd = new CodeDraw(150, 1);
+
+		for (int i = 0; i < 150; i++) {
+			cd.drawPixel(i, 0);
+			cd.show(50);
+		}
 	}
 
 	private static void imageSaveTest() {
-		CodeDraw w = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		w.setColor(Palette.BLUE_VIOLET);
+		cd.drawText(100, 100, "There should be a out.png in your test folder.");
+		cd.setColor(Palette.BLUE_VIOLET);
 
-		w.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
+		cd.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
-		w.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
+		cd.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
 
-		w.setColor(Palette.ORANGE);
-		w.drawRectangle(150, 150, 100, 100);
+		cd.setColor(Palette.ORANGE);
+		cd.drawRectangle(150, 150, 100, 100);
 
-		w.setColor(Palette.RED);
-		w.fillCircle(200, 200, 10);
+		cd.setColor(Palette.RED);
+		cd.fillCircle(200, 200, 10);
 
 		try {
-			ImageIO.write(w.asImage(), "png", new File("test/out.png"));
+			ImageIO.write(cd.asImage(), "png", new File("test/out.png"));
 		} catch (IOException e) {
 			System.out.println("could not save image");
 		}
 
-		w.show();
+		cd.show();
 	}
 
 	private static void imageTestScale() {
-		CodeDraw c = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
 		try {
-			c.drawImage(100, 100, 200, 200, ImageIO.read(new File("test/test.jpg")));
+			cd.drawImage(100, 100, 200, 200, ImageIO.read(new File("test/test.jpg")));
 		} catch (IOException e) {
 			System.out.println("Could not load file");
 		}
 
-		c.show();
+		cd.show();
 	}
 
 	private static void imageTest() {
-		CodeDraw c = new CodeDraw(820, 620);
+		CodeDraw cd = new CodeDraw(820, 620);
 
 		try {
-			c.drawImage(10, 10, ImageIO.read(new File("test/test.jpg")));
+			cd.drawImage(10, 10, ImageIO.read(new File("test/test.jpg")));
 		} catch (IOException e) {
 			System.out.println("Could not load file");
 		}
 
-		c.show();
+		cd.show();
 	}
 
 	private static void twoWindowTest() {
-		CodeDraw w1 = new CodeDraw();
-		CodeDraw w2 = new CodeDraw();
+		CodeDraw cd1 = new CodeDraw();
+		CodeDraw cd2 = new CodeDraw();
 
-		w1.drawCircle(100, 100, 50);
-		w2.drawCircle(400, 200, 100);
+		cd1.drawCircle(100, 100, 50);
+		cd2.drawCircle(400, 200, 100);
 
-		w1.show();
-		w2.show();
+		cd1.show();
+		cd2.show();
 	}
 
 	private static void cornerTest() {
-		CodeDraw draw = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
 		int size = 1;
 
-		draw.setColor(Palette.RED);
-		draw.fillRectangle(0, 0, size, size);
-		draw.fillRectangle(0, draw.getHeight() - size, size, size);
-		draw.fillRectangle(draw.getWidth() - size, 0, size, size);
-		draw.fillRectangle(draw.getWidth() - size, draw.getHeight() - size, size, size);
-		draw.show();
+		cd.setColor(Palette.RED);
+		cd.fillRectangle(0, 0, size, size);
+		cd.fillRectangle(0, cd.getHeight() - size, size, size);
+		cd.fillRectangle(cd.getWidth() - size, 0, size, size);
+		cd.fillRectangle(cd.getWidth() - size, cd.getHeight() - size, size, size);
+		cd.show();
 	}
 
 	private static void proofOfConcept() {
-		CodeDraw d = new CodeDraw();
+		CodeDraw cd = new CodeDraw();
 
-		d.setColor(Palette.RED);
-		d.fillRectangle(20, 20, 100, 100);
+		cd.setColor(Palette.RED);
+		cd.fillRectangle(20, 20, 100, 100);
 
-		d.setTitle("Hello World");
+		cd.setTitle("Hello World");
 
-		d.setColor(Palette.BLUE);
-		d.fillCircle(50, 50, 50);
+		cd.setColor(Palette.BLUE);
+		cd.fillCircle(50, 50, 50);
 
-		d.setColor(Palette.LIGHT_BLUE);
-		d.setLineWidth(5);
-		d.drawRectangle(30, 30, 200, 200);
+		cd.setColor(Palette.LIGHT_BLUE);
+		cd.setLineWidth(5);
+		cd.drawRectangle(30, 30, 200, 200);
 
-		d.show();
+		cd.show();
 	}
 }
