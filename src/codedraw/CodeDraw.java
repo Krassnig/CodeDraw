@@ -137,7 +137,7 @@ public class CodeDraw {
 	 * Defines the width or thickness of drawn shapes and lines.
 	 */
 	public void setLineWidth(double lineWidth) {
-		if (lineWidth <= 0) throw new IllegalArgumentException("Argument lineSize cannot be smaller or equal to 0");
+		if (lineWidth <= 0) throw new IllegalArgumentException("Argument lineWidth cannot be smaller or equal to 0");
 
 		this.lineWidth = lineWidth;
 		updateBrushes();
@@ -357,7 +357,7 @@ public class CodeDraw {
 	 * Draws a point which changes size depending on the {@link #getLineWidth()}
 	 */
 	public void drawPoint(double x, double y) {
-		fillCircle(x, y, getLineWidth() / 2.0);
+		fillCircle(x, y, getLineWidth());
 	}
 
 	public void drawLine(double startX, double startY, double endX, double endY) {
@@ -615,7 +615,7 @@ public class CodeDraw {
 	 * ot the first point.
 	 *
 	 * <pre>{@code
-	 * drawPolygon(
+	 * cd.drawPolygon(
 	 *     new Point2D.Double(200, 100),
 	 *     new Point2D.Double(100, 200),
 	 *     new Point2D.Double(300, 200)
@@ -740,7 +740,7 @@ public class CodeDraw {
 	/**
 	 * Displays the drawn shapes and images on the canvas and then waits for the given amount of milliseconds.
 	 * The copying of the buffer to the screen also takes a bit of time so the wait time might be
-	 * larger than the given amount of milliseconds.<br>
+	 * longer than the given amount of milliseconds.<br>
 	 * How many milliseconds the program must pause in order to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>

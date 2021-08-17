@@ -97,6 +97,8 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 - format
 - color
 - lineWidth
+- corner
+- antialiasing
 
 ### Methods
 
@@ -131,12 +133,11 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - fillTriangle
 - fillPolygon
 
-
 ### Events
 
 An event is something that occurs based on user input like the user
 pressing a button or moving the mouse. You can subscribe to an Event
-by passing a method reference or lambda to CodeDRaw.
+by passing a method reference or lambda to CodeDraw.
 All events start with the 'on' keyword.
 Subscribing to an event method will return a Subscription which
 can be used to unsubscribe from the event.
