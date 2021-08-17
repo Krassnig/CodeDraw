@@ -15,7 +15,7 @@ public enum Underline {
 		this.underline = underline;
 	}
 
-	int getUnderline() {
+	public int getUnderline() {
 		return underline;
 	}
 }

@@ -297,9 +297,10 @@ public class CodeDraw {
 
 		Font font = createFont(format);
 		g.setFont(font);
+		FontMetrics fontMetrics = g.getFontMetrics(font);
 
-		x -= getHorizontalOffset(format.getHorizontalAlign(), g.getFontMetrics(font), text);
-		y -= getVerticalOffset(format.getVerticalAlign(), font);
+		x -= getHorizontalOffset(format.getHorizontalAlign(), fontMetrics, text);
+		y -= getVerticalOffset(format.getVerticalAlign(), fontMetrics, font);
 
 		g.drawString(text, (float) x, (float) y);
 	}
@@ -309,7 +310,7 @@ public class CodeDraw {
 		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
 			{
 				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, format.getUnderline());
+				put(TextAttribute.UNDERLINE, format.getUnderline().getUnderline());
 				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
 				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
@@ -318,12 +319,13 @@ public class CodeDraw {
 		return font.deriveFont(attributes);
 	}
 
-	private static double getVerticalOffset(VerticalAlign verticalAlign, Font font) {
+	private static double getVerticalOffset(VerticalAlign verticalAlign, FontMetrics fontMetrics, Font font) {
+		int d = fontMetrics.getHeight() - fontMetrics.getAscent() - font.getSize();
 		switch (verticalAlign) {
 			case TOP:
-				return -font.getSize();
+				return d;
 			case MIDDLE:
-				return -font.getSize() / 2.0;
+				return d / 2.0;
 			case BOTTOM:
 				return 0;
 			default:

@@ -64,7 +64,6 @@ public final class TextFormat {
 		this.strikethrough = strikethrough;
 	}
 
-
 	private static IllegalArgumentException createArgumentNull(String argumentName) {
 		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
 	}
