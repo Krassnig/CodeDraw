@@ -31,16 +31,26 @@ class CanvasFrame {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 
+		framePosition = frame.getLocationOnScreen();
+		canvasPosition = canvas.getLocationOnScreen();
+
 		bindEvents();
 	}
 
 	private JFrame frame;
 	private CanvasPanel canvas;
+	private Point framePosition;
+	private Point canvasPosition;
 
-	public Point getFramePosition() { return frame.getLocationOnScreen(); }
-	public void setFramePosition(Point location) { frame.setLocation(location); }
+	public Point getFramePosition() { return framePosition; }
+	public void setFramePosition(Point location) {
+		canvasPosition = plus(canvasPosition, minus(framePosition, location));
+		framePosition = location;
 
-	public Point getCanvasPosition() { return canvas.getLocationOnScreen(); }
+		frame.setLocation(framePosition);
+	}
+
+	public Point getCanvasPosition() { return canvasPosition; }
 	public void setCanvasPosition(Point position) {
 		setFramePosition(minus(position, minus(getCanvasPosition(), getFramePosition())));
 	}
@@ -48,6 +58,8 @@ class CanvasFrame {
 	private static Point minus(Point a, Point b) {
 		return new Point(a.x - b.x, a.y - b.y);
 	}
+
+	private static Point plus(Point a, Point b) { return new Point(a.x + b.x, a.y + b.y); }
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }
@@ -77,6 +89,8 @@ class CanvasFrame {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
+				framePosition = frame.getLocationOnScreen();
+				canvasPosition = canvas.getLocationOnScreen();
 				windowMoveEvent.invoke(e);
 			}
 		};

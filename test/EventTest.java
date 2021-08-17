@@ -84,6 +84,7 @@ public class EventTest {
 		cd.setColor(Palette.RED);
 
 		mapToEvent.apply(cd, (c, a) -> {
+			c.clear();
 			s += a.getKeyChar();
 			c.drawText(100, 100, s);
 			c.show();

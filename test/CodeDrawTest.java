@@ -33,7 +33,7 @@ public class CodeDrawTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Process should now exit.");
+		System.out.println("Process should exit now.");
 	}
 
 	private static void framePositionTest() {
