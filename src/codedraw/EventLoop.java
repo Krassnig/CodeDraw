@@ -3,8 +3,9 @@ package codedraw;
 class EventLoop {
 	public EventLoop() {
 		thread = new Thread(this::eventLoop);
-		thread.start();
+		thread.setDaemon(true);
 		thread.setPriority(Thread.MAX_PRIORITY);
+		thread.start();
 	}
 
 	private Thread thread;
