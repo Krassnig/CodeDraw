@@ -95,13 +95,13 @@ public class GraphicTest {
 		format.setVerticalAlign(VerticalAlign.BOTTOM);
 		format.setHorizontalAlign(HorizontalAlign.CENTER);
 
-		cd.setAntialiasing(true);
+		cd.isAntialiased(true);
 		cd.drawLine(200, 100, 300, 200);
 		cd.drawText(200, 100, "aa");
 		cd.drawLine(300, 300, 300, 400);
 		cd.drawText(300, 300, "aa");
 
-		cd.setAntialiasing(false);
+		cd.isAntialiased(false);
 		cd.drawLine(100, 100, 200, 200);
 		cd.drawText(100, 100, "No aa");
 		cd.drawLine(200, 300, 200, 400);

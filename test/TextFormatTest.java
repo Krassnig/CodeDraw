@@ -63,7 +63,7 @@ public class TextFormatTest {
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
 		cd.drawText(30, 100, "Not Italic");
-		format.setItalic(true);
+		format.isItalic(true);
 		cd.drawText(30, 150, "Italic");
 		cd.show();
 	}
@@ -73,7 +73,7 @@ public class TextFormatTest {
 		TextFormat format = cd.getFormat();
 		format.setFontSize(20);
 		cd.drawText(30, 100, "Not Bold");
-		format.setBold(true);
+		format.isBold(true);
 		cd.drawText(30, 150, "Bold");
 		cd.show();
 	}
@@ -81,9 +81,9 @@ public class TextFormatTest {
 	private static void strikethroughTest() {
 		CodeDraw cd = new CodeDraw();
 		TextFormat format = cd.getFormat();
-		format.setStrikethrough(true);
+		format.isStrikethrough(true);
 		cd.drawText(30, 100, "Strikethrough");
-		format.setStrikethrough(false);
+		format.isStrikethrough(false);
 		cd.drawText(30, 150, "No strikethrough");
 		cd.show();
 	}

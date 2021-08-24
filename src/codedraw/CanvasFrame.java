@@ -43,9 +43,9 @@ class CanvasFrame {
 	private Point canvasPosition;
 
 	public Point getFramePosition() { return framePosition; }
-	public void setFramePosition(Point location) {
-		canvasPosition = plus(canvasPosition, minus(framePosition, location));
-		framePosition = location;
+	public void setFramePosition(Point position) {
+		canvasPosition = plus(canvasPosition, minus(framePosition, position));
+		framePosition = position;
 
 		frame.setLocation(framePosition);
 	}
@@ -59,7 +59,9 @@ class CanvasFrame {
 		return new Point(a.x - b.x, a.y - b.y);
 	}
 
-	private static Point plus(Point a, Point b) { return new Point(a.x + b.x, a.y + b.y); }
+	private static Point plus(Point a, Point b) {
+		return new Point(a.x + b.x, a.y + b.y);
+	}
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }

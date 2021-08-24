@@ -84,7 +84,7 @@ public class CodeDraw {
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());
-		setAntialiasing(true);
+		isAntialiased(true);
 		setCorner(Corner.Sharp);
 		clear();
 		show();
@@ -150,16 +150,16 @@ public class CodeDraw {
 		this.format = textFormat;
 	}
 
-	public boolean getAntialiasing() { return antialiasing; }
-	public void setAntialiasing(boolean enabled) {
-		antialiasing = enabled;
+	public boolean isAntialiased() { return antialiasing; }
+	public void isAntialiased(boolean isAntialiased) {
+		antialiasing = isAntialiased;
 		g.addRenderingHints(new RenderingHints(
 				RenderingHints.KEY_ANTIALIASING,
-				enabled ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
+				isAntialiased ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
 		));
 		g.addRenderingHints(new RenderingHints(
 				RenderingHints.KEY_TEXT_ANTIALIASING,
-				enabled ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
+				isAntialiased ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
 		));
 	}
 

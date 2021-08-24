@@ -43,13 +43,13 @@ public final class TextFormat {
 
 	private boolean bold = false;
 	public boolean isBold() { return bold; }
-	public void setBold(boolean isBold) {
+	public void isBold(boolean isBold) {
 		this.bold = isBold;
 	}
 
 	private boolean italic = false;
 	public boolean isItalic() { return italic; }
-	public void setItalic(boolean isItalic) { this.italic = isItalic; }
+	public void isItalic(boolean isItalic) { this.italic = isItalic; }
 
 	private Underline underline = Underline.NONE;
 	public Underline getUnderline() { return underline; }
@@ -60,7 +60,7 @@ public final class TextFormat {
 
 	private boolean strikethrough = false;
 	public boolean isStrikethrough() { return strikethrough; }
-	public void setStrikethrough(boolean strikethrough) {
+	public void isStrikethrough(boolean strikethrough) {
 		this.strikethrough = strikethrough;
 	}
 
