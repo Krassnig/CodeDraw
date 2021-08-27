@@ -41,7 +41,7 @@ cd.show();
 ```
 # ❗ Don't forget to call .show() ❗
 
-![An illustration of what happens when the code above gets executed](https://github.com/Krassnig/CodeDrawForJava/blob/450ce7d17d071a3f74168fa459eae28aa519b4de/illustrations/basics.png)
+![basics](https://user-images.githubusercontent.com/24553082/131073128-238c3b5c-0632-4614-a7d8-ac86271ea9d6.png)
 
 ### Animation Example
 
