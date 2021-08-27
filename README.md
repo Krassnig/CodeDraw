@@ -6,7 +6,7 @@ and makes it very simple to draw and animate various shapes and images to a canv
 
 ## How to install
 
-Go to [releases](https://github.com/Krassnig/CodeDrawForJava/releases) and download the newest CodeDraw.jar.
+Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
 
 ### Intellij
 
