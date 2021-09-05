@@ -98,7 +98,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 - color
 - lineWidth
 - corner
-- antialiasing
+- isAntialised
 
 ### Methods
 

@@ -66,8 +66,6 @@ public class AnimationTest {
 
 			cd.show();
 		}
-
-		cd.show();
 	}
 
 	private static void arcOriginTest() {
