@@ -751,7 +751,10 @@ public class CodeDraw {
 	public void show(int waitMilliseconds) {
 		if (waitMilliseconds < 0) throw createArgumentNotNegative("waitMilliseconds");
 
+		long start = System.currentTimeMillis();
 		show();
+		int executionTime = (int)(System.currentTimeMillis() - start);
+		waitMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
 
 		try {
 			Thread.sleep(waitMilliseconds);
