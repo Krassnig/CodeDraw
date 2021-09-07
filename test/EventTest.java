@@ -67,7 +67,7 @@ public class EventTest {
 		x = cd.getCanvasPositionX();
 		y = cd.getCanvasPositionY();
 
-		cd.onFrameMove((c, a) -> {
+		cd.onWindowMove((c, a) -> {
 			int dx = x - c.getCanvasPositionX();
 			int dy = y - c.getCanvasPositionY();
 

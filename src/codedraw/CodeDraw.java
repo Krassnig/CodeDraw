@@ -78,7 +78,7 @@ public class CodeDraw {
 		this.width = canvasWidth;
 		this.height = canvasHeight;
 
-		frame = new CanvasFrame(canvasWidth, canvasHeight);
+		window = new CanvasWindow(canvasWidth, canvasHeight);
 		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
 		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
@@ -97,12 +97,12 @@ public class CodeDraw {
 
 		onKeyDown((sender, args) -> {
 			if (args.isControlDown() && args.getKeyCode() == KeyEvent.VK_C) {
-				sender.frame.copyCanvasToClipboard();
+				sender.window.copyCanvasToClipboard();
 			}
 		});
 	}
 
-	private CanvasFrame frame;
+	private CanvasWindow window;
 	private BufferedImage buffer;
 	private Graphics2D g;
 
@@ -113,17 +113,17 @@ public class CodeDraw {
 	private boolean antialiasing;
 	private Corner corner = Corner.Sharp;
 
-	public int getFramePositionX() { return frame.getFramePosition().x; }
-	public int getFramePositionY() { return frame.getFramePosition().y; }
+	public int getWindowPositionX() { return window.getWindowPosition().x; }
+	public int getWindowPositionY() { return window.getWindowPosition().y; }
 
-	public void setFramePositionX(int x) { frame.setFramePosition(new Point(x, getFramePositionY())); }
-	public void setFramePositionY(int y) { frame.setFramePosition(new Point(getFramePositionX(), y)); }
+	public void setWindowPositionX(int x) { window.setWindowPosition(new Point(x, getWindowPositionY())); }
+	public void setWindowPositionY(int y) { window.setWindowPosition(new Point(getWindowPositionX(), y)); }
 
-	public int getCanvasPositionX() { return frame.getCanvasPosition().x; }
-	public int getCanvasPositionY() { return frame.getCanvasPosition().y; }
+	public int getCanvasPositionX() { return window.getCanvasPosition().x; }
+	public int getCanvasPositionY() { return window.getCanvasPosition().y; }
 
-	public void setCanvasPositionX(int x) { frame.setCanvasPosition(new Point(x, getCanvasPositionY())); }
-	public void setCanvasPositionY(int y) { frame.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
+	public void setCanvasPositionX(int x) { window.setCanvasPosition(new Point(x, getCanvasPositionY())); }
+	public void setCanvasPositionY(int y) { window.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
 
 	/**
 	 * @return width of the canvas
@@ -176,11 +176,11 @@ public class CodeDraw {
 		updateBrushes();
 	}
 
-	public String getTitle() { return frame.getTitle(); }
+	public String getTitle() { return window.getTitle(); }
 	public void setTitle(String title)  {
 		if (title == null) throw createArgumentNull("title");
 
-		frame.setTitle(title);
+		window.setTitle(title);
 	}
 
 	public Color getColor() { return g.getColor(); }
@@ -213,17 +213,17 @@ public class CodeDraw {
 	}
 
 	private void bindEvents() {
-		frame.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
-		frame.onMouseMove ((s, a) -> mouseMoveEvent .invoke(a));
-		frame.onMouseDown ((s, a) -> mouseDownEvent .invoke(a));
-		frame.onMouseUp   ((s, a) -> mouseUpEvent   .invoke(a));
-		frame.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
-		frame.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
-		frame.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
-		frame.onKeyDown   ((s, a) -> keyDownEvent   .invoke(a));
-		frame.onKeyUp     ((s, a) -> keyUpEvent     .invoke(a));
-		frame.onKeyPress  ((s, a) -> keyPressEvent  .invoke(a));
-		frame.onFrameMove ((s, a) -> frameMoveEvent .invoke(a));
+		window.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
+		window.onMouseMove ((s, a) -> mouseMoveEvent .invoke(a));
+		window.onMouseDown ((s, a) -> mouseDownEvent .invoke(a));
+		window.onMouseUp   ((s, a) -> mouseUpEvent   .invoke(a));
+		window.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
+		window.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
+		window.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
+		window.onKeyDown   ((s, a) -> keyDownEvent   .invoke(a));
+		window.onKeyUp     ((s, a) -> keyUpEvent     .invoke(a));
+		window.onKeyPress  ((s, a) -> keyPressEvent  .invoke(a));
+		window.onWindowMove((s, a) -> windowMoveEvent.invoke(a));
 	}
 
 	/**
@@ -289,8 +289,8 @@ public class CodeDraw {
 	/**
 	 * Triggers every time the CodeDraw window is moved.
 	 */
-	public Subscription onFrameMove(EventHandler<CodeDraw, ComponentEvent> handler) { return frameMoveEvent.onInvoke(handler); }
-	private Event<CodeDraw, ComponentEvent> frameMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
+	public Subscription onWindowMove(EventHandler<CodeDraw, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
+	private Event<CodeDraw, ComponentEvent> windowMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
 
 	/**
 	 * Format options can be set via the TextFormat object.
@@ -776,7 +776,7 @@ public class CodeDraw {
 	 * Displays the drawn shapes and images on the canvas.
 	 */
 	public void show() {
-		frame.render(buffer);
+		window.render(buffer);
 	}
 
 	/**
@@ -821,7 +821,7 @@ public class CodeDraw {
 	 */
 	public void dispose(boolean exit) {
 		g.dispose();
-		frame.dispose(exit);
+		window.dispose(exit);
 	}
 
 	private static Path2D.Double pointsToPath(Point2D[] points) {

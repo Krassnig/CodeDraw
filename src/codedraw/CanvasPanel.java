@@ -19,12 +19,12 @@ class CanvasPanel extends JPanel {
 	private int height;
 	private BufferedImage displayBuffer;
 
-	private Semaphore lockClipboardCopy = new Semaphore(1);
-	private Semaphore lockRenderCopy = new Semaphore(1);
+	private Semaphore clipboardCopyLock = new Semaphore(1);
+	private Semaphore renderCopyLock = new Semaphore(1);
 
 	public void render(BufferedImage buffer) {
-		lockClipboardCopy.acquire();
-		lockRenderCopy.acquire();
+		clipboardCopyLock.acquire();
+		renderCopyLock.acquire();
 
 		Graphics2D g = displayBuffer.createGraphics();
 		g.setColor(Color.WHITE);
@@ -33,25 +33,25 @@ class CanvasPanel extends JPanel {
 		g.drawImage(buffer, 0, 0, width, height, null);
 		g.dispose();
 
-		lockRenderCopy.release();
-		lockClipboardCopy.release();
+		renderCopyLock.release();
+		clipboardCopyLock.release();
 
 		repaint();
 	}
 
 	public void copyImageToClipboard() {
-		lockClipboardCopy.acquire();
+		clipboardCopyLock.acquire();
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(new TransferableImage(displayBuffer), null);
-		lockClipboardCopy.release();
+		clipboardCopyLock.release();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		lockRenderCopy.acquire();
+		renderCopyLock.acquire();
 		g.drawImage(displayBuffer, 0, 0, width, height, Color.WHITE, this);
-		lockRenderCopy.release();
+		renderCopyLock.release();
 	}
 }

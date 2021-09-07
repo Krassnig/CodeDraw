@@ -10,15 +10,15 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Base64;
 
-class CanvasFrame {
-	private static Semaphore lockWindowCount = new Semaphore(1);
+class CanvasWindow {
+	private static Semaphore windowCountLock = new Semaphore(1);
 	private static int windowCount = 0;
 	private boolean exitOnLastClose = true;
 
-	public CanvasFrame(int canvasWidth, int canvasHeight) {
-		lockWindowCount.acquire();
+	public CanvasWindow(int canvasWidth, int canvasHeight) {
+		windowCountLock.acquire();
 		windowCount++;
-		lockWindowCount.release();
+		windowCountLock.release();
 
 		canvas = new CanvasPanel(canvasWidth, canvasHeight);
 
@@ -31,7 +31,7 @@ class CanvasFrame {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 
-		framePosition = frame.getLocationOnScreen();
+		windowPosition = frame.getLocationOnScreen();
 		canvasPosition = canvas.getLocationOnScreen();
 
 		bindEvents();
@@ -39,20 +39,20 @@ class CanvasFrame {
 
 	private JFrame frame;
 	private CanvasPanel canvas;
-	private Point framePosition;
+	private Point windowPosition;
 	private Point canvasPosition;
 
-	public Point getFramePosition() { return framePosition; }
-	public void setFramePosition(Point position) {
-		canvasPosition = plus(canvasPosition, minus(framePosition, position));
-		framePosition = position;
+	public Point getWindowPosition() { return windowPosition; }
+	public void setWindowPosition(Point newPosition) {
+		canvasPosition = plus(canvasPosition, minus(windowPosition, newPosition));
+		windowPosition = newPosition;
 
-		frame.setLocation(framePosition);
+		frame.setLocation(windowPosition);
 	}
 
 	public Point getCanvasPosition() { return canvasPosition; }
-	public void setCanvasPosition(Point position) {
-		setFramePosition(minus(position, minus(getCanvasPosition(), getFramePosition())));
+	public void setCanvasPosition(Point newPosition) {
+		setWindowPosition(minus(newPosition, minus(getCanvasPosition(), getWindowPosition())));
 	}
 
 	private static Point minus(Point a, Point b) {
@@ -74,9 +74,9 @@ class CanvasFrame {
 		canvas.copyImageToClipboard();
 	}
 
-	private KeyDownMap<CanvasFrame> keyDownMap;
+	private KeyDownMap<CanvasWindow> keyDownMap;
 	private void bindEvents() {
-		keyDownMap = new KeyDownMap<CanvasFrame>(keyDownEvent);
+		keyDownMap = new KeyDownMap<CanvasWindow>(keyDownEvent);
 
 		canvas.addMouseListener(createMouseListener());
 		canvas.addMouseMotionListener(createMouseMotionListener());
@@ -91,7 +91,7 @@ class CanvasFrame {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				framePosition = frame.getLocationOnScreen();
+				windowPosition = frame.getLocationOnScreen();
 				canvasPosition = canvas.getLocationOnScreen();
 				windowMoveEvent.invoke(e);
 			}
@@ -161,53 +161,53 @@ class CanvasFrame {
 		return new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				lockWindowCount.acquire();
+				windowCountLock.acquire();
 				windowCount--;
 				if (windowCount == 0 && exitOnLastClose) {
 					System.exit(0);
 				}
-				lockWindowCount.release();
+				windowCountLock.release();
 			}
 		};
 	}
 
-	private Event<CanvasFrame, MouseEvent> mouseClickEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseClick(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseClickEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseClick(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseEvent> mouseMoveEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseMove(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseMoveEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseMove(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseEvent> mouseDownEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseDown(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseDownEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseDown(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseEvent> mouseUpEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseUp(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseUpEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseUp(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseWheelEvent> mouseWheelEvent = new Event<CanvasFrame, MouseWheelEvent>(this);
-	public Subscription onMouseWheel(EventHandler<CanvasFrame, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseWheelEvent> mouseWheelEvent = new Event<CanvasWindow, MouseWheelEvent>(this);
+	public Subscription onMouseWheel(EventHandler<CanvasWindow, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseEvent> mouseEnterEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseEnter(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseEnterEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseEnter(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, MouseEvent> mouseLeaveEvent = new Event<CanvasFrame, MouseEvent>(this);
-	public Subscription onMouseLeave(EventHandler<CanvasFrame, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
+	private Event<CanvasWindow, MouseEvent> mouseLeaveEvent = new Event<CanvasWindow, MouseEvent>(this);
+	public Subscription onMouseLeave(EventHandler<CanvasWindow, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, KeyEvent> keyDownEvent = new Event<CanvasFrame, KeyEvent>(this);
-	public Subscription onKeyDown(EventHandler<CanvasFrame, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
+	private Event<CanvasWindow, KeyEvent> keyDownEvent = new Event<CanvasWindow, KeyEvent>(this);
+	public Subscription onKeyDown(EventHandler<CanvasWindow, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, KeyEvent> keyUpEvent = new Event<CanvasFrame, KeyEvent>(this);
-	public Subscription onKeyUp(EventHandler<CanvasFrame, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
+	private Event<CanvasWindow, KeyEvent> keyUpEvent = new Event<CanvasWindow, KeyEvent>(this);
+	public Subscription onKeyUp(EventHandler<CanvasWindow, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, KeyEvent> keyPressEvent = new Event<CanvasFrame, KeyEvent>(this);
-	public Subscription onKeyPress(EventHandler<CanvasFrame, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
+	private Event<CanvasWindow, KeyEvent> keyPressEvent = new Event<CanvasWindow, KeyEvent>(this);
+	public Subscription onKeyPress(EventHandler<CanvasWindow, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
 
-	private Event<CanvasFrame, ComponentEvent> windowMoveEvent = new Event<CanvasFrame, ComponentEvent>(this);
-	public Subscription onFrameMove(EventHandler<CanvasFrame, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
+	private Event<CanvasWindow, ComponentEvent> windowMoveEvent = new Event<CanvasWindow, ComponentEvent>(this);
+	public Subscription onWindowMove(EventHandler<CanvasWindow, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
 
 	public void dispose(boolean exitOnLastClose) {
-		lockWindowCount.acquire();
+		windowCountLock.acquire();
 		this.exitOnLastClose = exitOnLastClose;
-		lockWindowCount.release();
+		windowCountLock.release();
 
 		frame.dispose();
 	}

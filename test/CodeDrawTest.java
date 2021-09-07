@@ -36,16 +36,16 @@ public class CodeDrawTest {
 		System.out.println("Process should exit now.");
 	}
 
-	private static void framePositionTest() {
+	private static void windowPositionTest() {
 		CodeDraw cd = new CodeDraw();
-		cd.setFramePositionX(0);
-		cd.setFramePositionY(0);
+		cd.setWindowPositionX(0);
+		cd.setWindowPositionY(0);
 
 		for (int i = 0; i < 60; i++) {
 			int pos = i * 10;
 
-			cd.setFramePositionX(pos);
-			cd.setFramePositionY(pos);
+			cd.setWindowPositionX(pos);
+			cd.setWindowPositionY(pos);
 
 			cd.clear();
 			cd.drawSquare(500 - pos, 500 - pos, 100);
