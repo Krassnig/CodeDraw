@@ -2,11 +2,15 @@ package codedraw;
 
 import codedraw.textformat.*;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -647,10 +651,26 @@ public class CodeDraw {
 	 * @param x The position of the top left corner of the image
 	 * @param y The position of the top left corner of the image
 	 */
-	public void drawImage(int x, int y, Image image) {
+	public void drawImage(double x, double y, Image image) {
 		if (image == null) throw createArgumentNull("image");
 
-		g.drawImage(image, x, y, null);
+		g.drawImage(image, (int)x, (int)y, null);
+	}
+
+	public void drawImage(double x, double y, File file) {
+		if (file == null) throw createArgumentNull("file");
+
+		try {
+			drawImage(x, y, ImageIO.read(file));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public void drawImage(double x, double y, String fileName) {
+		if (fileName == null) throw createArgumentNull("fileName");
+
+		drawImage(x, y, new File(fileName));
 	}
 
 	/**
@@ -673,12 +693,32 @@ public class CodeDraw {
 	 * @param x the position of the top left corner of the image
 	 * @param y the position of the top left corner of the image
 	 */
-	public void drawImage(int x, int y, int width, int height, Image image) {
+	public void drawImage(double x, double y, double width, double height, Image image) {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 		if (image == null) throw createArgumentNull("image");
 
-		g.drawImage(image, x, y, width, height, null);
+		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
+	}
+
+	public void drawImage(double x, double y, double width, double height, File file) {
+		if (width < 0) throw createArgumentNotNegative("width");
+		if (height < 0) throw createArgumentNotNegative("height");
+		if (file == null) throw createArgumentNull("file");
+
+		try {
+			drawImage(x, y, width, height, ImageIO.read(file));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public void drawImage(double x, double y, double width, double height, String fileName) {
+		if (width < 0) throw createArgumentNotNegative("width");
+		if (height < 0) throw createArgumentNotNegative("height");
+		if (fileName == null) throw createArgumentNull("fileName");
+
+		drawImage(x, y, width, height, new File(fileName));
 	}
 
 	/**
