@@ -89,7 +89,7 @@ public class CodeDraw {
 		setColor(Color.BLACK);
 		setLineWidth(1);
 		setFormat(new TextFormat());
-		isAntialiased(true);
+		isAntiAliased(true);
 		setCorner(Corner.Sharp);
 
 		clear();
@@ -109,20 +109,50 @@ public class CodeDraw {
 	private int width;
 	private int height;
 	private double lineWidth;
-	private TextFormat format;
-	private boolean antialiasing;
+	private TextFormat textFormat;
+	private boolean isAntiAliased;
 	private Corner corner = Corner.Sharp;
 
+	/**
+	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 */
 	public int getWindowPositionX() { return window.getWindowPosition().x; }
+	/**
+	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 */
 	public int getWindowPositionY() { return window.getWindowPosition().y; }
 
+	/**
+	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * @param x can be negative
+	 */
 	public void setWindowPositionX(int x) { window.setWindowPosition(new Point(x, getWindowPositionY())); }
+	/**
+	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * @param y can be negative
+	 */
 	public void setWindowPositionY(int y) { window.setWindowPosition(new Point(getWindowPositionX(), y)); }
 
+	/**
+	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 */
 	public int getCanvasPositionX() { return window.getCanvasPosition().x; }
+	/**
+	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 */
 	public int getCanvasPositionY() { return window.getCanvasPosition().y; }
 
+	/**
+	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 */
 	public void setCanvasPositionX(int x) { window.setCanvasPosition(new Point(x, getCanvasPositionY())); }
+	/**
+	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 */
 	public void setCanvasPositionY(int y) { window.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
 
 	/**
@@ -149,23 +179,39 @@ public class CodeDraw {
 		updateBrushes();
 	}
 
-	public TextFormat getFormat() { return format; }
+	/**
+	 * Defines the styling of drawn text.
+	 * See also {@link #drawText(double, double, String)}
+	 */
+	public TextFormat getFormat() { return textFormat; }
+	/**
+	 * Defines the styling of drawn text.
+	 * See also {@link #drawText(double, double, String)}
+	 */
 	public void setFormat(TextFormat textFormat){
 		if(textFormat == null) throw createArgumentNull("textFormat");
 
-		this.format = textFormat;
+		this.textFormat = textFormat;
 	}
 
-	public boolean isAntialiased() { return antialiasing; }
-	public void isAntialiased(boolean isAntialiased) {
-		antialiasing = isAntialiased;
+	/**
+	 * Defines whether draw text, drawn shapes and filled shapes are anti-aliased.
+	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
+	 */
+	public boolean isAntiAliased() { return isAntiAliased; }
+	/**
+	 * Defines whether drawn text, drawn shapes and filled shapes are anti-aliased.
+	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
+	 */
+	public void isAntiAliased(boolean isAntiAliased) {
+		this.isAntiAliased = isAntiAliased;
 		g.addRenderingHints(new RenderingHints(
 				RenderingHints.KEY_ANTIALIASING,
-				isAntialiased ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
+				isAntiAliased ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
 		));
 		g.addRenderingHints(new RenderingHints(
 				RenderingHints.KEY_TEXT_ANTIALIASING,
-				isAntialiased ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
+				isAntiAliased ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
 		));
 	}
 
@@ -293,20 +339,20 @@ public class CodeDraw {
 	private Event<CodeDraw, ComponentEvent> windowMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
 
 	/**
-	 * Format options can be set via the TextFormat object.
-	 * See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the TextFormat class.
-	 * If not specified otherwise in the TextFormat object
-	 * the x and y coordinates will be in the top left corner of the text.
+	 * Draws the text at the specified (x, y) coordinate.
+	 * Formatting options can be set via the TextFormat object.
+	 * See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the {@link codedraw.textformat.TextFormat} class.
+	 * If not specified otherwise in the TextFormat object the (x, y) coordinates will be in the top left corner of the text.
 	 */
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
 
-		Font font = createFont(format);
+		Font font = createFont(textFormat);
 		g.setFont(font);
 		FontMetrics fontMetrics = g.getFontMetrics(font);
 
-		x -= getHorizontalOffset(format.getHorizontalAlign(), fontMetrics, text);
-		y -= getVerticalOffset(format.getVerticalAlign(), fontMetrics, font);
+		x -= getHorizontalOffset(textFormat.getHorizontalAlign(), fontMetrics, text);
+		y -= getVerticalOffset(textFormat.getVerticalAlign(), fontMetrics, font);
 
 		g.drawString(text, (float) x, (float) y);
 	}
@@ -374,7 +420,9 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws a quadratic bezier curve. See: @see <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a quadratic bezier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
+	 * The controlX/Y parameter specifies in what way the curve will be bent.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
 		g.draw(new QuadCurve2D.Double(
@@ -385,7 +433,9 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws a cubic bezier curve. See: @see <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a cubic bezier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
+	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
 		g.draw(new CubicCurve2D.Double(
@@ -397,6 +447,7 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws the outline of a square.
 	 * @param x The top left corner of the square
 	 * @param y The top left corner of the square
 	 */
@@ -407,6 +458,7 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws a
 	 * @param x The top left corner of the square
 	 * @param y The top left corner of the square
 	 */
@@ -431,6 +483,7 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws a filled rectangle.
 	 * @param x The top left corner of the rectangle
 	 * @param y The top left corner of the rectangle
 	 */
@@ -445,8 +498,11 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws the outline of a circle.
+	 * The center of the circle will be at the specified (x, y) coordinate.
 	 * @param x The center of the circle
 	 * @param y The center of the circle
+	 * @param radius The radius of the circle.
 	 */
 	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -455,8 +511,11 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws a filled circle.
+	 * The center of the circle will be at the specified (x, y) coordinate.
 	 * @param x The center of the circle
 	 * @param y The center of the circle
+	 * @param radius The radius of the circle.
 	 */
 	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
@@ -465,6 +524,8 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws the outline of an ellipse.
+	 * The center of the ellipse will be at the specified (x, y) coordinate.
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
 	 * @param horizontalRadius 2 * horizontalRadius is the width of the ellipse
@@ -481,6 +542,8 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws a filled ellipse.
+	 * The center of the ellipse will be at the specified (x, y) coordinate.
 	 * @param x The center of the ellipse
 	 * @param y The center of the ellipse
 	 * @param horizontalRadius 2 * horizontalRadius is the width of the ellipse
@@ -497,14 +560,13 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws an arc with the center being the x y coordinates.
+	 * Draws the outline of an arc with the center being the (x, y) coordinates.
 	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 *
 	 * @param x The center of the arc
 	 * @param y The center of the arc
 	 * @param radius The radius of the arc
-	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
@@ -514,16 +576,15 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws an arc with the center being the x y coordinates.
-	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
+	 * Draws the outline of an arc with the center being the (x, y) coordinates.
+	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
 	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 *
 	 * @param x The center of the arc.
 	 * @param y The center of the arc.
-	 * @param horizontalRadius horizontalRadius * 2 is the width of the arc.
-	 * @param verticalRadius verticalRadius * 2 is the height of the arc.
-	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the arc.
+	 * @param verticalRadius 2 * verticalRadius is the height of the arc.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
@@ -542,14 +603,13 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws an filled arc with the center being the x y coordinates.
+	 * Draws a filled arc with the center being the (x, y) coordinates.
 	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 *
 	 * @param x The center of the arc
 	 * @param y The center of the arc
 	 * @param radius The radius of the arc
-	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void fillArc(double x, double y, double radius, double startRadians, double sweepRadians) {
@@ -559,16 +619,15 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws a filled arc with the center being the x y coordinates.
-	 * The width is the horizontalRadius * 2 and the height is the verticalRadius * 2.
+	 * Draws a filled arc with the center being the (x, y) coordinates.
+	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 *
 	 * @param x The center of the arc
 	 * @param y The center of the arc
-	 * @param horizontalRadius The radius of the arc
-	 * @param verticalRadius The radius of the arc
-	 * @param startRadians The starting angle. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the arc.
+	 * @param verticalRadius 2 * verticalRadius is the height of the arc.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void fillArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
@@ -586,22 +645,27 @@ public class CodeDraw {
 		));
 	}
 
+	/**
+	 * Draws the outline of a triangle.
+	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		drawPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
 	}
 
+	/**
+	 * Draws a filled triangle.
+	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		fillPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
 	}
 
 	/**
-	 * Accepts an arbitrary amount of points to draw a polygon.
-	 * Must be called with at least two points.
-	 * Each point passed to drawPolygon will be connected to the following points and the last point will be connected
-	 * ot the first point.
-	 *
+	 * Draws the outline of a polygon.
+	 * Must be called with at least two points as parameter.
+	 * Each point passed to drawPolygon will be connected to the following points and
+	 * the last point will be connected to the first point.
 	 * <pre>{@code
-	 * drawPolygon(
+	 * cd.drawPolygon(
 	 *     new Point2D.Double(200, 100),
 	 *     new Point2D.Double(100, 200),
 	 *     new Point2D.Double(300, 200)
@@ -615,11 +679,10 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Accepts an arbitrary amount of points to draw a polygon.
-	 * Must be called with at least two points.
-	 * Each point passed to drawPolygon will be connected to the following points and the last point will be connected
-	 * ot the first point.
-	 *
+	 * Draws a filled polygon.
+	 * Must be called with at least two points as parameter.
+	 * Each point passed to drawPolygon will be connected to the following points and
+	 * the last point will be connected to the first point.
 	 * <pre>{@code
 	 * cd.drawPolygon(
 	 *     new Point2D.Double(200, 100),
@@ -635,8 +698,8 @@ public class CodeDraw {
 	}
 
 	/**
-	 * The width and height of the image will be used to draw the image.<br>
-	 * Example:
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The width and height of the image will be used to draw the image.
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
@@ -652,6 +715,7 @@ public class CodeDraw {
 	 * }</pre>
 	 * @param x The position of the top left corner of the image
 	 * @param y The position of the top left corner of the image
+	 * @param image Any image
 	 */
 	public void drawImage(double x, double y, Image image) {
 		if (image == null) throw createArgumentNull("image");
@@ -659,6 +723,19 @@ public class CodeDraw {
 		g.drawImage(image, (int)x, (int)y, null);
 	}
 
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The width and height of the image will be used to draw the image.
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, new File("C:\\pathToDirectory\\filename.png"));
+	 * cd.show();
+	 * }</pre>
+	 * @param x The position of the top left corner of the image
+	 * @param y The position of the top left corner of the image
+	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 */
 	public void drawImage(double x, double y, File file) {
 		if (file == null) throw createArgumentNull("file");
 
@@ -669,6 +746,19 @@ public class CodeDraw {
 		}
 	}
 
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The width and height of the image will be used to draw the image.
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, "C:\\pathToDirectory\\filename.png");
+	 * cd.show();
+	 * }</pre>
+	 * @param x The position of the top left corner of the image
+	 * @param y The position of the top left corner of the image
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 */
 	public void drawImage(double x, double y, String fileName) {
 		if (fileName == null) throw createArgumentNull("fileName");
 
@@ -676,8 +766,8 @@ public class CodeDraw {
 	}
 
 	/**
-	 * The image will be rescaled to fit within the rectangle given by x, y, width and height.<br>
-	 * Example:
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within width and height given as parameters.<br>
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
@@ -703,6 +793,19 @@ public class CodeDraw {
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"));
+	 * cd.show();
+	 * }</pre>
+	 * The size of the image will be 200x200 pixel.
+	 * @param x the position of the top left corner of the image
+	 * @param y the position of the top left corner of the image
+	 */
 	public void drawImage(double x, double y, double width, double height, File file) {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
@@ -715,6 +818,19 @@ public class CodeDraw {
 		}
 	}
 
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
+	 * cd.show();
+	 * }</pre>
+	 * The size of the image will be 200x200 pixel.
+	 * @param x the position of the top left corner of the image
+	 * @param y the position of the top left corner of the image
+	 */
 	public void drawImage(double x, double y, double width, double height, String fileName) {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
@@ -743,7 +859,7 @@ public class CodeDraw {
 	 * }</pre>
 	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>
 	 */
-	public BufferedImage asImage() {
+	public BufferedImage saveCanvas() {
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		Graphics2D g = result.createGraphics();
@@ -781,9 +897,9 @@ public class CodeDraw {
 
 	/**
 	 * Displays the drawn shapes and images on the canvas and then waits for the given amount of milliseconds.
-	 * The copying of the buffer to the screen also takes a bit of time so the wait time might be
-	 * longer than the given amount of milliseconds.<br>
-	 * How many milliseconds the program must pause in order to display a certain amount of frames per second:
+	 * The copying of the buffer to the screen also takes a bit of time and that will be the minimum time it
+	 * takes for {@link #show(int)} to return.<br>
+	 * The amount of milliseconds {@link #show(int)} must be called to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>
 	 * 60 fps ~ 16ms<br>
@@ -808,7 +924,7 @@ public class CodeDraw {
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
 	 * Terminates the process when all CodeDraw instances are closed.
-	 * To prevent this behavior pass false to this function. See {@link #dispose(boolean)}.
+	 * To prevent termination pass false to this function. See {@link #dispose(boolean)}.
 	 */
 	public void dispose() {
 		dispose(true);

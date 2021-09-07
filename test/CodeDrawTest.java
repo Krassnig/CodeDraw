@@ -11,11 +11,11 @@ public class CodeDrawTest {
 		//disposeCloseTest();
 		//smallWindowTest();
 		//imageSaveTest();
-		//imageTestScale();
-		//imageTest();
+		imageTestScale();
+		imageTest();
 		//twoWindowTest();
 		//cornerTest();
-		proofOfConcept();
+		//proofOfConcept();
 	}
 
 	private static void autoCloseTest() {
@@ -93,7 +93,7 @@ public class CodeDrawTest {
 		cd.fillCircle(200, 200, 10);
 
 		try {
-			ImageIO.write(cd.asImage(), "png", new File("test/out.png"));
+			ImageIO.write(cd.saveCanvas(), "png", new File("test/out.png"));
 		} catch (IOException e) {
 			System.out.println("could not save image");
 		}
@@ -104,24 +104,14 @@ public class CodeDrawTest {
 	private static void imageTestScale() {
 		CodeDraw cd = new CodeDraw();
 
-		try {
-			cd.drawImage(100, 100, 200, 200, ImageIO.read(new File("test/test.jpg")));
-		} catch (IOException e) {
-			System.out.println("Could not load file");
-		}
-
+		cd.drawImage(100, 100, 200, 200, "test/test.jpg");
 		cd.show();
 	}
 
 	private static void imageTest() {
 		CodeDraw cd = new CodeDraw(820, 620);
 
-		try {
-			cd.drawImage(10, 10, ImageIO.read(new File("test/test.jpg")));
-		} catch (IOException e) {
-			System.out.println("Could not load file");
-		}
-
+		cd.drawImage(10, 10, "test/test.jpg");
 		cd.show();
 	}
 

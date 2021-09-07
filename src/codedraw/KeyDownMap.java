@@ -12,10 +12,10 @@ class KeyDownMap<TSender> {
 	private HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
-		Integer i = keyEvent.getExtendedKeyCode();
+		Integer keyCode = keyEvent.getExtendedKeyCode();
 
-		if (!isKeyAlreadyPressed(i)) {
-			map.put(i, true);
+		if (!isKeyAlreadyPressed(keyCode)) {
+			map.put(keyCode, true);
 			event.invoke(keyEvent);
 		}
 	}
