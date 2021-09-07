@@ -6,6 +6,7 @@ class Event<TSender, TArgs> {
 	private static EventLoop eventLoop = new EventLoop();
 
 	public Event(TSender sender) {
+		if (sender == null) throw new IllegalArgumentException("sender is null.");
 		this.sender = sender;
 	}
 

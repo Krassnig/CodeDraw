@@ -1,7 +1,11 @@
 package codedraw.textformat;
 
+/**
+ * Vertically aligns the text. This property is also described as the base line.
+ */
 public enum VerticalAlign {
 	/**
+	 * The origin point will be above the text.
 	 * The text will be drawn below the given y coordinate.
 	 * <pre>{@code
 	 *  |
@@ -20,6 +24,7 @@ public enum VerticalAlign {
 	 */
 	MIDDLE,
 	/**
+	 * The origin point will be below the text.
 	 * The text will be drawn above the given y coordinate.
 	 * <pre>{@code
 	 *  | Text goes here

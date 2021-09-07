@@ -58,7 +58,8 @@ import java.util.Map;
  */
 public class CodeDraw {
 	/**
-	 * Creates a canvas with size 600x600 pixel
+	 * Creates a canvas with size 600x600 pixels.
+	 * The size remains fixed after calling this constructor.
 	 */
 	public CodeDraw() {
 		this(600, 600);
@@ -90,6 +91,7 @@ public class CodeDraw {
 		setFormat(new TextFormat());
 		isAntialiased(true);
 		setCorner(Corner.Sharp);
+
 		clear();
 		show();
 

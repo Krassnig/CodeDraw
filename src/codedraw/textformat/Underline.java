@@ -2,6 +2,10 @@ package codedraw.textformat;
 
 import java.awt.font.TextAttribute;
 
+/**
+ * Draws a line below the drawn text.
+ * The style of that line can be defined with this Underline enum.
+ */
 public enum Underline {
 	NONE(-1),
 	SOLID(TextAttribute.UNDERLINE_ON),

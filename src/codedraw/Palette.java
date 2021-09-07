@@ -33,7 +33,7 @@ public final class Palette {
 	 * The next 8 bits represent blue .
 	 * The 8 least significant bits represent the alpha value.
 	 *
-	 * For example Palette.fromRGB(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
+	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
 	 */
 	public static Color fromRGBA(int rgba) {
 		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
@@ -60,13 +60,6 @@ public final class Palette {
 		return new Color(red, green, blue, alpha);
 	}
 
-	/*
-	 * Replacement strategy in Notepad++
-	 *    Find what: "([a-z])([A-Z])"
-	 *    Replace with: "\1_\2"
-	 *    Find what: "Color ([A-z_]+) ="
-	 *    Replace with: "Color \U\1 ="
-	 */
 	public static final Color BLACK = new Color(0x000000);
 	public static final Color NAVY = new Color(0x000080);
 	public static final Color DARK_BLUE = new Color(0x00008B);

@@ -1,8 +1,12 @@
 package codedraw.textformat;
 
+/**
+ * Horizontally aligns the text. This property is also described as text alignment.
+ */
 public enum HorizontalAlign {
 	/**
-	 * The text will be drawn to the right of the x coordinate.
+	 * The origin point will be to the left of the text.
+	 * The text will be drawn to the right of the (x, y) coordinate.
 	 * <pre>{@code
 	 * -------------- + --------------
 	 *                | Text goes here
@@ -18,6 +22,7 @@ public enum HorizontalAlign {
 	 */
 	CENTER,
 	/**
+	 * The origin point will be to the right of the text.
 	 * The text will be drawn to the left of the x coordinate.
 	 * <pre>{@code
 	 * -------------- + --------------
