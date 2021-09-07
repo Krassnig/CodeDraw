@@ -7,12 +7,12 @@ public class GraphicTest {
 	public static void main(String[] args) {
 		//arcTest();
 		//bezierTest();
-		//polygonTest();
+		polygonTest();
 		//transparencyTest();
 		//triangleTest();
 		//antiAliasingTest();
 		//lineWidthTest();
-		cornerTest();
+		//cornerTest();
 	}
 
 	private static void arcTest() {
@@ -50,15 +50,20 @@ public class GraphicTest {
 
 		cd.setColor(Palette.BLACK);
 		cd.fillPolygon(
-				new Point2D.Double(50, 100),
-				new Point2D.Double(240, 200),
-				new Point2D.Double(140, 36)
+				50, 100,
+				240, 200,
+				140, 36,
+				200, 400,
+				55, 60
 		);
 
 		cd.setColor(Palette.RED);
 		cd.drawCircle(50, 100, 5);
 		cd.drawCircle(240, 200, 5);
 		cd.drawCircle(140, 36, 5);
+		cd.drawCircle(200, 400, 5);
+		cd.drawCircle(55, 60, 5);
+
 
 		cd.show();
 	}

@@ -649,52 +649,58 @@ public class CodeDraw {
 	 * Draws the outline of a triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		drawPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
+		drawPolygon(x1, y1, x2, y2, x3, y3);
 	}
 
 	/**
 	 * Draws a filled triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		fillPolygon(new Point2D.Double(x1, y1), new Point2D.Double(x2, y2), new Point2D.Double(x3, y3));
+		fillPolygon(x1, y1, x2, y2, x3, y3);
 	}
 
 	/**
 	 * Draws the outline of a polygon.
+	 * This function must be called with an even number of parameters.
+	 * Each parameter pair (x, y) represents a corner of the polygon.
 	 * Must be called with at least two points as parameter.
 	 * Each point passed to drawPolygon will be connected to the following points and
 	 * the last point will be connected to the first point.
 	 * <pre>{@code
 	 * cd.drawPolygon(
-	 *     new Point2D.Double(200, 100),
-	 *     new Point2D.Double(100, 200),
-	 *     new Point2D.Double(300, 200)
+	 *     200, 100,
+	 *     100, 200,
+	 *     300, 200
 	 * );
 	 * }</pre>
 	 */
-	public void drawPolygon(Point2D... points) {
-		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
+	public void drawPolygon(double... points) {
+		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
+		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
 
-		g.draw(pointsToPath(points));
+		g.draw(doubleToPath(points));
 	}
 
 	/**
 	 * Draws a filled polygon.
+	 * This function must be called with an even number of parameters.
+	 * Each parameter pair (x, y) represents a corner of the polygon.
 	 * Must be called with at least two points as parameter.
 	 * Each point passed to drawPolygon will be connected to the following points and
 	 * the last point will be connected to the first point.
 	 * <pre>{@code
 	 * cd.drawPolygon(
-	 *     new Point2D.Double(200, 100),
-	 *     new Point2D.Double(100, 200),
-	 *     new Point2D.Double(300, 200)
+	 *     200, 100,
+	 *     100, 200,
+	 *     300, 200
 	 * );
 	 * }</pre>
 	 */
-	public void fillPolygon(Point2D... points) {
-		if (points.length < 2) throw new IllegalArgumentException("There have to be at least two points to draw a polygon.");
+	public void fillPolygon(double... points) {
+		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
+		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
 
-		g.fill(pointsToPath(points));
+		g.fill(doubleToPath(points));
 	}
 
 	/**
@@ -940,12 +946,12 @@ public class CodeDraw {
 		window.dispose(exit);
 	}
 
-	private static Path2D.Double pointsToPath(Point2D[] points) {
+	private static Path2D.Double doubleToPath(double[] doubles) {
 		Path2D.Double result = new Path2D.Double();
 
-		result.moveTo(points[0].getX(), points[0].getY());
-		for (int i = 1; i < points.length; i++) {
-			result.lineTo(points[i].getX(), points[i].getY());
+		result.moveTo(doubles[0], doubles[1]);
+		for (int i = 2; i < doubles.length; i += 2) {
+			result.lineTo(doubles[i], doubles[i + 1]);
 		}
 		result.closePath();
 
@@ -966,5 +972,9 @@ public class CodeDraw {
 
 	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {
 		return new IllegalArgumentException("Argument " + argumentName + " cannot be negative.");
+	}
+
+	private static IllegalArgumentException createMoreThanTwoPointsPolygon() {
+		return new IllegalArgumentException("There have to be at least two points to draw a polygon.");
 	}
 }

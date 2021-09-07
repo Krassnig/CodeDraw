@@ -78,7 +78,7 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 
 Is the rectangle on the screen that is used for drawing. It's origin
 point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.
-Once the size is set via the constructor the size of the canvas remains fixed.
+Once the size is set via the constructor, the size of the canvas remains fixed.
 
 ### Frame
 
@@ -98,7 +98,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 - color
 - lineWidth
 - corner
-- isAntialised
+- isAntiAliased
 
 ### Methods
 
@@ -152,7 +152,7 @@ can be used to unsubscribe from the event.
 - onKeyDown
 - onKeyUp
 - onKeyPress
-- onFrameMove
+- onWindowMove
 
 #### Example Event
 
