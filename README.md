@@ -80,7 +80,7 @@ Is the rectangle on the screen that is used for drawing. It's origin
 point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.
 Once the size is set via the constructor, the size of the canvas remains fixed.
 
-### Frame
+### Window
 
 Is the frame surrounding the canvas. It is larger than the size given to the constructor
 of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
@@ -91,7 +91,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 
 - width
 - height
-- framePosition
+- windowPosition
 - canvasPosition
 - title
 - format
@@ -103,7 +103,7 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 ### Methods
 
 - show: Displays the drawn shapes and images on the canvas.
-- asImage: Copies the canvas as an Image.
+- saveCanvas: Copies the canvas as an Image.
 - dispose: Closes the canvas and frees all associated resources.
 - clear: Clear fills the entire canvas with white (or with a color of your choosing).
 

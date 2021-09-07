@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * // All following drawn objects will be red,
  * // until the color is set to a different color.
- * cd.setColor(Color.RED);
+ * cd.setColor(Palette.RED);
  *
  * // draws a red circle at the center of the canvas with a radius of 50 pixel.
  * // The circle is not yet displayed!
@@ -40,7 +40,7 @@ import java.util.Map;
  * Once the size is set via the constructor the size of the canvas remains fixed.
  * <br>
  * <br>
- * <b>frame</b> - Is the frame surrounding the canvas. It is larger than the size given
+ * <b>window</b> - Is the frame surrounding the canvas. It is larger than the size given
  * to the constructor of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
  * <br>
  * <br>
@@ -412,6 +412,9 @@ public class CodeDraw {
 		fillCircle(x, y, getLineWidth());
 	}
 
+	/**
+	 * Draws a straight line between the start point and end point.
+	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
 		g.draw(new Line2D.Double(
 				startX, startY,
