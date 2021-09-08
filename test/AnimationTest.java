@@ -7,7 +7,7 @@ public class AnimationTest {
 		//granularAngleTest();
 		//arcOriginTest();
 		//textAnimationTest();
-		animationTest();
+		//animationTest();
 	}
 
 	private static void clockTest() {

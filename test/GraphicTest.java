@@ -7,7 +7,7 @@ public class GraphicTest {
 	public static void main(String[] args) {
 		//arcTest();
 		//bezierTest();
-		polygonTest();
+		//polygonTest();
 		//transparencyTest();
 		//triangleTest();
 		//antiAliasingTest();
@@ -148,6 +148,12 @@ public class GraphicTest {
 		capAndJoin(cd, Corner.Round, 100, 300);
 		capAndJoin(cd, Corner.Bevel, 100, 500);
 
+		cd.isAntiAliased(false);
+
+		capAndJoin(cd, Corner.Sharp, 400, 100);
+		capAndJoin(cd, Corner.Round, 400, 300);
+		capAndJoin(cd, Corner.Bevel, 400, 500);
+
 		cd.show();
 	}
 
@@ -163,9 +169,12 @@ public class GraphicTest {
 		cd.drawSquare(x + 100, y + 100, 50);
 
 		cd.setColor(Palette.RED);
-		cd.setLineWidth(1);
-		cd.drawSquare(x - 5, y - 5, 160);
-		cd.fillCircle(x, y, 2);
-		cd.fillCircle(x + 50, y + 50, 2);
+		cd.setLineWidth(2);
+		cd.drawRectangle(x - 5, y - 5, 240, 160);
+		cd.drawPoint(x, y);
+		cd.drawPoint(x + 50, y + 50);
+		cd.drawPoint(x, y + 150);
+		cd.drawPoint(x + 25, y + 100);
+		cd.drawPoint(x + 50, y + 150);
 	}
 }

@@ -18,7 +18,7 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyPress(h));
 		//keyEventTest((c, h) -> c.onKeyUp(h));
 		//windowMoveTest();
-		unsubscribeTest();
+		//unsubscribeTest();
 	}
 
 	private static void eventSleep() {

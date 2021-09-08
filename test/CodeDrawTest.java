@@ -6,16 +6,24 @@ import java.io.IOException;
 
 public class CodeDrawTest {
 	public static void main(String[] args) {
+		//clearTest();
 		//autoCloseTest();
 		//framePositionTest();
 		//disposeCloseTest();
 		//smallWindowTest();
 		//imageSaveTest();
-		imageTestScale();
-		imageTest();
+		//imageTestScale();
+		//imageTest();
 		//twoWindowTest();
 		//cornerTest();
 		//proofOfConcept();
+	}
+
+	private static void clearTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.clear(Palette.BLACK);
+		cd.show();
 	}
 
 	private static void autoCloseTest() {

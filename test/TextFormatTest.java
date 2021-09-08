@@ -12,7 +12,7 @@ public class TextFormatTest {
 		//underlineTest();
 		//alignmentTest();
 		//fontSizeTest();
-		defaultAlignmentTest();
+		//defaultAlignmentTest();
 	}
 
 	private static void defaultAlignmentTest() {

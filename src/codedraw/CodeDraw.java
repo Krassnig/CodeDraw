@@ -402,7 +402,7 @@ public class CodeDraw {
 	 * Draws a point which is exactly 1x1 pixel in size.
 	 */
 	public void drawPixel(double x, double y) {
-		fillSquare(x, y, 1);
+		g.fillRect((int)x, (int)y, 1, 1);
 	}
 
 	/**
@@ -494,10 +494,15 @@ public class CodeDraw {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 
-		g.fill(new Rectangle2D.Double(
-				x, y,
-				width, height
-		));
+		if (corner == Corner.Sharp) {
+			g.fill(createSharpRectangle(x, y, width, height));
+		}
+		else if (corner == Corner.Round) {
+			g.fill(createRoundRectangle(x, y, width, height));
+		}
+		else {
+			g.fill(createBevelRectangle(x, y, width, height));
+		}
 	}
 
 	/**
@@ -949,7 +954,36 @@ public class CodeDraw {
 		window.dispose(exit);
 	}
 
-	private static Path2D.Double doubleToPath(double[] doubles) {
+	private Shape createRoundRectangle(double x, double y, double width, double height) {
+		return new RoundRectangle2D.Double(
+				x, y,
+				width, height,
+				lineWidth, lineWidth
+		);
+	}
+
+	private Shape createSharpRectangle(double x, double y, double width, double height) {
+		return new Rectangle2D.Double(
+				x, y,
+				width, height
+		);
+	}
+
+	private Shape createBevelRectangle(double x, double y, double width, double height) {
+		double lw = lineWidth / 2;
+		return doubleToPath(
+			x + lw, y,
+				x + width - lw, y,
+				x + width, y + lw,
+				x + width, y + height - lw,
+				x + width - lw, y + height,
+				x + lw, y + height,
+				x, y + height - lw,
+				x, y + lw
+		);
+	}
+
+	private static Path2D.Double doubleToPath(double... doubles) {
 		Path2D.Double result = new Path2D.Double();
 
 		result.moveTo(doubles[0], doubles[1]);
