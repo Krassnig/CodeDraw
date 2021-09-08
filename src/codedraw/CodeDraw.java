@@ -863,7 +863,7 @@ public class CodeDraw {
 	 *
 	 * try {
 	 *      ImageIO.write(
-	 *          cd.asImage(),
+	 *          cd.saveCanvas(),
 	 *          "png",
 	 *          new File("C:\\pathToDirectory\\filename.png")
 	 *      );
