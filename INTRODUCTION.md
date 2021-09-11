@@ -54,6 +54,8 @@ public class MyProgram {
 	}
 }
 ```
+![basic](https://user-images.githubusercontent.com/24553082/132953425-dd003617-865e-4589-8ccc-67f42e2ae2a9.png)
+
 When you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle and a filled light blue circle.
 
