@@ -2,6 +2,7 @@ package codedraw;
 
 /**
  * Defines how the corners of drawn shapes should look.
+ * The size of the corners scales with the lineWidth.
  * Round shapes (e.g. circles) will not be affected.
  */
 public enum Corner {

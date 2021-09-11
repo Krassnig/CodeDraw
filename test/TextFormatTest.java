@@ -28,7 +28,7 @@ public class TextFormatTest {
 
 	private static void fontSizeTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 
 		for (int i = 1; i < 35; i++) {
 			format.setFontSize(i);
@@ -40,7 +40,7 @@ public class TextFormatTest {
 
 	private static void fontNameTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 		format.setFontSize(16);
 
 		String[] fonts = getAvailableFontNames();
@@ -60,7 +60,7 @@ public class TextFormatTest {
 
 	private static void italicTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 		format.setFontSize(20);
 		cd.drawText(30, 100, "Not Italic");
 		format.isItalic(true);
@@ -70,7 +70,7 @@ public class TextFormatTest {
 
 	private static void boldTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 		format.setFontSize(20);
 		cd.drawText(30, 100, "Not Bold");
 		format.isBold(true);
@@ -80,7 +80,7 @@ public class TextFormatTest {
 
 	private static void strikethroughTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 		format.isStrikethrough(true);
 		cd.drawText(30, 100, "Strikethrough");
 		format.isStrikethrough(false);
@@ -90,7 +90,7 @@ public class TextFormatTest {
 
 	private static void underlineTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 
 		format.setFontName("Times New Roman");
 		format.setFontSize(30);
@@ -121,7 +121,7 @@ public class TextFormatTest {
 	}
 
 	private static void drawAlignment(CodeDraw cd, double x, double y, VerticalAlign va, HorizontalAlign ha) {
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 		format.setVerticalAlign(va);
 		format.setHorizontalAlign(ha);
 

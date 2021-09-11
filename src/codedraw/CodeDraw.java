@@ -15,45 +15,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * CodeDraw is an easy-to-use drawing library.<br>
+ * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
+ * It is made for beginners that understand little about programming
+ * and makes it very simple to draw and animate various shapes and images to a canvas.
  * <br>
- * How to use:<br>
+ * <br>
+ * To get a brief overview and a bunch of examples visit the
+ * <a href="https://github.com/Krassnig/CodeDraw/blob/master/README.md">README of the CodeDraw repository</a>.
+ * <br>
+ * Read the <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">introduction to CodeDraw</a>
+ * to learn how to use this library.
+ * <br>
+ * An example to get you started:<br>
  * <pre>{@code
- * CodeDraw cd = new CodeDraw(); // creates a canvas of size 600x600 pixel
+ * import codedraw.*;
  *
- * // All following drawn objects will be red,
- * // until the color is set to a different color.
- * cd.setColor(Palette.RED);
+ * public class MyProgram {
+ *     public static void main(String[] args) {
+ *         // Creates a new CodeDraw window with the size of 600x600 pixel
+ *         CodeDraw cd = new CodeDraw();
  *
- * // draws a red circle at the center of the canvas with a radius of 50 pixel.
- * // The circle is not yet displayed!
- * cd.drawCircle(300, 300, 50);
+ *         // Sets the drawing color to red
+ *         cd.setColor(Palette.RED);
+ *         // Draws the outline of a rectangle
+ *         cd.drawRectangle(100, 100, 200, 100);
+ *         // Draws a filled Square
+ *         cd.fillSquare(180, 150, 80);
  *
- * // Must be called to display everything that has been drawn until now!
- * cd.show();
+ *         // Changes the color to light blue
+ *         cd.setColor(Palette.LIGHT_BLUE);
+ *         cd.fillCircle(300, 200, 50);
+ *
+ *         // Finally, the method show must be called
+ *         // to display the drawn shapes in the CodeDraw window.
+ *         cd.show();
+ *     }
+ * }
  * }</pre>
- * There are a few key ideas described by certain keywords used in this library:
- * <br>
- * <br>
- * <b>canvas</b> - Is the rectangle on the screen that is used for drawing. It's origin
- * point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.
- * Once the size is set via the constructor the size of the canvas remains fixed.
- * <br>
- * <br>
- * <b>window</b> - Is the frame surrounding the canvas. It is larger than the size given
- * to the constructor of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
- * <br>
- * <br>
- * <b>event</b> - An event is something that occurs based on user input like the user
- * pressing a button or moving the mouse. You can subscribe to an Event
- * by passing a method reference or lambda to CodeDraw. All events start with the 'on' keyword.
- * Subscribing to an event method will return a Subscription which can be used to unsubscribe from the event.
- * Example events: {@link #onMouseMove} or {@link #onKeyPress(codedraw.EventHandler)}.
- * <br>
- * <br>
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>
- * <br>
- * <br>
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw {
@@ -88,7 +87,7 @@ public class CodeDraw {
 		setTitle("CodeDraw");
 		setColor(Color.BLACK);
 		setLineWidth(1);
-		setFormat(new TextFormat());
+		setTextFormat(new TextFormat());
 		isAntiAliased(true);
 		setCorner(Corner.Sharp);
 
@@ -115,20 +114,24 @@ public class CodeDraw {
 
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * Changing the window position also changes the canvas position.
 	 */
 	public int getWindowPositionX() { return window.getWindowPosition().x; }
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * Changing the window position also changes the canvas position.
 	 */
 	public int getWindowPositionY() { return window.getWindowPosition().y; }
 
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * Changing the window position also changes the canvas position.
 	 * @param x can be negative
 	 */
 	public void setWindowPositionX(int x) { window.setWindowPosition(new Point(x, getWindowPositionY())); }
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
+	 * Changing the window position also changes the canvas position.
 	 * @param y can be negative
 	 */
 	public void setWindowPositionY(int y) { window.setWindowPosition(new Point(getWindowPositionX(), y)); }
@@ -136,22 +139,26 @@ public class CodeDraw {
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 * Changing the canvas position also changes the window position.
 	 */
 	public int getCanvasPositionX() { return window.getCanvasPosition().x; }
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 * Changing the canvas position also changes the window position.
 	 */
 	public int getCanvasPositionY() { return window.getCanvasPosition().y; }
 
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 * Changing the canvas position also changes the window position.
 	 */
 	public void setCanvasPositionX(int x) { window.setCanvasPosition(new Point(x, getCanvasPositionY())); }
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
+	 * Changing the canvas position also changes the window position.
 	 */
 	public void setCanvasPositionY(int y) { window.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
 
@@ -183,12 +190,12 @@ public class CodeDraw {
 	 * Defines the styling of drawn text.
 	 * See also {@link #drawText(double, double, String)}
 	 */
-	public TextFormat getFormat() { return textFormat; }
+	public TextFormat getTextFormat() { return textFormat; }
 	/**
 	 * Defines the styling of drawn text.
 	 * See also {@link #drawText(double, double, String)}
 	 */
-	public void setFormat(TextFormat textFormat){
+	public void setTextFormat(TextFormat textFormat){
 		if(textFormat == null) throw createArgumentNull("textFormat");
 
 		this.textFormat = textFormat;
@@ -341,7 +348,7 @@ public class CodeDraw {
 	/**
 	 * Draws the text at the specified (x, y) coordinate.
 	 * Formatting options can be set via the TextFormat object.
-	 * See {@link #getFormat()}, {@link #setFormat(TextFormat)} and the {@link codedraw.textformat.TextFormat} class.
+	 * See {@link #getTextFormat()}, {@link #setTextFormat(TextFormat)} and the {@link codedraw.textformat.TextFormat} class.
 	 * If not specified otherwise in the TextFormat object the (x, y) coordinates will be in the top left corner of the text.
 	 */
 	public void drawText(double x, double y, String text) {

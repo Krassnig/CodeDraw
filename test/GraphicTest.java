@@ -1,8 +1,6 @@
 import codedraw.*;
 import codedraw.textformat.*;
 
-import java.awt.geom.Point2D;
-
 public class GraphicTest {
 	public static void main(String[] args) {
 		//arcTest();
@@ -95,7 +93,7 @@ public class GraphicTest {
 
 	private static void antiAliasingTest() {
 		CodeDraw cd = new CodeDraw();
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 
 		format.setVerticalAlign(VerticalAlign.BOTTOM);
 		format.setHorizontalAlign(HorizontalAlign.CENTER);
@@ -140,7 +138,7 @@ public class GraphicTest {
 
 	private static void cornerTest() {
 		CodeDraw cd = new CodeDraw(750, 750);
-		TextFormat format = cd.getFormat();
+		TextFormat format = cd.getTextFormat();
 
 		format.setVerticalAlign(VerticalAlign.BOTTOM);
 

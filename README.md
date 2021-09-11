@@ -1,8 +1,13 @@
 # CodeDraw
 
-CodeDraw is an easy-to-use drawing library.
+CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
 It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
+
+Read the [introduction to CodeDraw](https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md)
+to learn how to use this library.
+
+For a C# version of CodeDraw go to the [CodeDrawProject repository](https://github.com/Krassnig/CodeDrawProject).
 
 ## How to install
 
@@ -23,33 +28,46 @@ Go to the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
 
 
-## Example
-
-```java
-CodeDraw cd = new CodeDraw(300, 300); // creates a canvas of size 300x300 pixel
-
-// All following drawn objects will be red,
-// until the color is set to a different color.
-cd.setColor(Palette.RED);
-
-// draws a red circle at the center of the canvas with a radius of 50 pixel.
-// The circle is not yet displayed!
-cd.drawCircle(150, 150, 50);
-
-// Must be called to display everything that has been drawn until now!
-cd.show();
-```
-# ❗ Don't forget to call .show() ❗
-
-![basics](https://user-images.githubusercontent.com/24553082/131073128-238c3b5c-0632-4614-a7d8-ac86271ea9d6.png)
-
-### Animation Example
+## Examples
 
 ```java
 import codedraw.*;
 
-class Main {
-	static void main(String[] args) {
+public class MyProgram {
+	public static void main(String[] args) {
+		// Creates a new CodeDraw window with the size of 600x600 pixel
+		CodeDraw cd = new CodeDraw();
+
+		// Sets the drawing color to red
+		cd.setColor(Palette.RED);
+		// Draws the outline of a rectangle
+		cd.drawRectangle(100, 100, 200, 100);
+		// Draws a filled Square
+		cd.fillSquare(180, 150, 80);
+
+		// Changes the color to light blue
+		cd.setColor(Palette.LIGHT_BLUE);
+		cd.fillCircle(300, 200, 50);
+
+		// Finally, the method show must be called
+		// to display the drawn shapes in the CodeDraw window.
+		cd.show();
+	}
+}
+```
+![basics](https://user-images.githubusercontent.com/24553082/131073128-238c3b5c-0632-4614-a7d8-ac86271ea9d6.png)
+
+# ❗ Don't forget to call .show() ❗
+
+### Animations
+
+Animation can be created by repeatedly rendering different images and waiting after renders.
+
+```java
+import codedraw.*;
+
+public class MyProgram {
+	public static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
 
 		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
@@ -72,89 +90,78 @@ class Main {
 
 https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-863f-ffdb3f3f8017.mp4
 
-## Concepts
-
-### Canvas
-
-Is the rectangle on the screen that is used for drawing. It's origin
-point (0, 0) is at the top left. Everything is drawn front the top left to the bottom right.
-Once the size is set via the constructor, the size of the canvas remains fixed.
-
-### Window
-
-Is the frame surrounding the canvas. It is larger than the size given to the constructor
-of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
-
 ## Api
 
 ### Properties
 
-- width
-- height
-- windowPosition
-- canvasPosition
-- title
-- format
-- color
-- lineWidth
-- corner
-- isAntiAliased
+* color
+* lineWidth
+* corner
+* isAntiAliased
+* textFormat
+	* fontName
+	* fontSize
+	* horizontalAlign
+	* verticalAlign
+	* underline
+	* isBold
+	* isItalic
+	* isStrikethrough
+
+
+* title
+* width/height
+* windowPosition
+* canvasPosition
 
 ### Methods
 
-- show: Displays the drawn shapes and images on the canvas.
-- saveCanvas: Copies the canvas as an Image.
-- dispose: Closes the canvas and frees all associated resources.
-- clear: Clear fills the entire canvas with white (or with a color of your choosing).
+* show: Displays the drawn shapes and images on the canvas.
+* saveCanvas: Copies the canvas as an Image.
+* dispose: Closes the canvas and frees all associated resources.
+* clear: Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Drawing Methods
 
 Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
 The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
 
-- drawText
-- drawPoint
-- drawLine
-- drawCurve
-- drawBezier
-- drawSquare
-- drawRectangle
-- drawCircle
-- drawEllipse
-- drawArc
-- drawTriangle
-- drawPolygon
-- drawImage
-- fillSquare
-- fillRectangle
-- fillCircle
-- fillEllipse
-- fillArc
-- fillTriangle
-- fillPolygon
+* drawText
+* drawImage
+  
+
+* drawPixel
+* drawPoint
+* drawLine
+* drawCurve
+* drawBezier
+  
+
+* drawSquare
+* drawRectangle
+* drawCircle
+* drawEllipse
+* drawArc
+* drawTriangle
+* drawPolygon
+  
+
+* fillSquare
+* fillRectangle
+* fillCircle
+* fillEllipse
+* fillArc
+* fillTriangle
+* fillPolygon
 
 ### Events
 
 An event is something that occurs based on user input like the user
 pressing a button or moving the mouse. You can subscribe to an Event
 by passing a method reference or lambda to CodeDraw.
-All events start with the 'on' keyword.
-Subscribing to an event method will return a Subscription which
+All events start with the 'on' keyword (e.g. *onKeyPress* or *onMouseMove*).
+By subscribing to an event will return a Subscription which
 can be used to unsubscribe from the event.
-
-- onMouseClick
-- onMouseMove
-- onMouseDown
-- onMouseUp
-- onMouseEnter
-- onMouseLeave
-- onMouseWheel
-- onKeyDown
-- onKeyUp
-- onKeyPress
-- onWindowMove
-
-#### Example Event
 
 ```java
 import java.awt.event.MouseEvent;
