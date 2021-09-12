@@ -138,7 +138,7 @@ x
 - drawCurve
 - drawBezier
 
-x
+		    
 - drawSquare
 - drawRectangle
 - drawCircle
