@@ -119,22 +119,18 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 - windowPosition
 - canvasPosition
 
-### Methods
+### General Methods 
 
 - show: Displays the drawn shapes and images on the canvas.
 - saveCanvas: Copies the canvas as an Image.
 - dispose: Closes the canvas and frees all associated resources.
-- clear: Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Drawing Methods
 
 Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
 The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
 
-- drawText
-- drawImage
-
-#### Points and lines
+#### Points and Lines
 
 - drawPixel
 - drawPoint
@@ -152,7 +148,7 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - drawTriangle
 - drawPolygon
 
-#### Fill methods
+#### Fill Methods
 
 - fillSquare
 - fillRectangle
@@ -161,6 +157,12 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - fillArc
 - fillTriangle
 - fillPolygon
+
+#### Additional Drawing Methods
+
+- drawText
+- drawImage
+- clear: *Clear* fills the entire canvas with white (or with a color of your choosing).
 
 ### Events
 
