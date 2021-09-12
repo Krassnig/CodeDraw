@@ -26,22 +26,24 @@ public class MyProgram {
 		// Instantiates a new CodeDraw window with the size of 600x600 pixel
 		CodeDraw cd = new CodeDraw();
 		// The created window can now be accessed through the cd variable.
-		// By calling the method *setColor* the rectangle and
-		// square will be drawn in the color red.
+		// By calling the method *setColor* the rectangle
+		// and the square will be drawn in the color red.
 		cd.setColor(Palette.RED);
 		// When setColor is called all shapes that are drawn after
 		// will have the given color, until *setColor* is called again
 		// with a different color.
 		cd.drawRectangle(100, 100, 200, 100);
-		// drawRectangle draw the outline of a rectangle offset by 100 pixel
-		// from the top left corner. The Rectangle will have
-		// a width of 200 pixel and a height of 100 pixel.
+		// drawRectangle draws the outline of a rectangle,
+		// offset by 100 pixel from the top left corner.
+		// The Rectangle will have a width of 200 pixel
+		// and a height of 100 pixel.
 		cd.fillSquare(180, 150, 80);
 		// The filled square will be offset to the left by 180 pixel
 		// and 150 pixel to the top. Its size will be 80x80 pixel.
 		
+		// The next line changes the color to light blue.
 		cd.setColor(Palette.LIGHT_BLUE);
-		// fillCircle draw a filled circle where its center is
+		// fillCircle draws a filled circle where its center is
 		// offset by 300 pixel to the left and 200 pixel to the top.
 		// The radius of the circle will have a size of 50 pixel.
 		cd.fillCircle(300, 200, 50);
@@ -68,7 +70,7 @@ It is the same with CodeDraw.
 For Example: *cd.fillSquare(150, 150, 50);* will start at the **top-left** corner,
 go 150 pixel to the right, 150 pixel down and start drawing a 50 by 50 pixel square
 to the bottom-right of that point.
-The pixel coordinate (150, 150) is part of the rectangle.
+The pixel coordinate (150, 150) is part of that rectangle.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
 
@@ -81,6 +83,8 @@ and change the color by calling the *setColor* method.
 *setCorner* changes the way corners of lines and shapes are drawn.
 *setLineWidth* can be used to change the thickness of lines,
 and the thickness of the outlines of shapes.
+
+For a full list of properties see the [CodeDraw Api](https://github.com/Krassnig/CodeDraw#api).
 
 ## Canvas and Window
 
@@ -99,12 +103,14 @@ of CodeDraw. It contains the closing and minimize button, the title and the Code
 
 In general CodeDraw has two kinds of drawing methods. *Fill*-methods and *draw*-methods.
 Fill methods always completely fill a shape and draw only draws their ouline.
+Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
+Circular Shapes have their starting point in their center.
 
 ## Animations
 
 Animation are created by drawing a "frame" and then waiting a certain period of time,
-then drawing another frame.
-The example below draws a clock and every time the loop goes for another iteration,
+then drawing another frame and so on.
+The example below draws a clock, and every time the loop goes for another iteration,
 it adds another 1/60th to the process of the clock.
 By giving show a number as an argument you can instruct CodeDraw to wait before continuing
 with the execution of you program.

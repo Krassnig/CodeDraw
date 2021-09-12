@@ -30,6 +30,8 @@ Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Jav
 
 ## Examples
 
+Here is a quick illustration on how CodeDraw works.
+
 ```java
 import codedraw.*;
 
@@ -94,65 +96,65 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 
 ### Properties
 
-* color
-* lineWidth
-* corner
-* isAntiAliased
-* textFormat
-	* fontName
-	* fontSize
-	* horizontalAlign
-	* verticalAlign
-	* underline
-	* isBold
-	* isItalic
-	* isStrikethrough
+- color
+- lineWidth
+- corner
+- isAntiAliased
+- textFormat
+	- fontName
+	- fontSize
+	- horizontalAlign
+	- verticalAlign
+	- underline
+	- isBold
+	- isItalic
+	- isStrikethrough
 
 
-* title
-* width/height
-* windowPosition
-* canvasPosition
+- title
+- width/height
+- windowPosition
+- canvasPosition
 
 ### Methods
 
-* show: Displays the drawn shapes and images on the canvas.
-* saveCanvas: Copies the canvas as an Image.
-* dispose: Closes the canvas and frees all associated resources.
-* clear: Clear fills the entire canvas with white (or with a color of your choosing).
+- show: Displays the drawn shapes and images on the canvas.
+- saveCanvas: Copies the canvas as an Image.
+- dispose: Closes the canvas and frees all associated resources.
+- clear: Clear fills the entire canvas with white (or with a color of your choosing).
 
 ### Drawing Methods
 
 Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
 The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
 
-* drawText
-* drawImage
-  
+- drawText
+- drawImage
 
-* drawPixel
-* drawPoint
-* drawLine
-* drawCurve
-* drawBezier
-  
 
-* drawSquare
-* drawRectangle
-* drawCircle
-* drawEllipse
-* drawArc
-* drawTriangle
-* drawPolygon
-  
+- drawPixel
+- drawPoint
+- drawLine
+- drawCurve
+- drawBezier
 
-* fillSquare
-* fillRectangle
-* fillCircle
-* fillEllipse
-* fillArc
-* fillTriangle
-* fillPolygon
+
+- drawSquare
+- drawRectangle
+- drawCircle
+- drawEllipse
+- drawArc
+- drawTriangle
+- drawPolygon
+
+
+- fillSquare
+- fillRectangle
+- fillCircle
+- fillEllipse
+- fillArc
+- fillTriangle
+- fillPolygon
 
 ### Events
 
