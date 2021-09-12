@@ -131,14 +131,14 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - drawText
 - drawImage
 
-
+x
 - drawPixel
 - drawPoint
 - drawLine
 - drawCurve
 - drawBezier
 
-
+x
 - drawSquare
 - drawRectangle
 - drawCircle
@@ -147,7 +147,7 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - drawTriangle
 - drawPolygon
 
-
+x
 - fillSquare
 - fillRectangle
 - fillCircle
