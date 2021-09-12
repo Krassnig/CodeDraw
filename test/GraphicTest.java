@@ -3,6 +3,7 @@ import codedraw.textformat.*;
 
 public class GraphicTest {
 	public static void main(String[] args) {
+		//pieTest();
 		//arcTest();
 		//bezierTest();
 		//polygonTest();
@@ -11,6 +12,19 @@ public class GraphicTest {
 		//antiAliasingTest();
 		//lineWidthTest();
 		//cornerTest();
+	}
+
+	private static void pieTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.setColor(Palette.BLUE_VIOLET);
+
+		cd.drawPie(100, 100, 50, 0, Math.PI / 4);
+		cd.drawPie(100, 100, 50, Math.PI / 2, Math.PI);
+		cd.fillPie(100, 200, 50, Math.PI / 2, Math.PI);
+		cd.fillPie(100, 200, 50, 0, Math.PI / 4);
+
+		cd.show();
 	}
 
 	private static void arcTest() {
@@ -72,7 +86,7 @@ public class GraphicTest {
 		cd.setColor(Palette.BLUE);
 		cd.fillSquare(100, 100, 100);
 
-		cd.setColor(Palette.fromRGBA(Palette.RED, 77));
+		cd.setColor(Palette.fromBaseColor(Palette.RED, 77));
 		cd.fillSquare(150, 150, 100);
 
 		cd.show();

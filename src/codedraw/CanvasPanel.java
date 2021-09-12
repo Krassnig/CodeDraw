@@ -3,35 +3,25 @@ package codedraw;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
-import java.awt.image.BufferedImage;
 
 class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.displayBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		displayBuffer = new CodeDrawGraphics(width, height);
 
 		setPreferredSize(new Dimension(width, height));
 		setIgnoreRepaint(true);
 	}
 
-	private int width;
-	private int height;
-	private BufferedImage displayBuffer;
+	private CodeDrawGraphics displayBuffer;
 
 	private Semaphore clipboardCopyLock = new Semaphore(1);
 	private Semaphore renderCopyLock = new Semaphore(1);
 
-	public void render(CodeDrawGraphics buffer) {
+	public void render(CodeDrawGraphics codeDrawBuffer) {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 
-		Graphics2D g = displayBuffer.createGraphics();
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 1));
-		buffer.copyToGraphics(g);
-		g.dispose();
+		codeDrawBuffer.copyTo(displayBuffer);
 
 		renderCopyLock.release();
 		clipboardCopyLock.release();
@@ -42,16 +32,16 @@ class CanvasPanel extends JPanel {
 	public void copyImageToClipboard() {
 		clipboardCopyLock.acquire();
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clipboard.setContents(new TransferableImage(displayBuffer), null);
+		clipboard.setContents(new TransferableImage(displayBuffer.copyAsImage()), null);
 		clipboardCopyLock.release();
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	protected void paintComponent(Graphics componentGraphics) {
+		super.paintComponent(componentGraphics);
 
 		renderCopyLock.acquire();
-		g.drawImage(displayBuffer, 0, 0, width, height, Color.WHITE, this);
+		displayBuffer.copyTo(componentGraphics);
 		renderCopyLock.release();
 	}
 }

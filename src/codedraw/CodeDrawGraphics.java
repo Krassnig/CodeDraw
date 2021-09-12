@@ -189,10 +189,6 @@ class CodeDrawGraphics {
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
-	public void drawText(double x, double y, String text) {
-		drawText(x, y, text, new TextFormat());
-	}
-
 	public void drawText(double x, double y, String text, TextFormat textFormat) {
 		Font font = createFont(textFormat);
 		g.setFont(font);
@@ -260,18 +256,20 @@ class CodeDrawGraphics {
 		BufferedImage result = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 
 		Graphics2D g = result.createGraphics();
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
 		g.dispose();
 
 		return result;
 	}
 
-	public void copyToGraphics(Graphics graphics) {
-		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), Color.WHITE, null);
+	public void copyTo(Graphics target) {
+		target.setColor(Palette.WHITE);
+		target.drawRect(0, 0, getWidth(), getHeight());
+		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
 	}
 
-	public void copyToGraphics(CodeDrawGraphics graphics) {
-		copyToGraphics(graphics.g);
+	public void copyTo(CodeDrawGraphics target) {
+		copyTo(target.g);
 	}
 
 	public void dispose() {

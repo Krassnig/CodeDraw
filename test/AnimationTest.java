@@ -2,12 +2,30 @@ import codedraw.*;
 
 public class AnimationTest {
 	public static void main(String[] args) {
+		//transparencyTest();
 		//clockTest();
 		//sinCosTest();
 		//granularAngleTest();
 		//arcOriginTest();
 		//textAnimationTest();
 		//animationTest();
+	}
+
+	private static void transparencyTest() {
+		CodeDraw cd = new CodeDraw();
+
+		for (int i = 0; i < 56; i++) {
+			int d = i * 10;
+			cd.setColor(Palette.fromBaseColor(Palette.BLUE, 25));
+			cd.fillSquare(d, d, 50);
+
+			cd.setColor(Palette.fromBaseColor(Palette.RED, 25));
+			cd.fillSquare(d, cd.getHeight() - d - 50, 50);
+
+			cd.show(100);
+		}
+
+		cd.show();
 	}
 
 	private static void clockTest() {

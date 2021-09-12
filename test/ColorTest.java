@@ -30,7 +30,7 @@ public class ColorTest {
 
 	@Test
 	public void testRGBABaseColor() {
-		Color color = Palette.fromRGBA(new Color(10, 20, 30), 40);
+		Color color = Palette.fromBaseColor(new Color(10, 20, 30), 40);
 		assertEquals(color, 10, 20, 30, 40);
 	}
 

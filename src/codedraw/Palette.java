@@ -56,7 +56,7 @@ public final class Palette {
 	 * @param baseColor Any color. It's alpha value will be ignored when creating the new color.
 	 * @param alpha The value can be 0 to 255
 	 */
-	public static Color fromRGBA(Color baseColor, int alpha) {
+	public static Color fromBaseColor(Color baseColor, int alpha) {
 		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
 	}
 
