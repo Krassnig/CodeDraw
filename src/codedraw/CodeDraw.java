@@ -5,20 +5,18 @@ import codedraw.textformat.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.TextAttribute;
-import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
  * It is made for beginners that understand little about programming
  * and makes it very simple to draw and animate various shapes and images to a canvas.
  * <br>
+ * <br>
+ * You can view the CodeDraw repository <a href="https://github.com/Krassnig/CodeDraw">here</a>.
  * <br>
  * To get a brief overview and a bunch of examples visit the
  * <a href="https://github.com/Krassnig/CodeDraw/blob/master/README.md">README of the CodeDraw repository</a>.
@@ -74,10 +72,10 @@ public class CodeDraw {
 		if (canvasWidth < 150) throw new IllegalArgumentException("The width of the canvas has to be at least 150px.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be positive.");
 
-		window = new CanvasWindow(canvasWidth, canvasHeight);
+		events = new EventCollection(this);
+		window = new CanvasWindow(events, canvasWidth, canvasHeight);
 		g = new CodeDrawGraphics(canvasWidth, canvasHeight);
 
-		bindEvents();
 		setTitle("CodeDraw");
 		show();
 
@@ -90,6 +88,7 @@ public class CodeDraw {
 
 	private CanvasWindow window;
 	private CodeDrawGraphics g;
+	private EventCollection events;
 	private TextFormat textFormat = new TextFormat();
 
 	/**
@@ -215,85 +214,60 @@ public class CodeDraw {
 		g.setColor(color);
 	}
 
-	private void bindEvents() {
-		window.onMouseClick((s, a) -> mouseClickEvent.invoke(a));
-		window.onMouseMove ((s, a) -> mouseMoveEvent .invoke(a));
-		window.onMouseDown ((s, a) -> mouseDownEvent .invoke(a));
-		window.onMouseUp   ((s, a) -> mouseUpEvent   .invoke(a));
-		window.onMouseWheel((s, a) -> mouseWheelEvent.invoke(a));
-		window.onMouseEnter((s, a) -> mouseEnterEvent.invoke(a));
-		window.onMouseLeave((s, a) -> mouseLeaveEvent.invoke(a));
-		window.onKeyDown   ((s, a) -> keyDownEvent   .invoke(a));
-		window.onKeyUp     ((s, a) -> keyUpEvent     .invoke(a));
-		window.onKeyPress  ((s, a) -> keyPressEvent  .invoke(a));
-		window.onWindowMove((s, a) -> windowMoveEvent.invoke(a));
-	}
-
 	/**
 	 * Triggers once when a mouse button is pressed down and quickly released again.
 	 */
-	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return mouseClickEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseClickEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseClick.onInvoke(handler); }
 
 	/**
 	 * Triggers continuously while the mouse is being moved.
 	 */
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return mouseMoveEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseMoveEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseMove.onInvoke(handler); }
 
 	/**
 	 * Triggers exactly once when a mouse button is pressed down.
 	 */
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return mouseDownEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseDownEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseDown.onInvoke(handler); }
 
 	/**
 	 * Triggers when a mouse button is released.
 	 */
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return mouseUpEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseUpEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseUp.onInvoke(handler); }
 
 	/**
 	 * Triggers when the mouse enters the canvas.
 	 */
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return mouseEnterEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseEnterEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseEnter.onInvoke(handler); }
 
 	/**
 	 * Triggers when the mouse leaves the canvas.
 	 */
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return mouseLeaveEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseEvent> mouseLeaveEvent = new Event<CodeDraw, MouseEvent>(this);
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseLeave.onInvoke(handler); }
 
 	/**
 	 * Triggers each time the mouse wheel is turned
 	 */
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return mouseWheelEvent.onInvoke(handler); }
-	private Event<CodeDraw, MouseWheelEvent> mouseWheelEvent = new Event<CodeDraw, MouseWheelEvent>(this);
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return events.mouseWheel.onInvoke(handler); }
 
 	/**
 	 * Trigger exactly once when a key is pressed down.
 	 */
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return keyDownEvent.onInvoke(handler); }
-	private Event<CodeDraw, KeyEvent> keyDownEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyDown.onInvoke(handler); }
 
 	/**
 	 * Trigger when a key is released.
 	 */
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return keyUpEvent.onInvoke(handler); }
-	private Event<CodeDraw, KeyEvent> keyUpEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyUp.onInvoke(handler); }
 
 	/**
 	 * onKeyPress will continuously trigger while a key is being held down.
 	 */
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return keyPressEvent.onInvoke(handler); }
-	private Event<CodeDraw, KeyEvent> keyPressEvent = new Event<CodeDraw, KeyEvent>(this);
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyPress.onInvoke(handler); }
 
 	/**
 	 * Triggers every time the CodeDraw window is moved.
 	 */
-	public Subscription onWindowMove(EventHandler<CodeDraw, ComponentEvent> handler) { return windowMoveEvent.onInvoke(handler); }
-	private Event<CodeDraw, ComponentEvent> windowMoveEvent = new Event<CodeDraw, ComponentEvent>(this);
+	public Subscription onWindowMove(EventHandler<CodeDraw, ComponentEvent> handler) { return events.windowMove.onInvoke(handler); }
 
 	/**
 	 * Draws the text at the specified (x, y) coordinate.
