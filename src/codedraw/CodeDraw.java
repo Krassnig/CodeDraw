@@ -769,6 +769,9 @@ public class CodeDraw {
 
 	/**
 	 * Displays the drawn shapes and images on the canvas.
+	 *
+	 * Calling show while executing an event is generally not recommended because rendering is slow and
+	 * this will slow down you program. Instead, you should call show from the main thread.
 	 */
 	public void show() {
 		window.render(g);
@@ -783,6 +786,9 @@ public class CodeDraw {
 	 * 30 fps ~ 33ms<br>
 	 * 60 fps ~ 16ms<br>
 	 * 120 fps ~ 8ms<br>
+	 *
+	 * Calling show or sleeping while executing an event will block all other events from executing.
+	 * It is generally not recommended. Instead, you should call show from the main thread.
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
@@ -794,14 +800,6 @@ public class CodeDraw {
 		waitMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
 
 		sleep(waitMilliseconds);
-	}
-
-	private static void sleep(int waitMilliseconds) {
-		try {
-			Thread.sleep(waitMilliseconds);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	/**
@@ -821,6 +819,14 @@ public class CodeDraw {
 	public void dispose(boolean exit) {
 		g.dispose();
 		window.dispose(exit);
+	}
+
+	private static void sleep(int waitMilliseconds) {
+		try {
+			Thread.sleep(waitMilliseconds);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private static IllegalArgumentException createArgumentNull(String argumentName) {
