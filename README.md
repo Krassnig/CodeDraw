@@ -55,7 +55,7 @@ public class MyProgram {
 	}
 }
 ```
-![basics](https://user-images.githubusercontent.com/24553082/131073128-238c3b5c-0632-4614-a7d8-ac86271ea9d6.png)
+![basic](https://user-images.githubusercontent.com/24553082/132953399-135a5872-3fd7-47aa-b37a-2f39400fa052.png)
 
 # ❗ Don't forget to call .show() ❗
 
