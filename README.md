@@ -96,6 +96,8 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 
 ### Properties
 
+#### Drawing Properties
+
 - color
 - lineWidth
 - corner
@@ -110,6 +112,7 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 	- isItalic
 	- isStrikethrough
 
+#### Window Properties
 
 - title
 - width/height
@@ -131,14 +134,16 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - drawText
 - drawImage
 
-x
+#### Points and lines
+
 - drawPixel
 - drawPoint
 - drawLine
 - drawCurve
 - drawBezier
 
-		    
+#### Outline Methods
+ 
 - drawSquare
 - drawRectangle
 - drawCircle
@@ -147,7 +152,8 @@ x
 - drawTriangle
 - drawPolygon
 
-x
+#### Fill methods
+
 - fillSquare
 - fillRectangle
 - fillCircle
