@@ -1,7 +1,7 @@
 package codedraw.textformat;
 
 /**
- * Vertically aligns the text. This property is also described as the base line.
+ * Vertically aligns the text. Another description of this property would be baseline.
  */
 public enum VerticalAlign {
 	/**

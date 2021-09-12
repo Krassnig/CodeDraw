@@ -468,7 +468,7 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Draws a
+	 * Draws a filled square.
 	 * @param x The top left corner of the square
 	 * @param y The top left corner of the square
 	 */
@@ -479,6 +479,7 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Draws the outline of a rectangle.
 	 * @param x The top left corner of the rectangle
 	 * @param y The top left corner of the rectangle
 	 */
@@ -704,7 +705,7 @@ public class CodeDraw {
 	 * Each point passed to drawPolygon will be connected to the following points and
 	 * the last point will be connected to the first point.
 	 * <pre>{@code
-	 * cd.drawPolygon(
+	 * cd.fillPolygon(
 	 *     200, 100,
 	 *     100, 200,
 	 *     300, 200
@@ -802,7 +803,7 @@ public class CodeDraw {
 	 * cd.drawImage(100, 100, 200, 200, img);
 	 * cd.show();
 	 * }</pre>
-	 * The size of the image will be 200x200 pixel.
+	 * The size of the example image will be 200x200 pixel.
 	 * @param x the position of the top left corner of the image
 	 * @param y the position of the top left corner of the image
 	 */
@@ -823,7 +824,7 @@ public class CodeDraw {
 	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"));
 	 * cd.show();
 	 * }</pre>
-	 * The size of the image will be 200x200 pixel.
+	 * The size of the example image will be 200x200 pixel.
 	 * @param x the position of the top left corner of the image
 	 * @param y the position of the top left corner of the image
 	 */
@@ -848,7 +849,7 @@ public class CodeDraw {
 	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
 	 * cd.show();
 	 * }</pre>
-	 * The size of the image will be 200x200 pixel.
+	 * The size of the example image will be 200x200 pixel.
 	 * @param x the position of the top left corner of the image
 	 * @param y the position of the top left corner of the image
 	 */
@@ -953,7 +954,7 @@ public class CodeDraw {
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
-	 * @param exit when true terminates the process when all CodeDraw instances are closed.
+	 * @param exit When true terminates the process when all CodeDraw instances are closed.
 	 *             When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void dispose(boolean exit) {

@@ -2,6 +2,10 @@ package codedraw;
 
 import java.awt.*;
 
+/**
+ * Palette provides a wide variety of colors and makes it easier to create colors.
+ * Alternatively you can just use awt {@link java.awt.Color}.
+ */
 public final class Palette {
 	private Palette() { }
 

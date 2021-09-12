@@ -1,7 +1,7 @@
 package codedraw.textformat;
 
 /**
- * Horizontally aligns the text. This property is also described as text alignment.
+ * Horizontally aligns the text. Another description of this property would be text-alignment.
  */
 public enum HorizontalAlign {
 	/**
