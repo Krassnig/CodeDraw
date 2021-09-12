@@ -13,6 +13,7 @@ class CodeDrawGraphics {
 	public CodeDrawGraphics(int width, int height) {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
+		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
@@ -109,19 +110,19 @@ class CodeDrawGraphics {
 	}
 
 	public void drawSquare(double x, double y, double sideLength) {
-		g.draw(createRectangle(x, y, sideLength, sideLength));
+		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
 	}
 
 	public void fillSquare(double x, double y, double sideLength) {
-		g.fill(createRectangle(x, y, sideLength, sideLength));
+		g.fill(createFillRectangle(x, y, sideLength, sideLength));
 	}
 
 	public void drawRectangle(double x, double y, double width, double height) {
-		g.draw(createRectangle(x, y, width, height));
+		g.draw(createDrawRectangle(x, y, width, height));
 	}
 
 	public void fillRectangle(double x, double y, double width, double height) {
-		g.fill(createRectangle(x, y, width, height));
+		g.fill(createFillRectangle(x, y, width, height));
 	}
 
 	public void drawCircle(double x, double y, double radius) {
@@ -273,6 +274,11 @@ class CodeDrawGraphics {
 		copyToGraphics(graphics.g);
 	}
 
+	public void dispose() {
+		g.dispose();
+		image = null;
+	}
+
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {
 		return new Line2D.Double(
 				startX, startY,
@@ -297,7 +303,7 @@ class CodeDrawGraphics {
 		);
 	}
 
-	private Shape createRectangle(double x, double y, double width, double height) {
+	private Shape createFillRectangle(double x, double y, double width, double height) {
 		if (corner == Corner.Sharp) {
 			return createSharpRectangle(x, y, width, height);
 		}
@@ -307,6 +313,10 @@ class CodeDrawGraphics {
 		else {
 			return createBevelRectangle(x, y, width, height);
 		}
+	}
+
+	private Shape createDrawRectangle(double x, double y, double width, double height) {
+		return createSharpRectangle(x, y, width, height);
 	}
 
 	private static Rectangle2D createSharpRectangle(double x, double y, double width, double height) {

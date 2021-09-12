@@ -22,7 +22,7 @@ class CanvasPanel extends JPanel {
 	private Semaphore clipboardCopyLock = new Semaphore(1);
 	private Semaphore renderCopyLock = new Semaphore(1);
 
-	public void render(BufferedImage buffer) {
+	public void render(CodeDrawGraphics buffer) {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 
@@ -30,7 +30,7 @@ class CanvasPanel extends JPanel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 1));
-		g.drawImage(buffer, 0, 0, width, height, null);
+		buffer.copyToGraphics(g);
 		g.dispose();
 
 		renderCopyLock.release();

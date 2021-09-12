@@ -66,7 +66,7 @@ class CanvasWindow {
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }
 
-	public void render(BufferedImage buffer) {
+	public void render(CodeDrawGraphics buffer) {
 		canvas.render(buffer);
 	}
 

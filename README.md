@@ -145,6 +145,7 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - drawCircle
 - drawEllipse
 - drawArc
+- drawPie
 - drawTriangle
 - drawPolygon
 
@@ -154,7 +155,7 @@ The origin points for non-circular shapes is the top-left corner, while for circ
 - fillRectangle
 - fillCircle
 - fillEllipse
-- fillArc
+- fillPie
 - fillTriangle
 - fillPolygon
 

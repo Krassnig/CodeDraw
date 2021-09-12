@@ -61,7 +61,7 @@ public class AnimationTest {
 		for (double i = 0; i < Math.PI / 2; i += steps) {
 			cd.clear();
 
-			cd.fillArc(100, 100, 800, 800, Math.PI / 2, i);
+			cd.fillPie(100, 100, 800, 800, Math.PI / 2, i);
 			cd.drawArc(100, 100, 850, 850, Math.PI / 2, i);
 
 			cd.show();
@@ -76,14 +76,14 @@ public class AnimationTest {
 		double inc = tau / 16;
 
 		for (double i = 0; i < tau; i += inc) {
-			cd.fillArc(300, 300, 100, 100, i, inc);
+			cd.fillPie(300, 300, 100, 100, i, inc);
 			cd.drawArc(300, 300, 150, 150, i, inc);
 
 			cd.show(200);
 		}
 
 		cd.setColor(Palette.RED);
-		cd.fillArc(300, 300, 50, 50, -tau / 8, tau / 8);
+		cd.fillPie(300, 300, 50, 50, -tau / 8, tau / 8);
 
 		cd.show();
 	}

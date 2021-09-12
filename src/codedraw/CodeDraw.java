@@ -74,24 +74,11 @@ public class CodeDraw {
 		if (canvasWidth < 150) throw new IllegalArgumentException("The width of the canvas has to be at least 150px.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be positive.");
 
-		this.width = canvasWidth;
-		this.height = canvasHeight;
-
 		window = new CanvasWindow(canvasWidth, canvasHeight);
-		buffer = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
-		g = buffer.createGraphics();
-		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+		g = new CodeDrawGraphics(canvasWidth, canvasHeight);
 
 		bindEvents();
-
 		setTitle("CodeDraw");
-		setColor(Color.BLACK);
-		setLineWidth(1);
-		setTextFormat(new TextFormat());
-		isAntiAliased(true);
-		setCorner(Corner.Sharp);
-
-		clear();
 		show();
 
 		onKeyDown((sender, args) -> {
@@ -102,15 +89,8 @@ public class CodeDraw {
 	}
 
 	private CanvasWindow window;
-	private BufferedImage buffer;
-	private Graphics2D g;
-
-	private int width;
-	private int height;
-	private double lineWidth;
-	private TextFormat textFormat;
-	private boolean isAntiAliased;
-	private Corner corner = Corner.Sharp;
+	private CodeDrawGraphics g;
+	private TextFormat textFormat = new TextFormat();
 
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
@@ -165,25 +145,24 @@ public class CodeDraw {
 	/**
 	 * @return width of the canvas
 	 */
-	public int getWidth() { return width; }
+	public int getWidth() { return g.getWidth(); }
 
 	/**
 	 * @return height of the canvas
 	 */
-	public int getHeight() { return height; }
+	public int getHeight() { return g.getHeight(); }
 
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
 	 */
-	public double getLineWidth() { return lineWidth; }
+	public double getLineWidth() { return g.getLineWidth(); }
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
 	 */
 	public void setLineWidth(double lineWidth) {
 		if (lineWidth <= 0) throw new IllegalArgumentException("Argument lineWidth cannot be smaller or equal to 0");
 
-		this.lineWidth = lineWidth;
-		updateBrushes();
+		g.setLineWidth(lineWidth);
 	}
 
 	/**
@@ -205,28 +184,21 @@ public class CodeDraw {
 	 * Defines whether draw text, drawn shapes and filled shapes are anti-aliased.
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 */
-	public boolean isAntiAliased() { return isAntiAliased; }
+	public boolean isAntiAliased() { return g.isAntiAliased(); }
 	/**
 	 * Defines whether drawn text, drawn shapes and filled shapes are anti-aliased.
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 */
 	public void isAntiAliased(boolean isAntiAliased) {
-		this.isAntiAliased = isAntiAliased;
-		g.addRenderingHints(new RenderingHints(
-				RenderingHints.KEY_ANTIALIASING,
-				isAntiAliased ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
-		));
-		g.addRenderingHints(new RenderingHints(
-				RenderingHints.KEY_TEXT_ANTIALIASING,
-				isAntiAliased ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
-		));
+		g.isAntiAliased(isAntiAliased);
+		g.isTextAntiAliased(isAntiAliased);
 	}
 
-	public Corner getCorner() { return corner; }
+	public Corner getCorner() { return g.getCorner(); }
 	public void setCorner(Corner corner) {
 		if (corner == null) throw createArgumentNull("corner");
-		this.corner = corner;
-		updateBrushes();
+
+		g.setCorner(corner);
 	}
 
 	public String getTitle() { return window.getTitle(); }
@@ -241,28 +213,6 @@ public class CodeDraw {
 		if (color == null) throw createArgumentNull("color");
 
 		g.setColor(color);
-	}
-
-	private void updateBrushes() {
-		g.setStroke(new BasicStroke((float)lineWidth, getCap(corner), getJoin(corner)));
-	}
-
-	private static int getCap(Corner corner) {
-		switch (corner) {
-			case Sharp: return BasicStroke.CAP_SQUARE;
-			case Round: return BasicStroke.CAP_ROUND;
-			case Bevel: return BasicStroke.CAP_BUTT;
-			default: throw new RuntimeException("Unknown corner type.");
-		}
-	}
-
-	private static int getJoin(Corner corner) {
-		switch (corner) {
-			case Sharp: return BasicStroke.JOIN_MITER;
-			case Round: return BasicStroke.JOIN_ROUND;
-			case Bevel: return BasicStroke.JOIN_BEVEL;
-			default: throw new RuntimeException("Unknown corner type.");
-		}
 	}
 
 	private void bindEvents() {
@@ -354,79 +304,28 @@ public class CodeDraw {
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createArgumentNull("text");
 
-		Font font = createFont(textFormat);
-		g.setFont(font);
-		FontMetrics fontMetrics = g.getFontMetrics(font);
-
-		x -= getHorizontalOffset(textFormat.getHorizontalAlign(), fontMetrics, text);
-		y -= getVerticalOffset(textFormat.getVerticalAlign(), fontMetrics, font);
-
-		g.drawString(text, (float) x, (float) y);
-	}
-
-	private static Font createFont(TextFormat format) {
-		Font font = new Font(format.getFontName(), Font.PLAIN, format.getFontSize());
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
-			{
-				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, format.getUnderline().getUnderline());
-				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
-				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
-				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
-			}
-		};
-		return font.deriveFont(attributes);
-	}
-
-	private static double getVerticalOffset(VerticalAlign verticalAlign, FontMetrics fontMetrics, Font font) {
-		int d = fontMetrics.getHeight() - fontMetrics.getAscent() - font.getSize();
-		switch (verticalAlign) {
-			case TOP:
-				return d;
-			case MIDDLE:
-				return d / 2.0;
-			case BOTTOM:
-				return 0;
-			default:
-				throw new RuntimeException("Unknown vertical alignment option");
-		}
-	}
-
-	private static double getHorizontalOffset(HorizontalAlign horizontalAlign, FontMetrics fontMetrics, String text) {
-		switch (horizontalAlign) {
-			case LEFT:
-				return 0;
-			case CENTER:
-				return fontMetrics.stringWidth(text) / 2.0;
-			case RIGHT:
-				return fontMetrics.stringWidth(text);
-			default:
-				throw new RuntimeException("Unknown horizontal alignment option");
-		}
+		g.drawText(x, y, text, textFormat);
 	}
 
 	/**
 	 * Draws a point which is exactly 1x1 pixel in size.
 	 */
 	public void drawPixel(double x, double y) {
-		g.fillRect((int)x, (int)y, 1, 1);
+		g.drawPixel(x, y);
 	}
 
 	/**
 	 * Draws a point which changes size depending on the {@link #getLineWidth()}
 	 */
 	public void drawPoint(double x, double y) {
-		fillCircle(x, y, getLineWidth());
+		g.drawPoint(x, y);
 	}
 
 	/**
 	 * Draws a straight line between the start point and end point.
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
-		g.draw(new Line2D.Double(
-				startX, startY,
-				endX, endY
-		));
+		g.drawLine(startX, startY, endX, endY);
 	}
 
 	/**
@@ -435,11 +334,7 @@ public class CodeDraw {
 	 * The controlX/Y parameter specifies in what way the curve will be bent.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
-		g.draw(new QuadCurve2D.Double(
-				startX, startY,
-				controlX, controlY,
-				endX, endY
-		));
+		g.drawCurve(startX, startY, controlX, controlY, endX, endY);
 	}
 
 	/**
@@ -448,12 +343,7 @@ public class CodeDraw {
 	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		g.draw(new CubicCurve2D.Double(
-				startX, startY,
-				control1X, control1Y,
-				control2X, control2Y,
-				endX, endY
-		));
+		g.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
 	}
 
 	/**
@@ -464,7 +354,7 @@ public class CodeDraw {
 	public void drawSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createArgumentNotNegative("size");
 
-		drawRectangle(x, y, sideLength, sideLength);
+		g.drawSquare(x, y, sideLength);
 	}
 
 	/**
@@ -475,7 +365,7 @@ public class CodeDraw {
 	public void fillSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createArgumentNotNegative("size");
 
-		fillRectangle(x, y, sideLength, sideLength);
+		g.fillSquare(x, y, sideLength);
 	}
 
 	/**
@@ -487,10 +377,7 @@ public class CodeDraw {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 
-		g.draw(new Rectangle2D.Double(
-				x, y,
-				width, height
-		));
+		g.drawRectangle(x, y, width, height);
 	}
 
 	/**
@@ -502,15 +389,7 @@ public class CodeDraw {
 		if (width < 0) throw createArgumentNotNegative("width");
 		if (height < 0) throw createArgumentNotNegative("height");
 
-		if (corner == Corner.Sharp) {
-			g.fill(createSharpRectangle(x, y, width, height));
-		}
-		else if (corner == Corner.Round) {
-			g.fill(createRoundRectangle(x, y, width, height));
-		}
-		else {
-			g.fill(createBevelRectangle(x, y, width, height));
-		}
+		g.fillRectangle(x, y, width, height);
 	}
 
 	/**
@@ -523,7 +402,7 @@ public class CodeDraw {
 	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
-		drawEllipse(x, y, radius, radius);
+		g.drawCircle(x, y, radius);
 	}
 
 	/**
@@ -536,7 +415,7 @@ public class CodeDraw {
 	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
-		fillEllipse(x, y, radius, radius);
+		g.fillCircle(x, y, radius);
 	}
 
 	/**
@@ -551,10 +430,7 @@ public class CodeDraw {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.draw(new Ellipse2D.Double(
-				x - horizontalRadius, y - verticalRadius,
-				2 * horizontalRadius, 2 * verticalRadius
-		));
+		g.drawEllipse(x, y, horizontalRadius, verticalRadius);
 	}
 
 	/**
@@ -569,10 +445,7 @@ public class CodeDraw {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.fill(new Ellipse2D.Double(
-				x - horizontalRadius, y - verticalRadius,
-				2 * horizontalRadius, 2 * verticalRadius
-		));
+		g.fillEllipse(x, y, horizontalRadius, verticalRadius);
 	}
 
 	/**
@@ -588,7 +461,7 @@ public class CodeDraw {
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
-		drawArc(x, y, radius, radius, startRadians, sweepRadians);
+		g.drawArc(x, y, radius, startRadians, sweepRadians);
 	}
 
 	/**
@@ -607,72 +480,91 @@ public class CodeDraw {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.draw(new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.OPEN
-		));
+		g.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
 
 	/**
-	 * Draws a filled arc with the center being the (x, y) coordinates.
-	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
-	 * The total length of the arc is defined by the sweepRadians parameter.
-	 * @param x The center of the arc
-	 * @param y The center of the arc
-	 * @param radius The radius of the arc
+	 * Draws the outline of a pie with the center being the (x, y) coordinates.
+	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * @param x The center of the pie
+	 * @param y The center of the pie
+	 * @param radius The radius of the pie
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
-	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
+	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
-	public void fillArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createArgumentNotNegative("radius");
 
-		fillArc(x, y, radius, radius, startRadians, sweepRadians);
+		g.drawPie(x, y, radius, startRadians, sweepRadians);
 	}
 
 	/**
-	 * Draws a filled arc with the center being the (x, y) coordinates.
+	 * Draws the outline of a pie with the center being the (x, y) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
-	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
-	 * The total length of the arc is defined by the sweepRadians parameter.
-	 * @param x The center of the arc
-	 * @param y The center of the arc
-	 * @param horizontalRadius 2 * horizontalRadius is the width of the arc.
-	 * @param verticalRadius 2 * verticalRadius is the height of the arc.
+	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * @param x The center of the pie
+	 * @param y The center of the pie
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the pie.
+	 * @param verticalRadius 2 * verticalRadius is the height of the pie.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
-	public void fillArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
 		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
 
-		g.fill(new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.PIE
-		));
+		g.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+	}
+
+	/**
+	 * Draws a filled pie with the center being the (x, y) coordinates.
+	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * @param x The center of the pie
+	 * @param y The center of the pie
+	 * @param radius The radius of the pie
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
+	 */
+	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createArgumentNotNegative("radius");
+
+		g.fillPie(x, y, radius, startRadians, sweepRadians);
+	}
+
+	/**
+	 * Draws a filled pie with the center being the (x, y) coordinates.
+	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
+	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * @param x The center of the pie
+	 * @param y The center of the pie
+	 * @param horizontalRadius 2 * horizontalRadius is the width of the pie.
+	 * @param verticalRadius 2 * verticalRadius is the height of the pie.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
+	 */
+	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+
+		g.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
 
 	/**
 	 * Draws the outline of a triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		drawPolygon(x1, y1, x2, y2, x3, y3);
+		g.drawTriangle(x1, y1, x2, y2, x3, y3);
 	}
 
 	/**
 	 * Draws a filled triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		fillPolygon(x1, y1, x2, y2, x3, y3);
+		g.fillTriangle(x1, y1, x2, y2, x3, y3);
 	}
 
 	/**
@@ -694,7 +586,7 @@ public class CodeDraw {
 		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
 		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
 
-		g.draw(doubleToPath(points));
+		g.drawPolygon(points);
 	}
 
 	/**
@@ -716,7 +608,7 @@ public class CodeDraw {
 		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
 		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
 
-		g.fill(doubleToPath(points));
+		g.fillPolygon(points);
 	}
 
 	/**
@@ -742,7 +634,7 @@ public class CodeDraw {
 	public void drawImage(double x, double y, Image image) {
 		if (image == null) throw createArgumentNull("image");
 
-		g.drawImage(image, (int)x, (int)y, null);
+		g.drawImage(x, y, image);
 	}
 
 	/**
@@ -812,7 +704,7 @@ public class CodeDraw {
 		if (height < 0) throw createArgumentNotNegative("height");
 		if (image == null) throw createArgumentNull("image");
 
-		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
+		g.drawImage(x, y, width, height, image);
 	}
 
 	/**
@@ -882,20 +774,14 @@ public class CodeDraw {
 	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>
 	 */
 	public BufferedImage saveCanvas() {
-		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		Graphics2D g = result.createGraphics();
-		g.drawImage(buffer, 0, 0, width, height, null);
-		g.dispose();
-
-		return result;
+		return g.copyAsImage();
 	}
 
 	/**
 	 * Colors the whole canvas in white.
 	 */
 	public void clear() {
-		clear(Color.WHITE);
+		g.clear();
 	}
 
 	/**
@@ -904,17 +790,14 @@ public class CodeDraw {
 	public void clear(Color color) {
 		if (color == null) throw createArgumentNull("color");
 
-		Color c = getColor();
-		setColor(color);
-		fillRectangle(0, 0, getWidth(), getHeight());
-		setColor(c);
+		g.clear(color);
 	}
 
 	/**
 	 * Displays the drawn shapes and images on the canvas.
 	 */
 	public void show() {
-		window.render(buffer);
+		window.render(g);
 	}
 
 	/**
@@ -936,6 +819,10 @@ public class CodeDraw {
 		int executionTime = (int)(System.currentTimeMillis() - start);
 		waitMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
 
+		sleep(waitMilliseconds);
+	}
+
+	private static void sleep(int waitMilliseconds) {
 		try {
 			Thread.sleep(waitMilliseconds);
 		} catch (InterruptedException e) {
@@ -960,55 +847,6 @@ public class CodeDraw {
 	public void dispose(boolean exit) {
 		g.dispose();
 		window.dispose(exit);
-	}
-
-	private Shape createRoundRectangle(double x, double y, double width, double height) {
-		return new RoundRectangle2D.Double(
-				x, y,
-				width, height,
-				lineWidth, lineWidth
-		);
-	}
-
-	private Shape createSharpRectangle(double x, double y, double width, double height) {
-		return new Rectangle2D.Double(
-				x, y,
-				width, height
-		);
-	}
-
-	private Shape createBevelRectangle(double x, double y, double width, double height) {
-		double lw = lineWidth / 2;
-		return doubleToPath(
-			x + lw, y,
-				x + width - lw, y,
-				x + width, y + lw,
-				x + width, y + height - lw,
-				x + width - lw, y + height,
-				x + lw, y + height,
-				x, y + height - lw,
-				x, y + lw
-		);
-	}
-
-	private static Path2D.Double doubleToPath(double... doubles) {
-		Path2D.Double result = new Path2D.Double();
-
-		result.moveTo(doubles[0], doubles[1]);
-		for (int i = 2; i < doubles.length; i += 2) {
-			result.lineTo(doubles[i], doubles[i + 1]);
-		}
-		result.closePath();
-
-		return result;
-	}
-
-	private static double transformStart(double startRadians) {
-		return 90 - Math.toDegrees(startRadians);
-	}
-
-	private static double transformSweep(double sweepRadians) {
-		return - Math.toDegrees(sweepRadians);
 	}
 
 	private static IllegalArgumentException createArgumentNull(String argumentName) {

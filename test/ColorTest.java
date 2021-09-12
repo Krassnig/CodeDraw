@@ -5,33 +5,39 @@ import java.awt.*;
 
 public class ColorTest {
 	@Test
-	public void test() {
+	public void testRGBA() {
 		Color color = Palette.fromRGBA(10, 20, 30, 40);
 		assertEquals(color, 10, 20, 30, 40);
 	}
 
 	@Test
-	public void test2() {
+	public void testRGB() {
 		Color color = Palette.fromRGB(10, 20, 30);
 		assertEquals(color, 10, 20, 30);
 	}
 
 	@Test
-	public void test3() {
+	public void testRGBBit() {
 		Color color = Palette.fromRGB(0xAABBCC);
 		assertEquals(color, 0xAA, 0xBB, 0xCC);
 	}
 
 	@Test
-	public void test4() {
+	public void testRGBABit() {
 		Color color = Palette.fromRGBA(0xFFEEDDCC);
 		assertEquals(color, 0xFF, 0xEE, 0xDD, 0xCC);
 	}
 
 	@Test
-	public void test5() {
+	public void testRGBABaseColor() {
 		Color color = Palette.fromRGBA(new Color(10, 20, 30), 40);
 		assertEquals(color, 10, 20, 30, 40);
+	}
+
+	@Test
+	public void testGrayscale() {
+		Color color = Palette.fromGrayscale(100);
+		assertEquals(color, 100, 100, 100, 255);
 	}
 
 	private static void assertEquals(Color color, int red, int green, int blue) {

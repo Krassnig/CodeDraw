@@ -8,7 +8,7 @@ public class CodeDrawTest {
 	public static void main(String[] args) {
 		//clearTest();
 		//autoCloseTest();
-		//framePositionTest();
+		//windowPositionTest();
 		//disposeCloseTest();
 		//smallWindowTest();
 		//imageSaveTest();
@@ -22,6 +22,7 @@ public class CodeDrawTest {
 	private static void clearTest() {
 		CodeDraw cd = new CodeDraw();
 
+		cd.setCorner(Corner.Bevel);
 		cd.clear(Palette.BLACK);
 		cd.show();
 	}
@@ -89,10 +90,10 @@ public class CodeDrawTest {
 		cd.setColor(Palette.BLUE_VIOLET);
 
 		cd.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillArc(200, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.fillPie(200, 400, 50, 50, 0, Math.PI * 3 / 2);
 
 		cd.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillArc(400, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.fillPie(400, 400, 50, 50, 0, Math.PI * 3 / 2);
 
 		cd.setColor(Palette.ORANGE);
 		cd.drawRectangle(150, 150, 100, 100);
