@@ -10,6 +10,14 @@ public final class Palette {
 	private Palette() { }
 
 	/**
+	 * Creates a grayscale color where is color component (red, green, blue) has the same value.
+	 * @param gray The value can be 0 to 255
+	 */
+	public static Color fromGrayscale(int gray) {
+		return fromRGB(gray, gray, gray);
+	}
+
+	/**
 	 * Creates an rgba color with the alpha implicitly being 255. The 8 most significant bits are ignored.
 	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
 	 *
