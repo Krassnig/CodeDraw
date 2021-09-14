@@ -99,6 +99,15 @@ CodeDraw cd = new CodeDraw(300, 300);
 The window is the frame surrounding the canvas. It is larger than the size given to the constructor
 of CodeDraw. It contains the closing and minimize button, the title and the CodeDraw icon.
 
+## Points and Lines
+
+A pixel can be drawn with *drawPixel*.
+A point can be drawn with *drawPoint*, points change their size based on the *lineWidth* property.
+A line can be drawn with *drawLine*.
+A curve can be drawn with *drawCurve*.
+It has one controlX/Y parameter that specifies in what way the curve will be bent.
+The draw method for a curve with two control parameters is called *drawBezier()*.
+
 ## Outline and filled Shapes
 
 In general CodeDraw has two kinds of drawing methods. *Fill*-methods and *draw*-methods.
@@ -106,10 +115,35 @@ Fill methods always completely fill a shape and draw only draws their ouline.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
 
+Rectangular shapes can be drawn with *drawSquare*, *fillSquare*, *drawRectangle* and *fillRectangle*.
+
+Circular shapes can be drawn with *drawCircle*, *fillCircle*, *drawEllipse* and *fillEllipse*.
+
+Partial circular shapes can be drawn with *drawArc*, *drawPie*, *fillPie*. 
+Pie and arc start at the 12 o'clock position offset by the startRadians parameter.
+The total length of the pie and arc is defined by the sweepRadians parameter.
+
+Triangles can be drawn with *drawTriangle* and *fillTriangle*.
+
+Polygons can be drawn with *drawPolygon* and *fillPolygon*.
+
+## Drawing Images
+
+*drawImage* can be used to draw images from file to the CodeDraw canvas.
+A path to the image file can be passed to drawImage.
+Optionally, width and height parameters can be passed to *drawImage* to rescale the image.  
+
+## Drawing Text
+
+*drawText* can be used to draw Text.
+To modify font properties such a text size, font type and font weight CodeDraw has a textFormat property.
+The textFormat property can be accessed through *getTextFormat* and *setTextFormat*.
+
 ## Animations
 
 Animation are created by drawing a "frame" and then waiting a certain period of time,
 then drawing another frame and so on.
+Before each frame is drawn the *clear*-method is called to clear the entire canvas. 
 The example below draws a clock, and every time the loop goes for another iteration,
 it adds another 1/60th to the process of the clock.
 By giving show a number as an argument you can instruct CodeDraw to wait before continuing
@@ -151,6 +185,22 @@ All events start with the 'on' keyword (e.g. *onKeyPress* or *onMouseMove*).
 By subscribing to an event will return a Subscription which
 can be used to unsubscribe from the event.
 
+
+Available events:
+- onMouseClick
+- onMouseMove
+- onMouseDown
+- onMouseUp
+- onMouseEnter
+- onMouseLeave
+- onMouseWheel
+- onKeyDown
+- onKeyUp
+- onKeyPress
+- onWindowMove
+
+
+Event Example:
 ```java
 import java.awt.event.MouseEvent;
 import codedraw.*;

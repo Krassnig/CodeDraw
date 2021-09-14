@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class TextFormatTest {
 	public static void main(String[] args) {
+		newLineTest();
 		//fontNameTest();
 		//italicTest();
 		//boldTest();
@@ -13,6 +14,14 @@ public class TextFormatTest {
 		//alignmentTest();
 		//fontSizeTest();
 		//defaultAlignmentTest();
+	}
+
+	private static void newLineTest() {
+		CodeDraw cd = new CodeDraw();
+
+		cd.drawText(100, 100, "New lines\ndon't work :(");
+
+		cd.show();
 	}
 
 	private static void defaultAlignmentTest() {

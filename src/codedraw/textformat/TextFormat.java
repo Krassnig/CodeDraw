@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 /**
- * The TextFormat is used to specify how CodeDraw formats, places and styles it's drawn text.
+ * TextFormat is used to specify how CodeDraw formats, places and styles its drawn text.
  * See also {@link codedraw.CodeDraw#drawText(double, double, String)}
  */
 public final class TextFormat {

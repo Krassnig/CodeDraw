@@ -174,6 +174,21 @@ All events start with the 'on' keyword (e.g. *onKeyPress* or *onMouseMove*).
 By subscribing to an event will return a Subscription which
 can be used to unsubscribe from the event.
 
+Available events:
+- onMouseClick
+- onMouseMove
+- onMouseDown
+- onMouseUp
+- onMouseEnter
+- onMouseLeave
+- onMouseWheel
+- onKeyDown
+- onKeyUp
+- onKeyPress
+- onWindowMove
+
+
+Event Example:
 ```java
 import java.awt.event.MouseEvent;
 import codedraw.*;
