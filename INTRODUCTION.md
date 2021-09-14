@@ -138,6 +138,32 @@ Optionally, width and height parameters can be passed to *drawImage* to rescale 
 *drawText* can be used to draw Text.
 To modify font properties such a text size, font type and font weight CodeDraw has a textFormat property.
 The textFormat property can be accessed through *getTextFormat* and *setTextFormat*.
+Inside the textFormat property are all the properties regarding text formatting.
+Available formatting options are *fontName*, *fontSize*, *underline*, *isBold*, *isItalic* and *isStrikethrough*.
+The alignment of the text in relation to the origin of the origin coordinate can be defined with
+*horizontalAlign* and *verticalAlign*.
+
+TextFormat must be imported separately.
+
+```java
+import codedraw.*;
+import codedraw.textformat.*;
+
+public class MyProgram {
+	public static void main(String[] args) {
+		CodeDraw cd = new CodeDraw();
+
+		TextFormat format = cd.getTextFormat();
+		format.setFontSize(40);
+		format.setVerticalAlign(VerticalAlign.MIDDLE);
+		format.setHorizontalAlign(HorizontalAlign.CENTER);
+		format.isBold(true);
+		
+		cd.drawText(100, 100, "Hello World!");
+		cd.show();
+	}
+}
+```
 
 ## Animations
 
