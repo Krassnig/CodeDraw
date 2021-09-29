@@ -263,9 +263,11 @@ class CodeDrawGraphics {
 	}
 
 	public void copyTo(Graphics target) {
+		Color c = target.getColor();
 		target.setColor(Palette.WHITE);
 		target.drawRect(0, 0, getWidth(), getHeight());
 		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
+		target.setColor(c);
 	}
 
 	public void copyTo(CodeDrawGraphics target) {

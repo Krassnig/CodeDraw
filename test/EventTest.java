@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 
 public class EventTest {
 	public static void main(String[] args) {
-		//eventSleep();
+		//eventSleepTest();
 		//curveTest();
 		//mouseTest((c, h) -> c.onMouseClick(h));
 		//mouseTest((c, h) -> c.onMouseMove(h));
@@ -21,10 +21,10 @@ public class EventTest {
 		//unsubscribeTest();
 	}
 
-	private static void eventSleep() {
+	private static void eventSleepTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.drawText(50, 50, "Click Here, then I will turn blue, then green!");
+		cd.drawText(50, 50, "Click here, then I will turn blue, then green!");
 		cd.setColor(Palette.RED);
 		cd.fillSquare(100, 100, 100);
 		cd.show();
