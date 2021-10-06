@@ -156,15 +156,15 @@ public class GraphicTest {
 
 		format.setVerticalAlign(VerticalAlign.BOTTOM);
 
-		capAndJoin(cd, Corner.Sharp, 100, 100);
-		capAndJoin(cd, Corner.Round, 100, 300);
-		capAndJoin(cd, Corner.Bevel, 100, 500);
+		capAndJoin(cd, Corner.SHARP, 100, 100);
+		capAndJoin(cd, Corner.ROUND, 100, 300);
+		capAndJoin(cd, Corner.BEVEL, 100, 500);
 
 		cd.isAntiAliased(false);
 
-		capAndJoin(cd, Corner.Sharp, 400, 100);
-		capAndJoin(cd, Corner.Round, 400, 300);
-		capAndJoin(cd, Corner.Bevel, 400, 500);
+		capAndJoin(cd, Corner.SHARP, 400, 100);
+		capAndJoin(cd, Corner.ROUND, 400, 300);
+		capAndJoin(cd, Corner.BEVEL, 400, 500);
 
 		cd.show();
 	}

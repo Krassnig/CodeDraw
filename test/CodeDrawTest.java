@@ -22,7 +22,7 @@ public class CodeDrawTest {
 	private static void clearTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.setCorner(Corner.Bevel);
+		cd.setCorner(Corner.BEVEL);
 		cd.clear(Palette.BLACK);
 		cd.show();
 	}

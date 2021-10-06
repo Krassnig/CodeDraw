@@ -11,17 +11,17 @@ public enum Corner {
 	 * Corners of lines will also be pointy and will be drawn <b>around</b> the starting and endpoint.
 	 * Round shapes (e.g. circles) will not be affected.
 	 */
-	Sharp,
+	SHARP,
 	/**
 	 * All corners of drawn and filled shapes (e.g. rectangles) will be round.
 	 * Corners of lines will also be round and will be drawn in a radius around the starting and endpoint.
 	 * Round shapes (e.g. circles) will not be affected.
 	 */
-	Round,
+	ROUND,
 	/**
 	 * All corners of drawn and filled shapes (e.g. rectangles) will be 'cut off' or bevel.
 	 * Corners of lines will be cut of at exactly the starting and endpoint.
 	 * Round shapes (e.g. circles) will not be affected.
 	 */
-	Bevel
+	BEVEL
 }

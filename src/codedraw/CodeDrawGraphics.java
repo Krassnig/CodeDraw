@@ -19,7 +19,7 @@ class CodeDrawGraphics {
 		setLineWidth(1);
 		isAntiAliased(true);
 		isTextAntiAliased(true);
-		setCorner(Corner.Sharp);
+		setCorner(Corner.SHARP);
 
 		clear();
 	}
@@ -40,7 +40,7 @@ class CodeDrawGraphics {
 		updateBrush();
 	}
 
-	private Corner corner = Corner.Sharp;
+	private Corner corner = Corner.SHARP;
 	public Corner getCorner() { return corner; }
 	public void setCorner(Corner corner) {
 		this.corner = corner;
@@ -73,18 +73,18 @@ class CodeDrawGraphics {
 
 	private static int getCap(Corner corner) {
 		switch (corner) {
-			case Sharp: return BasicStroke.CAP_SQUARE;
-			case Round: return BasicStroke.CAP_ROUND;
-			case Bevel: return BasicStroke.CAP_BUTT;
+			case SHARP: return BasicStroke.CAP_SQUARE;
+			case ROUND: return BasicStroke.CAP_ROUND;
+			case BEVEL: return BasicStroke.CAP_BUTT;
 			default: throw new RuntimeException("Unknown corner type.");
 		}
 	}
 
 	private static int getJoin(Corner corner) {
 		switch (corner) {
-			case Sharp: return BasicStroke.JOIN_MITER;
-			case Round: return BasicStroke.JOIN_ROUND;
-			case Bevel: return BasicStroke.JOIN_BEVEL;
+			case SHARP: return BasicStroke.JOIN_MITER;
+			case ROUND: return BasicStroke.JOIN_ROUND;
+			case BEVEL: return BasicStroke.JOIN_BEVEL;
 			default: throw new RuntimeException("Unknown corner type.");
 		}
 	}
@@ -304,10 +304,10 @@ class CodeDrawGraphics {
 	}
 
 	private Shape createFillRectangle(double x, double y, double width, double height) {
-		if (corner == Corner.Sharp) {
+		if (corner == Corner.SHARP) {
 			return createSharpRectangle(x, y, width, height);
 		}
-		else if (corner == Corner.Round) {
+		else if (corner == Corner.ROUND) {
 			return createRoundRectangle(x, y, width, height);
 		}
 		else {
