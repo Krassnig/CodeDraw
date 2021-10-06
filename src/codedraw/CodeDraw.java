@@ -180,6 +180,22 @@ public class CodeDraw {
 	}
 
 	/**
+	 * Defines the cursor style for canvas when hovering over it.
+	 * See also {@link CursorStyle}
+	 */
+	public CursorStyle getCursorStyle() {
+		return this.window.getCursorStyle();
+	}
+
+	/**
+	 * Defines the cursor style for canvas when hovering over it.
+	 * See also {@link CursorStyle}
+	 */
+	public void setCursorStyle(CursorStyle cursorStyle) {
+		window.setCursorStyle(cursorStyle);
+	}
+
+	/**
 	 * Defines whether draw text, drawn shapes and filled shapes are anti-aliased.
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 */
