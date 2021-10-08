@@ -111,7 +111,7 @@ The draw method for a curve with two control parameters is called *drawBezier()*
 ## Outline and filled Shapes
 
 In general CodeDraw has two kinds of drawing methods. *Fill*-methods and *draw*-methods.
-Fill methods always completely fill a shape and draw only draws their ouline.
+Fill methods always completely fill a shape and draw only draws their outline.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
 
