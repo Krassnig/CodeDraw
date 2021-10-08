@@ -950,6 +950,11 @@ public class CodeDraw {
 		window.dispose(exit);
 	}
 
+	@Override
+	public String toString() {
+		return "CodeDraw " + getWidth() + "x" + getHeight();
+	}
+
 	private static void sleep(int waitMilliseconds) {
 		try {
 			Thread.sleep(waitMilliseconds);
