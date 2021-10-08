@@ -192,16 +192,17 @@ public class CodeDraw {
 	}
 
 	/**
-	 * Defines the cursor style for canvas when hovering over it.
-	 * See also {@link CursorStyle}
+	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
+	 * See also {@link CursorStyle}.
+	 * @return Returns the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
 		return this.window.getCursorStyle();
 	}
-
 	/**
-	 * Defines the cursor style for canvas when hovering over it.
-	 * See also {@link CursorStyle}
+	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
+	 * See also {@link CursorStyle}.
+	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
 		window.setCursorStyle(cursorStyle);
