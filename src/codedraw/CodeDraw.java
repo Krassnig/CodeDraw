@@ -24,7 +24,7 @@ import java.io.UncheckedIOException;
  * Read the <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">introduction to CodeDraw</a>
  * for a beginners guide to CodeDraw.
  * <br>
- * For the JavaDoc visit <a href="https://krassnig.github.io/CodeDrawJavaDoc/">CodeDrawJavaDoc</a>
+ * For the JavaDoc visit <a href="https://krassnig.github.io/CodeDrawJavaDoc/">CodeDrawJavaDoc</a>.
  * <br>
  * An example to get you started:<br>
  * <pre>{@code
