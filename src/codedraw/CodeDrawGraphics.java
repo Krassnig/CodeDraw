@@ -205,7 +205,7 @@ class CodeDrawGraphics {
 		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
 			{
 				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, format.getUnderline().getUnderline());
+				put(TextAttribute.UNDERLINE, getUnderlineTextAttributeValue(format.getUnderline()));
 				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
 				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
@@ -238,6 +238,17 @@ class CodeDrawGraphics {
 				return fontMetrics.stringWidth(text);
 			default:
 				throw new RuntimeException("Unknown horizontal alignment option");
+		}
+	}
+
+	private static int getUnderlineTextAttributeValue(Underline underline) {
+		switch (underline) {
+			case NONE: return -1;
+			case SOLID: return TextAttribute.UNDERLINE_ON;
+			case DASHED: return TextAttribute.UNDERLINE_LOW_DASHED;
+			case DOTTED: return TextAttribute.UNDERLINE_LOW_DOTTED;
+			case WAVY: return TextAttribute.UNDERLINE_LOW_GRAY;
+			default: throw new RuntimeException("Unknown underline type");
 		}
 	}
 
