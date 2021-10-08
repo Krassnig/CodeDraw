@@ -5,7 +5,9 @@ It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
 Read the [introduction to CodeDraw](https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md)
-to learn how to use this library.
+for a beginners guide to CodeDraw.
+
+The javadoc for CodeDraw can be found [here](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 For a C# version of CodeDraw go to the [CodeDrawProject repository](https://github.com/Krassnig/CodeDrawProject).
 

@@ -9,6 +9,10 @@ and makes it very simple to draw and animate various shapes and images to a canv
 
 A list of all methods can be found in the [Api section in the CodeDraw repository](https://github.com/Krassnig/CodeDraw#api).
 
+
+The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
+or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
+
 ## Getting Started
 
 Instruction on how to install CodeDraw can be found
