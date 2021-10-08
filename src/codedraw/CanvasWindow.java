@@ -41,6 +41,7 @@ class CanvasWindow {
 	private CanvasPanel canvas;
 	private Point windowPosition;
 	private Point canvasPosition;
+	private CursorStyle cursorStyle;
 
 	public Point getWindowPosition() { return windowPosition; }
 	public void setWindowPosition(Point newPosition) {
@@ -57,6 +58,13 @@ class CanvasWindow {
 
 	public String getTitle() { return frame.getTitle(); }
 	public void setTitle(String title) { frame.setTitle(title); }
+
+	public CursorStyle getCursorStyle() { return cursorStyle; }
+
+	public void setCursorStyle(CursorStyle cursorStyle) {
+		this.cursorStyle = cursorStyle;
+		this.canvas.setCursor(cursorStyle.getCursor());
+	}
 
 	public void render(CodeDrawGraphics buffer) {
 		canvas.render(buffer);
