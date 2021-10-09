@@ -912,7 +912,7 @@ public class CodeDraw {
 	 * Displays the drawn shapes and images on the canvas and then waits for the given amount of milliseconds.
 	 * The copying of the buffer to the screen also takes a bit of time and that will be the minimum time it
 	 * takes for this method to return.<br>
-	 * The amount of milliseconds this method must be called to display a certain amount of frames per second:
+	 * The amount of milliseconds this method must be called with to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>
 	 * 60 fps ~ 16ms<br>
