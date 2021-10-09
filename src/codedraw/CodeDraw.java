@@ -151,19 +151,19 @@ public class CodeDraw {
 
 	/**
 	 * This value cannot be changed once set via the constructor.
-	 * @return Returns the width of the canvas.
+	 * @return the width of the canvas.
 	 */
 	public int getWidth() { return g.getWidth(); }
 
 	/**
 	 * This value cannot be changed once set via the constructor.
-	 * @return Returns the height of the canvas.
+	 * @return the height of the canvas.
 	 */
 	public int getHeight() { return g.getHeight(); }
 
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
-	 * @return Returns the lineWidth of this CodeDraw window.
+	 * @return the lineWidth of this CodeDraw window.
 	 */
 	public double getLineWidth() { return g.getLineWidth(); }
 	/**
@@ -179,7 +179,7 @@ public class CodeDraw {
 	/**
 	 * Defines the styling of drawn text.
 	 * See also {@link #drawText(double, double, String)}
-	 * @return Returns the text formatting options of this CodeDraw window.
+	 * @return the text formatting options of this CodeDraw window.
 	 */
 	public TextFormat getTextFormat() { return textFormat; }
 	/**
@@ -196,7 +196,7 @@ public class CodeDraw {
 	/**
 	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
 	 * See also {@link CursorStyle}.
-	 * @return Returns the cursor style of this CodeDraw canvas.
+	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
 		return this.window.getCursorStyle();
@@ -228,7 +228,7 @@ public class CodeDraw {
 
 	/**
 	 * Defines how the corners of drawn shapes should look.
-	 * @return Returns the corner style of this CodeDraw window.
+	 * @return the corner style of this CodeDraw window.
 	 */
 	public Corner getCorner() { return g.getCorner(); }
 	/**
@@ -243,7 +243,7 @@ public class CodeDraw {
 
 	/**
 	 * The title is the text displayed in the top left corner of the CodeDraw window.
-	 * @return Returns the text of the title.
+	 * @return the text of the title.
 	 */
 	public String getTitle() { return window.getTitle(); }
 	/**
@@ -258,7 +258,7 @@ public class CodeDraw {
 
 	/**
 	 * Defines the color that is used for drawing all shapes.
-	 * @return Returns the drawing color of this CodeDraw window.
+	 * @return the drawing color of this CodeDraw window.
 	 */
 	public Color getColor() { return g.getColor(); }
 

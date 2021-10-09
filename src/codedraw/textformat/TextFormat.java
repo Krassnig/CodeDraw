@@ -17,7 +17,7 @@ public final class TextFormat {
 	/**
 	 * Defines the horizontal alignment of the drawn text.
 	 * The default is HorizontalAlign.LEFT.
-	 * @return Returns the horizontal alignment.
+	 * @return the horizontal alignment.
 	 */
 	public HorizontalAlign getHorizontalAlign() { return horizontalAlign; }
 
@@ -36,7 +36,7 @@ public final class TextFormat {
 	/**
 	 * Defines the vertical alignment of the drawn text.
 	 * The default is VerticalAlign.TOP
-	 * @return Returns the vertical alignment.
+	 * @return the vertical alignment.
 	 */
 	public VerticalAlign getVerticalAlign() { return verticalAlign; }
 
@@ -55,7 +55,7 @@ public final class TextFormat {
 	/**
 	 * Defines the font size of the drawn text.
 	 * The default is 16.
-	 * @return Returns the font size.
+	 * @return the font size.
 	 */
 	public int getFontSize() { return fontSize; }
 
@@ -74,7 +74,7 @@ public final class TextFormat {
 	/**
 	 * Defines the font of the drawn text.
 	 * The default font is Arial.
-	 * @return Returns the font name.
+	 * @return the font name.
 	 */
 	public String getFontName() { return fontName; }
 
@@ -95,7 +95,7 @@ public final class TextFormat {
 	/**
 	 * Defines whether the drawn text is bold.
 	 * The default is false (not bold).
-	 * @return Returns whether the drawn text is bold.
+	 * @return whether the drawn text is bold.
 	 */
 	public boolean isBold() { return isBold; }
 
@@ -113,7 +113,7 @@ public final class TextFormat {
 	/**
 	 * Defines whether the drawn text is italic.
 	 * The default is false (not italic).
-	 * @return Returns whether the drawn text is italic.
+	 * @return whether the drawn text is italic.
 	 */
 	public boolean isItalic() { return isItalic; }
 
@@ -129,7 +129,7 @@ public final class TextFormat {
 	/**
 	 * Defines the underline styling of the drawn text.
 	 * The default is Underline.NONE.
-	 * @return Returns the underline styling.
+	 * @return the underline styling.
 	 */
 	public Underline getUnderline() { return underline; }
 
@@ -148,7 +148,7 @@ public final class TextFormat {
 	/**
 	 * Defines whether the drawn text is strikethrough.
 	 * The default is false (no strikethrough).
-	 * @return Returns whether the drawn text is strikethrough.
+	 * @return whether the drawn text is strikethrough.
 	 */
 	public boolean isStrikethrough() { return isStrikethrough; }
 
@@ -160,6 +160,7 @@ public final class TextFormat {
 	public void isStrikethrough(boolean strikethrough) {
 		this.isStrikethrough = strikethrough;
 	}
+
 
 	@Override
 	public boolean equals(Object o) {
