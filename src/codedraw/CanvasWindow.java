@@ -26,7 +26,7 @@ class CanvasWindow {
 		frame.setContentPane(canvas);
 		frame.pack();
 		frame.setResizable(false);
-		frame.setIconImage(getIcon());
+		frame.setIconImage(getCodeDrawIcon());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
@@ -178,7 +178,7 @@ class CanvasWindow {
 		frame.dispose();
 	}
 
-	private static BufferedImage getIcon() {
+	private static BufferedImage getCodeDrawIcon() {
 		try {
 			return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(
 					"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
