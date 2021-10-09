@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class TextFormatTest {
 	public static void main(String[] args) {
-		newLineTest();
+		//newLineTest();
 		//fontNameTest();
 		//italicTest();
 		//boldTest();
@@ -102,12 +102,19 @@ public class TextFormatTest {
 		TextFormat format = cd.getTextFormat();
 
 		format.setFontName("Times New Roman");
-		format.setFontSize(30);
+		format.setFontSize(20);
 
 		int i = 0;
 		for (Underline underline : Underline.values()) {
 			format.setUnderlined(underline);
 			cd.drawText(30, 30 + i++ * 30, underline.name().toLowerCase());
+		}
+
+		cd.isAntiAliased(false);
+		i = 0;
+		for (Underline underline : Underline.values()) {
+			format.setUnderlined(underline);
+			cd.drawText(200, 30 + i++ * 30, underline.name().toLowerCase());
 		}
 
 		cd.show();

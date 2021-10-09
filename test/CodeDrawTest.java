@@ -13,7 +13,7 @@ import static codedraw.CursorStyle.MOVE;
 
 public class CodeDrawTest {
 	public static void main(String[] args) {
-		cursorTest();
+		//cursorTest();
 		//clearTest();
 		//autoCloseTest();
 		//windowPositionTest();
