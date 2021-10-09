@@ -39,7 +39,7 @@ public class CursorStyle {
 	 * @param y The click position relative to the image.
 	 */
 	public CursorStyle(Image image, int x, int y) {
-		this.cursor = defaultToolkit.createCustomCursor(image, new Point(x, y), "CodeDraw Custom Cursor " + image.hashCode());
+		this.cursor = defaultToolkit.createCustomCursor(image, new Point(x, y), "CodeDraw Custom Cursor " + Objects.hash(image, x, y));
 	}
 
 	private CursorStyle(int cursorType) {
@@ -66,7 +66,7 @@ public class CursorStyle {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cursor);
+		return cursor.hashCode();
 	}
 
 	@Override
