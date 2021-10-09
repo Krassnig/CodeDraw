@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * CursorStyle is used to specify how the cursor looks when hovering over the CodeDraw canvas.
+ * CursorStyle is used to specify how the cursor looks like when hovering over the CodeDraw canvas.
  */
 public class CursorStyle {
 	private static Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
