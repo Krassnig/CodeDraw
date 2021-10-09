@@ -104,6 +104,7 @@ https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-
 - lineWidth
 - corner
 - isAntiAliased
+- cursorStyle
 - textFormat
 	- fontName
 	- fontSize
