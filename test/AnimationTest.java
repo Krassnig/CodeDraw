@@ -7,7 +7,7 @@ public class AnimationTest {
 		//sinCosTest();
 		//granularAngleTest();
 		//arcOriginTest();
-		//textAnimationTest();
+		textAnimationTest();
 		//animationTest();
 	}
 
@@ -115,11 +115,14 @@ public class AnimationTest {
 		int pause = 10;
 
 		while (true) {
+			cd.setColor(Palette.random());
+
 			for (int i = 0; i < end; i++) {
 				cd.clear();
 				cd.drawText(offset + i * steps, offset, "I'm animated!");
 				cd.show(pause);
 			}
+			cd.setColor(Palette.random());
 
 			for (int i = 0; i < end; i++) {
 				cd.clear();

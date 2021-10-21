@@ -10,6 +10,14 @@ public final class Palette {
 	private Palette() { }
 
 	/**
+	 * Generates a random color. The color will not be transparent.
+	 * @return a random color.
+	 */
+	public static Color random() {
+		return fromRGB((int)(Math.random() * (1 << 24)));
+	}
+
+	/**
 	 * Creates a grayscale color where its color component (red, green, blue) all have the same value.
 	 * 0 is white. 255 is black. 128 would be gray.
 	 * @param gray The value can range from 0 to 255.
