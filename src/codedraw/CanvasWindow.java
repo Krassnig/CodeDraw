@@ -29,6 +29,7 @@ class CanvasWindow {
 		frame.setIconImage(getCodeDrawIcon());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
+		frame.toFront();
 		frame.setVisible(true);
 
 		windowPosition = frame.getLocationOnScreen();
