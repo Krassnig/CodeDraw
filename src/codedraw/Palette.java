@@ -13,7 +13,7 @@ public final class Palette {
 	 * Generates a random color. The color will not be transparent.
 	 * @return a random color.
 	 */
-	public static Color random() {
+	public static Color randomColor() {
 		return fromRGB((int)(Math.random() * (1 << 24)));
 	}
 
