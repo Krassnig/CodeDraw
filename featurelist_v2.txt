@@ -1,0 +1,3 @@
+Wrapped event args
+Scanner like events
+Mathematical pie/arc start/sweep angle
