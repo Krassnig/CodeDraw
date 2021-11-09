@@ -23,7 +23,7 @@ public class CodeDrawGraphics {
 		setRenderingHint(FractionalMetrics.ON);
 		setRenderingHint(Interpolation.BICUBIC);
 		setRenderingHint(Rendering.QUALITY);
-		//setRenderingHint(ResolutionVariant.SIZE_FIT);
+		setRenderingHint(ResolutionVariant.BASE);
 		setRenderingHint(StrokeControl.DEFAULT);
 		setRenderingHint(TextAntiAliasing.ON);
 
