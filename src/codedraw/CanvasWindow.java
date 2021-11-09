@@ -1,5 +1,7 @@
 package codedraw;
 
+import codedraw.graphics.CodeDrawGraphics;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

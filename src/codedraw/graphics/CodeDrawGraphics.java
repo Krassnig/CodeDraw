@@ -1,5 +1,7 @@
-package codedraw;
+package codedraw.graphics;
 
+import codedraw.Corner;
+import codedraw.Palette;
 import codedraw.textformat.*;
 
 import java.awt.*;
@@ -9,11 +11,21 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-class CodeDrawGraphics {
+public class CodeDrawGraphics {
 	public CodeDrawGraphics(int width, int height) {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
-		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+
+		setRenderingHint(AlphaInterpolation.QUALITY);
+		setRenderingHint(AntiAliasing.ON);
+		setRenderingHint(ColorRendering.QUALITY);
+		setRenderingHint(Dithering.ENABLE);
+		setRenderingHint(FractionalMetrics.ON);
+		setRenderingHint(Interpolation.BICUBIC);
+		setRenderingHint(Rendering.QUALITY);
+		//setRenderingHint(ResolutionVariant.SIZE_FIT);
+		setRenderingHint(StrokeControl.DEFAULT);
+		setRenderingHint(TextAntiAliasing.ON);
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
@@ -51,20 +63,14 @@ class CodeDrawGraphics {
 	public boolean isAntiAliased() { return isAntiAliased; }
 	public void isAntiAliased(boolean isAntiAliased) {
 		this.isAntiAliased = isAntiAliased;
-		g.addRenderingHints(new RenderingHints(
-				RenderingHints.KEY_ANTIALIASING,
-				isAntiAliased ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF
-		));
+		setRenderingHint(isAntiAliased ? AntiAliasing.ON : AntiAliasing.OFF);
 	}
 
 	private boolean isTextAntiAliased = true;
 	public boolean isTextAntiAliased() { return isTextAntiAliased; }
 	public void isTextAntiAliased(boolean isTextAntiAliased) {
 		this.isTextAntiAliased = isTextAntiAliased;
-		g.addRenderingHints(new RenderingHints(
-				RenderingHints.KEY_TEXT_ANTIALIASING,
-				isAntiAliased ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF
-		));
+		setRenderingHint(isTextAntiAliased ? TextAntiAliasing.ON : TextAntiAliasing.OFF);
 	}
 
 	private void updateBrush() {
@@ -288,6 +294,10 @@ class CodeDrawGraphics {
 	public void dispose() {
 		g.dispose();
 		image = null;
+	}
+
+	public void setRenderingHint(RenderingHintValue hint) {
+		hint.apply(g);
 	}
 
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {

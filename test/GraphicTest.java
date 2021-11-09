@@ -124,6 +124,24 @@ public class GraphicTest {
 		cd.drawLine(200, 300, 200, 400);
 		cd.drawText(200, 300, "No aa");
 
+		cd.isAntiAliased(true);
+
+		cd.drawLine(400.00, 100, 400.00, 200);
+		cd.drawLine(402.50, 100, 402.50, 200);
+		cd.drawLine(405.00, 100, 405.00, 200);
+		cd.drawLine(407.50, 100, 407.50, 200);
+		cd.drawLine(410.00, 100, 410.00, 200);
+
+		cd.drawRectangle(400.00, 300, 1, 100);
+		cd.drawRectangle(402.50, 300, 1, 100);
+		cd.drawRectangle(405.00, 300, 1, 100);
+		cd.drawRectangle(407.50, 300, 1, 100);
+		cd.drawRectangle(410.00, 300, 1, 100);
+
+		cd.drawSquare(10, 10, 10.5);
+		cd.drawSquare(30.5, 10.5, 10);
+		cd.drawSquare(50.5, 10.5, 10.5);
+
 		cd.show();
 	}
 

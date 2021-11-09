@@ -1,5 +1,6 @@
 package codedraw;
 
+import codedraw.graphics.CodeDrawGraphics;
 import codedraw.textformat.*;
 
 import javax.imageio.ImageIO;
