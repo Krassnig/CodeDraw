@@ -80,6 +80,7 @@ class ConcurrentQueue<T> {
 		System.arraycopy(source, sourceOffset, target, targetOffset, length);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <T> T[] createGenericArray(int length) {
 		return (T[]) new Object[length];
 	}
