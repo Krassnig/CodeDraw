@@ -7,8 +7,7 @@ interface RenderingHintValue {
 
 	Object value();
 
-	default void apply(Graphics2D graphics) {
-		graphics.setRenderingHint(key(), value());
-		//g.addRenderingHints(new RenderingHints(hint.key(), hint.value()));
+	static void applyHint(Graphics2D graphics, RenderingHintValue hint) {
+		graphics.setRenderingHint(hint.key(), hint.value());
 	}
 }

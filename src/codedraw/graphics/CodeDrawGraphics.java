@@ -13,19 +13,29 @@ import java.util.Map;
 
 public class CodeDrawGraphics {
 	public CodeDrawGraphics(int width, int height) {
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this(width, height, 1, 1);
+	}
+
+	private CodeDrawGraphics(int width, int height, int xScale, int yScale) {
+		if (xScale < 1 || yScale < 1) throw new RuntimeException("scale must be greater than 0");
+		this.width = width;
+		this.height = height;
+		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
+		g.scale(xScale, yScale);
 
 		setRenderingHint(AlphaInterpolation.QUALITY);
-		setRenderingHint(AntiAliasing.ON);
 		setRenderingHint(ColorRendering.QUALITY);
-		setRenderingHint(Dithering.ENABLE);
-		setRenderingHint(FractionalMetrics.ON);
-		setRenderingHint(Interpolation.BICUBIC);
 		setRenderingHint(Rendering.QUALITY);
-		setRenderingHint(ResolutionVariant.BASE);
-		setRenderingHint(StrokeControl.DEFAULT);
-		setRenderingHint(TextAntiAliasing.ON);
+		setRenderingHint(Dithering.ENABLE);
+
+		setRenderingHint(FractionalMetrics.ON); // tested
+		setRenderingHint(StrokeControl.PURE); // tested
+
+		setRenderingHint(ResolutionVariant.DEFAULT); // unknown
+		setRenderingHint(TextAntiAliasing.ON); // user settings
+		setRenderingHint(AntiAliasing.ON); // user settings
+		setRenderingHint(Interpolation.BICUBIC); // draw image specific
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
@@ -36,11 +46,17 @@ public class CodeDrawGraphics {
 		clear();
 	}
 
+	private void setRenderingHint(RenderingHintValue hint) {
+		RenderingHintValue.applyHint(g, hint);
+	}
+
 	private BufferedImage image;
 	private Graphics2D g;
+	private int width;
+	private int height;
 
-	public int getWidth() { return image.getWidth(); }
-	public int getHeight() { return image.getHeight(); }
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
 
 	public Color getColor() { return g.getColor(); }
 	public void setColor(Color color) { g.setColor(color); }
@@ -287,6 +303,11 @@ public class CodeDrawGraphics {
 		target.setColor(c);
 	}
 
+	public void copyTo(Graphics2D target) {
+		RenderingHintValue.applyHint(target, Interpolation.BICUBIC);
+		copyTo((Graphics)target);
+	}
+
 	public void copyTo(CodeDrawGraphics target) {
 		copyTo(target.g);
 	}
@@ -294,10 +315,6 @@ public class CodeDrawGraphics {
 	public void dispose() {
 		g.dispose();
 		image = null;
-	}
-
-	public void setRenderingHint(RenderingHintValue hint) {
-		hint.apply(g);
 	}
 
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {
@@ -426,5 +443,14 @@ public class CodeDrawGraphics {
 
 	private static double transformSweep(double sweepRadians) {
 		return - Math.toDegrees(sweepRadians);
+	}
+
+	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
+		Screen s = Screen.DEFAULT_SCREEN;
+		return new CodeDrawGraphics(width, height, upscale(s.getXScale()), upscale(s.getYScale()));
+	}
+
+	private static int upscale(double scale) {
+		return Math.max(1, (int)Math.ceil(scale));
 	}
 }

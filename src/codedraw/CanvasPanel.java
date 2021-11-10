@@ -8,7 +8,7 @@ import java.awt.datatransfer.Clipboard;
 
 class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
-		displayBuffer = new CodeDrawGraphics(width, height);
+		displayBuffer = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(width, height);
 
 		setPreferredSize(new Dimension(width, height));
 		setIgnoreRepaint(true);
@@ -43,6 +43,12 @@ class CanvasPanel extends JPanel {
 		super.paintComponent(componentGraphics);
 
 		renderCopyLock.acquire();
+		if (componentGraphics instanceof Graphics2D) {
+			displayBuffer.copyTo((Graphics2D) componentGraphics);
+		}
+		else {
+			displayBuffer.copyTo(componentGraphics);
+		}
 		displayBuffer.copyTo(componentGraphics);
 		renderCopyLock.release();
 	}
