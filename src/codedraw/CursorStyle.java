@@ -9,20 +9,20 @@ import java.util.Objects;
 public class CursorStyle {
 	private static Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
 
-	public static CursorStyle DEFAULT = new CursorStyle(Cursor.getDefaultCursor());
-	public static CursorStyle CROSS_HAIR = new CursorStyle(Cursor.CROSSHAIR_CURSOR);
-	public static CursorStyle TEXT = new CursorStyle(Cursor.TEXT_CURSOR);
-	public static CursorStyle WAIT = new CursorStyle(Cursor.WAIT_CURSOR);
-	public static CursorStyle SOUTH_WEST_RESIZE = new CursorStyle(Cursor.SW_RESIZE_CURSOR);
-	public static CursorStyle SOUTH_EAST_RESIZE = new CursorStyle(Cursor.SE_RESIZE_CURSOR);
-	public static CursorStyle NORTH_WEST_RESIZE = new CursorStyle(Cursor.NW_RESIZE_CURSOR);
-	public static CursorStyle NORTH_EAST_RESIZE = new CursorStyle(Cursor.NE_RESIZE_CURSOR);
-	public static CursorStyle NORTH_RESIZE = new CursorStyle(Cursor.N_RESIZE_CURSOR);
-	public static CursorStyle SOUTH_RESIZE = new CursorStyle(Cursor.S_RESIZE_CURSOR);
-	public static CursorStyle WEST_RESIZE = new CursorStyle(Cursor.W_RESIZE_CURSOR);
-	public static CursorStyle EAST_RESIZE = new CursorStyle(Cursor.E_RESIZE_CURSOR);
-	public static CursorStyle HAND = new CursorStyle(Cursor.HAND_CURSOR);
-	public static CursorStyle MOVE = new CursorStyle(Cursor.MOVE_CURSOR);
+	public static final CursorStyle DEFAULT = new CursorStyle(Cursor.getDefaultCursor());
+	public static final CursorStyle CROSS_HAIR = new CursorStyle(Cursor.CROSSHAIR_CURSOR);
+	public static final CursorStyle TEXT = new CursorStyle(Cursor.TEXT_CURSOR);
+	public static final CursorStyle WAIT = new CursorStyle(Cursor.WAIT_CURSOR);
+	public static final CursorStyle SOUTH_WEST_RESIZE = new CursorStyle(Cursor.SW_RESIZE_CURSOR);
+	public static final CursorStyle SOUTH_EAST_RESIZE = new CursorStyle(Cursor.SE_RESIZE_CURSOR);
+	public static final CursorStyle NORTH_WEST_RESIZE = new CursorStyle(Cursor.NW_RESIZE_CURSOR);
+	public static final CursorStyle NORTH_EAST_RESIZE = new CursorStyle(Cursor.NE_RESIZE_CURSOR);
+	public static final CursorStyle NORTH_RESIZE = new CursorStyle(Cursor.N_RESIZE_CURSOR);
+	public static final CursorStyle SOUTH_RESIZE = new CursorStyle(Cursor.S_RESIZE_CURSOR);
+	public static final CursorStyle WEST_RESIZE = new CursorStyle(Cursor.W_RESIZE_CURSOR);
+	public static final CursorStyle EAST_RESIZE = new CursorStyle(Cursor.E_RESIZE_CURSOR);
+	public static final CursorStyle HAND = new CursorStyle(Cursor.HAND_CURSOR);
+	public static final CursorStyle MOVE = new CursorStyle(Cursor.MOVE_CURSOR);
 
 	/**
 	 * Creates a new CursorStyle from an image.
