@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum ColorRendering implements RenderingHintValue {
+enum ColorRendering implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_COLOR_RENDER_DEFAULT),
 	SPEED(RenderingHints.VALUE_COLOR_RENDER_SPEED),
 	QUALITY(RenderingHints.VALUE_COLOR_RENDER_QUALITY);

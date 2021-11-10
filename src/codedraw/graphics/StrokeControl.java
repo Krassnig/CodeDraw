@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum StrokeControl implements RenderingHintValue {
+enum StrokeControl implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_STROKE_DEFAULT),
 	PURE(RenderingHints.VALUE_STROKE_PURE),
 	NORMALIZE(RenderingHints.VALUE_STROKE_NORMALIZE);

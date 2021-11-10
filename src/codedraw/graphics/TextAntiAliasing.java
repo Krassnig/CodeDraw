@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum TextAntiAliasing implements RenderingHintValue {
+enum TextAntiAliasing implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
 	OFF(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF),
 	ON(RenderingHints.VALUE_TEXT_ANTIALIAS_ON),

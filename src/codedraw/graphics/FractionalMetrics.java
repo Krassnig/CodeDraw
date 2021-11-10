@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum FractionalMetrics implements RenderingHintValue {
+enum FractionalMetrics implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT),
 	OFF(RenderingHints.VALUE_FRACTIONALMETRICS_OFF),
 	ON(RenderingHints.VALUE_FRACTIONALMETRICS_ON);

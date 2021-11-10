@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum ResolutionVariant implements RenderingHintValue {
+enum ResolutionVariant implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_RESOLUTION_VARIANT_DEFAULT),
 	BASE(RenderingHints.VALUE_RESOLUTION_VARIANT_BASE),
 	DPI_FIT(RenderingHints.VALUE_RESOLUTION_VARIANT_DPI_FIT),

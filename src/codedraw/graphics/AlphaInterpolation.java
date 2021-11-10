@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum AlphaInterpolation implements RenderingHintValue {
+enum AlphaInterpolation implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT),
 	SPEED(RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED),
 	QUALITY(RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);

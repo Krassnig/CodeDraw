@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum Interpolation implements RenderingHintValue {
+enum Interpolation implements RenderingHintValue {
 	NEAREST_NEIGHBOR(RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR),
 	BILINIEAR(RenderingHints.VALUE_INTERPOLATION_BILINEAR),
 	BICUBIC(RenderingHints.VALUE_INTERPOLATION_BICUBIC);

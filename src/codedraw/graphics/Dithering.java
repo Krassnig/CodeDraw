@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-public enum Dithering implements RenderingHintValue {
+enum Dithering implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_DITHER_DEFAULT),
 	DISABLE(RenderingHints.VALUE_DITHER_DISABLE),
 	ENABLE(RenderingHints.VALUE_DITHER_ENABLE);
