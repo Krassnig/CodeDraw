@@ -438,11 +438,11 @@ public class CodeDrawGraphics {
 	}
 
 	private static double transformStart(double startRadians) {
-		return 90 - Math.toDegrees(startRadians);
+		return Math.toDegrees(-startRadians);
 	}
 
 	private static double transformSweep(double sweepRadians) {
-		return - Math.toDegrees(sweepRadians);
+		return Math.toDegrees(-sweepRadians);
 	}
 
 	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {

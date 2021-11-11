@@ -58,8 +58,8 @@ public class AnimationTest {
 			cd.drawCircle(300, 300, radius);
 
 			cd.setColor(Palette.BLUE);
-			int newx = 300 + (int) (radius * Math.sin(-i));
-			int newy = 300 + (int) (radius * Math.cos(-i));
+			double newx = 300 + radius * Math.cos(i);
+			double newy = 300 + radius * Math.sin(i);
 			cd.drawLine(300, 300, newx, 300);
 			cd.drawLine(newx, 300, newx, newy);
 
@@ -79,8 +79,8 @@ public class AnimationTest {
 		for (double i = 0; i < Math.PI / 2; i += steps) {
 			cd.clear();
 
-			cd.fillPie(100, 100, 800, 800, Math.PI / 2, i);
-			cd.drawArc(100, 100, 850, 850, Math.PI / 2, i);
+			cd.fillPie(100, 100, 800, 800, 0, i);
+			cd.drawArc(100, 100, 850, 850, 0, i);
 
 			cd.show();
 		}

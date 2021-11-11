@@ -137,11 +137,11 @@ public class CodeDrawTest {
 		cd.drawText(100, 100, "There should be an out.png in your test folder.");
 		cd.setColor(Palette.BLUE_VIOLET);
 
-		cd.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillPie(200, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(200, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
+		cd.fillPie(200, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
 
-		cd.drawArc(400, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillPie(400, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.drawArc(400, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
+		cd.fillPie(400, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
 
 		cd.setColor(Palette.ORANGE);
 		cd.drawRectangle(150, 150, 100, 100);

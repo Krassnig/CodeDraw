@@ -525,12 +525,12 @@ public class CodeDraw {
 
 	/**
 	 * Draws the outline of an arc with the center being the (x, y) coordinates.
-	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param radius The radius of the arc in pixel.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
@@ -542,13 +542,13 @@ public class CodeDraw {
 	/**
 	 * Draws the outline of an arc with the center being the (x, y) coordinates.
 	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
-	 * The arc starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param horizontalRadius The horizontal radius of the arc in pixel. The width of the arc is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the arc in pixel. The height of the arc is 2 * verticalRadius.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
@@ -560,12 +560,12 @@ public class CodeDraw {
 
 	/**
 	 * Draws the outline of a pie with the center being the (x, y) coordinates.
-	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
@@ -577,13 +577,13 @@ public class CodeDraw {
 	/**
 	 * Draws the outline of a pie with the center being the (x, y) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
-	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the pie in pixel. The height of the pie is 2 * verticalRadius.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
@@ -595,12 +595,12 @@ public class CodeDraw {
 
 	/**
 	 * Draws a filled pie with the center being the (x, y) coordinates.
-	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
@@ -612,13 +612,13 @@ public class CodeDraw {
 	/**
 	 * Draws a filled pie with the center being the (x, y) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
-	 * The pie starts at the 12 o'clock position offset by the startRadians parameter.
+	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the pie in pixel. The height of the pie is 2 * verticalRadius.
-	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 12 o'clock going clock-wise.
+	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {

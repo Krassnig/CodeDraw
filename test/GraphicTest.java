@@ -3,6 +3,7 @@ import codedraw.textformat.*;
 
 public class GraphicTest {
 	public static void main(String[] args) {
+		//angleArcLineTest();
 		//pieTest();
 		//arcTest();
 		//bezierTest();
@@ -12,6 +13,17 @@ public class GraphicTest {
 		//antiAliasingTest();
 		//lineWidthTest();
 		//cornerTest();
+	}
+
+	private static void angleArcLineTest() {
+		CodeDraw cd = new CodeDraw();
+
+		for (double i = 0; true; i += Math.PI / 128) {
+			cd.clear();
+			cd.drawLine(300, 300, 300 + Math.cos(i) * 100, 300 + Math.sin(i) * 100);
+			cd.drawArc(300, 300, 100, i, Math.PI / 4);
+			cd.show(20);
+		}
 	}
 
 	private static void pieTest() {
@@ -32,11 +44,11 @@ public class GraphicTest {
 
 		cd.setColor(Palette.BLUE_VIOLET);
 
-		cd.fillPie(200, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillPie(200, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.fillPie(200, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
+		cd.fillPie(200, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
 
-		cd.fillPie(400, 200, 50, 50, 0, Math.PI / 2);
-		cd.fillPie(400, 400, 50, 50, 0, Math.PI * 3 / 2);
+		cd.fillPie(400, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
+		cd.fillPie(400, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
 
 		cd.setColor(Palette.ORANGE);
 		cd.drawRectangle(150, 150, 100, 100);
