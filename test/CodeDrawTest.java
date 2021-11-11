@@ -134,7 +134,7 @@ public class CodeDrawTest {
 	private static void imageSaveTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.drawText(100, 100, "There should be a out.png in your test folder.");
+		cd.drawText(100, 100, "There should be an out.png in your test folder.");
 		cd.setColor(Palette.BLUE_VIOLET);
 
 		cd.drawArc(200, 200, 50, 50, 0, Math.PI / 2);
