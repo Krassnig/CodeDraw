@@ -1,7 +1,6 @@
 package codedraw;
 
-import codedraw.events.EventCollection;
-import codedraw.events.KeyDownMap;
+import codedraw.events.*;
 import codedraw.graphics.CodeDrawGraphics;
 
 import javax.imageio.ImageIO;
@@ -84,20 +83,29 @@ class CanvasWindow {
 
 		canvas.addMouseListener(createMouseListener(events));
 		canvas.addMouseMotionListener(createMouseMotionListener(events));
-		canvas.addMouseWheelListener(events.mouseWheel::invoke);
+		canvas.addMouseWheelListener(createMouseWheelListener(events));
 
 		frame.addKeyListener(createKeyListener(events, keyDownMap));
 		frame.addComponentListener(createComponentListener(events));
 		frame.addWindowListener(createWindowListener());
 	}
 
+	private MouseWheelListener createMouseWheelListener(EventCollection events) {
+		return new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				events.mouseWheel.invoke(new MouseWheelEventArgs(e));
+			}
+		};
+	}
+
 	private ComponentListener createComponentListener(EventCollection events) {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				windowPosition = frame.getLocationOnScreen();
 				canvasPosition = canvas.getLocationOnScreen();
-				events.windowMove.invoke(e);
+				windowPosition = frame.getLocationOnScreen();
+				events.windowMove.invoke(new WindowMoveEventArgs(canvasPosition, windowPosition));
 			}
 		};
 	}
@@ -106,27 +114,27 @@ class CanvasWindow {
 		return new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				events.mouseClick.invoke(e);
+				events.mouseClick.invoke(new MouseEventArgs(e));
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				events.mouseDown.invoke(e);
+				events.mouseDown.invoke(new MouseEventArgs(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				events.mouseUp.invoke(e);
+				events.mouseUp.invoke(new MouseEventArgs(e));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				events.mouseEnter.invoke(e);
+				events.mouseEnter.invoke(new MouseEventArgs(e));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				events.mouseLeave.invoke(e);
+				events.mouseLeave.invoke(new MouseEventArgs(e));
 			}
 		};
 	}
@@ -135,14 +143,16 @@ class CanvasWindow {
 		return new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				keyDownMap.keyPress(e);
-				events.keyPress.invoke(e);
+				KeyEventArgs a = new KeyEventArgs(e);
+				keyDownMap.keyPress(a);
+				events.keyPress.invoke(a);
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				keyDownMap.keyRelease(e);
-				events.keyUp.invoke(e);
+				KeyEventArgs a = new KeyEventArgs(e);
+				keyDownMap.keyRelease(a);
+				events.keyUp.invoke(a);
 			}
 		};
 	}
@@ -151,12 +161,12 @@ class CanvasWindow {
 		return new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				events.mouseMove.invoke(e);
+				events.mouseMove.invoke(new MouseEventArgs(e));
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				events.mouseMove.invoke(e);
+				events.mouseMove.invoke(new MouseEventArgs(e));
 			}
 		};
 	}

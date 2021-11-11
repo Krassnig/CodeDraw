@@ -1,8 +1,6 @@
 package codedraw;
 
-import codedraw.events.EventCollection;
-import codedraw.events.EventHandler;
-import codedraw.events.Subscription;
+import codedraw.events.*;
 import codedraw.graphics.CodeDrawGraphics;
 import codedraw.textformat.*;
 
@@ -280,67 +278,67 @@ public class CodeDraw {
 	 * Triggers once when a mouse button is pressed down and quickly released again.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseClick.onInvoke(handler); }
+	public Subscription onMouseClick(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseClick.onInvoke(handler); }
 
 	/**
 	 * Triggers continuously while the mouse is being moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseMove.onInvoke(handler); }
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseMove.onInvoke(handler); }
 
 	/**
 	 * Triggers exactly once when a mouse button is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseDown.onInvoke(handler); }
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseDown.onInvoke(handler); }
 
 	/**
 	 * Triggers when a mouse button is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseUp.onInvoke(handler); }
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseUp.onInvoke(handler); }
 
 	/**
 	 * Triggers when the mouse enters the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseEnter.onInvoke(handler); }
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseEnter.onInvoke(handler); }
 
 	/**
 	 * Triggers when the mouse leaves the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEvent> handler) { return events.mouseLeave.onInvoke(handler); }
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseEventArgs> handler) { return events.mouseLeave.onInvoke(handler); }
 
 	/**
 	 * Triggers each time the mouse wheel is turned.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEvent> handler) { return events.mouseWheel.onInvoke(handler); }
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEventArgs> handler) { return events.mouseWheel.onInvoke(handler); }
 
 	/**
 	 * Trigger exactly once when a key is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyDown.onInvoke(handler); }
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyDown.onInvoke(handler); }
 
 	/**
 	 * Trigger when a key is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyUp.onInvoke(handler); }
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyUp.onInvoke(handler); }
 
 	/**
 	 * onKeyPress will continuously trigger while a key is being held down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEvent> handler) { return events.keyPress.onInvoke(handler); }
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyPress.onInvoke(handler); }
 
 	/**
 	 * Triggers every time the CodeDraw window is moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowMove(EventHandler<CodeDraw, ComponentEvent> handler) { return events.windowMove.onInvoke(handler); }
+	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) { return events.windowMove.onInvoke(handler); }
 
 	/**
 	 * Draws the text at the specified (x, y) coordinate.

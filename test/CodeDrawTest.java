@@ -9,7 +9,6 @@ import java.io.UncheckedIOException;
 import java.util.Base64;
 
 import static codedraw.CursorStyle.*;
-import static codedraw.CursorStyle.MOVE;
 
 public class CodeDrawTest {
 	public static void main(String[] args) {

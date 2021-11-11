@@ -2,11 +2,6 @@ package codedraw.events;
 
 import codedraw.CodeDraw;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-
 public class EventCollection {
 	public EventCollection(CodeDraw sender) {
 		mouseClick = new Event<>(sender);
@@ -22,15 +17,15 @@ public class EventCollection {
 		windowMove = new Event<>(sender);
 	}
 
-	public final Event<CodeDraw, MouseEvent> mouseClick;
-	public final Event<CodeDraw, MouseEvent> mouseMove;
-	public final Event<CodeDraw, MouseEvent> mouseDown;
-	public final Event<CodeDraw, MouseEvent> mouseUp;
-	public final Event<CodeDraw, MouseEvent> mouseEnter;
-	public final Event<CodeDraw, MouseEvent> mouseLeave;
-	public final Event<CodeDraw, MouseWheelEvent> mouseWheel;
-	public final Event<CodeDraw, KeyEvent> keyDown;
-	public final Event<CodeDraw, KeyEvent> keyUp;
-	public final Event<CodeDraw, KeyEvent> keyPress;
-	public final Event<CodeDraw, ComponentEvent> windowMove;
+	public final Event<CodeDraw, MouseEventArgs> mouseClick;
+	public final Event<CodeDraw, MouseEventArgs> mouseMove;
+	public final Event<CodeDraw, MouseEventArgs> mouseDown;
+	public final Event<CodeDraw, MouseEventArgs> mouseUp;
+	public final Event<CodeDraw, MouseEventArgs> mouseEnter;
+	public final Event<CodeDraw, MouseEventArgs> mouseLeave;
+	public final Event<CodeDraw, MouseWheelEventArgs> mouseWheel;
+	public final Event<CodeDraw, KeyEventArgs> keyDown;
+	public final Event<CodeDraw, KeyEventArgs> keyUp;
+	public final Event<CodeDraw, KeyEventArgs> keyPress;
+	public final Event<CodeDraw, WindowMoveEventArgs> windowMove;
 }

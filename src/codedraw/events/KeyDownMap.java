@@ -2,18 +2,17 @@ package codedraw.events;
 
 import codedraw.CodeDraw;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class KeyDownMap {
-	public KeyDownMap(Event<CodeDraw, KeyEvent> keyDownEvent) {
+	public KeyDownMap(Event<CodeDraw, KeyEventArgs> keyDownEvent) {
 		this.event = keyDownEvent;
 	}
 
-	private Event<CodeDraw, KeyEvent> event;
+	private Event<CodeDraw, KeyEventArgs> event;
 	private HashMap<Integer, Boolean> map = new HashMap<>();
 
-	public void keyPress(KeyEvent keyEvent) {
+	public void keyPress(KeyEventArgs keyEvent) {
 		Integer keyCode = keyEvent.getExtendedKeyCode();
 
 		if (!isKeyAlreadyPressed(keyCode)) {
@@ -22,7 +21,7 @@ public class KeyDownMap {
 		}
 	}
 
-	public void keyRelease(KeyEvent keyEvent) {
+	public void keyRelease(KeyEventArgs keyEvent) {
 		map.put(keyEvent.getExtendedKeyCode(), false);
 	}
 
