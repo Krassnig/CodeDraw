@@ -3,6 +3,7 @@ package codedraw.events;
 import codedraw.CodeDraw;
 
 public class EventCollection {
+
 	public EventCollection(CodeDraw sender) {
 		mouseClick = new Event<>(sender);
 		mouseMove = new Event<>(sender);
@@ -15,6 +16,7 @@ public class EventCollection {
 		keyUp = new Event<>(sender);
 		keyPress = new Event<>(sender);
 		windowMove = new Event<>(sender);
+		windowClose = new Event<>(sender);
 	}
 
 	public final Event<CodeDraw, MouseEventArgs> mouseClick;
@@ -28,4 +30,5 @@ public class EventCollection {
 	public final Event<CodeDraw, KeyEventArgs> keyUp;
 	public final Event<CodeDraw, KeyEventArgs> keyPress;
 	public final Event<CodeDraw, WindowMoveEventArgs> windowMove;
+	public final Event<CodeDraw, Void> windowClose;
 }
