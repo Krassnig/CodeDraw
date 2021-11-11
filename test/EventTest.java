@@ -2,6 +2,8 @@ import codedraw.*;
 import codedraw.events.*;
 
 import java.awt.event.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.util.function.BiFunction;
 
 public class EventTest {
@@ -20,6 +22,12 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyUp(h));
 		//windowMoveTest();
 		//unsubscribeTest();
+		//CodeDraw cd = new CodeDraw();
+		//cd.onMouseDown(EventTest::tick);
+	}
+
+	private static void tick(CodeDraw c, MouseEventArgs e){
+
 	}
 
 	private static void eventSleepTest() {
