@@ -41,6 +41,19 @@ class ConcurrentQueue<T> {
 		return result;
 	}
 
+	public T peek(){
+		listCount.acquire();
+		listLock.acquire();
+		T result = peekInternal();
+		listLock.release();
+		listCount.release();
+		return result;
+	}
+
+	private T peekInternal() {
+		return list[offset % capacity()];
+	}
+
 	private void pushInternal(T element) {
 		list[(offset + length++) % capacity()] = element;
 	}
