@@ -1,9 +1,11 @@
-package codedraw;
+package codedraw.events;
+
+import codedraw.CodeDraw;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-class KeyDownMap {
+public class KeyDownMap {
 	public KeyDownMap(Event<CodeDraw, KeyEvent> keyDownEvent) {
 		this.event = keyDownEvent;
 	}

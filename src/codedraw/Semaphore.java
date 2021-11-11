@@ -1,6 +1,6 @@
 package codedraw;
 
-class Semaphore {
+public class Semaphore {
 	public Semaphore(int initialCount) {
 		s = new java.util.concurrent.Semaphore(initialCount);
 	}

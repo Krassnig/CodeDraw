@@ -1,5 +1,8 @@
 package codedraw;
 
+import codedraw.events.EventCollection;
+import codedraw.events.EventHandler;
+import codedraw.events.Subscription;
 import codedraw.graphics.CodeDrawGraphics;
 import codedraw.textformat.*;
 

@@ -1,4 +1,6 @@
-package codedraw;
+package codedraw.events;
+
+import codedraw.Semaphore;
 
 class ConcurrentQueue<T> {
 	public ConcurrentQueue() {

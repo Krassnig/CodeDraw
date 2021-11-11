@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.events;
 
 /**
  * A function that specifies what should happen when a specific event occurs.

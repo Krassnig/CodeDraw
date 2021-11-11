@@ -1,5 +1,7 @@
 package codedraw;
 
+import codedraw.events.EventCollection;
+import codedraw.events.KeyDownMap;
 import codedraw.graphics.CodeDrawGraphics;
 
 import javax.imageio.ImageIO;

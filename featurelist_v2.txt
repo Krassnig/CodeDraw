@@ -1,4 +1,2 @@
 Wrapped event args
 Scanner like events
-Mathematical pie/arc start/sweep angle
-Switch to java 9 (Add ResolutionVariant to RenderingHints)

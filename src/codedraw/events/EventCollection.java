@@ -1,11 +1,13 @@
-package codedraw;
+package codedraw.events;
+
+import codedraw.CodeDraw;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-class EventCollection {
+public class EventCollection {
 	public EventCollection(CodeDraw sender) {
 		mouseClick = new Event<>(sender);
 		mouseMove = new Event<>(sender);
