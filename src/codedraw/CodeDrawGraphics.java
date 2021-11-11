@@ -274,7 +274,7 @@ class CodeDrawGraphics {
 		BufferedImage result = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 
 		Graphics2D g = result.createGraphics();
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
+		copyTo(g);
 		g.dispose();
 
 		return result;

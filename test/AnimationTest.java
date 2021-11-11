@@ -7,7 +7,7 @@ public class AnimationTest {
 		//sinCosTest();
 		//granularAngleTest();
 		//arcOriginTest();
-		textAnimationTest();
+		//textAnimationTest();
 		//animationTest();
 	}
 
