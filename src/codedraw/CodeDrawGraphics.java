@@ -10,9 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 class CodeDrawGraphics {
-	public CodeDrawGraphics(int width, int height) {
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	private CodeDrawGraphics(int width, int height, int xScale, int yScale) {
+		if (xScale < 1 || yScale < 1) throw new RuntimeException("scale must be greater than 0");
+		this.width = width;
+		this.height = height;
+
+		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
+		g.scale(xScale, yScale);
 		g.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
 
 		setColor(Palette.BLACK);
@@ -26,9 +31,11 @@ class CodeDrawGraphics {
 
 	private BufferedImage image;
 	private Graphics2D g;
+	private int width;
+	private int height;
 
-	public int getWidth() { return image.getWidth(); }
-	public int getHeight() { return image.getHeight(); }
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
 
 	public Color getColor() { return g.getColor(); }
 	public void setColor(Color color) { g.setColor(color); }
@@ -416,5 +423,14 @@ class CodeDrawGraphics {
 
 	private static double transformSweep(double sweepRadians) {
 		return - Math.toDegrees(sweepRadians);
+	}
+
+	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
+		Screen s = Screen.DEFAULT_SCREEN;
+		return new CodeDrawGraphics(width, height, upscale(s.getXScale()), upscale(s.getYScale()));
+	}
+
+	private static int upscale(double scale) {
+		return Math.max(1, (int)Math.ceil(scale));
 	}
 }

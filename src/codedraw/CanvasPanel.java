@@ -6,7 +6,7 @@ import java.awt.datatransfer.Clipboard;
 
 class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
-		displayBuffer = new CodeDrawGraphics(width, height);
+		displayBuffer = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(width, height);
 
 		setPreferredSize(new Dimension(width, height));
 		setIgnoreRepaint(true);

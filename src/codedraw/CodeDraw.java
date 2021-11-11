@@ -76,7 +76,7 @@ public class CodeDraw {
 
 		events = new EventCollection(this);
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
-		g = new CodeDrawGraphics(canvasWidth, canvasHeight);
+		g = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
