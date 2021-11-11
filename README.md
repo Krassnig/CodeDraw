@@ -193,8 +193,8 @@ Available events:
 
 Event Example:
 ```java
-import java.awt.event.MouseEvent;
 import codedraw.*;
+import codedraw.events.MouseEventArgs;
 
 public class Main {
 	public static void main(String[] args) {
@@ -208,7 +208,7 @@ public class Main {
 	}
 
 	// This method will be called by CodeDraw everytime the user moves their mouse
-	static void draw(CodeDraw cd, MouseEvent me) {
+	static void draw(CodeDraw cd, MouseEventArgs me) {
 		cd.fillSquare(me.getX() - 2, me.getY() - 2, 4);
 		cd.show();
 	}
