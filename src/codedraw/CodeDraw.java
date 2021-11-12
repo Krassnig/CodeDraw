@@ -84,7 +84,7 @@ public class CodeDraw {
 		show();
 
 		onKeyDown((sender, args) -> {
-			if (args.isControlDown() && args.getKeyCode() == KeyEvent.VK_C) {
+			if (args.isControlDown() && args.getKey() == Key.C) {
 				sender.window.copyCanvasToClipboard();
 			}
 		});

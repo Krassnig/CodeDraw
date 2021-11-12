@@ -17,7 +17,7 @@ public class MouseEventArgs {
 		return e.getY();
 	}
 
-	public int getMouseButtonType() {
-		return e.getButton();
+	public MouseButton getMouseButtonType() {
+		return MouseButton.values()[e.getButton()];
 	}
 }

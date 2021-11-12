@@ -100,7 +100,7 @@ public class EventTest {
 
 		cd.onMouseWheel((c, a) -> {
 			c.clear();
-			int h = l + a.getWheelRotation();
+			double h = l + a.getWheelRotation();
 			c.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
 			c.show();
 		});

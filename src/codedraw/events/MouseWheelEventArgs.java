@@ -9,7 +9,7 @@ public class MouseWheelEventArgs {
 
 	private MouseWheelEvent e;
 
-	public int getWheelRotation() {
-		return e.getWheelRotation();
+	public double getWheelRotation() {
+		return e.getPreciseWheelRotation();
 	}
 }
