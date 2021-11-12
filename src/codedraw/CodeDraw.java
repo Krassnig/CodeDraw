@@ -340,6 +340,8 @@ public class CodeDraw {
 	 */
 	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) { return events.windowMove.onInvoke(handler); }
 
+	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) { return events.windowClose.onInvoke(handler); }
+
 	/**
 	 * Draws the text at the specified (x, y) coordinate.
 	 * Formatting options can be set via the TextFormat object.

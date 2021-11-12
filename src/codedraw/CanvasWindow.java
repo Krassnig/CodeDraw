@@ -87,16 +87,11 @@ class CanvasWindow {
 
 		frame.addKeyListener(createKeyListener(events, keyDownMap));
 		frame.addComponentListener(createComponentListener(events));
-		frame.addWindowListener(createWindowListener());
+		frame.addWindowListener(createWindowListener(events));
 	}
 
 	private MouseWheelListener createMouseWheelListener(EventCollection events) {
-		return new MouseWheelListener() {
-			@Override
-			public void mouseWheelMoved(MouseWheelEvent e) {
-				events.mouseWheel.invoke(new MouseWheelEventArgs(e));
-			}
-		};
+		return e -> events.mouseWheel.invoke(new MouseWheelEventArgs(e));
 	}
 
 	private ComponentListener createComponentListener(EventCollection events) {
@@ -171,10 +166,11 @@ class CanvasWindow {
 		};
 	}
 
-	private WindowListener createWindowListener() {
+	private WindowListener createWindowListener(EventCollection events) {
 		return new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
+				events.windowClose.invoke(null);
 				windowCountLock.acquire();
 				windowCount--;
 				if (windowCount == 0 && exitOnLastClose) {
