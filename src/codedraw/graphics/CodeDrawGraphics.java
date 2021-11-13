@@ -5,11 +5,8 @@ import codedraw.Palette;
 import codedraw.textformat.*;
 
 import java.awt.*;
-import java.awt.font.TextAttribute;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CodeDrawGraphics {
 	public CodeDrawGraphics(int width, int height) {
@@ -212,66 +209,8 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {
-		Font font = createFont(textFormat);
-		g.setFont(font);
-		FontMetrics fontMetrics = g.getFontMetrics(font);
-
-		x -= getHorizontalOffset(textFormat.getHorizontalAlign(), fontMetrics, text);
-		y -= getVerticalOffset(textFormat.getVerticalAlign(), fontMetrics, font);
-
-		g.drawString(text, (float) x, (float) y);
-	}
-
-	private static Font createFont(TextFormat format) {
-		Font font = new Font(format.getFontName(), Font.PLAIN, format.getFontSize());
-		Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>() {
-			{
-				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, getUnderlineTextAttributeValue(format.getUnderline()));
-				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
-				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
-				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
-			}
-		};
-		return font.deriveFont(attributes);
-	}
-
-	private static double getVerticalOffset(VerticalAlign verticalAlign, FontMetrics fontMetrics, Font font) {
-		int d = fontMetrics.getHeight() - fontMetrics.getAscent() - font.getSize();
-		switch (verticalAlign) {
-			case TOP:
-				return d;
-			case MIDDLE:
-				return d / 2.0;
-			case BOTTOM:
-				return 0;
-			default:
-				throw new RuntimeException("Unknown vertical alignment option");
-		}
-	}
-
-	private static double getHorizontalOffset(HorizontalAlign horizontalAlign, FontMetrics fontMetrics, String text) {
-		switch (horizontalAlign) {
-			case LEFT:
-				return 0;
-			case CENTER:
-				return fontMetrics.stringWidth(text) / 2.0;
-			case RIGHT:
-				return fontMetrics.stringWidth(text);
-			default:
-				throw new RuntimeException("Unknown horizontal alignment option");
-		}
-	}
-
-	private static int getUnderlineTextAttributeValue(Underline underline) {
-		switch (underline) {
-			case NONE: return -1;
-			case SOLID: return TextAttribute.UNDERLINE_ON;
-			case DASHED: return TextAttribute.UNDERLINE_LOW_DASHED;
-			case DOTTED: return TextAttribute.UNDERLINE_LOW_DOTTED;
-			case WAVY: return TextAttribute.UNDERLINE_LOW_GRAY;
-			default: throw new RuntimeException("Unknown underline type");
-		}
+		g.setFont(CodeDrawGraphicsText.createFont(textFormat));
+		CodeDrawGraphicsText.drawText(g, x, y, text, textFormat);
 	}
 
 	public void clear() {

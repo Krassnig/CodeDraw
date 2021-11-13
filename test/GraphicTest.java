@@ -4,7 +4,7 @@ import codedraw.textformat.*;
 public class GraphicTest {
 	public static void main(String[] args) {
 		//patternTest();
-		angleArcLineTest();
+		//angleArcLineTest();
 		//pieTest();
 		//arcTest();
 		//bezierTest();

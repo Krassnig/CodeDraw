@@ -19,7 +19,7 @@ public class TextFormatTest {
 	private static void newLineTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.drawText(100, 100, "New lines\ndon't work :(");
+		cd.drawText(100, 100, "New lines\r\nwork :)");
 
 		cd.show();
 	}
