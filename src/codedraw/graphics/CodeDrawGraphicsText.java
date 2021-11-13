@@ -7,6 +7,8 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 
 class CodeDrawGraphicsText {
+	private CodeDrawGraphicsText() { }
+
 	public static void drawText(Graphics2D graphics, double x, double y, String text, TextFormat textFormat) {
 		FontMetrics fontMetrics = graphics.getFontMetrics();
 		String[] lines = text.split("(\r\n)|\r|\n");
