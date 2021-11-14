@@ -1,7 +1,7 @@
 package codedraw.events;
 
 class EventQueue {
-	private final ConcurrentQueue<Event> eventQueue = new ConcurrentQueue<>();
+	private final ConcurrentQueue<Event> eventQueue = new ConcurrentQueue<>(128);
 
 
 	public void pushEvent(EventType type, Object eventArg) {
