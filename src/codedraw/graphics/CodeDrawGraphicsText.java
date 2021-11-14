@@ -22,15 +22,15 @@ class CodeDrawGraphicsText {
 	}
 
 	private static double calculateVerticalOffset(VerticalAlign verticalAlign, FontMetrics fontMetrics, int lineCount) {
-		double ascent = fontMetrics.getAscent() - fontMetrics.getDescent();
-		double textHeight = fontMetrics.getHeight() * (lineCount - 1);
+		double capHeight = fontMetrics.getAscent() - fontMetrics.getDescent();
+		double leadings = fontMetrics.getHeight() * (lineCount - 1);
 		switch (verticalAlign) {
 			case TOP:
-				return ascent;
+				return capHeight;
 			case MIDDLE:
-				return (ascent - textHeight) / 2;
+				return (capHeight - leadings) / 2;
 			case BOTTOM:
-				return -textHeight;
+				return -leadings;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option");
 		}

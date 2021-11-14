@@ -11,7 +11,7 @@ public class TextFormatTest {
 		//boldTest();
 		//strikethroughTest();
 		//underlineTest();
-		//alignmentTest();
+		alignmentTest();
 		//fontSizeTest();
 		//defaultAlignmentTest();
 	}
@@ -145,7 +145,7 @@ public class TextFormatTest {
 		cd.drawLine(x - 80, y, x + 80, y);
 		cd.drawLine(x, y - 80, x, y + 80);
 		cd.setColor(Palette.BLACK);
-		cd.drawText(x, y, va + " " + (ha + "").toLowerCase());
+		cd.drawText(x, y, va + "\n" + (ha + "").toLowerCase() + "\nTEST");
 	}
 
 	private static String[] getAvailableFontNames() {
