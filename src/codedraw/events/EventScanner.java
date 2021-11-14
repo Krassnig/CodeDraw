@@ -2,9 +2,14 @@ package codedraw.events;
 
 import codedraw.CodeDraw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventScanner {
 
 	private final EventQueue eventQueue = new EventQueue();
+
+	private final List<Subscription> subscriptions = new ArrayList<>();
 
 	public EventScanner(CodeDraw cd) {
 		bindEvents(cd);
@@ -100,6 +105,17 @@ public class EventScanner {
 		return popEventArg(EventType.WINDOW_MOVE);
 	}
 
+	public void close() {
+		subscriptions.forEach(Subscription::unsubscribe);
+	}
+
+	private <T> T popEventArg(EventType expectedEventType) {
+		EventType nextEventType = eventQueue.peekType();
+		if (nextEventType != expectedEventType)
+			throw new EventMismatchException(expectedEventType, nextEventType);
+		return (T) eventQueue.popEventArg();
+	}
+
 
 	private void onMouseClick(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_CLICK, mouseEvent);
@@ -150,30 +166,23 @@ public class EventScanner {
 
 	private void onWindowClose(CodeDraw codeDraw, Void unused) {
 		eventQueue.pushEvent(EventType.WINDOW_CLOSE, null);
-	}
-
-	private <T> T popEventArg(EventType expectedEventType) {
-		EventType nextEventType = eventQueue.peekType();
-		if (nextEventType != expectedEventType)
-			throw new EventMismatchException(expectedEventType, nextEventType);
-		return (T) eventQueue.popEventArg();
+		close();
 	}
 
 	private void bindEvents(CodeDraw cd) {
-		cd.onMouseClick(this::onMouseClick);
-		cd.onMouseMove(this::onMouseMove);
-		cd.onMouseUp(this::onMouseUp);
-		cd.onMouseDown(this::onMouseDown);
-		cd.onMouseEnter(this::onMouseEnter);
-		cd.onMouseLeave(this::onMouseLeave);
-		cd.onMouseWheel(this::onMouseWheel);
-		cd.onKeyDown(this::onKeyDown);
-		cd.onKeyPress(this::onKeyPress);
-		cd.onKeyUp(this::onKeyUp);
-		cd.onWindowMove(this::onWindowMove);
-		cd.onWindowClose(this::onWindowClose);
+		subscriptions.add(cd.onMouseClick(this::onMouseClick));
+		subscriptions.add(cd.onMouseMove(this::onMouseMove));
+		subscriptions.add(cd.onMouseUp(this::onMouseUp));
+		subscriptions.add(cd.onMouseDown(this::onMouseDown));
+		subscriptions.add(cd.onMouseEnter(this::onMouseEnter));
+		subscriptions.add(cd.onMouseLeave(this::onMouseLeave));
+		subscriptions.add(cd.onMouseWheel(this::onMouseWheel));
+		subscriptions.add(cd.onKeyDown(this::onKeyDown));
+		subscriptions.add(cd.onKeyPress(this::onKeyPress));
+		subscriptions.add(cd.onKeyUp(this::onKeyUp));
+		subscriptions.add(cd.onWindowMove(this::onWindowMove));
+		subscriptions.add(cd.onWindowClose(this::onWindowClose));
 	}
-
 
 
 }
