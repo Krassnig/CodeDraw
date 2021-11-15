@@ -44,10 +44,6 @@ public class CodeDrawGraphics {
 		clear();
 	}
 
-	private void setRenderingHint(RenderingHintValue hint) {
-		RenderingHintValue.applyHint(g, hint);
-	}
-
 	private BufferedImage image;
 	private Graphics2D g;
 	private int width;
@@ -85,6 +81,10 @@ public class CodeDrawGraphics {
 	public void isTextAntiAliased(boolean isTextAntiAliased) {
 		this.isTextAntiAliased = isTextAntiAliased;
 		setRenderingHint(isTextAntiAliased ? TextAntiAliasing.ON : TextAntiAliasing.OFF);
+	}
+
+	private void setRenderingHint(RenderingHintValue hint) {
+		RenderingHintValue.applyHint(g, hint);
 	}
 
 	private void updateBrush() {
