@@ -33,7 +33,7 @@ public class CodeDrawGraphics {
 		setRenderingHint(ResolutionVariant.DEFAULT); // unknown
 		setRenderingHint(TextAntiAliasing.ON); // user settings
 		setRenderingHint(AntiAliasing.ON); // user settings
-		setRenderingHint(RHInterpolation.BICUBIC); // draw image specific
+		setRenderingHint(Interpolation.BICUBIC); // draw image specific
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
@@ -85,6 +85,10 @@ public class CodeDrawGraphics {
 
 	private void setRenderingHint(RenderingHintValue hint) {
 		RenderingHintValue.applyHint(g, hint);
+	}
+
+	private void setRenderingHint(Interpolation interpolation) {
+		RenderingHintValue.applyHint(g, interpolation);
 	}
 
 	private void updateBrush() {
@@ -206,7 +210,7 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
-		setRenderingHint(RHInterpolation.fromInterpolation(interpolation));
+		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
@@ -245,7 +249,7 @@ public class CodeDrawGraphics {
 	}
 
 	public void copyTo(Graphics2D target) {
-		RenderingHintValue.applyHint(target, RHInterpolation.BICUBIC);
+		RenderingHintValue.applyHint(target, Interpolation.BICUBIC);
 		copyTo((Graphics)target);
 	}
 

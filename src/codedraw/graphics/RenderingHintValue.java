@@ -1,5 +1,7 @@
 package codedraw.graphics;
 
+import codedraw.Interpolation;
+
 import java.awt.*;
 
 interface RenderingHintValue {
@@ -9,5 +11,9 @@ interface RenderingHintValue {
 
 	static void applyHint(Graphics2D graphics, RenderingHintValue hint) {
 		graphics.setRenderingHint(hint.key(), hint.value());
+	}
+
+	static void applyHint(Graphics2D graphics, Interpolation interpolation) {
+		applyHint(graphics, RHInterpolation.fromInterpolation(interpolation));
 	}
 }
