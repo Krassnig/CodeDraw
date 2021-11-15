@@ -198,7 +198,7 @@ public enum Key {
 		this.keyCode = keyCode;
 	}
 
-	public int getKeyCode() {
+	int getKeyCode() {
 		return keyCode;
 	}
 }

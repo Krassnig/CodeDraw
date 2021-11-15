@@ -1,4 +1,4 @@
-package codedraw.events;
+package codedraw;
 
 class EventLoop {
 	public EventLoop() {

@@ -1,10 +1,11 @@
-package codedraw.events;
+package codedraw;
 
-import codedraw.Semaphore;
+import codedraw.events.EventHandler;
+import codedraw.events.Subscription;
 
 import java.util.ArrayList;
 
-public class Event<TSender, TArgs> {
+class Event<TSender, TArgs> {
 	private static EventLoop eventLoop = new EventLoop();
 
 	public Event(TSender sender) {

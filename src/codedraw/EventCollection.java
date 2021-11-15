@@ -1,8 +1,11 @@
-package codedraw.events;
+package codedraw;
 
-import codedraw.CodeDraw;
+import codedraw.events.KeyEventArgs;
+import codedraw.events.MouseEventArgs;
+import codedraw.events.MouseWheelEventArgs;
+import codedraw.events.WindowMoveEventArgs;
 
-public class EventCollection {
+class EventCollection {
 
 	public EventCollection(CodeDraw sender) {
 		mouseClick = new Event<>(sender);

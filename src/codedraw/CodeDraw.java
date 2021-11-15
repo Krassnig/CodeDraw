@@ -6,7 +6,6 @@ import codedraw.textformat.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
