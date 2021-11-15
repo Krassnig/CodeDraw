@@ -424,7 +424,7 @@ public class CodeDraw {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void drawSquare(double x, double y, double sideLength) {
-		if (sideLength < 0) throw createArgumentNotNegative("size");
+		if (sideLength < 0) throw createArgumentGreaterOrEqualToZero("size");
 
 		g.drawSquare(x, y, sideLength);
 	}
@@ -436,7 +436,7 @@ public class CodeDraw {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void fillSquare(double x, double y, double sideLength) {
-		if (sideLength < 0) throw createArgumentNotNegative("size");
+		if (sideLength < 0) throw createArgumentGreaterOrEqualToZero("size");
 
 		g.fillSquare(x, y, sideLength);
 	}
@@ -449,8 +449,8 @@ public class CodeDraw {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void drawRectangle(double x, double y, double width, double height) {
-		if (width < 0) throw createArgumentNotNegative("width");
-		if (height < 0) throw createArgumentNotNegative("height");
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
 
 		g.drawRectangle(x, y, width, height);
 	}
@@ -463,8 +463,8 @@ public class CodeDraw {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void fillRectangle(double x, double y, double width, double height) {
-		if (width < 0) throw createArgumentNotNegative("width");
-		if (height < 0) throw createArgumentNotNegative("height");
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
 
 		g.fillRectangle(x, y, width, height);
 	}
@@ -477,7 +477,7 @@ public class CodeDraw {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void drawCircle(double x, double y, double radius) {
-		if (radius < 0) throw createArgumentNotNegative("radius");
+		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
 
 		g.drawCircle(x, y, radius);
 	}
@@ -490,7 +490,7 @@ public class CodeDraw {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void fillCircle(double x, double y, double radius) {
-		if (radius < 0) throw createArgumentNotNegative("radius");
+		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
 
 		g.fillCircle(x, y, radius);
 	}
@@ -504,8 +504,8 @@ public class CodeDraw {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
 
 		g.drawEllipse(x, y, horizontalRadius, verticalRadius);
 	}
@@ -519,8 +519,8 @@ public class CodeDraw {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
 
 		g.fillEllipse(x, y, horizontalRadius, verticalRadius);
 	}
@@ -536,7 +536,7 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentNotNegative("radius");
+		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
 
 		g.drawArc(x, y, radius, startRadians, sweepRadians);
 	}
@@ -554,8 +554,8 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
 
 		g.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -571,7 +571,7 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentNotNegative("radius");
+		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
 
 		g.drawPie(x, y, radius, startRadians, sweepRadians);
 	}
@@ -589,8 +589,8 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
 
 		g.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -606,7 +606,7 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentNotNegative("radius");
+		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
 
 		g.fillPie(x, y, radius, startRadians, sweepRadians);
 	}
@@ -624,8 +624,8 @@ public class CodeDraw {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentNotNegative("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentNotNegative("verticalRadius");
+		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
+		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
 
 		g.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -673,8 +673,8 @@ public class CodeDraw {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... points) {
-		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
-		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
+		if ((points.length & 1) == 1) throw createEvenNumberOfPoints("drawPolygon");
+		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon("drawPolygon");
 
 		g.drawPolygon(points);
 	}
@@ -696,8 +696,8 @@ public class CodeDraw {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
-		if ((points.length & 1) == 1) throw new IllegalArgumentException("An even number of points must be passed to drawPolygon(double...)");
-		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon();
+		if ((points.length & 1) == 1) throw createEvenNumberOfPoints("fillPolygon");
+		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon("fillPolygon");
 
 		g.fillPolygon(points);
 	}
@@ -796,13 +796,44 @@ public class CodeDraw {
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param image The image that will be drawn on the canvas.
+	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
+	 */
+	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (image == null) throw createArgumentNull("image");
+		if (interpolation == null) throw createArgumentNull("interpolation");
+
+		g.drawImage(x, y, width, height, image, interpolation);
+	}
+
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within the width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * BufferedImage img;
+	 * try {
+	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
+	 * } catch (IOException e) {
+	 *     throw new UncheckedIOException(e);
+	 * }
+	 *
+	 * cd.drawImage(100, 100, 200, 200, img);
+	 * cd.show();
+	 * }</pre>
+	 * The size of the example image will be 200x200 pixel.<br>
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
+	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
+	 * @param image The image that will be drawn on the canvas.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image) {
-		if (width < 0) throw createArgumentNotNegative("width");
-		if (height < 0) throw createArgumentNotNegative("height");
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
 		if (image == null) throw createArgumentNull("image");
 
-		g.drawImage(x, y, width, height, image);
+		drawImage(x, y, width, height, image, Interpolation.BICUBIC);
 	}
 
 	/**
@@ -820,11 +851,42 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
+	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
+	 */
+	public void drawImage(double x, double y, double width, double height, File file, Interpolation interpolation) {
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (file == null) throw createArgumentNull("file");
+		if (interpolation == null) throw createArgumentNull("interpolation");
+
+		try {
+			drawImage(x, y, width, height, ImageIO.read(file), interpolation);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within the width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"));
+	 * cd.show();
+	 * }</pre>
+	 * The size of the example image will be 200x200 pixel.<br>
+	 * Supported image formats are:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
+	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
+	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
 	 */
 	public void drawImage(double x, double y, double width, double height, File file) {
-		if (width < 0) throw createArgumentNotNegative("width");
-		if (height < 0) throw createArgumentNotNegative("height");
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
 		if (file == null) throw createArgumentNull("file");
 
 		try {
@@ -849,11 +911,38 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
+	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
+	 */
+	public void drawImage(double x, double y, double width, double height, String fileName, Interpolation interpolation) {
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (fileName == null) throw createArgumentNull("fileName");
+		if (interpolation == null) throw createArgumentNull("interpolation");
+
+		drawImage(x, y, width, height, new File(fileName), interpolation);
+	}
+
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within the width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
+	 * cd.show();
+	 * }</pre>
+	 * The size of the example image will be 200x200 pixel.<br>
+	 * Supported image formats are:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
+	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String fileName) {
-		if (width < 0) throw createArgumentNotNegative("width");
-		if (height < 0) throw createArgumentNotNegative("height");
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
 		if (fileName == null) throw createArgumentNull("fileName");
 
 		drawImage(x, y, width, height, new File(fileName));
@@ -926,7 +1015,7 @@ public class CodeDraw {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
-		if (waitMilliseconds < 0) throw createArgumentNotNegative("waitMilliseconds");
+		if (waitMilliseconds < 0) throw createArgumentGreaterOrEqualToZero("waitMilliseconds");
 
 		long start = System.currentTimeMillis();
 		show();
@@ -972,11 +1061,15 @@ public class CodeDraw {
 		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
 	}
 
-	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {
-		return new IllegalArgumentException("Argument " + argumentName + " cannot be negative.");
+	private static IllegalArgumentException createArgumentGreaterOrEqualToZero(String argumentName) {
+		return new IllegalArgumentException("The argument " + argumentName + " must be greater or equal to zero.");
 	}
 
-	private static IllegalArgumentException createMoreThanTwoPointsPolygon() {
-		return new IllegalArgumentException("There have to be at least two points to draw a polygon.");
+	private static IllegalArgumentException createMoreThanTwoPointsPolygon(String methodName) {
+		return new IllegalArgumentException("A polygon must have more than two points. At least 4 arguments must be passed to " + methodName + ".");
+	}
+
+	private static IllegalArgumentException createEvenNumberOfPoints(String methodName) {
+		return new IllegalArgumentException("The method " + methodName + " only accepts an even number of arguments. Two arguments for each point, x and y.");
 	}
 }

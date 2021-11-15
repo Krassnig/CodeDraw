@@ -1,6 +1,7 @@
 package codedraw.graphics;
 
 import codedraw.Corner;
+import codedraw.Interpolation;
 import codedraw.Palette;
 import codedraw.textformat.*;
 
@@ -32,7 +33,7 @@ public class CodeDrawGraphics {
 		setRenderingHint(ResolutionVariant.DEFAULT); // unknown
 		setRenderingHint(TextAntiAliasing.ON); // user settings
 		setRenderingHint(AntiAliasing.ON); // user settings
-		setRenderingHint(Interpolation.BICUBIC); // draw image specific
+		setRenderingHint(RHInterpolation.BICUBIC); // draw image specific
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
@@ -204,7 +205,8 @@ public class CodeDrawGraphics {
 		g.drawImage(image, (int)x, (int)y, null);
 	}
 
-	public void drawImage(double x, double y, double width, double height, Image image) {
+	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+		setRenderingHint(RHInterpolation.fromInterpolation(interpolation));
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
@@ -243,7 +245,7 @@ public class CodeDrawGraphics {
 	}
 
 	public void copyTo(Graphics2D target) {
-		RenderingHintValue.applyHint(target, Interpolation.BICUBIC);
+		RenderingHintValue.applyHint(target, RHInterpolation.BICUBIC);
 		copyTo((Graphics)target);
 	}
 
