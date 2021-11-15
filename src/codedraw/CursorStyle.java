@@ -39,6 +39,7 @@ public class CursorStyle {
 	 * @param y The click position relative to the image.
 	 */
 	public CursorStyle(Image image, int x, int y) {
+		if (image == null) throw createArgumentNull("image");
 		this.cursor = defaultToolkit.createCustomCursor(image, new Point(x, y), "CodeDraw Custom Cursor " + Objects.hash(image, x, y));
 	}
 
@@ -72,5 +73,9 @@ public class CursorStyle {
 	@Override
 	public String toString() {
 		return "Cursor: " + cursor.getName();
+	}
+
+	private static IllegalArgumentException createArgumentNull(String argumentName) {
+		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
 	}
 }

@@ -172,7 +172,7 @@ public class CodeDraw {
 	 * @param lineWidth Sets the lineWidth of this CodeDraw window.
 	 */
 	public void setLineWidth(double lineWidth) {
-		if (lineWidth <= 0) throw new IllegalArgumentException("Argument lineWidth cannot be smaller or equal to 0");
+		if (lineWidth <= 0) throw createArgumentGreaterThanZero("lineWidth");
 
 		g.setLineWidth(lineWidth);
 	}
@@ -208,6 +208,8 @@ public class CodeDraw {
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
+		if (cursorStyle == null) throw createArgumentNull("cursorStyle");
+
 		window.setCursorStyle(cursorStyle);
 	}
 
@@ -339,6 +341,10 @@ public class CodeDraw {
 	 */
 	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) { return events.windowMove.onInvoke(handler); }
 
+	/**
+	 * Triggers exactly once when the user closes the window or {@link #dispose()} is called.
+	 * @param handler A lambda or function reference.
+	 */
 	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) { return events.windowClose.onInvoke(handler); }
 
 	/**
@@ -1059,6 +1065,10 @@ public class CodeDraw {
 
 	private static IllegalArgumentException createArgumentNull(String argumentName) {
 		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
+	}
+
+	private static IllegalArgumentException createArgumentGreaterThanZero(String argumentName) {
+		return new IllegalArgumentException("The argument " + argumentName + " must be greater than zero.");
 	}
 
 	private static IllegalArgumentException createArgumentGreaterOrEqualToZero(String argumentName) {
