@@ -748,7 +748,7 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
 	 */
 	public void drawImage(double x, double y, File file) {
 		if (file == null) throw createArgumentNull("file");
@@ -774,7 +774,7 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, String fileName) {
 		if (fileName == null) throw createArgumentNull("fileName");
@@ -795,7 +795,7 @@ public class CodeDraw {
 	 *     throw new UncheckedIOException(e);
 	 * }
 	 *
-	 * cd.drawImage(100, 100, 200, 200, img);
+	 * cd.drawImage(100, 100, 200, 200, img, Interpolation.BICUBIC);
 	 * cd.show();
 	 * }</pre>
 	 * The size of the example image will be 200x200 pixel.<br>
@@ -848,7 +848,7 @@ public class CodeDraw {
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
-	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"));
+	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"), Interpolation.BICUBIC);
 	 * cd.show();
 	 * }</pre>
 	 * The size of the example image will be 200x200 pixel.<br>
@@ -908,7 +908,7 @@ public class CodeDraw {
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
-	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
+	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png", Interpolation.BICUBIC);
 	 * cd.show();
 	 * }</pre>
 	 * The size of the example image will be 200x200 pixel.<br>
@@ -917,7 +917,7 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String fileName, Interpolation interpolation) {
@@ -944,7 +944,7 @@ public class CodeDraw {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
+	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String fileName) {
 		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
