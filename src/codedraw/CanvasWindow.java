@@ -14,9 +14,10 @@ import java.io.UncheckedIOException;
 import java.util.Base64;
 
 class CanvasWindow {
+	private static BufferedImage codeDrawIcon = getCodeDrawIcon();
 	private static Semaphore windowCountLock = new Semaphore(1);
 	private static int windowCount = 0;
-	private boolean exitOnLastClose = true;
+	private boolean terminateOnLastClose = true;
 
 	public CanvasWindow(EventCollection events, int canvasWidth, int canvasHeight) {
 		windowCountLock.acquire();
@@ -29,7 +30,7 @@ class CanvasWindow {
 		frame.setContentPane(canvas);
 		frame.pack();
 		frame.setResizable(false);
-		frame.setIconImage(getCodeDrawIcon());
+		frame.setIconImage(codeDrawIcon);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
@@ -173,7 +174,7 @@ class CanvasWindow {
 				events.windowClose.invoke(null);
 				windowCountLock.acquire();
 				windowCount--;
-				if (windowCount == 0 && exitOnLastClose) {
+				if (windowCount == 0 && terminateOnLastClose) {
 					System.exit(0);
 				}
 				windowCountLock.release();
@@ -183,7 +184,7 @@ class CanvasWindow {
 
 	public void dispose(boolean terminateOnLastClose) {
 		windowCountLock.acquire();
-		this.exitOnLastClose = terminateOnLastClose;
+		this.terminateOnLastClose = terminateOnLastClose;
 		windowCountLock.release();
 
 		frame.dispose();

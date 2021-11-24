@@ -22,12 +22,6 @@ public class EventTest {
 		//keyEventTest((c, h) -> c.onKeyUp(h));
 		//windowMoveTest();
 		//unsubscribeTest();
-		//CodeDraw cd = new CodeDraw();
-		//cd.onMouseDown(EventTest::tick);
-	}
-
-	private static void tick(CodeDraw c, MouseEventArgs e){
-
 	}
 
 	private static void eventSleepTest() {
