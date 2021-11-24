@@ -56,7 +56,7 @@ import java.io.UncheckedIOException;
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
-public class CodeDraw {
+public class CodeDraw implements AutoCloseable {
 	/**
 	 * Creates a canvas with size 600x600 pixels. The frame surrounding the canvas will be slightly bigger.
 	 * The size remains fixed after calling this constructor.
@@ -342,7 +342,7 @@ public class CodeDraw {
 	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) { return events.windowMove.onInvoke(handler); }
 
 	/**
-	 * Triggers exactly once when the user closes the window or {@link #dispose()} is called.
+	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) { return events.windowClose.onInvoke(handler); }
@@ -1033,21 +1033,20 @@ public class CodeDraw {
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
-	 * Terminates the process when all CodeDraw instances are closed.
-	 * To prevent termination pass false to this function. See {@link #dispose(boolean)}.
 	 */
-	public void dispose() {
-		dispose(true);
+	@Override
+	public void close() {
+		close(false);
 	}
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
-	 * @param exit When true terminates the process when all CodeDraw instances are closed.
-	 *             When false lets the process continue even though all CodeDraw instances have been closed.
+	 * @param terminateProcess When true terminates the process when all CodeDraw instances are closed.
+	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
-	public void dispose(boolean exit) {
+	public void close(boolean terminateProcess) {
 		g.dispose();
-		window.dispose(exit);
+		window.dispose(terminateProcess);
 	}
 
 	@Override

@@ -78,8 +78,8 @@ public class CodeDrawTest {
 		CodeDraw cd1 = new CodeDraw();
 		CodeDraw cd2 = new CodeDraw();
 
-		cd1.dispose();
-		cd2.dispose(false);
+		cd1.close(true);
+		cd2.close();
 
 		try {
 			for (int i = 0; i < 5; i++) {
@@ -118,7 +118,7 @@ public class CodeDrawTest {
 		cd2.drawText(300, 300, "I should stay open.");
 		cd2.show();
 
-		cd1.dispose();
+		cd1.close();
 	}
 
 	private static void smallWindowTest() {

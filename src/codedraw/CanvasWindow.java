@@ -32,8 +32,8 @@ class CanvasWindow {
 		frame.setIconImage(getCodeDrawIcon());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
-		frame.toFront();
 		frame.setVisible(true);
+		frame.toFront();
 
 		windowPosition = frame.getLocationOnScreen();
 		canvasPosition = canvas.getLocationOnScreen();
@@ -181,9 +181,9 @@ class CanvasWindow {
 		};
 	}
 
-	public void dispose(boolean exitOnLastClose) {
+	public void dispose(boolean terminateOnLastClose) {
 		windowCountLock.acquire();
-		this.exitOnLastClose = exitOnLastClose;
+		this.exitOnLastClose = terminateOnLastClose;
 		windowCountLock.release();
 
 		frame.dispose();
