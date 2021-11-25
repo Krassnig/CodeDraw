@@ -998,6 +998,8 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Displays the drawn shapes and images on the canvas.
+	 * Showing the drawn text on the CodeDraw window is computationally expensive.
+	 * Calling show frequently will slow down your program.
 	 *
 	 * Calling show while executing an event is generally not recommended because rendering is slow and
 	 * this will slow down you program. Instead, you should call show from the main thread.
