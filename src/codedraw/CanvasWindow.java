@@ -110,27 +110,27 @@ class CanvasWindow {
 		return new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				events.mouseClick.invoke(new MouseEventArgs(e));
+				events.mouseClick.invoke(new MouseClickEventArgs(e));
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				events.mouseDown.invoke(new MouseEventArgs(e));
+				events.mouseDown.invoke(new MouseClickEventArgs(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				events.mouseUp.invoke(new MouseEventArgs(e));
+				events.mouseUp.invoke(new MouseClickEventArgs(e));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				events.mouseEnter.invoke(new MouseEventArgs(e));
+				events.mouseEnter.invoke(new MouseMoveEventArgs(e));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				events.mouseLeave.invoke(new MouseEventArgs(e));
+				events.mouseLeave.invoke(new MouseMoveEventArgs(e));
 			}
 		};
 	}
@@ -157,12 +157,12 @@ class CanvasWindow {
 		return new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				events.mouseMove.invoke(new MouseEventArgs(e));
+				events.mouseMove.invoke(new MouseMoveEventArgs(e));
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				events.mouseMove.invoke(new MouseEventArgs(e));
+				events.mouseMove.invoke(new MouseMoveEventArgs(e));
 			}
 		};
 	}

@@ -1,9 +1,6 @@
 package codedraw;
 
-import codedraw.events.KeyEventArgs;
-import codedraw.events.MouseEventArgs;
-import codedraw.events.MouseWheelEventArgs;
-import codedraw.events.WindowMoveEventArgs;
+import codedraw.events.*;
 
 class EventCollection {
 
@@ -22,12 +19,12 @@ class EventCollection {
 		windowClose = new Event<>(sender);
 	}
 
-	public final Event<CodeDraw, MouseEventArgs> mouseClick;
-	public final Event<CodeDraw, MouseEventArgs> mouseMove;
-	public final Event<CodeDraw, MouseEventArgs> mouseDown;
-	public final Event<CodeDraw, MouseEventArgs> mouseUp;
-	public final Event<CodeDraw, MouseEventArgs> mouseEnter;
-	public final Event<CodeDraw, MouseEventArgs> mouseLeave;
+	public final Event<CodeDraw, MouseClickEventArgs> mouseClick;
+	public final Event<CodeDraw, MouseMoveEventArgs> mouseMove;
+	public final Event<CodeDraw, MouseClickEventArgs> mouseDown;
+	public final Event<CodeDraw, MouseClickEventArgs> mouseUp;
+	public final Event<CodeDraw, MouseMoveEventArgs> mouseEnter;
+	public final Event<CodeDraw, MouseMoveEventArgs> mouseLeave;
 	public final Event<CodeDraw, MouseWheelEventArgs> mouseWheel;
 	public final Event<CodeDraw, KeyEventArgs> keyDown;
 	public final Event<CodeDraw, KeyEventArgs> keyUp;

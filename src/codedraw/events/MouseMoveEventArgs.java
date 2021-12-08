@@ -2,8 +2,8 @@ package codedraw.events;
 
 import java.awt.event.MouseEvent;
 
-public class MouseEventArgs {
-	public MouseEventArgs(MouseEvent e) {
+public class MouseMoveEventArgs {
+	public MouseMoveEventArgs(MouseEvent e) {
 		this.e = e;
 	}
 
@@ -15,9 +15,5 @@ public class MouseEventArgs {
 
 	public int getY() {
 		return e.getY();
-	}
-
-	public MouseButton getMouseButtonType() {
-		return MouseButton.values()[e.getButton()];
 	}
 }

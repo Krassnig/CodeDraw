@@ -1,0 +1,3 @@
+file path as string in CursorStyle/CodeDrawGraphics.
+drawLine() -> doc: explanation corner size.
+isBold (get/set) -> get: isBold and set: setBold

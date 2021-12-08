@@ -65,23 +65,23 @@ public class EventScanner {
 		eventQueue.popEventArg();
 	}
 
-	public MouseEventArgs nextMouseMoveEvent() {
+	public MouseMoveEventArgs nextMouseMoveEvent() {
 		return popEventArg(EventType.MOUSE_MOVE);
 	}
 
-	public MouseEventArgs nextMouseUpEvent() {
+	public MouseClickEventArgs nextMouseUpEvent() {
 		return popEventArg(EventType.MOUSE_UP);
 	}
 
-	public MouseEventArgs nextMouseDownEvent() {
+	public MouseClickEventArgs nextMouseDownEvent() {
 		return popEventArg(EventType.MOUSE_DOWN);
 	}
 
-	public MouseEventArgs nextMouseEnterEvent() {
+	public MouseMoveEventArgs nextMouseEnterEvent() {
 		return popEventArg(EventType.MOUSE_ENTER);
 	}
 
-	public MouseEventArgs nextMouseLeaveEvent() {
+	public MouseMoveEventArgs nextMouseLeaveEvent() {
 		return popEventArg(EventType.MOUSE_LEAVE);
 	}
 
@@ -117,29 +117,29 @@ public class EventScanner {
 	}
 
 
-	private void onMouseClick(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseClick(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_CLICK, mouseEvent);
 	}
 
-	private void onMouseMove(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseMove(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_MOVE, mouseEvent);
 	}
 
-	private void onMouseUp(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseUp(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_UP, mouseEvent);
 	}
 
-	private void onMouseDown(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseDown(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_DOWN, mouseEvent);
 
 	}
 
-	private void onMouseEnter(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseEnter(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_ENTER, mouseEvent);
 
 	}
 
-	private void onMouseLeave(CodeDraw codeDraw, MouseEventArgs mouseEvent) {
+	private void onMouseLeave(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
 		eventQueue.pushEvent(EventType.MOUSE_LEAVE, mouseEvent);
 	}
 

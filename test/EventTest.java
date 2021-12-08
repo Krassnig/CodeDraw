@@ -2,8 +2,6 @@ import codedraw.*;
 import codedraw.events.*;
 
 import java.awt.event.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import java.util.function.BiFunction;
 
 public class EventTest {
@@ -121,7 +119,7 @@ public class EventTest {
 
 	private static Subscription subscription;
 	private static EventHandler<CodeDraw, KeyEventArgs> key;
-	private static EventHandler<CodeDraw, MouseEventArgs> mouse;
+	private static EventHandler<CodeDraw, MouseClickEventArgs> mouse;
 	private static int unsubscribeProgress = 0;
 
 	private static void unsubscribeTest() {
