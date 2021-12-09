@@ -25,6 +25,7 @@ class CanvasWindow {
 		frame = new JFrame();
 		frame.setContentPane(canvas);
 		frame.pack();
+		frame.setMinimumSize(frame.getPreferredSize());
 		frame.setResizable(false);
 		frame.setIconImage(getCodeDrawIcon());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
