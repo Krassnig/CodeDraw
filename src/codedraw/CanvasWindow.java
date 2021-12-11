@@ -54,11 +54,8 @@ class CanvasWindow {
 
 	private void updateJFrameSize() {
 		Dimension d = correctFrameSize(frame.getGraphicsConfiguration(), targetSize, canvas.getPreferredSize());
-		if (!d.equals(frame.getPreferredSize())) {
-			frame.setMaximumSize(d);
-			frame.setMinimumSize(d);
-			frame.repaint();
-		}
+		frame.setMaximumSize(d);
+		frame.setMinimumSize(d);
 	}
 
 	public Point getWindowPosition() { return windowPosition; }
