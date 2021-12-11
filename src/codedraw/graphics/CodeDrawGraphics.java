@@ -391,11 +391,32 @@ public class CodeDrawGraphics {
 	}
 
 	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
-		Screen s = Screen.DEFAULT_SCREEN;
-		return new CodeDrawGraphics(width, height, upscale(s.getXScale()), upscale(s.getYScale()));
+		AffineTransform max = getMaximumDPIFromAllScreens();
+		return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	private static int upscale(double scale) {
 		return Math.max(1, (int)Math.ceil(scale));
+	}
+
+	private static AffineTransform getMaximumDPIFromAllScreens() {
+		AffineTransform max = new AffineTransform();
+
+		for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+			for (GraphicsConfiguration configuration : device.getConfigurations()) {
+				max = maxAffineTransformScale(max, configuration.getDefaultTransform());
+			}
+		}
+
+		return max;
+	}
+
+	private static AffineTransform maxAffineTransformScale(AffineTransform a, AffineTransform b) {
+		AffineTransform result = new AffineTransform();
+		result.setToScale(
+				Math.max(a.getScaleX(), b.getScaleX()),
+				Math.max(a.getScaleY(), b.getScaleY())
+		);
+		return result;
 	}
 }
