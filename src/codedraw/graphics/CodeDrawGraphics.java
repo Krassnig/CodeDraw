@@ -392,7 +392,8 @@ public class CodeDrawGraphics {
 
 	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new CodeDrawGraphics(width, height);
+		//return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	private static int upscale(double scale) {

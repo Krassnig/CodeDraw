@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,10 +27,10 @@ class CanvasWindow {
 		canvas = new CanvasPanel(canvasWidth, canvasHeight);
 
 		frame = new JFrame();
+		frame.setLayout(null);
 		frame.setContentPane(canvas);
 		frame.pack();
-		targetSize = frame.getPreferredSize().getSize();
-		updateJFrameSize();
+		jFrameCorrector = new JFrameCorrector(frame, frame.getPreferredSize());
 		frame.setResizable(false);
 		frame.setIconImage(codeDrawIcon);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -45,18 +44,12 @@ class CanvasWindow {
 		bindEvents(events);
 	}
 
-	private final Dimension targetSize;
+	private JFrameCorrector jFrameCorrector;
 	private JFrame frame;
 	private CanvasPanel canvas;
 	private Point windowPosition;
 	private Point canvasPosition;
 	private CursorStyle cursorStyle;
-
-	private void updateJFrameSize() {
-		Dimension d = correctFrameSize(frame.getGraphicsConfiguration(), targetSize, canvas.getPreferredSize());
-		frame.setMaximumSize(d);
-		frame.setMinimumSize(d);
-	}
 
 	public Point getWindowPosition() { return windowPosition; }
 	public void setWindowPosition(Point newPosition) {
@@ -111,12 +104,8 @@ class CanvasWindow {
 			public void componentMoved(ComponentEvent e) {
 				canvasPosition = canvas.getLocationOnScreen();
 				windowPosition = frame.getLocationOnScreen();
+				jFrameCorrector.onResizeCorrectSize();
 				events.windowMove.invoke(new WindowMoveEventArgs(canvasPosition, windowPosition));
-			}
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				updateJFrameSize();
 			}
 		};
 	}
@@ -224,32 +213,5 @@ class CanvasWindow {
 
 	private static Point plus(Point a, Point b) {
 		return new Point(a.x + b.x, a.y + b.y);
-	}
-
-	private static Dimension correctFrameSize(GraphicsConfiguration jFrameGraphicsConfiguration, Dimension jFrameTargetSize, Dimension canvasSize) {
-		Rectangle totalBounds = getBoundsOfAllScreens();
-		AffineTransform currentScreenTransformation = jFrameGraphicsConfiguration.getDefaultTransform();
-		double xScale = currentScreenTransformation.getScaleX();
-		double yScale = currentScreenTransformation.getScaleY();
-
-		double xFactorCorrection = canvasSize.getWidth()  * xScale > totalBounds.width  || xScale < 1 ? xScale : 1;
-		double yFactorCorrection = canvasSize.getHeight() * yScale > totalBounds.height || yScale < 1 ? yScale : 1;
-
-		return new Dimension(
-				(int)(jFrameTargetSize.getWidth() * xFactorCorrection),
-				(int)(jFrameTargetSize.getHeight() * yFactorCorrection)
-		);
-	}
-
-	private static Rectangle getBoundsOfAllScreens() {
-		Rectangle totalArea = new Rectangle(0, 0, 0, 0);
-
-		for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
-			for (GraphicsConfiguration configuration : device.getConfigurations()) {
-				totalArea = totalArea.union(configuration.getBounds());
-			}
-		}
-
-		return totalArea;
 	}
 }

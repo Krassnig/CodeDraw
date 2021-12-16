@@ -10,6 +10,7 @@ class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
 		displayBuffer = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(width, height);
 
+		setLayout(null);
 		setPreferredSize(new Dimension(width, height));
 	}
 
