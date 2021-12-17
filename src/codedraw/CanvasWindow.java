@@ -42,6 +42,15 @@ class CanvasWindow {
 		canvasPosition = canvas.getLocationOnScreen();
 
 		bindEvents(events);
+
+		new Thread(() -> {
+			while (true) {
+				try {
+					jFrameCorrector.onResizeCorrectSize();
+					Thread.sleep(1000);
+				} catch (InterruptedException e) { }
+			}
+		}).start();
 	}
 
 	private JFrameCorrector jFrameCorrector;
@@ -104,7 +113,6 @@ class CanvasWindow {
 			public void componentMoved(ComponentEvent e) {
 				canvasPosition = canvas.getLocationOnScreen();
 				windowPosition = frame.getLocationOnScreen();
-				jFrameCorrector.onResizeCorrectSize();
 				events.windowMove.invoke(new WindowMoveEventArgs(canvasPosition, windowPosition));
 			}
 		};

@@ -40,23 +40,18 @@ public class JFrameCorrector {
 
 	private Dimension calculateCorrectFrameSize() {
 		Rectangle totalBounds = getBoundsOfAllScreens();
-		if (originalGraphics.getDevice() == frame.getGraphicsConfiguration().getDevice()) {
-			frame.getGraphicsConfiguration();
-			AffineTransform currentScreenTransformation = originalGraphics.getDefaultTransform();
-			double xScale = currentScreenTransformation.getScaleX();
-			double yScale = currentScreenTransformation.getScaleY();
+		System.out.println(frame.getGraphicsConfiguration().getDevice().getIDstring());
+		AffineTransform currentScreenTransformation = frame.getGraphicsConfiguration().getDefaultTransform();
+		double xScale = currentScreenTransformation.getScaleX();
+		double yScale = currentScreenTransformation.getScaleY();
 
-			double xFactorCorrection = frameInsidePixelSize.width  * xScale > totalBounds.width  || xScale < 1 ? xScale : 1;
-			double yFactorCorrection = frameInsidePixelSize.height * yScale > totalBounds.height || yScale < 1 ? yScale : 1;
+		double xFactorCorrection = frameInsidePixelSize.width  * xScale > totalBounds.width  || xScale < 1 ? xScale : 1;
+		double yFactorCorrection = frameInsidePixelSize.height * yScale > totalBounds.height || yScale < 1 ? yScale : 1;
 
-			return new Dimension(
-					(int)(framePixelSize.width  * xFactorCorrection),
-					(int)(framePixelSize.height * yFactorCorrection)
-			);
-		}
-		else {
-			return framePixelSize.getSize();
-		}
+		return new Dimension(
+				(int)(framePixelSize.width  * xFactorCorrection),
+				(int)(framePixelSize.height * yFactorCorrection)
+		);
 	}
 
 	private static Rectangle getBoundsOfAllScreens() {
