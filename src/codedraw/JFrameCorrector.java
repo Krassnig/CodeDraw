@@ -2,74 +2,122 @@ package codedraw;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class JFrameCorrector {
-	public JFrameCorrector(JFrame jFrame, Dimension pixelSize) {
+	public JFrameCorrector(JFrame jFrame, Dimension jFrameTargetDimension) {
 		frame = jFrame;
-		framePixelSize = pixelSize;
+		framePixelSize = jFrameTargetDimension.getSize();
 		Insets inset = jFrame.getInsets();
-		frameInsidePixelSize = new Dimension(pixelSize.width - inset.left - inset.right, pixelSize.height - inset.top - inset.bottom);
-		originalGraphics = jFrame.getGraphicsConfiguration();
+		innerPixelSize = new Dimension(framePixelSize.width - inset.left - inset.right, framePixelSize.height - inset.top - inset.bottom);
+		AffineTransform startTransform = jFrame.getGraphicsConfiguration().getDefaultTransform();
+		startXScale = startTransform.getScaleX();
+		startYScale = startTransform.getScaleY();
+		listener = createComponentListener();
+		jFrame.addComponentListener(listener);
 		correctJFrameSize();
 	}
 
 	private final JFrame frame;
 	private final Dimension framePixelSize;
-	private final Dimension frameInsidePixelSize;
-	private final GraphicsConfiguration originalGraphics;
+	private final Dimension innerPixelSize;
+	private final double startXScale;
+	private final double startYScale;
+	private ComponentListener listener;
+	private Dimension lastCorrection = null;
 
-	public void onResizeCorrectSize() {
-		 correctJFrameSize();
+	public void stop() {
+		if (listener == null) throw new RuntimeException("FrameCorrector already stopped");
+		frame.removeComponentListener(listener);
+		listener = null;
+	}
+
+	private ComponentListener createComponentListener() {
+		return new ComponentListener() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				correctJFrameSize();
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				correctJFrameSize();
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				correctJFrameSize();
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				correctJFrameSize();
+			}
+		};
 	}
 
 	private void correctJFrameSize() {
-		Dimension target = calculateCorrectFrameSize();
-		if (!target.equals(frame.getMinimumSize()) || !target.equals(frame.getMaximumSize())) {
-			setJFrameSize(target);
+		Dimension newCorrection = calculateCorrectFrameSize();
+		if (!newCorrection.equals(lastCorrection)) {
+			setJFrameSize(newCorrection);
+			setJFrameSize(newCorrection);
 		}
+		lastCorrection = newCorrection;
 	}
 
 	private void setJFrameSize(Dimension size) {
-		Dimension extra = size.getSize();
-		frame.setMinimumSize(extra);
-		frame.setMaximumSize(extra);
+		Dimension sizeCopy = size.getSize();
+		frame.setSize(sizeCopy);
+		frame.setMinimumSize(sizeCopy);
+		frame.setMaximumSize(sizeCopy);
 		frame.repaint();
-		System.out.println("Settings window size to " + size);
 	}
 
 	private Dimension calculateCorrectFrameSize() {
-		Rectangle totalBounds = getBoundsOfAllScreens();
-		System.out.println(frame.getGraphicsConfiguration().getDevice().getIDstring());
-		AffineTransform currentScreenTransformation = frame.getGraphicsConfiguration().getDefaultTransform();
-		double xScale = currentScreenTransformation.getScaleX();
-		double yScale = currentScreenTransformation.getScaleY();
+		Rectangle allScreenSize = getUnscaledDimensionOfAllScreens();
 
-		double xFactorCorrection = frameInsidePixelSize.width  * xScale > totalBounds.width  || xScale < 1 ? xScale : 1;
-		double yFactorCorrection = frameInsidePixelSize.height * yScale > totalBounds.height || yScale < 1 ? yScale : 1;
+		AffineTransform currentTransformation = frame.getGraphicsConfiguration().getDefaultTransform();
+		double xScale = currentTransformation.getScaleX();
+		double yScale = currentTransformation.getScaleY();
+
+		boolean correctXScale = innerPixelSize.width  > Math.ceil(allScreenSize.width  / xScale) || xScale < 1;
+		boolean correctYScale = innerPixelSize.height > Math.ceil(allScreenSize.height / yScale) || yScale < 1;
+
+		double differenceX = startXScale - xScale;
+		double differenceY = startYScale - yScale;
 
 		return new Dimension(
-				(int)(framePixelSize.width  * xFactorCorrection),
-				(int)(framePixelSize.height * yFactorCorrection)
+				(int)(framePixelSize.width  * (correctXScale ? xScale : 1) + (differenceX * 4)),
+				(int)(framePixelSize.height * (correctYScale ? yScale : 1) + (differenceY * 4))
 		);
 	}
 
-	private static Rectangle getBoundsOfAllScreens() {
-		Rectangle totalArea = new Rectangle(0, 0, 0, 0);
+	private static Rectangle getUnscaledDimensionOfAllScreens() {
+		Rectangle sum = new Rectangle(0, 0, 0, 0);
 
 		for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
 			for (GraphicsConfiguration configuration : device.getConfigurations()) {
-				totalArea = totalArea.union(configuration.getBounds());
+				sum = sum.union(getUnscaledDimensionOfScreen(configuration));
 			}
 		}
 
-		return totalArea;
+		return sum;
 	}
 
-	private static Dimension scale(Dimension toBeScaled, AffineTransform transformation) {
-		return new Dimension(
-				(int)(toBeScaled.width * transformation.getScaleX()),
-				(int)(toBeScaled.height * transformation.getScaleY())
+	private static Rectangle getUnscaledDimensionOfScreen(GraphicsConfiguration configuration) {
+		Rectangle r = configuration.getBounds();
+		AffineTransform t = configuration.getDefaultTransform();
+
+		return new Rectangle(
+				r.x,
+				r.y,
+				(int)(r.width * t.getScaleX()),
+				(int)(r.height * t.getScaleY())
 		);
 	}
 }
