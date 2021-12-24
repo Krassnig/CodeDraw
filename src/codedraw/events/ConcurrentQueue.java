@@ -11,12 +11,22 @@ class ConcurrentQueue<T> {
 		list = createGenericArray(initialCapacity);
 	}
 
+	public MultiQueue create() {
+		return new MultiQueue();
+	}
+
+	private ConcurrentQueue(int initialCapacity, Semaphore multiListCount) {
+		this(initialCapacity);
+		this.multiListCount = multiListCount;
+	}
+
 	private T[] list;
 	private int offset = 0;
 	private int length = 0;
 
 	private Semaphore listLock = new Semaphore(1);
 	private Semaphore listCount = new Semaphore(0);
+	private Semaphore multiListCount;
 
 	public void push(T element) {
 		listLock.acquire();
@@ -26,11 +36,13 @@ class ConcurrentQueue<T> {
 		pushInternal(element);
 		listLock.release();
 
+		multiListCount.release();
 		listCount.release();
 	}
 
 	public T pop() {
 		listCount.acquire();
+		multiListCount.acquire();
 
 		listLock.acquire();
 		T result = popInternal();
@@ -41,9 +53,11 @@ class ConcurrentQueue<T> {
 
 	public T peek(){
 		listCount.acquire();
+		multiListCount.acquire();
 		listLock.acquire();
 		T result = peekInternal();
 		listLock.release();
+		multiListCount.release();
 		listCount.release();
 		return result;
 	}
@@ -96,5 +110,24 @@ class ConcurrentQueue<T> {
 	@SuppressWarnings("unchecked")
 	private static <T> T[] createGenericArray(int length) {
 		return (T[]) new Object[length];
+	}
+
+	public static class MultiQueue {
+		private MultiQueue() { }
+
+		private Semaphore multiListCount = new Semaphore(0);
+
+		public <T> ConcurrentQueue<T> newQueue() {
+			return newQueue(16);
+		}
+
+		public <T> ConcurrentQueue<T> newQueue(int initialCapacity) {
+			return new ConcurrentQueue<>(initialCapacity, multiListCount);
+		}
+
+		public void waitForNext() {
+			multiListCount.acquire();
+			multiListCount.release();
+		}
 	}
 }
