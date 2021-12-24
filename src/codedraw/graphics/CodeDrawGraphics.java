@@ -241,16 +241,15 @@ public class CodeDrawGraphics {
 	}
 
 	public void copyTo(Graphics target) {
+		if (target instanceof Graphics2D) {
+			RenderingHintValue.applyHint((Graphics2D) target, Interpolation.BICUBIC);
+		}
+
 		Color c = target.getColor();
 		target.setColor(Palette.WHITE);
 		target.drawRect(0, 0, getWidth(), getHeight());
 		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
 		target.setColor(c);
-	}
-
-	public void copyTo(Graphics2D target) {
-		RenderingHintValue.applyHint(target, Interpolation.BICUBIC);
-		copyTo((Graphics)target);
 	}
 
 	public void copyTo(CodeDrawGraphics target) {

@@ -43,12 +43,6 @@ class CanvasPanel extends JPanel {
 		super.paintComponent(componentGraphics);
 
 		renderCopyLock.acquire();
-		if (componentGraphics instanceof Graphics2D) {
-			displayBuffer.copyTo((Graphics2D) componentGraphics);
-		}
-		else {
-			displayBuffer.copyTo(componentGraphics);
-		}
 		displayBuffer.copyTo(componentGraphics);
 		renderCopyLock.release();
 	}
