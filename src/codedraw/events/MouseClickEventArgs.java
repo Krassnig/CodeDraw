@@ -18,6 +18,6 @@ public class MouseClickEventArgs {
 	}
 
 	public MouseButton getMouseButton() {
-		return MouseButton.values()[e.getButton()];
+		return MouseButton.values()[e.getButton() - 1];
 	}
 }
