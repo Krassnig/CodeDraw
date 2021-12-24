@@ -11,6 +11,7 @@ import java.util.Comparator;
 
 public class JFrameCorrector {
 	public JFrameCorrector(JFrame jFrame, Dimension jFrameTargetDimension) {
+		if (jFrame.isUndecorated()) throw new RuntimeException("JFrame correction is not necessary for undecorated frames");
 		frame = jFrame;
 		framePixelSize = jFrameTargetDimension.getSize();
 		Insets inset = jFrame.getInsets();
