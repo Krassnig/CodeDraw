@@ -28,6 +28,10 @@ class ConcurrentQueue<T> {
 	private Semaphore listCount = new Semaphore(0);
 	private Semaphore multiListCount;
 
+	public boolean canPop() {
+		return listCount.canAcquire();
+	}
+
 	public void push(T element) {
 		listLock.acquire();
 		if (isFull()) {
@@ -123,6 +127,10 @@ class ConcurrentQueue<T> {
 
 		public <T> ConcurrentQueue<T> newQueue(int initialCapacity) {
 			return new ConcurrentQueue<>(initialCapacity, multiListCount);
+		}
+
+		public boolean canAcquire() {
+			return multiListCount.canAcquire();
 		}
 
 		public void waitForNext() {
