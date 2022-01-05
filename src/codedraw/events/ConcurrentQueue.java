@@ -11,7 +11,7 @@ class ConcurrentQueue<T> {
 		list = createGenericArray(initialCapacity);
 	}
 
-	public MultiQueue create() {
+	public static MultiQueue createMultiQueue() {
 		return new MultiQueue();
 	}
 

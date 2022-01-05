@@ -14,8 +14,9 @@ public class EventScannerTest {
 	}
 
 	private static void testScannerWrongNextEvent() {
-		while(scanner.hasEvent()) {
-			System.out.println(scanner.nextKeyUpEvent());
+		while(true) {
+			System.out.println("Test");
+			System.out.println(scanner.waitForKeyUpEvent());
 		}
 	}
 
@@ -26,9 +27,4 @@ public class EventScannerTest {
 		System.out.println(scanner.hasEvent());
 	}
 
-	private static void testScannerNextEvent(){
-
-		scanner.skipEvent();
-		System.out.println("Skipped Event");
-	}
 }

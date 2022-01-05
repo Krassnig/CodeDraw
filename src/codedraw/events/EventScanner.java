@@ -3,106 +3,110 @@ package codedraw.events;
 import codedraw.CodeDraw;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static codedraw.events.EventType.*;
 
 public class EventScanner {
 
-	private final EventQueue eventQueue = new EventQueue();
-
+	private final Map<EventType, ConcurrentQueue<Object>> eventQueues;
+	private final ConcurrentQueue.MultiQueue multiQueue;
 	private final List<Subscription> subscriptions = new ArrayList<>();
 
 	public EventScanner(CodeDraw cd) {
+		multiQueue = ConcurrentQueue.createMultiQueue();
+		eventQueues = new HashMap<>();
+		for (EventType type : EventType.values()) {
+			eventQueues.put(type, multiQueue.newQueue());
+		}
+
 		bindEvents(cd);
 	}
 
-
 	public boolean hasEvent() {
-		return eventQueue.peekType() != EventType.WINDOW_CLOSE;
+		return multiQueue.canAcquire();
 	}
 
 	public boolean hasMouseMoveEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_MOVE;
+		return hasEvent(MOUSE_MOVE);
 	}
 
 	public boolean hasMouseUpEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_UP;
+		return hasEvent(MOUSE_UP);
 	}
 
 	public boolean hasMouseDownEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_DOWN;
+		return hasEvent(MOUSE_DOWN);
 	}
 
 	public boolean hasMouseEnterEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_ENTER;
+		return hasEvent(MOUSE_ENTER);
 	}
 
 	public boolean hasMouseLeaveEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_LEAVE;
+		return hasEvent(MOUSE_LEAVE);
 	}
 
 	public boolean hasMouseWheelEvent() {
-		return eventQueue.peekType() == EventType.MOUSE_WHEEL;
+		return hasEvent(MOUSE_WHEEL);
 	}
 
 	public boolean hasKeyDownEvent() {
-		return eventQueue.peekType() == EventType.KEY_DOWN;
+		return hasEvent(KEY_DOWN);
 	}
 
 	public boolean hasKeyPressEvent() {
-		return eventQueue.peekType() == EventType.KEY_PRESS;
+		return hasEvent(KEY_PRESS);
 	}
 
 	public boolean hasKeyUpEvent() {
-		return eventQueue.peekType() == EventType.KEY_UP;
+		return hasEvent(KEY_UP);
 	}
 
 	public boolean hasWindowMoveEvent() {
-		return eventQueue.peekType() == EventType.WINDOW_MOVE;
-	}
-
-
-	public void skipEvent() {
-		eventQueue.popEventArg();
+		return hasEvent(WINDOW_MOVE);
 	}
 
 	public MouseMoveEventArgs nextMouseMoveEvent() {
-		return popEventArg(EventType.MOUSE_MOVE);
+		return popEventArg(MOUSE_MOVE);
 	}
 
-	public MouseClickEventArgs nextMouseUpEvent() {
-		return popEventArg(EventType.MOUSE_UP);
+	public MouseClickEventArgs waitForMouseUpEvent() {
+		return popEventArg(MOUSE_UP);
 	}
 
-	public MouseClickEventArgs nextMouseDownEvent() {
-		return popEventArg(EventType.MOUSE_DOWN);
+	public MouseClickEventArgs waitForMouseDownEvent() {
+		return popEventArg(MOUSE_DOWN);
 	}
 
-	public MouseMoveEventArgs nextMouseEnterEvent() {
-		return popEventArg(EventType.MOUSE_ENTER);
+	public MouseMoveEventArgs waitForMouseEnterEvent() {
+		return popEventArg(MOUSE_ENTER);
 	}
 
-	public MouseMoveEventArgs nextMouseLeaveEvent() {
-		return popEventArg(EventType.MOUSE_LEAVE);
+	public MouseMoveEventArgs waitForMouseLeaveEvent() {
+		return popEventArg(MOUSE_LEAVE);
 	}
 
-	public MouseWheelEventArgs nextMouseWheelEvent() {
-		return popEventArg(EventType.MOUSE_WHEEL);
+	public MouseWheelEventArgs waitForMouseWheelEvent() {
+		return popEventArg(MOUSE_WHEEL);
 	}
 
-	public KeyEventArgs nextKeyDownEvent() {
-		return popEventArg(EventType.KEY_DOWN);
+	public KeyEventArgs waitForKeyDownEvent() {
+		return popEventArg(KEY_DOWN);
 	}
 
-	public KeyEventArgs nextKeyPressEvent() {
-		return popEventArg(EventType.KEY_PRESS);
+	public KeyEventArgs waitForKeyPressEvent() {
+		return popEventArg(KEY_PRESS);
 	}
 
-	public KeyEventArgs nextKeyUpEvent() {
-		return popEventArg(EventType.KEY_UP);
+	public KeyEventArgs waitForKeyUpEvent() {
+		return popEventArg(KEY_UP);
 	}
 
-	public WindowMoveEventArgs nextWindowMoveEvent() {
-		return popEventArg(EventType.WINDOW_MOVE);
+	public WindowMoveEventArgs waitForWindowMoveEvent() {
+		return popEventArg(WINDOW_MOVE);
 	}
 
 	public void close() {
@@ -110,78 +114,31 @@ public class EventScanner {
 	}
 
 	private <T> T popEventArg(EventType expectedEventType) {
-		EventType nextEventType = eventQueue.peekType();
-		if (nextEventType != expectedEventType)
-			throw new EventMismatchException(expectedEventType, nextEventType);
-		return (T) eventQueue.popEventArg();
+		ConcurrentQueue<Object> queue = eventQueues.get(expectedEventType);
+		return (T) queue.pop();
 	}
 
-
-	private void onMouseClick(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_CLICK, mouseEvent);
+	private boolean hasEvent(EventType type) {
+		return eventQueues.get(type).canPop();
 	}
 
-	private void onMouseMove(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_MOVE, mouseEvent);
-	}
-
-	private void onMouseUp(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_UP, mouseEvent);
-	}
-
-	private void onMouseDown(CodeDraw codeDraw, MouseClickEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_DOWN, mouseEvent);
-
-	}
-
-	private void onMouseEnter(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_ENTER, mouseEvent);
-
-	}
-
-	private void onMouseLeave(CodeDraw codeDraw, MouseMoveEventArgs mouseEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_LEAVE, mouseEvent);
-	}
-
-	private void onMouseWheel(CodeDraw codeDraw, MouseWheelEventArgs mouseWheelEvent) {
-		eventQueue.pushEvent(EventType.MOUSE_WHEEL, mouseWheelEvent);
-	}
-
-
-	private void onKeyDown(CodeDraw codeDraw, KeyEventArgs keyEvent) {
-		eventQueue.pushEvent(EventType.KEY_DOWN, keyEvent);
-	}
-
-	private void onKeyPress(CodeDraw codeDraw, KeyEventArgs keyEvent) {
-		eventQueue.pushEvent(EventType.KEY_PRESS, keyEvent);
-	}
-
-	private void onKeyUp(CodeDraw codeDraw, KeyEventArgs keyEvent) {
-		eventQueue.pushEvent(EventType.KEY_UP, keyEvent);
-	}
-
-	private void onWindowMove(CodeDraw codeDraw, WindowMoveEventArgs componentEvent) {
-		eventQueue.pushEvent(EventType.WINDOW_MOVE, componentEvent);
-	}
-
-	private void onWindowClose(CodeDraw codeDraw, Void unused) {
-		eventQueue.pushEvent(EventType.WINDOW_CLOSE, null);
-		close();
+	private void pushEvent(EventType eventType, Object eventArg) {
+		eventQueues.get(eventType).push(eventArg);
 	}
 
 	private void bindEvents(CodeDraw cd) {
-		subscriptions.add(cd.onMouseClick(this::onMouseClick));
-		subscriptions.add(cd.onMouseMove(this::onMouseMove));
-		subscriptions.add(cd.onMouseUp(this::onMouseUp));
-		subscriptions.add(cd.onMouseDown(this::onMouseDown));
-		subscriptions.add(cd.onMouseEnter(this::onMouseEnter));
-		subscriptions.add(cd.onMouseLeave(this::onMouseLeave));
-		subscriptions.add(cd.onMouseWheel(this::onMouseWheel));
-		subscriptions.add(cd.onKeyDown(this::onKeyDown));
-		subscriptions.add(cd.onKeyPress(this::onKeyPress));
-		subscriptions.add(cd.onKeyUp(this::onKeyUp));
-		subscriptions.add(cd.onWindowMove(this::onWindowMove));
-		subscriptions.add(cd.onWindowClose(this::onWindowClose));
+		subscriptions.add(cd.onMouseClick((c, arg) -> pushEvent(MOUSE_CLICK, arg)));
+		subscriptions.add(cd.onMouseMove((c, arg) -> pushEvent(MOUSE_CLICK, arg)));
+		subscriptions.add(cd.onMouseUp((c, arg) -> pushEvent(MOUSE_UP, arg)));
+		subscriptions.add(cd.onMouseDown((c, arg) -> pushEvent(MOUSE_DOWN, arg)));
+		subscriptions.add(cd.onMouseEnter((c, arg) -> pushEvent(MOUSE_ENTER, arg)));
+		subscriptions.add(cd.onMouseLeave((c, arg) -> pushEvent(MOUSE_LEAVE, arg)));
+		subscriptions.add(cd.onMouseWheel((c, arg) -> pushEvent(MOUSE_WHEEL, arg)));
+		subscriptions.add(cd.onKeyDown((c, arg) -> pushEvent(KEY_DOWN, arg)));
+		subscriptions.add(cd.onKeyPress((c, arg) -> pushEvent(KEY_PRESS, arg)));
+		subscriptions.add(cd.onKeyUp((c, arg) -> pushEvent(KEY_UP, arg)));
+		subscriptions.add(cd.onWindowMove((c, arg) -> pushEvent(WINDOW_MOVE, arg)));
+		subscriptions.add(cd.onWindowClose((c, arg) -> pushEvent(WINDOW_CLOSE, arg)));
 	}
 
 
