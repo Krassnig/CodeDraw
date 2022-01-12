@@ -1,8 +1,6 @@
 package codedraw.graphics;
 
-import codedraw.Corner;
-import codedraw.Interpolation;
-import codedraw.Palette;
+import codedraw.*;
 import codedraw.textformat.*;
 
 import java.awt.*;
@@ -10,6 +8,8 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 public class CodeDrawGraphics {
+	private static final Interpolation DEFAULT_INTERPOLATION = Interpolation.BICUBIC;
+
 	public CodeDrawGraphics(int width, int height) {
 		this(width, height, 1, 1);
 	}
@@ -206,12 +206,37 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawImage(double x, double y, Image image) {
+		drawImage(x, y, image, DEFAULT_INTERPOLATION);
+	}
+
+	public void drawImage(double x, double y, String pathToImage) {
+		drawImage(x, y, ImageIO.read(pathToImage));
+	}
+
+	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
+		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, null);
+	}
+
+	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
+		drawImage(x, y, ImageIO.read(pathToImage), interpolation);
+	}
+
+	public void drawImage(double x, double y, double width, double height, Image image) {
+		drawImage(x, y, width, height, image, DEFAULT_INTERPOLATION);
+	}
+
+	public void drawImage(double x, double y, double width, double height, String pathToImage) {
+		drawImage(x, y, width, height, ImageIO.read(pathToImage));
 	}
 
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
+	}
+
+	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
+		drawImage(x, y, width, height, ImageIO.read(pathToImage), interpolation);
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {

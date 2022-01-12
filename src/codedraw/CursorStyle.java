@@ -32,6 +32,10 @@ public class CursorStyle {
 		this(image, 0, 0);
 	}
 
+	public CursorStyle(String pathToImage) {
+		this(ImageIO.read(pathToImage));
+	}
+
 	/**
 	 * Creates a new CursorStyle from an image.
 	 * @param image Appearance of the cursor when hovering over the canvas.
@@ -41,6 +45,10 @@ public class CursorStyle {
 	public CursorStyle(Image image, int x, int y) {
 		if (image == null) throw createArgumentNull("image");
 		this.cursor = defaultToolkit.createCustomCursor(image, new Point(x, y), "CodeDraw Custom Cursor " + Objects.hash(image, x, y));
+	}
+
+	public CursorStyle(String pathToImage, int x, int y) {
+		this(ImageIO.read(pathToImage), x, y);
 	}
 
 	private CursorStyle(int cursorType) {

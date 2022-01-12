@@ -4,12 +4,9 @@ import codedraw.events.*;
 import codedraw.graphics.CodeDrawGraphics;
 import codedraw.textformat.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 
 /**
  * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
@@ -740,32 +737,6 @@ public class CodeDraw implements AutoCloseable {
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
-	 * cd.drawImage(100, 100, new File("C:\\pathToDirectory\\filename.png"));
-	 * cd.show();
-	 * }</pre><br>
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
-	 */
-	public void drawImage(double x, double y, File file) {
-		if (file == null) throw createArgumentNull("file");
-
-		try {
-			drawImage(x, y, ImageIO.read(file));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The width and height of the image will be used to draw the image.
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
 	 * cd.drawImage(100, 100, "C:\\pathToDirectory\\filename.png");
 	 * cd.show();
 	 * }</pre><br>
@@ -774,12 +745,74 @@ public class CodeDraw implements AutoCloseable {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
-	public void drawImage(double x, double y, String fileName) {
-		if (fileName == null) throw createArgumentNull("fileName");
+	public void drawImage(double x, double y, String pathToImage) {
+		if (pathToImage == null) throw createArgumentNull("pathToImage");
 
-		drawImage(x, y, new File(fileName));
+		g.drawImage(x, y, pathToImage);
+	}
+
+	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
+		g.drawImage(x, y, image, interpolation);
+	}
+
+	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
+		g.drawImage(x, y, pathToImage, interpolation);
+	}
+
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within the width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * BufferedImage img;
+	 * try {
+	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
+	 * } catch (IOException e) {
+	 *     throw new UncheckedIOException(e);
+	 * }
+	 *
+	 * cd.drawImage(100, 100, 200, 200, img);
+	 * cd.show();
+	 * }</pre>
+	 * The size of the example image will be 200x200 pixel.<br>
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
+	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
+	 * @param image The image that will be drawn on the canvas.
+	 */
+	public void drawImage(double x, double y, double width, double height, Image image) {
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (image == null) throw createArgumentNull("image");
+
+		g.drawImage(x, y, width, height, image);
+	}
+
+	/**
+	 * Draws an image at the specified (x, y) coordinate.
+	 * The image will be rescaled to fit within the width and height given as parameters.<br>
+	 * <pre>{@code
+	 * CodeDraw cd = new CodeDraw();
+	 *
+	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
+	 * cd.show();
+	 * }</pre>
+	 * The size of the example image will be 200x200 pixel.<br>
+	 * Supported image formats are:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
+	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
+	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 */
+	public void drawImage(double x, double y, double width, double height, String pathToImage) {
+		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
+		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (pathToImage == null) throw createArgumentNull("pathToImage");
+
+		g.drawImage(x, y, width, height, pathToImage);
 	}
 
 	/**
@@ -819,95 +852,6 @@ public class CodeDraw implements AutoCloseable {
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
-	 * BufferedImage img;
-	 * try {
-	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
-	 * } catch (IOException e) {
-	 *     throw new UncheckedIOException(e);
-	 * }
-	 *
-	 * cd.drawImage(100, 100, 200, 200, img);
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param image The image that will be drawn on the canvas.
-	 */
-	public void drawImage(double x, double y, double width, double height, Image image) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (image == null) throw createArgumentNull("image");
-
-		drawImage(x, y, width, height, image, Interpolation.BICUBIC);
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"), Interpolation.BICUBIC);
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
-	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
-	 */
-	public void drawImage(double x, double y, double width, double height, File file, Interpolation interpolation) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (file == null) throw createArgumentNull("file");
-		if (interpolation == null) throw createArgumentNull("interpolation");
-
-		try {
-			drawImage(x, y, width, height, ImageIO.read(file), interpolation);
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, 200, 200, new File("C:\\pathToDirectory\\filename.png"));
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param file A file that points to an image file. See {@link javax.imageio.ImageIO#read(File)}.
-	 */
-	public void drawImage(double x, double y, double width, double height, File file) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (file == null) throw createArgumentNull("file");
-
-		try {
-			drawImage(x, y, width, height, ImageIO.read(file));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
 	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png", Interpolation.BICUBIC);
 	 * cd.show();
 	 * }</pre>
@@ -917,41 +861,16 @@ public class CodeDraw implements AutoCloseable {
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
-	public void drawImage(double x, double y, double width, double height, String fileName, Interpolation interpolation) {
+	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
 		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
 		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (fileName == null) throw createArgumentNull("fileName");
+		if (pathToImage == null) throw createArgumentNull("pathToImage");
 		if (interpolation == null) throw createArgumentNull("interpolation");
 
-		drawImage(x, y, width, height, new File(fileName), interpolation);
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param fileName A fileName that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
-	 */
-	public void drawImage(double x, double y, double width, double height, String fileName) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (fileName == null) throw createArgumentNull("fileName");
-
-		drawImage(x, y, width, height, new File(fileName));
+		g.drawImage(x, y, width, height, pathToImage, interpolation);
 	}
 
 	/**
