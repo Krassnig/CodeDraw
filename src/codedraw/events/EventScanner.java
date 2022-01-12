@@ -3,143 +3,86 @@ package codedraw.events;
 import codedraw.CodeDraw;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
 
-import static codedraw.events.EventType.*;
-
-public class EventScanner {
-
-	private final Map<EventType, ConcurrentQueue<Object>> eventQueues;
-	private final ConcurrentQueue.MultiQueue multiQueue;
-	private final List<Subscription> subscriptions = new ArrayList<>();
-
-	public EventScanner(CodeDraw cd) {
+public class EventScanner implements AutoCloseable {
+	public EventScanner(CodeDraw codeDraw) {
+		this.codeDraw = codeDraw;
+		subscriptions = new ArrayList<>(12);
 		multiQueue = ConcurrentQueue.createMultiQueue();
-		eventQueues = new HashMap<>();
-		for (EventType type : EventType.values()) {
-			eventQueues.put(type, multiQueue.newQueue());
-		}
 
-		bindEvents(cd);
+		mouseClickQueue = bindEvent(codeDraw::onMouseClick);
+		mouseMoveQueue = bindEvent(codeDraw::onMouseMove);
+		mouseDownQueue = bindEvent(codeDraw::onMouseDown);
+		mouseUpQueue = bindEvent(codeDraw::onMouseUp);
+		mouseEnterQueue = bindEvent(codeDraw::onMouseEnter);
+		mouseLeaveQueue = bindEvent(codeDraw::onMouseLeave);
+		mouseWheelQueue = bindEvent(codeDraw::onMouseWheel);
+		keyDownQueue = bindEvent(codeDraw::onKeyDown);
+		keyUpQueue = bindEvent(codeDraw::onKeyUp);
+		keyPressQueue = bindEvent(codeDraw::onKeyPress);
+		windowMoveQueue = bindEvent(codeDraw::onWindowMove);
+		windowCloseQueue = bindEvent(codeDraw::onWindowClose);
 	}
+
+	private <T> ConcurrentQueue<T> bindEvent(Function<EventHandler<CodeDraw, T>, Subscription> onEvent) {
+		ConcurrentQueue<T> queue = multiQueue.newQueue();
+		subscriptions.add(onEvent.apply((c, a) -> queue.push(a)));
+		return queue;
+	}
+
+	private final CodeDraw codeDraw;
+	private final ArrayList<Subscription> subscriptions;
+	private final ConcurrentQueue.MultiQueue multiQueue;
+
+	private final ConcurrentQueue<MouseClickEventArgs> mouseClickQueue;
+	private final ConcurrentQueue<MouseMoveEventArgs> mouseMoveQueue;
+	private final ConcurrentQueue<MouseClickEventArgs> mouseDownQueue;
+	private final ConcurrentQueue<MouseClickEventArgs> mouseUpQueue;
+	private final ConcurrentQueue<MouseMoveEventArgs> mouseEnterQueue;
+	private final ConcurrentQueue<MouseMoveEventArgs> mouseLeaveQueue;
+	private final ConcurrentQueue<MouseWheelEventArgs> mouseWheelQueue;
+	private final ConcurrentQueue<KeyEventArgs> keyDownQueue;
+	private final ConcurrentQueue<KeyEventArgs> keyUpQueue;
+	private final ConcurrentQueue<KeyEventArgs> keyPressQueue;
+	private final ConcurrentQueue<WindowMoveEventArgs> windowMoveQueue;
+	private final ConcurrentQueue<Void> windowCloseQueue;
 
 	public boolean hasEvent() {
 		return multiQueue.canAcquire();
 	}
 
-	public boolean hasMouseMoveEvent() {
-		return hasEvent(MOUSE_MOVE);
-	}
-
-	public boolean hasMouseUpEvent() {
-		return hasEvent(MOUSE_UP);
-	}
-
-	public boolean hasMouseDownEvent() {
-		return hasEvent(MOUSE_DOWN);
-	}
-
-	public boolean hasMouseEnterEvent() {
-		return hasEvent(MOUSE_ENTER);
-	}
-
-	public boolean hasMouseLeaveEvent() {
-		return hasEvent(MOUSE_LEAVE);
-	}
-
-	public boolean hasMouseWheelEvent() {
-		return hasEvent(MOUSE_WHEEL);
-	}
-
-	public boolean hasKeyDownEvent() {
-		return hasEvent(KEY_DOWN);
-	}
-
-	public boolean hasKeyPressEvent() {
-		return hasEvent(KEY_PRESS);
-	}
-
-	public boolean hasKeyUpEvent() {
-		return hasEvent(KEY_UP);
-	}
-
-	public boolean hasWindowMoveEvent() {
-		return hasEvent(WINDOW_MOVE);
-	}
-
-	public MouseMoveEventArgs nextMouseMoveEvent() {
-		return popEventArg(MOUSE_MOVE);
-	}
-
-	public MouseClickEventArgs waitForMouseUpEvent() {
-		return popEventArg(MOUSE_UP);
-	}
-
-	public MouseClickEventArgs waitForMouseDownEvent() {
-		return popEventArg(MOUSE_DOWN);
-	}
-
-	public MouseMoveEventArgs waitForMouseEnterEvent() {
-		return popEventArg(MOUSE_ENTER);
-	}
-
-	public MouseMoveEventArgs waitForMouseLeaveEvent() {
-		return popEventArg(MOUSE_LEAVE);
-	}
-
-	public MouseWheelEventArgs waitForMouseWheelEvent() {
-		return popEventArg(MOUSE_WHEEL);
-	}
-
-	public KeyEventArgs waitForKeyDownEvent() {
-		return popEventArg(KEY_DOWN);
-	}
-
-	public KeyEventArgs waitForKeyPressEvent() {
-		return popEventArg(KEY_PRESS);
-	}
-
-	public KeyEventArgs waitForKeyUpEvent() {
-		return popEventArg(KEY_UP);
-	}
-
-	public WindowMoveEventArgs waitForWindowMoveEvent() {
-		return popEventArg(WINDOW_MOVE);
+	public void waitForNextEvent() {
+		multiQueue.waitForNext();
 	}
 
 	public void close() {
 		subscriptions.forEach(Subscription::unsubscribe);
 	}
 
-	private <T> T popEventArg(EventType expectedEventType) {
-		ConcurrentQueue<Object> queue = eventQueues.get(expectedEventType);
-		return (T) queue.pop();
-	}
+	public boolean hasMouseClickEvent() { return mouseClickQueue.canPop(); }
+	public boolean hasMouseMoveEvent() { return mouseMoveQueue.canPop(); }
+	public boolean hasMouseDownEvent() { return mouseDownQueue.canPop(); }
+	public boolean hasMouseUpEvent() { return mouseUpQueue.canPop(); }
+	public boolean hasMouseEnterEvent() { return mouseEnterQueue.canPop(); }
+	public boolean hasMouseLeaveEvent() { return mouseLeaveQueue.canPop(); }
+	public boolean hasMouseWheelEvent() { return mouseWheelQueue.canPop(); }
+	public boolean hasKeyDownEvent() { return keyDownQueue.canPop(); }
+	public boolean hasKeyUpEvent() { return keyUpQueue.canPop(); }
+	public boolean hasKeyPressEvent() { return keyPressQueue.canPop(); }
+	public boolean hasWindowMoveEvent() { return windowMoveQueue.canPop(); }
+	public boolean hasWindowCloseEvent() { return windowCloseQueue.canPop(); }
 
-	private boolean hasEvent(EventType type) {
-		return eventQueues.get(type).canPop();
-	}
-
-	private void pushEvent(EventType eventType, Object eventArg) {
-		eventQueues.get(eventType).push(eventArg);
-	}
-
-	private void bindEvents(CodeDraw cd) {
-		subscriptions.add(cd.onMouseClick((c, arg) -> pushEvent(MOUSE_CLICK, arg)));
-		subscriptions.add(cd.onMouseMove((c, arg) -> pushEvent(MOUSE_CLICK, arg)));
-		subscriptions.add(cd.onMouseUp((c, arg) -> pushEvent(MOUSE_UP, arg)));
-		subscriptions.add(cd.onMouseDown((c, arg) -> pushEvent(MOUSE_DOWN, arg)));
-		subscriptions.add(cd.onMouseEnter((c, arg) -> pushEvent(MOUSE_ENTER, arg)));
-		subscriptions.add(cd.onMouseLeave((c, arg) -> pushEvent(MOUSE_LEAVE, arg)));
-		subscriptions.add(cd.onMouseWheel((c, arg) -> pushEvent(MOUSE_WHEEL, arg)));
-		subscriptions.add(cd.onKeyDown((c, arg) -> pushEvent(KEY_DOWN, arg)));
-		subscriptions.add(cd.onKeyPress((c, arg) -> pushEvent(KEY_PRESS, arg)));
-		subscriptions.add(cd.onKeyUp((c, arg) -> pushEvent(KEY_UP, arg)));
-		subscriptions.add(cd.onWindowMove((c, arg) -> pushEvent(WINDOW_MOVE, arg)));
-		subscriptions.add(cd.onWindowClose((c, arg) -> pushEvent(WINDOW_CLOSE, arg)));
-	}
-
-
+	public MouseClickEventArgs waitForMouseClickEvent() { return mouseClickQueue.pop(); }
+	public MouseMoveEventArgs waitForMouseMoveEvent() { return mouseMoveQueue.pop(); }
+	public MouseClickEventArgs waitForMouseDownEvent() { return mouseClickQueue.pop(); }
+	public MouseClickEventArgs waitForMouseUpEvent() { return mouseUpQueue.pop(); }
+	public MouseMoveEventArgs waitForMouseEnterEvent() { return mouseEnterQueue.pop(); }
+	public MouseMoveEventArgs waitForMouseLeaveEvent() { return mouseLeaveQueue.pop(); }
+	public MouseWheelEventArgs waitForMouseWheelEvent() { return mouseWheelQueue.pop(); }
+	public KeyEventArgs waitForKeyDownEvent() { return keyDownQueue.pop(); }
+	public KeyEventArgs waitForKeyUpEvent() { return keyUpQueue.pop(); }
+	public KeyEventArgs waitForKeyPressEvent() { return keyPressQueue.pop(); }
+	public WindowMoveEventArgs waitForWindowMoveEvent() { return windowMoveQueue.pop(); }
+	public void waitForWindowCloseEvent() { windowCloseQueue.pop(); }
 }

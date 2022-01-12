@@ -1,22 +1,14 @@
 package codedraw.events;
 
 class ConcurrentQueue<T> {
-	public ConcurrentQueue() {
-		this(16);
-	}
-
-	public ConcurrentQueue(int initialCapacity) {
-		if (initialCapacity <= 0) throw new RuntimeException("Initial capacity must be larger than zero.");
-
-		list = createGenericArray(initialCapacity);
-	}
-
 	public static MultiQueue createMultiQueue() {
 		return new MultiQueue();
 	}
 
 	private ConcurrentQueue(int initialCapacity, Semaphore multiListCount) {
-		this(initialCapacity);
+		if (initialCapacity <= 0) throw new RuntimeException("Initial capacity must be larger than zero.");
+
+		list = createGenericArray(initialCapacity);
 		this.multiListCount = multiListCount;
 	}
 
@@ -28,10 +20,6 @@ class ConcurrentQueue<T> {
 	private Semaphore listCount = new Semaphore(0);
 	private Semaphore multiListCount;
 
-	public boolean canPop() {
-		return listCount.canAcquire();
-	}
-
 	public void push(T element) {
 		listLock.acquire();
 		if (isFull()) {
@@ -42,6 +30,10 @@ class ConcurrentQueue<T> {
 
 		multiListCount.release();
 		listCount.release();
+	}
+
+	public boolean canPop() {
+		return listCount.canAcquire();
 	}
 
 	public T pop() {
