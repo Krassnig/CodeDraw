@@ -5,8 +5,8 @@ import codedraw.CodeDraw;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class EventScanner implements AutoCloseable {
-	public EventScanner(CodeDraw codeDraw) {
+public class EventMultiQueue implements AutoCloseable {
+	public EventMultiQueue(CodeDraw codeDraw) {
 		this.codeDraw = codeDraw;
 		subscriptions = new ArrayList<>(12);
 		multiQueue = ConcurrentQueue.createMultiQueue();

@@ -1,12 +1,12 @@
 import codedraw.CodeDraw;
-import codedraw.events.EventScanner;
+import codedraw.events.EventMultiQueue;
 
 import java.awt.*;
 
 public class EventScannerTest {
 
 	private static final CodeDraw cd = new CodeDraw();
-	private static final EventScanner scanner = new EventScanner(cd);
+	private static final EventMultiQueue scanner = new EventMultiQueue(cd);
 	public static void main(String[] args) {
 		// testScannerHasNextEvent();
 		//testScannerNextEvent();
