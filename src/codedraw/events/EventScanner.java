@@ -26,8 +26,8 @@ public class EventScanner implements AutoCloseable {
 		bindEvent(codeDraw::onWindowClose);
 	}
 	
-	private <T> void bindEvent(Function<EventHandler<CodeDraw, T>, Subscription> onEvent) {
-		subscriptions.add(onEvent.apply((c, a) -> queue.push(a)));
+	private <T> void bindEvent(Function<EventHandler<T>, Subscription> onEvent) {
+		subscriptions.add(onEvent.apply(queue::push));
 	}
 	
 	private ConcurrentQueue<Object> queue;

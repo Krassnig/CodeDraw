@@ -30,28 +30,28 @@ public class EventTest {
 		cd.fillSquare(100, 100, 100);
 		cd.show();
 
-		cd.onMouseDown((c, a) -> {
-			c.clear();
-			c.setColor(Palette.BLUE);
-			c.drawText(50, 50, "I'm blue da ba dee!");
-			c.fillSquare(100, 100, 100);
-			c.show(3000);
+		cd.onMouseDown(a -> {
+			cd.clear();
+			cd.setColor(Palette.BLUE);
+			cd.drawText(50, 50, "I'm blue da ba dee!");
+			cd.fillSquare(100, 100, 100);
+			cd.show(3000);
 
-			c.clear();
-			c.setColor(Palette.GREEN);
-			c.drawText(50, 50, "Now I'm green.");
-			c.fillSquare(100, 100, 100);
-			c.show();
+			cd.clear();
+			cd.setColor(Palette.GREEN);
+			cd.drawText(50, 50, "Now I'm green.");
+			cd.fillSquare(100, 100, 100);
+			cd.show();
 		});
 	}
 
 	private static void curveTest() {
 		CodeDraw cd = new CodeDraw();
 
-		cd.onMouseMove((c, a) -> {
-			c.clear();
-			c.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
-			c.show();
+		cd.onMouseMove(a -> {
+			cd.clear();
+			cd.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
+			cd.show();
 		});
 	}
 
@@ -68,27 +68,27 @@ public class EventTest {
 		x = cd.getCanvasPositionX();
 		y = cd.getCanvasPositionY();
 
-		cd.onWindowMove((c, a) -> {
-			int dx = x - c.getCanvasPositionX();
-			int dy = y - c.getCanvasPositionY();
+		cd.onWindowMove(a -> {
+			int dx = x - cd.getCanvasPositionX();
+			int dy = y - cd.getCanvasPositionY();
 
-			c.clear();
-			c.drawSquare(dx + 200, dy + 200, 100);
-			c.show();
+			cd.clear();
+			cd.drawSquare(dx + 200, dy + 200, 100);
+			cd.show();
 		});
 	}
 
 	private static String s = "";
-	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<CodeDraw, KeyEvent>, Subscription> mapToEvent) {
+	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<KeyEvent>, Subscription> mapToEvent) {
 		CodeDraw cd = new CodeDraw();
 
 		cd.setColor(Palette.RED);
 
-		mapToEvent.apply(cd, (c, a) -> {
-			c.clear();
+		mapToEvent.apply(cd, a -> {
+			cd.clear();
 			s += a.getKeyChar();
-			c.drawText(100, 100, s);
-			c.show();
+			cd.drawText(100, 100, s);
+			cd.show();
 		});
 	}
 
@@ -98,55 +98,55 @@ public class EventTest {
 
 		cd.setColor(Palette.RED);
 
-		cd.onMouseWheel((c, a) -> {
-			c.clear();
+		cd.onMouseWheel(a -> {
+			cd.clear();
 			double h = l + a.getWheelRotation();
-			c.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
-			c.show();
+			cd.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
+			cd.show();
 		});
 	}
 
-	private static void mouseTest(BiFunction<CodeDraw, EventHandler<CodeDraw, MouseEvent>, Subscription> mapToEvent) {
+	private static void mouseTest(BiFunction<CodeDraw, EventHandler<MouseEvent>, Subscription> mapToEvent) {
 		CodeDraw cd = new CodeDraw();
 
 		cd.setColor(Palette.RED);
 
-		mapToEvent.apply(cd, (c, a) -> {
-			c.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
-			c.show();
+		mapToEvent.apply(cd, a -> {
+			cd.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
+			cd.show();
 		});
 	}
 
 	private static Subscription subscription;
-	private static EventHandler<CodeDraw, KeyPressEventArgs> key;
-	private static EventHandler<CodeDraw, MouseClickEventArgs> mouse;
+	private static EventHandler<KeyPressEventArgs> key;
+	private static EventHandler<MouseClickEventArgs> mouse;
 	private static int unsubscribeProgress = 0;
 
 	private static void unsubscribeTest() {
 		CodeDraw cd = new CodeDraw();
 
-		mouse = (c, a) -> {
-			c.clear();
-			c.setColor(Palette.BLUE);
-			c.drawText(200, 100, "Press a key on your keyboard.");
-			c.drawTriangle(200, 200, 400, 200, 300, 400);
-			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
-			c.show();
+		mouse = a -> {
+			cd.clear();
+			cd.setColor(Palette.BLUE);
+			cd.drawText(200, 100, "Press a key on your keyboard.");
+			cd.drawTriangle(200, 200, 400, 200, 300, 400);
+			cd.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
+			cd.show();
 			subscription.unsubscribe();
-			subscription = c.onKeyPress(key);
+			subscription = cd.onKeyPress(key);
 		};
-		key = (c, a) -> {
-			c.clear();
-			c.setColor(Palette.RED);
-			c.drawText(200, 100, "Press a button on your mouse.");
-			c.drawSquare(200, 200, 200);
-			c.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
-			c.show();
+		key = a -> {
+			cd.clear();
+			cd.setColor(Palette.RED);
+			cd.drawText(200, 100, "Press a button on your mouse.");
+			cd.drawSquare(200, 200, 200);
+			cd.fillRectangle(10, 10, 40, unsubscribeProgress++ * 5);
+			cd.show();
 			subscription.unsubscribe();
-			subscription = c.onMouseClick(mouse);
+			subscription = cd.onMouseClick(mouse);
 		};
 
 		subscription = cd.onMouseClick(mouse);
-		mouse.handle(cd, null);
+		mouse.handle(null);
 	}
 }

@@ -38,13 +38,13 @@ public class LifeLikeCellularAutomaton {
 	private boolean setValue = false;
 
 	private void bindEvents() {
-		cd.onMouseDown((c, a) -> {
+		cd.onMouseDown(a -> {
 			isMouseDown = true;
 			setValue = !field[a.getX() / fieldSize][a.getY() / fieldSize];
 		});
-		cd.onMouseUp((c, a) -> isMouseDown = false);
-		cd.onMouseLeave((c, a) -> isMouseDown = false);
-		cd.onMouseMove((c, a) -> {
+		cd.onMouseUp(a -> isMouseDown = false);
+		cd.onMouseLeave(a -> isMouseDown = false);
+		cd.onMouseMove(a -> {
 			if (isMouseDown) {
 				field[a.getX() / fieldSize][a.getY() / fieldSize] = setValue;
 			}

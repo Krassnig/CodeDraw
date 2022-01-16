@@ -3,32 +3,18 @@ package codedraw;
 import codedraw.events.*;
 
 class EventCollection {
+	public EventCollection() { }
 
-	public EventCollection(CodeDraw sender) {
-		mouseClick = new Event<>(sender);
-		mouseMove = new Event<>(sender);
-		mouseDown = new Event<>(sender);
-		mouseUp = new Event<>(sender);
-		mouseEnter = new Event<>(sender);
-		mouseLeave = new Event<>(sender);
-		mouseWheel = new Event<>(sender);
-		keyDown = new Event<>(sender);
-		keyUp = new Event<>(sender);
-		keyPress = new Event<>(sender);
-		windowMove = new Event<>(sender);
-		windowClose = new Event<>(sender);
-	}
-
-	public final Event<CodeDraw, MouseClickEventArgs> mouseClick;
-	public final Event<CodeDraw, MouseMoveEventArgs> mouseMove;
-	public final Event<CodeDraw, MouseDownEventArgs> mouseDown;
-	public final Event<CodeDraw, MouseUpEventArgs> mouseUp;
-	public final Event<CodeDraw, MouseEnterEventArgs> mouseEnter;
-	public final Event<CodeDraw, MouseLeaveEventArgs> mouseLeave;
-	public final Event<CodeDraw, MouseWheelEventArgs> mouseWheel;
-	public final Event<CodeDraw, KeyDownEventArgs> keyDown;
-	public final Event<CodeDraw, KeyUpEventArgs> keyUp;
-	public final Event<CodeDraw, KeyPressEventArgs> keyPress;
-	public final Event<CodeDraw, WindowMoveEventArgs> windowMove;
-	public final Event<CodeDraw, Void> windowClose;
+	public final Event<MouseClickEventArgs> mouseClick = new Event<>();
+	public final Event<MouseMoveEventArgs> mouseMove = new Event<>();
+	public final Event<MouseDownEventArgs> mouseDown = new Event<>();
+	public final Event<MouseUpEventArgs> mouseUp = new Event<>();
+	public final Event<MouseEnterEventArgs> mouseEnter = new Event<>();
+	public final Event<MouseLeaveEventArgs> mouseLeave = new Event<>();
+	public final Event<MouseWheelEventArgs> mouseWheel = new Event<>();
+	public final Event<KeyDownEventArgs> keyDown = new Event<>();
+	public final Event<KeyUpEventArgs> keyUp = new Event<>();
+	public final Event<KeyPressEventArgs> keyPress = new Event<>();
+	public final Event<WindowMoveEventArgs> windowMove = new Event<>();
+	public final Event<Void> windowClose = new Event<>();
 }

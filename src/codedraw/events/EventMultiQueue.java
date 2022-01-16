@@ -25,9 +25,9 @@ public class EventMultiQueue implements AutoCloseable {
 		windowCloseQueue = bindEvent(codeDraw::onWindowClose);
 	}
 
-	private <T> ConcurrentQueue<T> bindEvent(Function<EventHandler<CodeDraw, T>, Subscription> onEvent) {
+	private <T> ConcurrentQueue<T> bindEvent(Function<EventHandler<T>, Subscription> onEvent) {
 		ConcurrentQueue<T> queue = multiQueue.newQueue();
-		subscriptions.add(onEvent.apply((c, a) -> queue.push(a)));
+		subscriptions.add(onEvent.apply(queue::push));
 		return queue;
 	}
 

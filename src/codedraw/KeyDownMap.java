@@ -7,11 +7,11 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 class KeyDownMap {
-	public KeyDownMap(Event<CodeDraw, KeyDownEventArgs> keyDownEvent) {
+	public KeyDownMap(Event<KeyDownEventArgs> keyDownEvent) {
 		this.event = keyDownEvent;
 	}
 
-	private Event<CodeDraw, KeyDownEventArgs> event;
+	private Event<KeyDownEventArgs> event;
 	private HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {

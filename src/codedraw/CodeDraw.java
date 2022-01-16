@@ -72,16 +72,16 @@ public class CodeDraw implements AutoCloseable {
 		if (canvasWidth < 150) throw new IllegalArgumentException("The width of the canvas has to be at least 150px.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be positive.");
 
-		events = new EventCollection(this);
+		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
 		g = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
 
-		onKeyDown((sender, args) -> {
+		ctrlCSubscription = onKeyDown(args -> {
 			if (args.isControlDown() && args.getKey() == Key.C) {
-				sender.window.copyCanvasToClipboard();
+				window.copyCanvasToClipboard();
 			}
 		});
 	}
@@ -90,6 +90,7 @@ public class CodeDraw implements AutoCloseable {
 	private CodeDrawGraphics g;
 	private EventCollection events;
 	private TextFormat textFormat = new TextFormat();
+	private Subscription ctrlCSubscription;
 
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
@@ -276,7 +277,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers once when a mouse button is pressed down and quickly released again.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseClick(EventHandler<CodeDraw, MouseClickEventArgs> handler) {
+	public Subscription onMouseClick(EventHandler<MouseClickEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseClick.onInvoke(handler);
 	}
@@ -285,7 +286,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers continuously while the mouse is being moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseMoveEventArgs> handler) {
+	public Subscription onMouseMove(EventHandler<MouseMoveEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseMove.onInvoke(handler);
 	}
@@ -294,7 +295,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers exactly once when a mouse button is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseDownEventArgs> handler) {
+	public Subscription onMouseDown(EventHandler<MouseDownEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseDown.onInvoke(handler);
 	}
@@ -303,7 +304,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers when a mouse button is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseUpEventArgs> handler) {
+	public Subscription onMouseUp(EventHandler<MouseUpEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseUp.onInvoke(handler);
 	}
@@ -312,7 +313,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers when the mouse enters the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseEnterEventArgs> handler) {
+	public Subscription onMouseEnter(EventHandler<MouseEnterEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseEnter.onInvoke(handler);
 	}
@@ -321,7 +322,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers when the mouse leaves the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseLeaveEventArgs> handler) {
+	public Subscription onMouseLeave(EventHandler<MouseLeaveEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseLeave.onInvoke(handler);
 	}
@@ -330,7 +331,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers each time the mouse wheel is turned.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEventArgs> handler) {
+	public Subscription onMouseWheel(EventHandler<MouseWheelEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseWheel.onInvoke(handler);
 	}
@@ -339,7 +340,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Trigger exactly once when a key is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyDownEventArgs> handler) {
+	public Subscription onKeyDown(EventHandler<KeyDownEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyDown.onInvoke(handler);
 	}
@@ -348,7 +349,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Trigger when a key is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyUpEventArgs> handler) {
+	public Subscription onKeyUp(EventHandler<KeyUpEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyUp.onInvoke(handler);
 	}
@@ -357,7 +358,7 @@ public class CodeDraw implements AutoCloseable {
 	 * onKeyPress will continuously trigger while a key is being held down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyPressEventArgs> handler) {
+	public Subscription onKeyPress(EventHandler<KeyPressEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyPress.onInvoke(handler);
 	}
@@ -366,7 +367,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers every time the CodeDraw window is moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) {
+	public Subscription onWindowMove(EventHandler<WindowMoveEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.windowMove.onInvoke(handler);
 	}
@@ -375,7 +376,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) {
+	public Subscription onWindowClose(EventHandler<Void> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.windowClose.onInvoke(handler);
 	}
@@ -1006,6 +1007,7 @@ public class CodeDraw implements AutoCloseable {
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void close(boolean terminateProcess) {
+		ctrlCSubscription.unsubscribe();
 		g.dispose();
 		window.dispose(terminateProcess);
 	}
