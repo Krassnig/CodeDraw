@@ -37,8 +37,8 @@ public class CodeDrawGraphics {
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
-		isAntiAliased(true);
-		isTextAntiAliased(true);
+		setAntiAliased(true);
+		setTextAntiAliased(true);
 		setCorner(Corner.SHARP);
 
 		clear();
@@ -71,14 +71,14 @@ public class CodeDrawGraphics {
 
 	private boolean isAntiAliased = true;
 	public boolean isAntiAliased() { return isAntiAliased; }
-	public void isAntiAliased(boolean isAntiAliased) {
+	public void setAntiAliased(boolean isAntiAliased) {
 		this.isAntiAliased = isAntiAliased;
 		setRenderingHint(isAntiAliased ? AntiAliasing.ON : AntiAliasing.OFF);
 	}
 
 	private boolean isTextAntiAliased = true;
 	public boolean isTextAntiAliased() { return isTextAntiAliased; }
-	public void isTextAntiAliased(boolean isTextAntiAliased) {
+	public void setTextAntiAliased(boolean isTextAntiAliased) {
 		this.isTextAntiAliased = isTextAntiAliased;
 		setRenderingHint(isTextAntiAliased ? TextAntiAliasing.ON : TextAntiAliasing.OFF);
 	}

@@ -105,7 +105,7 @@ public final class TextFormat {
 	 * The default is false (not bold).
 	 * @param isBold Sets whether the drawn text is bold.
 	 */
-	public void isBold(boolean isBold) {
+	public void setBold(boolean isBold) {
 		this.isBold = isBold;
 	}
 
@@ -123,7 +123,7 @@ public final class TextFormat {
 	 * The default is false (not italic).
 	 * @param isItalic Sets whether the drawn text is italic.
 	 */
-	public void isItalic(boolean isItalic) { this.isItalic = isItalic; }
+	public void setItalic(boolean isItalic) { this.isItalic = isItalic; }
 
 	private Underline underline = Underline.NONE;
 
@@ -156,10 +156,10 @@ public final class TextFormat {
 	/**
 	 * Defines whether the drawn text is strikethrough.
 	 * The default is false (no strikethrough).
-	 * @param strikethrough Sets whether the drawn text is strikethrough.
+	 * @param isStrikethrough Sets whether the drawn text is strikethrough.
 	 */
-	public void isStrikethrough(boolean strikethrough) {
-		this.isStrikethrough = strikethrough;
+	public void setStrikethrough(boolean isStrikethrough) {
+		this.isStrikethrough = isStrikethrough;
 	}
 
 

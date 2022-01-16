@@ -152,19 +152,19 @@ public class GraphicTest {
 		format.setVerticalAlign(VerticalAlign.BOTTOM);
 		format.setHorizontalAlign(HorizontalAlign.CENTER);
 
-		cd.isAntiAliased(true);
+		cd.setAntiAliased(true);
 		cd.drawLine(200, 100, 300, 200);
 		cd.drawText(200, 100, "aa");
 		cd.drawLine(300, 300, 300, 400);
 		cd.drawText(300, 300, "aa");
 
-		cd.isAntiAliased(false);
+		cd.setAntiAliased(false);
 		cd.drawLine(100, 100, 200, 200);
 		cd.drawText(100, 100, "No aa");
 		cd.drawLine(200, 300, 200, 400);
 		cd.drawText(200, 300, "No aa");
 
-		cd.isAntiAliased(true);
+		cd.setAntiAliased(true);
 
 		cd.drawLine(400.00, 100, 400.00, 200);
 		cd.drawLine(402.50, 100, 402.50, 200);
@@ -218,7 +218,7 @@ public class GraphicTest {
 		capAndJoin(cd, Corner.ROUND, 100, 300);
 		capAndJoin(cd, Corner.BEVEL, 100, 500);
 
-		cd.isAntiAliased(false);
+		cd.setAntiAliased(false);
 
 		capAndJoin(cd, Corner.SHARP, 400, 100);
 		capAndJoin(cd, Corner.ROUND, 400, 300);

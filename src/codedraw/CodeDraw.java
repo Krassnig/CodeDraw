@@ -222,9 +222,9 @@ public class CodeDraw implements AutoCloseable {
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 * @param isAntiAliased Sets whether this CodeDraw window anti aliases.
 	 */
-	public void isAntiAliased(boolean isAntiAliased) {
-		g.isAntiAliased(isAntiAliased);
-		g.isTextAntiAliased(isAntiAliased);
+	public void setAntiAliased(boolean isAntiAliased) {
+		g.setAntiAliased(isAntiAliased);
+		g.setTextAntiAliased(isAntiAliased);
 	}
 
 	/**

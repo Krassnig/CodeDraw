@@ -85,19 +85,19 @@ public class TextFormatTest {
 		TextFormat format = cd.getTextFormat();
 		format.setFontSize(20);
 
-		format.isItalic(true);
+		format.setItalic(true);
 		cd.drawText(30, 100, "Italic");
-		format.isItalic(false);
+		format.setItalic(false);
 		cd.drawText(30, 150, "Not Italic");
 
-		format.isBold(true);
+		format.setBold(true);
 		cd.drawText(180, 100, "Bold");
-		format.isBold(false);
+		format.setBold(false);
 		cd.drawText(180, 150, "Not Bold");
 
-		format.isStrikethrough(true);
+		format.setStrikethrough(true);
 		cd.drawText(330, 100, "Strikethrough");
-		format.isStrikethrough(false);
+		format.setStrikethrough(false);
 		cd.drawText(330, 150, "No strikethrough");
 
 		cd.show();
@@ -118,7 +118,7 @@ public class TextFormatTest {
 			cd.drawText(30, 30 + i++ * 30, underline.name().toLowerCase());
 		}
 
-		cd.isAntiAliased(false);
+		cd.setAntiAliased(false);
 		i = 0;
 		for (Underline underline : Underline.values()) {
 			format.setUnderlined(underline);

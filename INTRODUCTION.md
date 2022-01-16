@@ -161,8 +161,8 @@ public class MyProgram {
 		format.setFontSize(40);
 		format.setVerticalAlign(VerticalAlign.MIDDLE);
 		format.setHorizontalAlign(HorizontalAlign.CENTER);
-		format.isBold(true);
-		
+		format.setBold(true);
+
 		cd.drawText(100, 100, "Hello World!");
 		cd.show();
 	}
