@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * TextFormat is used to specify how CodeDraw formats, places and styles its drawn text.
  * See also {@link codedraw.CodeDraw#drawText(double, double, String)}
+ * and {@link codedraw.graphics.CodeDrawGraphics#drawText(double, double, String, TextFormat)}.
  */
 public final class TextFormat {
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
@@ -27,7 +28,7 @@ public final class TextFormat {
 	 * @param horizontalAlign Sets the horizontal alignment.
 	 */
 	public void setHorizontalAlign(HorizontalAlign horizontalAlign) {
-		if (horizontalAlign == null) throw createArgumentNull("horizontalAlign");
+		if (horizontalAlign == null) throw createParameterNullException("horizontalAlign");
 		this.horizontalAlign = horizontalAlign;
 	}
 
@@ -46,7 +47,7 @@ public final class TextFormat {
 	 * @param verticalAlign Sets the vertical alignment.
 	 */
 	public void setVerticalAlign(VerticalAlign verticalAlign) {
-		if (horizontalAlign == null) throw createArgumentNull("verticalAlign");
+		if (horizontalAlign == null) throw createParameterNullException("verticalAlign");
 		this.verticalAlign = verticalAlign;
 	}
 
@@ -65,7 +66,7 @@ public final class TextFormat {
 	 * @param fontSize Sets the font size.
 	 */
 	public void setFontSize(int fontSize) {
-		if (fontSize < 1) throw createArgumentNotNegative("fontSize");
+		if (fontSize < 1) throw createParameterMustBeGreaterThanZeroException("fontSize");
 		this.fontSize = fontSize;
 	}
 
@@ -84,9 +85,9 @@ public final class TextFormat {
 	 * @param fontName Sets the font name. Only accepts valid fonts installed on the system running this application.
 	 */
 	public void setFontName(String fontName) {
-		if (fontName == null) throw createArgumentNull("fontName");
+		if (fontName == null) throw createParameterNullException("fontName");
 		if (!availableFonts.contains(fontName))
-			throw new IllegalArgumentException("Font with the name " + fontName + " is not available");
+			throw new IllegalArgumentException("The font " + fontName + " is not available on your device.");
 		this.fontName = fontName;
 	}
 
@@ -139,7 +140,7 @@ public final class TextFormat {
 	 * @param underline Sets the underline styling.
 	 */
 	public void setUnderlined(Underline underline) {
-		if (underline == null) throw createArgumentNull("underline");
+		if (underline == null) throw createParameterNullException("underline");
 		this.underline = underline;
 	}
 
@@ -177,21 +178,24 @@ public final class TextFormat {
 
 	@Override
 	public String toString() {
-		return "TextFormat{" + fontName + ", " + fontSize
-				+ ", h:" + horizontalAlign
-				+ ", v:" + verticalAlign
-				+ ", u: " + underline
+		return "TextFormat{"
+				+ "fontName: " + fontName
+				+ ", fontSize: " + fontSize
+				+ ", horizontalAlign: " + horizontalAlign
+				+ ", verticalAlign: " + verticalAlign
+				+ ", underline: " + underline
 				+ ", isBold: " + isBold
 				+ ", isItalic: " + isItalic
 				+ ", isStrikethrough: " + isStrikethrough +
 				"}";
 	}
 
-	private static IllegalArgumentException createArgumentNull(String argumentName) {
-		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
+
+	public static IllegalArgumentException createParameterNullException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
 
-	private static IllegalArgumentException createArgumentNotNegative(String argumentName) {
-		return new IllegalArgumentException("Argument " + argumentName + " cannot be negative.");
+	public static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 }
