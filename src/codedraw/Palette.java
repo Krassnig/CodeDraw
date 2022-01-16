@@ -5,6 +5,8 @@ import java.awt.*;
 /**
  * Palette provides a wide variety of colors and makes it easier to create colors.
  * Alternatively you can just use awt {@link java.awt.Color}.
+ * Palette takes all the colors from the CSS colors but switches GRAY and DARK_GRAY.
+ * If the Palette color does not match the awt color or CSS colors there is a note in the documentation.
  */
 public final class Palette {
 	private Palette() { }
@@ -23,6 +25,8 @@ public final class Palette {
 	 * @param gray The value can range from 0 to 255.
 	 */
 	public static Color fromGrayscale(int gray) {
+		checkRange(gray, "gray", 0, 256);
+
 		return fromRGB(gray, gray, gray);
 	}
 
@@ -34,6 +38,8 @@ public final class Palette {
 	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
 	 */
 	public static Color fromRGB(int rgb) {
+		checkRange(rgb, "rgb", 0, (1 << 24) + 1);
+
 		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
 	}
 
@@ -45,6 +51,10 @@ public final class Palette {
 	 * @param blue The value can range from 0 to 255.
 	 */
 	public static Color fromRGB(int red, int green, int blue) {
+		checkRange(red, "red", 0, 256);
+		checkRange(green, "green", 0, 256);
+		checkRange(blue, "blue", 0, 256);
+
 		return fromRGBA(red, green, blue, 0xFF);
 	}
 
@@ -68,6 +78,9 @@ public final class Palette {
 	 * @param alpha The value can range from 0 to 255
 	 */
 	public static Color fromBaseColor(Color baseColor, int alpha) {
+		if (baseColor == null) throw createParameterNullException("baseColor");
+		checkRange(alpha, "alpha", 0, 256);
+
 		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
 	}
 
@@ -80,6 +93,11 @@ public final class Palette {
 	 * @param alpha The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
 	 */
 	public static Color fromRGBA(int red, int green, int blue, int alpha) {
+		checkRange(red, "red", 0, 256);
+		checkRange(green, "green", 0, 256);
+		checkRange(blue, "blue", 0, 256);
+		checkRange(alpha, "alpha", 0, 256);
+
 		return new Color(red, green, blue, alpha);
 	}
 
@@ -87,8 +105,15 @@ public final class Palette {
 	public static final Color NAVY = new Color(0x000080);
 	public static final Color DARK_BLUE = new Color(0x00008B);
 	public static final Color MEDIUM_BLUE = new Color(0x0000CD);
+	/**
+	 * This color is a synonym for {@link Palette#AQUA}.
+	 */
 	public static final Color BLUE = new Color(0x0000FF);
 	public static final Color DARK_GREEN = new Color(0x006400);
+	/**
+	 * This color differs from {@link java.awt.Color#GREEN}.
+	 * If you want awt Green use {@link Palette#LIME} instead.
+	 */
 	public static final Color GREEN = new Color(0x008000);
 	public static final Color TEAL = new Color(0x008080);
 	public static final Color DARK_CYAN = new Color(0x008B8B);
@@ -97,6 +122,9 @@ public final class Palette {
 	public static final Color MEDIUM_SPRING_GREEN = new Color(0x00FA9A);
 	public static final Color LIME = new Color(0x00FF00);
 	public static final Color SPRING_GREEN = new Color(0x00FF7F);
+	/**
+	 * This color is a synonym for {@link Palette#BLUE}.
+	 */
 	public static final Color AQUA = new Color(0x00FFFF);
 	public static final Color CYAN = new Color(0x00FFFF);
 	public static final Color MIDNIGHT_BLUE = new Color(0x191970);
@@ -105,7 +133,6 @@ public final class Palette {
 	public static final Color FOREST_GREEN = new Color(0x228B22);
 	public static final Color SEA_GREEN = new Color(0x2E8B57);
 	public static final Color DARK_SLATE_GRAY = new Color(0x2F4F4F);
-	public static final Color DARK_SLATE_GREY = new Color(0x2F4F4F);
 	public static final Color LIME_GREEN = new Color(0x32CD32);
 	public static final Color MEDIUM_SEA_GREEN = new Color(0x3CB371);
 	public static final Color TURQUOISE = new Color(0x40E0D0);
@@ -120,13 +147,10 @@ public final class Palette {
 	public static final Color REBECCA_PURPLE = new Color(0x663399);
 	public static final Color MEDIUM_AQUA_MARINE = new Color(0x66CDAA);
 	public static final Color DIM_GRAY = new Color(0x696969);
-	public static final Color DIM_GREY = new Color(0x696969);
 	public static final Color SLATE_BLUE = new Color(0x6A5ACD);
 	public static final Color OLIVE_DRAB = new Color(0x6B8E23);
 	public static final Color SLATE_GRAY = new Color(0x708090);
-	public static final Color SLATE_GREY = new Color(0x708090);
 	public static final Color LIGHT_SLATE_GRAY = new Color(0x778899);
-	public static final Color LIGHT_SLATE_GREY = new Color(0x778899);
 	public static final Color MEDIUM_SLATE_BLUE = new Color(0x7B68EE);
 	public static final Color LAWN_GREEN = new Color(0x7CFC00);
 	public static final Color CHARTREUSE = new Color(0x7FFF00);
@@ -134,8 +158,12 @@ public final class Palette {
 	public static final Color MAROON = new Color(0x800000);
 	public static final Color PURPLE = new Color(0x800080);
 	public static final Color OLIVE = new Color(0x808000);
-	public static final Color GRAY = new Color(0x808080);
-	public static final Color GREY = new Color(0x808080);
+	/**
+	 * This color differs from {@link java.awt.Color#GRAY}.
+	 * If you want awt gray use {@link Palette#DARK_GRAY} instead.
+	 * Note that this color does not match CSS gray but instead matches CSS dark gray.
+	 */
+	public static final Color GRAY = new Color(0xA9A9A9);
 	public static final Color SKY_BLUE = new Color(0x87CEEB);
 	public static final Color LIGHT_SKY_BLUE = new Color(0x87CEFA);
 	public static final Color BLUE_VIOLET = new Color(0x8A2BE2);
@@ -151,8 +179,11 @@ public final class Palette {
 	public static final Color YELLOW_GREEN = new Color(0x9ACD32);
 	public static final Color SIENNA = new Color(0xA0522D);
 	public static final Color BROWN = new Color(0xA52A2A);
-	public static final Color DARK_GRAY = new Color(0xA9A9A9);
-	public static final Color DARK_GREY = new Color(0xA9A9A9);
+	/**
+	 * This color differs from {@link java.awt.Color#DARK_GRAY}
+	 * Note that this color does not match CSS dark gray but instead matches CSS gray.
+	 */
+	public static final Color DARK_GRAY = new Color(0x808080);
 	public static final Color LIGHT_BLUE = new Color(0xADD8E6);
 	public static final Color GREEN_YELLOW = new Color(0xADFF2F);
 	public static final Color PALE_TURQUOISE = new Color(0xAFEEEE);
@@ -169,8 +200,11 @@ public final class Palette {
 	public static final Color PERU = new Color(0xCD853F);
 	public static final Color CHOCOLATE = new Color(0xD2691E);
 	public static final Color TAN = new Color(0xD2B48C);
+	/**
+	 * This color differs from {@link java.awt.Color#LIGHT_GRAY}.
+	 * If you want awt light gray use {@link Palette#SILVER} instead.
+	 */
 	public static final Color LIGHT_GRAY = new Color(0xD3D3D3);
-	public static final Color LIGHT_GREY = new Color(0xD3D3D3);
 	public static final Color THISTLE = new Color(0xD8BFD8);
 	public static final Color ORCHID = new Color(0xDA70D6);
 	public static final Color GOLDEN_ROD = new Color(0xDAA520);
@@ -201,7 +235,13 @@ public final class Palette {
 	public static final Color LIGHT_GOLDEN_ROD_YELLOW = new Color(0xFAFAD2);
 	public static final Color OLD_LACE = new Color(0xFDF5E6);
 	public static final Color RED = new Color(0xFF0000);
+	/**
+	 * This color is a synonym for {@link Palette#MAGENTA}.
+	 */
 	public static final Color FUCHSIA = new Color(0xFF00FF);
+	/**
+	 * This color is a synonym for {@link Palette#FUCHSIA}.
+	 */
 	public static final Color MAGENTA = new Color(0xFF00FF);
 	public static final Color DEEP_PINK = new Color(0xFF1493);
 	public static final Color ORANGE_RED = new Color(0xFF4500);
@@ -210,8 +250,14 @@ public final class Palette {
 	public static final Color CORAL = new Color(0xFF7F50);
 	public static final Color DARK_ORANGE = new Color(0xFF8C00);
 	public static final Color LIGHT_SALMON = new Color(0xFFA07A);
+	/**
+	 * This color differs from {@link java.awt.Color#ORANGE}.
+	 */
 	public static final Color ORANGE = new Color(0xFFA500);
 	public static final Color LIGHT_PINK = new Color(0xFFB6C1);
+	/**
+	 * This color differs from {@link java.awt.Color#PINK}.
+	 */
 	public static final Color PINK = new Color(0xFFC0CB);
 	public static final Color GOLD = new Color(0xFFD700);
 	public static final Color PEACH_PUFF = new Color(0xFFDAB9);
@@ -231,4 +277,14 @@ public final class Palette {
 	public static final Color LIGHT_YELLOW = new Color(0xFFFFE0);
 	public static final Color IVORY = new Color(0xFFFFF0);
 	public static final Color WHITE = new Color(0xFFFFFF);
+
+	public static IllegalArgumentException createParameterNullException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+	}
+
+	public static void checkRange(int parameter, String parameterName, int minimumInclusive, int maximumExclusive) {
+		if (!(minimumInclusive <= parameter && parameter < maximumExclusive)) {
+			throw new IllegalArgumentException("The parameter " + parameterName + " must be great or equal to " + minimumInclusive + " and smaller than " + maximumExclusive);
+		}
+	}
 }
