@@ -37,14 +37,14 @@ public class EventScanner implements AutoCloseable {
 
 	private final ConcurrentQueue<MouseClickEventArgs> mouseClickQueue;
 	private final ConcurrentQueue<MouseMoveEventArgs> mouseMoveQueue;
-	private final ConcurrentQueue<MouseClickEventArgs> mouseDownQueue;
-	private final ConcurrentQueue<MouseClickEventArgs> mouseUpQueue;
-	private final ConcurrentQueue<MouseMoveEventArgs> mouseEnterQueue;
-	private final ConcurrentQueue<MouseMoveEventArgs> mouseLeaveQueue;
+	private final ConcurrentQueue<MouseDownEventArgs> mouseDownQueue;
+	private final ConcurrentQueue<MouseUpEventArgs> mouseUpQueue;
+	private final ConcurrentQueue<MouseEnterEventArgs> mouseEnterQueue;
+	private final ConcurrentQueue<MouseLeaveEventArgs> mouseLeaveQueue;
 	private final ConcurrentQueue<MouseWheelEventArgs> mouseWheelQueue;
-	private final ConcurrentQueue<KeyEventArgs> keyDownQueue;
-	private final ConcurrentQueue<KeyEventArgs> keyUpQueue;
-	private final ConcurrentQueue<KeyEventArgs> keyPressQueue;
+	private final ConcurrentQueue<KeyDownEventArgs> keyDownQueue;
+	private final ConcurrentQueue<KeyUpEventArgs> keyUpQueue;
+	private final ConcurrentQueue<KeyPressEventArgs> keyPressQueue;
 	private final ConcurrentQueue<WindowMoveEventArgs> windowMoveQueue;
 	private final ConcurrentQueue<Void> windowCloseQueue;
 
@@ -76,13 +76,13 @@ public class EventScanner implements AutoCloseable {
 	public MouseClickEventArgs waitForMouseClickEvent() { return mouseClickQueue.pop(); }
 	public MouseMoveEventArgs waitForMouseMoveEvent() { return mouseMoveQueue.pop(); }
 	public MouseClickEventArgs waitForMouseDownEvent() { return mouseClickQueue.pop(); }
-	public MouseClickEventArgs waitForMouseUpEvent() { return mouseUpQueue.pop(); }
-	public MouseMoveEventArgs waitForMouseEnterEvent() { return mouseEnterQueue.pop(); }
-	public MouseMoveEventArgs waitForMouseLeaveEvent() { return mouseLeaveQueue.pop(); }
+	public MouseUpEventArgs waitForMouseUpEvent() { return mouseUpQueue.pop(); }
+	public MouseEnterEventArgs waitForMouseEnterEvent() { return mouseEnterQueue.pop(); }
+	public MouseLeaveEventArgs waitForMouseLeaveEvent() { return mouseLeaveQueue.pop(); }
 	public MouseWheelEventArgs waitForMouseWheelEvent() { return mouseWheelQueue.pop(); }
-	public KeyEventArgs waitForKeyDownEvent() { return keyDownQueue.pop(); }
-	public KeyEventArgs waitForKeyUpEvent() { return keyUpQueue.pop(); }
-	public KeyEventArgs waitForKeyPressEvent() { return keyPressQueue.pop(); }
+	public KeyDownEventArgs waitForKeyDownEvent() { return keyDownQueue.pop(); }
+	public KeyUpEventArgs waitForKeyUpEvent() { return keyUpQueue.pop(); }
+	public KeyPressEventArgs waitForKeyPressEvent() { return keyPressQueue.pop(); }
 	public WindowMoveEventArgs waitForWindowMoveEvent() { return windowMoveQueue.pop(); }
 	public void waitForWindowCloseEvent() { windowCloseQueue.pop(); }
 }

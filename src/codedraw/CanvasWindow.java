@@ -118,22 +118,22 @@ class CanvasWindow {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				events.mouseDown.invoke(new MouseClickEventArgs(e));
+				events.mouseDown.invoke(new MouseDownEventArgs(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				events.mouseUp.invoke(new MouseClickEventArgs(e));
+				events.mouseUp.invoke(new MouseUpEventArgs(e));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				events.mouseEnter.invoke(new MouseMoveEventArgs(e));
+				events.mouseEnter.invoke(new MouseEnterEventArgs(e));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				events.mouseLeave.invoke(new MouseMoveEventArgs(e));
+				events.mouseLeave.invoke(new MouseLeaveEventArgs(e));
 			}
 		};
 	}
@@ -142,16 +142,14 @@ class CanvasWindow {
 		return new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				KeyEventArgs a = new KeyEventArgs(e);
-				keyDownMap.keyPress(a);
-				events.keyPress.invoke(a);
+				keyDownMap.keyPress(e);
+				events.keyPress.invoke(new KeyPressEventArgs(e));
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				KeyEventArgs a = new KeyEventArgs(e);
-				keyDownMap.keyRelease(a);
-				events.keyUp.invoke(a);
+				keyDownMap.keyRelease(e);
+				events.keyUp.invoke(new KeyUpEventArgs(e));
 			}
 		};
 	}

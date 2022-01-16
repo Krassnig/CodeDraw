@@ -198,7 +198,13 @@ public enum Key {
 		this.keyCode = keyCode;
 	}
 
-	int getKeyCode() {
-		return keyCode;
+	static Key getKeyFromKeyCode(int keyCode) {
+		for (Key k : Key.values()) {
+			if (k.keyCode == keyCode) {
+				return k;
+			}
+		}
+
+		return null;
 	}
 }

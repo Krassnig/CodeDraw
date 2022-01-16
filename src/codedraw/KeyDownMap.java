@@ -1,27 +1,29 @@
 package codedraw;
 
-import codedraw.events.KeyEventArgs;
+import codedraw.events.KeyDownEventArgs;
+import codedraw.events.KeyPressEventArgs;
 
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 class KeyDownMap {
-	public KeyDownMap(Event<CodeDraw, KeyEventArgs> keyDownEvent) {
+	public KeyDownMap(Event<CodeDraw, KeyDownEventArgs> keyDownEvent) {
 		this.event = keyDownEvent;
 	}
 
-	private Event<CodeDraw, KeyEventArgs> event;
+	private Event<CodeDraw, KeyDownEventArgs> event;
 	private HashMap<Integer, Boolean> map = new HashMap<>();
 
-	public void keyPress(KeyEventArgs keyEvent) {
+	public void keyPress(KeyEvent keyEvent) {
 		Integer keyCode = keyEvent.getExtendedKeyCode();
 
 		if (!isKeyAlreadyPressed(keyCode)) {
 			map.put(keyCode, true);
-			event.invoke(keyEvent);
+			event.invoke(new KeyDownEventArgs(keyEvent));
 		}
 	}
 
-	public void keyRelease(KeyEventArgs keyEvent) {
+	public void keyRelease(KeyEvent keyEvent) {
 		map.put(keyEvent.getExtendedKeyCode(), false);
 	}
 

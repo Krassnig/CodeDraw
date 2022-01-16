@@ -21,14 +21,14 @@ class EventCollection {
 
 	public final Event<CodeDraw, MouseClickEventArgs> mouseClick;
 	public final Event<CodeDraw, MouseMoveEventArgs> mouseMove;
-	public final Event<CodeDraw, MouseClickEventArgs> mouseDown;
-	public final Event<CodeDraw, MouseClickEventArgs> mouseUp;
-	public final Event<CodeDraw, MouseMoveEventArgs> mouseEnter;
-	public final Event<CodeDraw, MouseMoveEventArgs> mouseLeave;
+	public final Event<CodeDraw, MouseDownEventArgs> mouseDown;
+	public final Event<CodeDraw, MouseUpEventArgs> mouseUp;
+	public final Event<CodeDraw, MouseEnterEventArgs> mouseEnter;
+	public final Event<CodeDraw, MouseLeaveEventArgs> mouseLeave;
 	public final Event<CodeDraw, MouseWheelEventArgs> mouseWheel;
-	public final Event<CodeDraw, KeyEventArgs> keyDown;
-	public final Event<CodeDraw, KeyEventArgs> keyUp;
-	public final Event<CodeDraw, KeyEventArgs> keyPress;
+	public final Event<CodeDraw, KeyDownEventArgs> keyDown;
+	public final Event<CodeDraw, KeyUpEventArgs> keyUp;
+	public final Event<CodeDraw, KeyPressEventArgs> keyPress;
 	public final Event<CodeDraw, WindowMoveEventArgs> windowMove;
 	public final Event<CodeDraw, Void> windowClose;
 }

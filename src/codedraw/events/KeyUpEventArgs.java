@@ -2,18 +2,14 @@ package codedraw.events;
 
 import java.awt.event.KeyEvent;
 
-public class KeyEventArgs {
-	public KeyEventArgs(KeyEvent e) {
+public class KeyUpEventArgs {
+	public KeyUpEventArgs(KeyEvent e) {
 		this.e = e;
-		for (Key k : Key.values()) {
-			if (k.getKeyCode() == e.getKeyCode()) {
-				key = k;
-			}
-		}
+		key = Key.getKeyFromKeyCode(e.getKeyCode());
 	}
 
 	private KeyEvent e;
-	private Key key = null;
+	private Key key;
 
 	public Key getKey() {
 		return key;

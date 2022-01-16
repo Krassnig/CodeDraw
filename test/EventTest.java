@@ -118,7 +118,7 @@ public class EventTest {
 	}
 
 	private static Subscription subscription;
-	private static EventHandler<CodeDraw, KeyEventArgs> key;
+	private static EventHandler<CodeDraw, KeyPressEventArgs> key;
 	private static EventHandler<CodeDraw, MouseClickEventArgs> mouse;
 	private static int unsubscribeProgress = 0;
 
