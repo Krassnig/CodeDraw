@@ -4,6 +4,5 @@ public class AllTests {
 		CodeDrawTest.main(args);
 		EventTest.main(args);
 		GraphicTest.main(args);
-		TextFormatTest.main(args);
 	}
 }
