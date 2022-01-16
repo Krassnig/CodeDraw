@@ -5,6 +5,14 @@ class ConcurrentQueue<T> {
 		return new MultiQueue();
 	}
 
+	public ConcurrentQueue() {
+		this(16);
+	}
+
+	public ConcurrentQueue(int initialCapacity) {
+		this(initialCapacity, null);
+	}
+
 	private ConcurrentQueue(int initialCapacity, Semaphore multiListCount) {
 		if (initialCapacity <= 0) throw new RuntimeException("Initial capacity must be larger than zero.");
 
@@ -28,7 +36,7 @@ class ConcurrentQueue<T> {
 		pushInternal(element);
 		listLock.release();
 
-		multiListCount.release();
+		if (multiListCount != null) multiListCount.release();
 		listCount.release();
 	}
 
@@ -38,7 +46,7 @@ class ConcurrentQueue<T> {
 
 	public T pop() {
 		listCount.acquire();
-		multiListCount.acquire();
+		if (multiListCount != null) multiListCount.acquire();
 
 		listLock.acquire();
 		T result = popInternal();
@@ -49,11 +57,11 @@ class ConcurrentQueue<T> {
 
 	public T peek(){
 		listCount.acquire();
-		multiListCount.acquire();
+		if (multiListCount != null) multiListCount.acquire();
 		listLock.acquire();
 		T result = peekInternal();
 		listLock.release();
-		multiListCount.release();
+		if (multiListCount != null) multiListCount.release();
 		listCount.release();
 		return result;
 	}
