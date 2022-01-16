@@ -169,7 +169,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param lineWidth Sets the lineWidth of this CodeDraw window.
 	 */
 	public void setLineWidth(double lineWidth) {
-		if (lineWidth <= 0) throw createArgumentGreaterThanZero("lineWidth");
+		if (lineWidth <= 0) throw createParameterMustBeGreaterThanZeroException("lineWidth");
 
 		g.setLineWidth(lineWidth);
 	}
@@ -186,7 +186,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param textFormat Sets the text formatting options of this CodeDraw window.
 	 */
 	public void setTextFormat(TextFormat textFormat){
-		if(textFormat == null) throw createArgumentNull("textFormat");
+		if (textFormat == null) throw createParameterNullException("textFormat");
 
 		this.textFormat = textFormat;
 	}
@@ -205,7 +205,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
-		if (cursorStyle == null) throw createArgumentNull("cursorStyle");
+		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
 		window.setCursorStyle(cursorStyle);
 	}
@@ -236,7 +236,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param corner Sets the corner style of this CodeDraw window.
 	 */
 	public void setCorner(Corner corner) {
-		if (corner == null) throw createArgumentNull("corner");
+		if (corner == null) throw createParameterNullException("corner");
 
 		g.setCorner(corner);
 	}
@@ -251,7 +251,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param title Sets the text of the title.
 	 */
 	public void setTitle(String title)  {
-		if (title == null) throw createArgumentNull("title");
+		if (title == null) throw createParameterNullException("title");
 
 		window.setTitle(title);
 	}
@@ -267,7 +267,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
-		if (color == null) throw createArgumentNull("color");
+		if (color == null) throw createParameterNullException("color");
 
 		g.setColor(color);
 	}
@@ -276,73 +276,109 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers once when a mouse button is pressed down and quickly released again.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseClick(EventHandler<CodeDraw, MouseClickEventArgs> handler) { return events.mouseClick.onInvoke(handler); }
+	public Subscription onMouseClick(EventHandler<CodeDraw, MouseClickEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseClick.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers continuously while the mouse is being moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseMove(EventHandler<CodeDraw, MouseMoveEventArgs> handler) { return events.mouseMove.onInvoke(handler); }
+	public Subscription onMouseMove(EventHandler<CodeDraw, MouseMoveEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseMove.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers exactly once when a mouse button is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseDown(EventHandler<CodeDraw, MouseClickEventArgs> handler) { return events.mouseDown.onInvoke(handler); }
+	public Subscription onMouseDown(EventHandler<CodeDraw, MouseClickEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseDown.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers when a mouse button is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseUp(EventHandler<CodeDraw, MouseClickEventArgs> handler) { return events.mouseUp.onInvoke(handler); }
+	public Subscription onMouseUp(EventHandler<CodeDraw, MouseClickEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseUp.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers when the mouse enters the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseMoveEventArgs> handler) { return events.mouseEnter.onInvoke(handler); }
+	public Subscription onMouseEnter(EventHandler<CodeDraw, MouseMoveEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseEnter.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers when the mouse leaves the canvas.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseMoveEventArgs> handler) { return events.mouseLeave.onInvoke(handler); }
+	public Subscription onMouseLeave(EventHandler<CodeDraw, MouseMoveEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseLeave.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers each time the mouse wheel is turned.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEventArgs> handler) { return events.mouseWheel.onInvoke(handler); }
+	public Subscription onMouseWheel(EventHandler<CodeDraw, MouseWheelEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.mouseWheel.onInvoke(handler);
+	}
 
 	/**
 	 * Trigger exactly once when a key is pressed down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyDown.onInvoke(handler); }
+	public Subscription onKeyDown(EventHandler<CodeDraw, KeyEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.keyDown.onInvoke(handler);
+	}
 
 	/**
 	 * Trigger when a key is released.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyUp.onInvoke(handler); }
+	public Subscription onKeyUp(EventHandler<CodeDraw, KeyEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.keyUp.onInvoke(handler);
+	}
 
 	/**
 	 * onKeyPress will continuously trigger while a key is being held down.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEventArgs> handler) { return events.keyPress.onInvoke(handler); }
+	public Subscription onKeyPress(EventHandler<CodeDraw, KeyEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.keyPress.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers every time the CodeDraw window is moved.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) { return events.windowMove.onInvoke(handler); }
+	public Subscription onWindowMove(EventHandler<CodeDraw, WindowMoveEventArgs> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.windowMove.onInvoke(handler);
+	}
 
 	/**
 	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) { return events.windowClose.onInvoke(handler); }
+	public Subscription onWindowClose(EventHandler<CodeDraw, Void> handler) {
+		if (handler == null) throw createParameterNullException("handler");
+		return events.windowClose.onInvoke(handler);
+	}
 
 	/**
 	 * Draws the text at the specified (x, y) coordinate.
@@ -354,7 +390,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param text The text or string to be drawn.
 	 */
 	public void drawText(double x, double y, String text) {
-		if (text == null) throw createArgumentNull("text");
+		if (text == null) throw createParameterNullException("text");
 
 		g.drawText(x, y, text, textFormat);
 	}
@@ -427,7 +463,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void drawSquare(double x, double y, double sideLength) {
-		if (sideLength < 0) throw createArgumentGreaterOrEqualToZero("size");
+		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.drawSquare(x, y, sideLength);
 	}
@@ -439,7 +475,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void fillSquare(double x, double y, double sideLength) {
-		if (sideLength < 0) throw createArgumentGreaterOrEqualToZero("size");
+		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.fillSquare(x, y, sideLength);
 	}
@@ -452,8 +488,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void drawRectangle(double x, double y, double width, double height) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
 		g.drawRectangle(x, y, width, height);
 	}
@@ -466,8 +502,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void fillRectangle(double x, double y, double width, double height) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
 		g.fillRectangle(x, y, width, height);
 	}
@@ -480,7 +516,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void drawCircle(double x, double y, double radius) {
-		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawCircle(x, y, radius);
 	}
@@ -493,7 +529,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void fillCircle(double x, double y, double radius) {
-		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillCircle(x, y, radius);
 	}
@@ -507,8 +543,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawEllipse(x, y, horizontalRadius, verticalRadius);
 	}
@@ -522,8 +558,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.fillEllipse(x, y, horizontalRadius, verticalRadius);
 	}
@@ -539,7 +575,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawArc(x, y, radius, startRadians, sweepRadians);
 	}
@@ -557,8 +593,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -574,7 +610,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawPie(x, y, radius, startRadians, sweepRadians);
 	}
@@ -592,8 +628,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -609,7 +645,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		if (radius < 0) throw createArgumentGreaterOrEqualToZero("radius");
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillPie(x, y, radius, startRadians, sweepRadians);
 	}
@@ -627,8 +663,8 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		if (horizontalRadius < 0) throw createArgumentGreaterOrEqualToZero("horizontalRadius");
-		if (verticalRadius < 0) throw createArgumentGreaterOrEqualToZero("verticalRadius");
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
 	}
@@ -676,8 +712,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... points) {
-		if ((points.length & 1) == 1) throw createEvenNumberOfPoints("drawPolygon");
-		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon("drawPolygon");
+		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.drawPolygon(points);
 	}
@@ -699,8 +734,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
-		if ((points.length & 1) == 1) throw createEvenNumberOfPoints("fillPolygon");
-		if (points.length / 2 < 2) throw createMoreThanTwoPointsPolygon("fillPolygon");
+		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.fillPolygon(points);
 	}
@@ -726,7 +760,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image The image that will be drawn on the canvas.
 	 */
 	public void drawImage(double x, double y, Image image) {
-		if (image == null) throw createArgumentNull("image");
+		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, image);
 	}
@@ -748,16 +782,22 @@ public class CodeDraw implements AutoCloseable {
 	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, String pathToImage) {
-		if (pathToImage == null) throw createArgumentNull("pathToImage");
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
 		g.drawImage(x, y, pathToImage);
 	}
 
 	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
+		if (image == null) throw createParameterNullException("image");
+		if (interpolation == null) throw createParameterNullException("interpolation");
+
 		g.drawImage(x, y, image, interpolation);
 	}
 
 	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
+		if (interpolation == null) throw createParameterNullException("interpolation");
+
 		g.drawImage(x, y, pathToImage, interpolation);
 	}
 
@@ -783,9 +823,9 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image The image that will be drawn on the canvas.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (image == null) throw createArgumentNull("image");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, width, height, image);
 	}
@@ -808,9 +848,9 @@ public class CodeDraw implements AutoCloseable {
 	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (pathToImage == null) throw createArgumentNull("pathToImage");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
 		g.drawImage(x, y, width, height, pathToImage);
 	}
@@ -838,10 +878,10 @@ public class CodeDraw implements AutoCloseable {
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (image == null) throw createArgumentNull("image");
-		if (interpolation == null) throw createArgumentNull("interpolation");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (image == null) throw createParameterNullException("image");
+		if (interpolation == null) throw createParameterNullException("interpolation");
 
 		g.drawImage(x, y, width, height, image, interpolation);
 	}
@@ -865,10 +905,10 @@ public class CodeDraw implements AutoCloseable {
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
-		if (width < 0) throw createArgumentGreaterOrEqualToZero("width");
-		if (height < 0) throw createArgumentGreaterOrEqualToZero("height");
-		if (pathToImage == null) throw createArgumentNull("pathToImage");
-		if (interpolation == null) throw createArgumentNull("interpolation");
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
+		if (interpolation == null) throw createParameterNullException("interpolation");
 
 		g.drawImage(x, y, width, height, pathToImage, interpolation);
 	}
@@ -910,7 +950,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param color The color the canvas will be colored in.
 	 */
 	public void clear(Color color) {
-		if (color == null) throw createArgumentNull("color");
+		if (color == null) throw createParameterNullException("color");
 
 		g.clear(color);
 	}
@@ -942,14 +982,14 @@ public class CodeDraw implements AutoCloseable {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
-		if (waitMilliseconds < 0) throw createArgumentGreaterOrEqualToZero("waitMilliseconds");
+		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
 		long start = System.currentTimeMillis();
 		show();
-		int executionTime = (int)(System.currentTimeMillis() - start);
-		waitMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
+		long executionTime = System.currentTimeMillis() - start;
+		long remainingMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
 
-		sleep(waitMilliseconds);
+		sleep(remainingMilliseconds);
 	}
 
 	/**
@@ -975,7 +1015,7 @@ public class CodeDraw implements AutoCloseable {
 		return "CodeDraw " + getWidth() + "x" + getHeight();
 	}
 
-	private static void sleep(int waitMilliseconds) {
+	private static void sleep(long waitMilliseconds) {
 		try {
 			Thread.sleep(waitMilliseconds);
 		} catch (InterruptedException e) {
@@ -983,23 +1023,31 @@ public class CodeDraw implements AutoCloseable {
 		}
 	}
 
-	private static IllegalArgumentException createArgumentNull(String argumentName) {
-		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
+	public static IllegalArgumentException createParameterNullException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
 
-	private static IllegalArgumentException createArgumentGreaterThanZero(String argumentName) {
-		return new IllegalArgumentException("The argument " + argumentName + " must be greater than zero.");
+	public static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 
-	private static IllegalArgumentException createArgumentGreaterOrEqualToZero(String argumentName) {
-		return new IllegalArgumentException("The argument " + argumentName + " must be greater or equal to zero.");
+	public static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be equal or greater than zero.");
 	}
 
-	private static IllegalArgumentException createMoreThanTwoPointsPolygon(String methodName) {
-		return new IllegalArgumentException("A polygon must have more than two points. At least 4 arguments must be passed to " + methodName + ".");
+	public static boolean isInvalidPolygonCount(double[] polygonParameter) {
+		return polygonParameter.length < 4 || (polygonParameter.length & 1) == 1;
 	}
 
-	private static IllegalArgumentException createEvenNumberOfPoints(String methodName) {
-		return new IllegalArgumentException("The method " + methodName + " only accepts an even number of arguments. Two arguments for each point, x and y.");
+	public static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
+		if (polygonParameter.length < 4) {
+			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
+		}
+		else if ((polygonParameter.length & 1) == 1) {
+			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of on point of the polygon.");
+		}
+		else {
+			throw new RuntimeException();
+		}
 	}
 }
