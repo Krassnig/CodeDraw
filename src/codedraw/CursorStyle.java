@@ -7,8 +7,6 @@ import java.util.Objects;
  * CursorStyle is used to specify how the cursor looks like when hovering over the CodeDraw canvas.
  */
 public class CursorStyle {
-	private static Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-
 	public static final CursorStyle DEFAULT = new CursorStyle(Cursor.getDefaultCursor());
 	public static final CursorStyle CROSS_HAIR = new CursorStyle(Cursor.CROSSHAIR_CURSOR);
 	public static final CursorStyle TEXT = new CursorStyle(Cursor.TEXT_CURSOR);
@@ -29,11 +27,11 @@ public class CursorStyle {
 	 * @param image Appearance of the cursor when hovering over the canvas.
 	 */
 	public CursorStyle(Image image) {
-		this(image, 0, 0);
+		this(checkParameterNull(image, "image"), 0, 0);
 	}
 
 	public CursorStyle(String pathToImage) {
-		this(ImageIO.read(pathToImage));
+		this(ImageIO.read(checkParameterNull(pathToImage, "pathToImage")));
 	}
 
 	/**
@@ -43,12 +41,15 @@ public class CursorStyle {
 	 * @param y The click position relative to the image.
 	 */
 	public CursorStyle(Image image, int x, int y) {
-		if (image == null) throw createArgumentNull("image");
-		this.cursor = defaultToolkit.createCustomCursor(image, new Point(x, y), "CodeDraw Custom Cursor " + Objects.hash(image, x, y));
+		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				checkParameterNull(image, "image"),
+				new Point(x, y),
+				"CodeDraw Custom Cursor " + Objects.hash(image, x, y)
+		);
 	}
 
 	public CursorStyle(String pathToImage, int x, int y) {
-		this(ImageIO.read(pathToImage), x, y);
+		this(ImageIO.read(checkParameterNull(pathToImage, "pathTOImage")), x, y);
 	}
 
 	private CursorStyle(int cursorType) {
@@ -83,7 +84,10 @@ public class CursorStyle {
 		return "Cursor: " + cursor.getName();
 	}
 
-	private static IllegalArgumentException createArgumentNull(String argumentName) {
-		return new IllegalArgumentException("The parameter " + argumentName + " cannot be null.");
+	private static <T> T checkParameterNull(T parameter, String parameterName) {
+		if (parameter == null)
+			throw new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+		else
+			return parameter;
 	}
 }
