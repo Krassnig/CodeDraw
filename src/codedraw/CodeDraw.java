@@ -982,7 +982,7 @@ public class CodeDraw implements AutoCloseable {
 	 * It is generally not recommended. Instead, you should call show from the main thread.
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
-	public void show(long waitMilliseconds) {
+	public void show(int waitMilliseconds) {
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
 		long start = System.currentTimeMillis();
