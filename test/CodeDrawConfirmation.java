@@ -8,12 +8,17 @@ public class CodeDrawConfirmation implements AutoCloseable {
 	public CodeDrawConfirmation() {
 		cd = new CodeDraw(600, 200);
 		cd.setWindowPositionX(0);
-		cd.setWindowPositionY(0);
+		cd.setWindowPositionY(10);
 		render();
 	}
 
 	private String confirmationDialogue;
 	private CodeDraw cd;
+
+	public void placeCodeDrawTestingInstance(CodeDraw testingInstance) {
+		testingInstance.setWindowPositionX(0);
+		testingInstance.setWindowPositionY(250);
+	}
 
 	public void setConfirmationDialogue(String text) {
 		confirmationDialogue = text;

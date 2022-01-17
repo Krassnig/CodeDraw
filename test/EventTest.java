@@ -1,30 +1,32 @@
 import codedraw.*;
 import codedraw.events.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.awt.event.*;
-import java.util.function.BiFunction;
+import java.awt.*;
+import java.util.function.Consumer;
 
 public class EventTest {
-	public static void main(String[] args) {
-		//eventSleepTest();
-		//curveTest();
-		//mouseTest((c, h) -> c.onMouseClick(h));
-		//mouseTest((c, h) -> c.onMouseMove(h));
-		//mouseTest((c, h) -> c.onMouseDown(h));
-		//mouseTest((c, h) -> c.onMouseUp(h));
-		//mouseTest((c, h) -> c.onMouseLeave(h));
-		//mouseTest((c, h) -> c.onMouseEnter(h));
-		//mouseWheelTest();
-		//keyEventTest((c, h) -> c.onKeyDown(h));
-		//keyEventTest((c, h) -> c.onKeyPress(h));
-		//keyEventTest((c, h) -> c.onKeyUp(h));
-		//windowMoveTest();
-		//unsubscribeTest();
+	private CodeDrawConfirmation confirm;
+	private CodeDraw cd;
+
+	@Before
+	public void beforeEach() {
+		confirm = new CodeDrawConfirmation();
+		cd = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
-	private static void eventSleepTest() {
-		CodeDraw cd = new CodeDraw();
+	@After
+	public void afterEach() {
+		cd.close();
+		confirm.close();
+	}
 
+	@Test
+	public void eventSleepTest() {
+		confirm.setConfirmationDialogue("Upon clicking, the square should turn blue, then green.");
 		cd.drawText(50, 50, "Click here, then I will turn blue, then green!");
 		cd.setColor(Palette.RED);
 		cd.fillSquare(100, 100, 100);
@@ -43,58 +45,95 @@ public class EventTest {
 			cd.fillSquare(100, 100, 100);
 			cd.show();
 		});
+
+		confirm.assertConfirmation();
 	}
 
-	private static void curveTest() {
-		CodeDraw cd = new CodeDraw();
-
+	@Test
+	public void curveTest() {
+		confirm.setConfirmationDialogue("The curve should follow your mouse.");
 		cd.onMouseMove(a -> {
 			cd.clear();
 			cd.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
 			cd.show();
 		});
+		confirm.assertConfirmation();
 	}
 
-	private static int x = 500;
-	private static int y = 500;
+	@Test
+	public void windowMoveTest() {
+		confirm.setConfirmationDialogue("The square in the center should not move while moving the window.");
 
-	private static void windowMoveTest() {
-		CodeDraw cd = new CodeDraw();
+		int x = cd.getCanvasPositionX();
+		int y = cd.getCanvasPositionY();
+		System.out.println(x + " " + y);
 
 		cd.setColor(Palette.RED);
-		cd.drawSquare(200, 200, 100);
+		cd.drawSquare(300, 300, 100);
 		cd.show();
-
-		x = cd.getCanvasPositionX();
-		y = cd.getCanvasPositionY();
 
 		cd.onWindowMove(a -> {
 			int dx = x - cd.getCanvasPositionX();
 			int dy = y - cd.getCanvasPositionY();
 
 			cd.clear();
-			cd.drawSquare(dx + 200, dy + 200, 100);
+			cd.drawSquare(300 + dx, 300 + dy, 100);
 			cd.show();
 		});
+
+		confirm.assertConfirmation();
 	}
 
-	private static String s = "";
-	private static void keyEventTest(BiFunction<CodeDraw, EventHandler<KeyEvent>, Subscription> mapToEvent) {
-		CodeDraw cd = new CodeDraw();
+	private String text = "";
+	@Test
+	public void keyDownTest() {
+		confirm.setConfirmationDialogue("New characters should appear exactly once when a key is pressed down.");
 
 		cd.setColor(Palette.RED);
-
-		mapToEvent.apply(cd, a -> {
+		cd.onKeyDown(a -> {
 			cd.clear();
-			s += a.getKeyChar();
-			cd.drawText(100, 100, s);
+			text += a.getChar();
+			cd.drawText(100, 100, text);
 			cd.show();
 		});
+
+		confirm.assertConfirmation();
 	}
 
-	private static int l = 0;
-	private static void mouseWheelTest() {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void keyUpTest() {
+		confirm.setConfirmationDialogue("New characters should appear exactly once when a key is released.");
+
+		cd.setColor(Palette.RED);
+		cd.onKeyUp(a -> {
+			cd.clear();
+			text += a.getChar();
+			cd.drawText(100, 100, text);
+			cd.show();
+		});
+
+		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void keyPressTest() {
+		confirm.setConfirmationDialogue("New characters should appear when a key is pressed,\nmultiple when the key is held down.");
+
+		cd.setColor(Palette.RED);
+		cd.onKeyPress(a -> {
+			cd.clear();
+			text += a.getChar();
+			cd.drawText(100, 100, text);
+			cd.show();
+		});
+
+		confirm.assertConfirmation();
+	}
+
+	private int l = 0;
+	@Test
+	public void mouseWheelTest() {
+		confirm.setConfirmationDialogue("The triangle should point up or down depending on the scroll direction.");
 
 		cd.setColor(Palette.RED);
 
@@ -104,26 +143,78 @@ public class EventTest {
 			cd.drawTriangle(200, 300, 400, 300, 300, 300 + 20 * h);
 			cd.show();
 		});
+
+		confirm.assertConfirmation();
 	}
 
-	private static void mouseTest(BiFunction<CodeDraw, EventHandler<MouseEvent>, Subscription> mapToEvent) {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void mouseClickTest() {
+		mouseTests(
+				"A red square should appear once where the mouse is clicked.",
+				handler -> cd.onMouseClick(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	@Test
+	public void mouseMoveTest() {
+		mouseTests(
+				"A red square should continuously where the mouse is moved.",
+				handler -> cd.onMouseMove(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	@Test
+	public void mouseDownTest() {
+		mouseTests(
+				"A red square should appear once exactly as you click down.",
+				handler -> cd.onMouseDown(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	@Test
+	public void mouseUpTest() {
+		mouseTests(
+				"A red square should appear once exactly as you release a mouse button.",
+				handler -> cd.onMouseUp(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	@Test
+	public void mouseEnterTest() {
+		mouseTests(
+				"A red square should appear once exactly where the window is entered.",
+				handler -> cd.onMouseEnter(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	@Test
+	public void mouseLeaveTest() {
+		mouseTests(
+				"A red square should appear once exactly where the window is left.",
+				handler -> cd.onMouseLeave(a -> handler.accept(new Point(a.getX(), a.getY())))
+		);
+	}
+
+	private void mouseTests(String confirmationDialogue, Consumer<Consumer<Point>> event) {
+		confirm.setConfirmationDialogue(confirmationDialogue);
 
 		cd.setColor(Palette.RED);
-
-		mapToEvent.apply(cd, a -> {
+		event.accept(a -> {
 			cd.fillRectangle(a.getX() - 5, a.getY() - 5, 10, 10);
 			cd.show();
 		});
+
+		confirm.assertConfirmation();
 	}
 
-	private static Subscription subscription;
-	private static EventHandler<KeyPressEventArgs> key;
-	private static EventHandler<MouseClickEventArgs> mouse;
-	private static int unsubscribeProgress = 0;
+	private Subscription subscription;
+	private EventHandler<KeyPressEventArgs> key;
+	private EventHandler<MouseClickEventArgs> mouse;
+	private int unsubscribeProgress = 0;
 
-	private static void unsubscribeTest() {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void unsubscribeTest() {
+		confirm.setConfirmationDialogue("The bar should only go up by alternating between pressing a key or a mouse button.");
 
 		mouse = a -> {
 			cd.clear();
@@ -148,5 +239,7 @@ public class EventTest {
 
 		subscription = cd.onMouseClick(mouse);
 		mouse.handle(null);
+
+		confirm.assertConfirmation();
 	}
 }

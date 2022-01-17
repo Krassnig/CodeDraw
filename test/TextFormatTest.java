@@ -14,8 +14,7 @@ public class TextFormatTest {
 	public void beforeEach() {
 		confirm = new CodeDrawConfirmation();
 		cd = new CodeDraw();
-		cd.setWindowPositionX(0);
-		cd.setWindowPositionY(230);
+		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
 	@After
