@@ -7,32 +7,26 @@ import org.junit.Test;
 import java.awt.*;
 
 public class TextFormatTest {
+	private CodeDrawConfirmation confirm;
 	private CodeDraw cd;
 
 	@Before
 	public void beforeEach() {
+		confirm = new CodeDrawConfirmation();
 		cd = new CodeDraw();
-		cd.setWindowPositionX(100);
-		cd.setWindowPositionY(100);
-		CodeDrawTesting.configureConfirmationDialouge(cd);
+		cd.setWindowPositionX(0);
+		cd.setWindowPositionY(230);
 	}
 
 	@After
 	public void afterEach() {
 		cd.close();
-	}
-
-	private void assertConfirmation() {
-		CodeDrawTesting.assertConfirmation(cd);
-	}
-
-	private void setTestDescription(String text) {
-		CodeDrawTesting.setTestDescription(cd, text);
+		confirm.close();
 	}
 
 	@Test
 	public void defaultAlignmentTest() {
-		setTestDescription("The default alignment of text should be the bottom right.");
+		confirm.setConfirmationDialogue("The default alignment of text should be the bottom right.");
 
 		cd.drawLine(200, 100, 200, 300);
 		cd.drawLine(100, 200, 300, 200);
@@ -40,48 +34,48 @@ public class TextFormatTest {
 		cd.drawText(200, 200, "Hello World!");
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void fontSizeTest() {
-		setTestDescription("The font size should get increasingly bigger with the number.");
+		confirm.setConfirmationDialogue("The font size should get increasingly bigger with the number.");
 		TextFormat format = cd.getTextFormat();
 
-		for (int i = 1; i < 30; i++) {
+		for (int i = 1; i < 35; i++) {
 			format.setFontSize(i);
 			cd.drawText(30, 10 + ((i * (i + 1)) / 2D), i + " Bigger!");
 		}
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void fontNameTest() {
-		setTestDescription("Each text should have a different font.");
+		confirm.setConfirmationDialogue("Each text should have a different font.");
 		TextFormat format = cd.getTextFormat();
 		format.setFontSize(16);
 
 		String[] fonts = getAvailableFontNames();
 
-		for (int i = 0; i < 40 && i < fonts.length; i++) {
+		for (int i = 0; i < 60 && i < fonts.length; i++) {
 			format.setFontName(fonts[i]);
-			if (i < 20) {
-				cd.drawText(30, 20 + i * 20, i + "    Hello World!");
+			if (i < 30) {
+				cd.drawText(30, 10 + i * 20, i + "    Hello World!");
 			}
 			else {
-				cd.drawText(330, 20 + (i - 20) * 20, i + "   Hello World!");
+				cd.drawText(330, 10 + (i - 30) * 20, i + "   Hello World!");
 			}
 		}
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void fontStyleTest() {
-		setTestDescription("The text should be correctly stylized.");
+		confirm.setConfirmationDialogue("The text should be correctly stylized.");
 		TextFormat format = cd.getTextFormat();
 		format.setFontSize(20);
 
@@ -101,12 +95,12 @@ public class TextFormatTest {
 		cd.drawText(330, 150, "No strikethrough");
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void underlineTest() {
-		setTestDescription("There should be different styles for each underline type.");
+		confirm.setConfirmationDialogue("There should be different styles for each underline type.");
 		TextFormat format = cd.getTextFormat();
 
 		format.setFontName("Times New Roman");
@@ -126,25 +120,25 @@ public class TextFormatTest {
 		}
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void multilineAlignmentTest() {
-		setTestDescription("The text should be differently aligned for each quadrant.");
+		confirm.setConfirmationDialogue("The text should be differently aligned for each quadrant.");
 
-		drawAlignment(100, 70, VerticalAlign.TOP   , HorizontalAlign.LEFT);
-		drawAlignment(300, 70, VerticalAlign.TOP   , HorizontalAlign.CENTER);
-		drawAlignment(500, 70, VerticalAlign.TOP   , HorizontalAlign.RIGHT);
-		drawAlignment(100, 220, VerticalAlign.MIDDLE, HorizontalAlign.LEFT);
-		drawAlignment(300, 220, VerticalAlign.MIDDLE, HorizontalAlign.CENTER);
-		drawAlignment(500, 220, VerticalAlign.MIDDLE, HorizontalAlign.RIGHT);
-		drawAlignment(100, 370, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
-		drawAlignment(300, 370, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
-		drawAlignment(500, 370, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
+		drawAlignment(100, 100, VerticalAlign.TOP   , HorizontalAlign.LEFT);
+		drawAlignment(300, 100, VerticalAlign.TOP   , HorizontalAlign.CENTER);
+		drawAlignment(500, 100, VerticalAlign.TOP   , HorizontalAlign.RIGHT);
+		drawAlignment(100, 300, VerticalAlign.MIDDLE, HorizontalAlign.LEFT);
+		drawAlignment(300, 300, VerticalAlign.MIDDLE, HorizontalAlign.CENTER);
+		drawAlignment(500, 300, VerticalAlign.MIDDLE, HorizontalAlign.RIGHT);
+		drawAlignment(100, 500, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
+		drawAlignment(300, 500, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
+		drawAlignment(500, 500, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
 
 		cd.show();
-		assertConfirmation();
+		confirm.assertConfirmation();
 	}
 
 	private void drawAlignment(double x, double y, VerticalAlign va, HorizontalAlign ha) {
@@ -153,8 +147,8 @@ public class TextFormatTest {
 		format.setHorizontalAlign(ha);
 
 		cd.setColor(Palette.RED);
-		cd.drawLine(x - 60, y, x + 60, y);
-		cd.drawLine(x, y - 60, x, y + 60);
+		cd.drawLine(x - 80, y, x + 80, y);
+		cd.drawLine(x, y - 80, x, y + 80);
 		cd.setColor(Palette.BLACK);
 		cd.drawText(x, y, va + "\n" + (ha + "").toLowerCase() + "\nTEST");
 	}
