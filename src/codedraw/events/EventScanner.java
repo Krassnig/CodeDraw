@@ -33,26 +33,30 @@ public class EventScanner implements AutoCloseable {
 	private ConcurrentQueue<Object> queue;
 	private ArrayList<Subscription> subscriptions;
 
+	public boolean hasNextEventNow() {
+		return queue.canPop();
+	}
+
 	public boolean hasNextEvent() {
-		return queue.peek() != null;
+		return peek() != null;
 	}
 
 	public Object nextEvent() {
 		return pop(Object.class);
 	}
 
-	public boolean hasMouseClickEvent() { return queue.peek() instanceof MouseClickEventArgs; }
-	public boolean hasMouseMoveEvent() { return queue.peek() instanceof MouseMoveEventArgs; }
-	public boolean hasMouseDownEvent() { return queue.peek() instanceof MouseDownEventArgs; }
-	public boolean hasMouseUpEvent() { return queue.peek() instanceof MouseUpEventArgs; }
-	public boolean hasMouseEnterEvent() { return queue.peek() instanceof MouseEnterEventArgs; }
-	public boolean hasMouseLeaveEvent() { return queue.peek() instanceof MouseLeaveEventArgs; }
-	public boolean hasMouseWheelEvent() { return queue.peek() instanceof MouseWheelEventArgs; }
-	public boolean hasKeyDownEvent() { return queue.peek() instanceof KeyDownEventArgs; }
-	public boolean hasKeyUpEvent() { return queue.peek() instanceof KeyUpEventArgs; }
-	public boolean hasKeyPressEvent() { return queue.peek() instanceof KeyPressEventArgs; }
-	public boolean hasWindowMoveEvent() { return queue.peek() instanceof WindowMoveEventArgs; }
-	public boolean hasWindowCloseEvent() { return queue.peek() == null; }
+	public boolean hasMouseClickEvent() { return peek() instanceof MouseClickEventArgs; }
+	public boolean hasMouseMoveEvent() { return peek() instanceof MouseMoveEventArgs; }
+	public boolean hasMouseDownEvent() { return peek() instanceof MouseDownEventArgs; }
+	public boolean hasMouseUpEvent() { return peek() instanceof MouseUpEventArgs; }
+	public boolean hasMouseEnterEvent() { return peek() instanceof MouseEnterEventArgs; }
+	public boolean hasMouseLeaveEvent() { return peek() instanceof MouseLeaveEventArgs; }
+	public boolean hasMouseWheelEvent() { return peek() instanceof MouseWheelEventArgs; }
+	public boolean hasKeyDownEvent() { return peek() instanceof KeyDownEventArgs; }
+	public boolean hasKeyUpEvent() { return peek() instanceof KeyUpEventArgs; }
+	public boolean hasKeyPressEvent() { return peek() instanceof KeyPressEventArgs; }
+	public boolean hasWindowMoveEvent() { return peek() instanceof WindowMoveEventArgs; }
+	public boolean hasWindowCloseEvent() { return peek() == null; }
 
 	public MouseClickEventArgs nextMouseClickEvent() { return pop(MouseClickEventArgs.class); }
 	public MouseMoveEventArgs nextMouseMoveEvent() { return pop(MouseMoveEventArgs.class); }
@@ -66,11 +70,15 @@ public class EventScanner implements AutoCloseable {
 	public KeyPressEventArgs nextKeyPressEvent() { return pop(KeyPressEventArgs.class); }
 	public WindowMoveEventArgs nextWindowMoveEvent() { return pop(WindowMoveEventArgs.class); }
 
-	public <T> T pop(Class<T> type) {
+	private Object peek() {
+		return queue.peek();
+	}
+	
+	private <T> T pop(Class<T> type) {
 		if (subscriptions == null) throw new IllegalStateException();
 
 		try {
-			T tmp = type.cast(queue.peek());
+			T tmp = type.cast(peek());
 			if (tmp == null) throw new NoSuchElementException();
 			return type.cast(queue.pop());
 		}
