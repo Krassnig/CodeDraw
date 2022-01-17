@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class WindowMoveEventArgs {
 	public WindowMoveEventArgs(Point canvasPosition, Point windowPosition) {
-		this.canvasPosition = canvasPosition;
-		this.windowPosition = windowPosition;
+		this.canvasPosition = canvasPosition.getLocation();
+		this.windowPosition = windowPosition.getLocation();
 	}
 
 	private Point canvasPosition;

@@ -38,8 +38,7 @@ class CanvasWindow {
 		frame.setVisible(true);
 		frame.toFront();
 
-		windowPosition = frame.getLocationOnScreen();
-		canvasPosition = canvas.getLocationOnScreen();
+		updateWindowAndCanvasPosition();
 
 		bindEvents(events);
 	}
@@ -48,20 +47,25 @@ class CanvasWindow {
 	private JFrame frame;
 	private CanvasPanel canvas;
 	private Point windowPosition;
-	private Point canvasPosition;
+	private Point distanceFromWindowToCanvas;
 	private CursorStyle cursorStyle;
 
 	public Point getWindowPosition() { return windowPosition; }
-	public void setWindowPosition(Point newPosition) {
-		canvasPosition = plus(canvasPosition, minus(windowPosition, newPosition));
-		windowPosition = newPosition;
-
+	public void setWindowPosition(Point newWindowPosition) {
+		windowPosition = newWindowPosition;
 		frame.setLocation(windowPosition);
 	}
 
-	public Point getCanvasPosition() { return canvasPosition; }
-	public void setCanvasPosition(Point newPosition) {
-		setWindowPosition(minus(newPosition, minus(getCanvasPosition(), getWindowPosition())));
+	public Point getCanvasPosition() {
+		return plus(windowPosition, distanceFromWindowToCanvas);
+	}
+	public void setCanvasPosition(Point newCanvasPosition) {
+		setWindowPosition(minus(newCanvasPosition, distanceFromWindowToCanvas));
+	}
+
+	private void updateWindowAndCanvasPosition() {
+		this.windowPosition = frame.getLocationOnScreen().getLocation();
+		distanceFromWindowToCanvas = minus(canvas.getLocationOnScreen().getLocation(), windowPosition);
 	}
 
 	public String getTitle() { return frame.getTitle(); }
@@ -102,9 +106,8 @@ class CanvasWindow {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				canvasPosition = canvas.getLocationOnScreen();
-				windowPosition = frame.getLocationOnScreen();
-				events.windowMove.invoke(new WindowMoveEventArgs(canvasPosition, windowPosition));
+				updateWindowAndCanvasPosition();
+				events.windowMove.invoke(new WindowMoveEventArgs(getCanvasPosition(), getWindowPosition()));
 			}
 		};
 	}
