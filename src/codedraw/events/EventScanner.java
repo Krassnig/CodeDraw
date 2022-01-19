@@ -34,6 +34,7 @@ public class EventScanner implements AutoCloseable {
 	private ArrayList<Subscription> subscriptions;
 
 	public boolean hasNextEventNow() {
+		if (isClosed()) throw createIllegalStateException();
 		return queue.canPop();
 	}
 
@@ -71,11 +72,12 @@ public class EventScanner implements AutoCloseable {
 	public WindowMoveEventArgs nextWindowMoveEvent() { return pop(WindowMoveEventArgs.class); }
 
 	private Object peek() {
+		if (isClosed()) throw createIllegalStateException();
 		return queue.peek();
 	}
 	
 	private <T> T pop(Class<T> type) {
-		if (subscriptions == null) throw new IllegalStateException();
+		if (isClosed()) throw createIllegalStateException();
 
 		try {
 			T tmp = type.cast(peek());
@@ -89,8 +91,16 @@ public class EventScanner implements AutoCloseable {
 
 	@Override
 	public void close() {
-		if (subscriptions == null) throw new IllegalStateException();
+		if (isClosed()) throw createIllegalStateException();
 		subscriptions.forEach(Subscription::unsubscribe);
 		subscriptions = null;
+	}
+
+	private boolean isClosed() {
+		return subscriptions == null;
+	}
+
+	private IllegalStateException createIllegalStateException() {
+		return new IllegalStateException();
 	}
 }
