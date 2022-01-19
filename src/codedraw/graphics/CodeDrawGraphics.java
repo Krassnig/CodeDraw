@@ -122,7 +122,10 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawLine(double startX, double startY, double endX, double endY) {
-		g.draw(createLine(startX, startY, endX, endY));
+		g.draw(createPolygon(startX, startY, endX, endY));
+
+		/* Line2D does not work with lineWidths <= 1
+		g.draw(createLine(startX, startY, endX, endY)); */
 	}
 
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
