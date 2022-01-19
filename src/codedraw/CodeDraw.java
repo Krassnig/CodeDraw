@@ -725,6 +725,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Must be called with at least two points as parameter.
 	 * Each point passed to drawPolygon will be connected to the following points and
 	 * the last point will be connected to the first point.
+	 * If you pass only two arguments to fillPolygon nothing will be drawn.
 	 * <pre>{@code
 	 * cd.fillPolygon(
 	 *     200, 100,
