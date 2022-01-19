@@ -1026,23 +1026,23 @@ public class CodeDraw implements AutoCloseable {
 		}
 	}
 
-	public static IllegalArgumentException createParameterNullException(String parameterName) {
+	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
 
-	public static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 
-	public static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
+	private static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " must be equal or greater than zero.");
 	}
 
-	public static boolean isInvalidPolygonCount(double[] polygonParameter) {
+	private static boolean isInvalidPolygonCount(double[] polygonParameter) {
 		return polygonParameter.length < 4 || (polygonParameter.length & 1) == 1;
 	}
 
-	public static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
+	private static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
 		if (polygonParameter.length < 4) {
 			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
 		}

@@ -278,11 +278,11 @@ public final class Palette {
 	public static final Color IVORY = new Color(0xFFFFF0);
 	public static final Color WHITE = new Color(0xFFFFFF);
 
-	public static IllegalArgumentException createParameterNullException(String parameterName) {
+	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
 
-	public static void checkRange(int parameter, String parameterName, int minimumInclusive, int maximumExclusive) {
+	private static void checkRange(int parameter, String parameterName, int minimumInclusive, int maximumExclusive) {
 		if (!(minimumInclusive <= parameter && parameter < maximumExclusive)) {
 			throw new IllegalArgumentException("The parameter " + parameterName + " must be great or equal to " + minimumInclusive + " and smaller than " + maximumExclusive);
 		}

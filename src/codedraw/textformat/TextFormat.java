@@ -191,11 +191,11 @@ public final class TextFormat {
 	}
 
 
-	public static IllegalArgumentException createParameterNullException(String parameterName) {
+	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
 
-	public static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 }
