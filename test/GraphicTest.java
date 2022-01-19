@@ -250,4 +250,15 @@ public class GraphicTest {
 		cd.drawPoint(x + 25, y + 100);
 		cd.drawPoint(x + 50, y + 150);
 	}
+
+	@Test
+	public void clearTest() {
+		confirm.setConfirmationDialogue("The entire canvas should be black.");
+
+		cd.setCorner(Corner.BEVEL);
+		cd.clear(Palette.BLACK);
+		cd.show();
+
+		confirm.assertConfirmation();
+	}
 }

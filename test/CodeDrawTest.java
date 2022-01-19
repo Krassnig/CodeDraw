@@ -1,4 +1,10 @@
 import codedraw.*;
+import codedraw.textformat.HorizontalAlign;
+import codedraw.textformat.VerticalAlign;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -6,27 +12,33 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.Instant;
 import java.util.Base64;
 
 import static codedraw.CursorStyle.*;
+import static org.junit.Assert.fail;
 
 public class CodeDrawTest {
-	public static void main(String[] args) {
-		//cursorTest();
-		//clearTest();
-		//autoCloseTest();
-		//windowPositionTest();
-		//disposeCloseTest();
-		//smallWindowTest();
-		//imageSaveTest();
-		//imageTestScale();
-		//imageTest();
-		//twoWindowTest();
-		//cornerTest();
-		//proofOfConcept();
+	private CodeDraw cd;
+	private CodeDrawConfirmation confirm;
+
+	@Before
+	public void beforeEach() {
+		confirm = new CodeDrawConfirmation();
+		cd = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
-	private static void cursorTest() {
+	@After
+	public void afterEach() {
+		confirm.close();
+		cd.close();
+	}
+
+	@Test
+	public void cursorTest() {
+		confirm.setConfirmationDialogue("Hover over the CodeDraw window, the cursor should change.");
+
 		CursorStyle[] cursors = {
 				DEFAULT,
 				CROSS_HAIR,
@@ -45,12 +57,15 @@ public class CodeDrawTest {
 				new CursorStyle(getCodeDrawIcon())
 		};
 
-		CodeDraw cd = new CodeDraw();
+		cd.getTextFormat().setHorizontalAlign(HorizontalAlign.CENTER);
+		cd.drawText(300, 200, "Move mouse over here.");
 
 		for (CursorStyle cursorStyle : cursors) {
 			cd.setCursorStyle(cursorStyle);
-			cd.show(1000);
+			cd.show(500);
 		}
+
+		confirm.assertConfirmation();
 	}
 
 	private static BufferedImage getCodeDrawIcon() {
@@ -66,15 +81,10 @@ public class CodeDrawTest {
 		}
 	}
 
-	private static void clearTest() {
-		CodeDraw cd = new CodeDraw();
-
-		cd.setCorner(Corner.BEVEL);
-		cd.clear(Palette.BLACK);
-		cd.show();
-	}
-
-	private static void autoCloseTest() {
+	@Test
+	public void terminateProcessOnlyWhenLastTest() {
+		cd.close();
+		confirm.setConfirmationDialogue("No other CodeDraw instance should be visible.");
 		CodeDraw cd1 = new CodeDraw();
 		CodeDraw cd2 = new CodeDraw();
 
@@ -82,58 +92,74 @@ public class CodeDrawTest {
 		cd2.close();
 
 		try {
-			for (int i = 0; i < 5; i++) {
-				Thread.sleep(1000);
-				System.out.println("sleeping");
-			}
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Process should exit now.");
+
+		confirm.assertConfirmation();
 	}
 
-	private static void windowPositionTest() {
-		CodeDraw cd = new CodeDraw();
-		cd.setWindowPositionX(0);
-		cd.setWindowPositionY(0);
+	@Test
+	public void windowPositionTest() {
+		confirm.setConfirmationDialogue("The rectangle should not move while the canvas does move.");
+		int startPosX = cd.getWindowPositionX();
+		int startPosY = cd.getWindowPositionY();
+
+		int posX = startPosX;
+		int posY = startPosY;
 
 		for (int i = 0; i < 60; i++) {
-			int pos = i * 10;
-
-			cd.setWindowPositionX(pos);
-			cd.setWindowPositionY(pos);
+			cd.setWindowPositionX(posX += 2);
+			cd.setWindowPositionY(posY += 2);
 
 			cd.clear();
-			cd.drawSquare(500 - pos, 500 - pos, 100);
+			cd.drawSquare(startPosX + 200 - posX, startPosY + 200 - posY, 100);
 			cd.show(100);
 		}
+
+		confirm.assertConfirmation();
 	}
 
-	private static void disposeCloseTest() {
-		CodeDraw cd1 = new CodeDraw();
-		cd1.drawText(300, 300, "I should close.");
-		cd1.show();
+	@Test
+	public void disposeCloseTest() {
+		confirm.setConfirmationDialogue("Only the 'I should stay open' window should stay open.");
+
+		cd.drawText(300, 300, "I should close.");
+		cd.show();
 
 		CodeDraw cd2 = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd2);
 		cd2.drawText(300, 300, "I should stay open.");
 		cd2.show();
 
-		cd1.close();
+		cd.close();
+
+		confirm.assertConfirmation();
+		cd2.close();
 	}
 
-	private static void smallWindowTest() {
-		CodeDraw cd = new CodeDraw(150, 1);
+	@Test
+	public void smallWindowTest() {
+		confirm.setConfirmationDialogue("A 150x1 canvas should open and a red pixel bar should increase");
+		cd.close();
+		cd = new CodeDraw(150, 1);
+		confirm.placeCodeDrawTestingInstance(cd);
+		cd.setColor(Palette.RED);
 
 		for (int i = 0; i < 150; i++) {
 			cd.drawPixel(i, 0);
-			cd.show(50);
+			cd.show(10);
 		}
+
+		confirm.assertConfirmation();
 	}
 
-	private static void imageSaveTest() {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void imageSaveTest() {
+		confirm.setConfirmationDialogue("There should be an out.png in your test folder.");
 
-		cd.drawText(100, 100, "There should be an out.png in your test folder.");
+		cd.drawText(100, 100, Instant.now().toString());
 		cd.setColor(Palette.BLUE_VIOLET);
 
 		cd.drawArc(200, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
@@ -149,41 +175,42 @@ public class CodeDrawTest {
 		cd.fillCircle(200, 200, 10);
 
 		try {
-			ImageIO.write(cd.saveCanvas(), "png", new File("test/out.png"));
+			ImageIO.write(cd.saveCanvas(), "png", new File("./test/out.png"));
 		} catch (IOException e) {
-			System.out.println("could not save image");
+			fail("could not save image");
 		}
 
 		cd.show();
+		confirm.assertConfirmation();
 	}
 
-	private static void imageTestScale() {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void imageTestScale() {
+		confirm.setConfirmationDialogue("The image should display the scaled down 200x200 image.");
 
 		cd.drawImage(100, 100, 200, 200, "test/test.jpg");
 		cd.show();
+
+		confirm.assertConfirmation();
 	}
 
-	private static void imageTest() {
-		CodeDraw cd = new CodeDraw(820, 620);
+	@Test
+	public void imageTest() {
+		confirm.setConfirmationDialogue("The image should nicely fill out the canvas");
+
+		cd.close();
+		cd = new CodeDraw(820, 620);
+		confirm.placeCodeDrawTestingInstance(cd);
 
 		cd.drawImage(10, 10, "test/test.jpg");
 		cd.show();
+
+		confirm.assertConfirmation();
 	}
 
-	private static void twoWindowTest() {
-		CodeDraw cd1 = new CodeDraw();
-		CodeDraw cd2 = new CodeDraw();
-
-		cd1.drawCircle(100, 100, 50);
-		cd2.drawCircle(400, 200, 100);
-
-		cd1.show();
-		cd2.show();
-	}
-
-	private static void cornerTest() {
-		CodeDraw cd = new CodeDraw();
+	@Test
+	public void cornerTest() {
+		confirm.setConfirmationDialogue("In each corner there should be a red pixel.");
 
 		int size = 1;
 
@@ -193,23 +220,7 @@ public class CodeDrawTest {
 		cd.fillRectangle(cd.getWidth() - size, 0, size, size);
 		cd.fillRectangle(cd.getWidth() - size, cd.getHeight() - size, size, size);
 		cd.show();
-	}
 
-	private static void proofOfConcept() {
-		CodeDraw cd = new CodeDraw();
-
-		cd.setColor(Palette.RED);
-		cd.fillRectangle(20, 20, 100, 100);
-
-		cd.setTitle("Hello World");
-
-		cd.setColor(Palette.BLUE);
-		cd.fillCircle(50, 50, 50);
-
-		cd.setColor(Palette.LIGHT_BLUE);
-		cd.setLineWidth(5);
-		cd.drawRectangle(30, 30, 200, 200);
-
-		cd.show();
+		confirm.assertConfirmation();
 	}
 }

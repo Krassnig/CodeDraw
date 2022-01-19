@@ -78,4 +78,28 @@ public class AnimationTest {
 
 		confirm.assertConfirmation();
 	}
+
+	@Test
+	public void bezierTest() {
+		confirm.setConfirmationDialogue("Curve should move according to the two control points.");
+
+		cd.setLineWidth(4);
+
+		for (int i = 0; i < 400; i++) {
+			int c1x = 200;
+			int c1y = 100 + i;
+			int c2x = 200 + i;
+			int c2y = 300;
+
+			cd.clear();
+
+			cd.drawPoint(c1x, c1y);
+			cd.drawPoint(c2x, c2y);
+			cd.drawBezier(100, 100, c1x, c1y, c2x, c2y, 400, 400);
+
+			cd.show(10);
+		}
+
+		confirm.assertConfirmation();
+	}
 }
