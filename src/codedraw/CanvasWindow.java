@@ -175,7 +175,7 @@ class CanvasWindow {
 		return new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				events.windowClose.invoke(null);
+				events.windowClose.invoke(new WindowCloseEventArgs());
 				windowCountLock.acquire();
 				windowCount--;
 				if (windowCount == 0 && terminateOnLastClose) {

@@ -46,7 +46,7 @@ public class EventMultiQueue implements AutoCloseable {
 	private final ConcurrentQueue<KeyUpEventArgs> keyUpQueue;
 	private final ConcurrentQueue<KeyPressEventArgs> keyPressQueue;
 	private final ConcurrentQueue<WindowMoveEventArgs> windowMoveQueue;
-	private final ConcurrentQueue<Void> windowCloseQueue;
+	private final ConcurrentQueue<WindowCloseEventArgs> windowCloseQueue;
 
 	public boolean hasEvent() {
 		return multiQueue.canAcquire();
@@ -84,5 +84,5 @@ public class EventMultiQueue implements AutoCloseable {
 	public KeyUpEventArgs waitForKeyUpEvent() { return keyUpQueue.pop(); }
 	public KeyPressEventArgs waitForKeyPressEvent() { return keyPressQueue.pop(); }
 	public WindowMoveEventArgs waitForWindowMoveEvent() { return windowMoveQueue.pop(); }
-	public void waitForWindowCloseEvent() { windowCloseQueue.pop(); }
+	public WindowCloseEventArgs waitForWindowCloseEvent() { return windowCloseQueue.pop(); }
 }

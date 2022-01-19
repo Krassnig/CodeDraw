@@ -1,4 +1,7 @@
 import codedraw.*;
+import codedraw.events.EventScanner;
+import codedraw.events.MouseDownEventArgs;
+import codedraw.events.MouseMoveEventArgs;
 
 public class GameOfLife {
 	public static void main(String[] args) {
@@ -11,6 +14,7 @@ public class GameOfLife {
 			}
 
 			// renders about 60 frames per second
+			gof.processEvents();
 			gof.renderAndWait(16);
 		}
 	}
@@ -22,12 +26,12 @@ public class GameOfLife {
 		this.fieldSize = fieldSize;
 
 		cd = new CodeDraw(size * fieldSize, size * fieldSize);
+		esc = new EventScanner(cd);
 		field = createRandomBooleans(size);
-
-		bindEvents();
 	}
 
 	private final CodeDraw cd;
+	private final EventScanner esc;
 	private final int rule;
 	private final int size;
 	private final int mask;
@@ -37,18 +41,27 @@ public class GameOfLife {
 	private boolean isMouseDown = false;
 	private boolean setValue = false;
 
-	private void bindEvents() {
-		cd.onMouseDown(a -> {
-			isMouseDown = true;
-			setValue = !field[a.getX() / fieldSize][a.getY() / fieldSize];
-		});
-		cd.onMouseUp(a -> isMouseDown = false);
-		cd.onMouseLeave(a -> isMouseDown = false);
-		cd.onMouseMove(a -> {
-			if (isMouseDown) {
-				field[a.getX() / fieldSize][a.getY() / fieldSize] = setValue;
+	public void processEvents() {
+		while (esc.hasNextEventNow()) {
+			if (esc.hasMouseDownEvent()) {
+				MouseDownEventArgs a = esc.nextMouseDownEvent();
+				isMouseDown = true;
+				setValue = !field[a.getX() / fieldSize][a.getY() / fieldSize];
 			}
-		});
+			else if (esc.hasMouseUpEvent() || esc.hasMouseLeaveEvent()) {
+				esc.nextEvent();
+				isMouseDown = false;
+			}
+			else if (esc.hasMouseMoveEvent()) {
+				MouseMoveEventArgs a = esc.nextMouseMoveEvent();
+				if (isMouseDown) {
+					field[a.getX() / fieldSize][a.getY() / fieldSize] = setValue;
+				}
+			}
+			else {
+				esc.nextEvent();
+			}
+		}
 	}
 
 	public void renderAndWait(int milliSeconds) {

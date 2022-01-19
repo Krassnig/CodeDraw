@@ -376,7 +376,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowClose(EventHandler<Void> handler) {
+	public Subscription onWindowClose(EventHandler<WindowCloseEventArgs> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.windowClose.onInvoke(handler);
 	}

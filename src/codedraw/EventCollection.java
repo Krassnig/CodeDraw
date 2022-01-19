@@ -16,5 +16,5 @@ class EventCollection {
 	public final Event<KeyUpEventArgs> keyUp = new Event<>();
 	public final Event<KeyPressEventArgs> keyPress = new Event<>();
 	public final Event<WindowMoveEventArgs> windowMove = new Event<>();
-	public final Event<Void> windowClose = new Event<>();
+	public final Event<WindowCloseEventArgs> windowClose = new Event<>();
 }

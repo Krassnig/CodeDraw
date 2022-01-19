@@ -29,13 +29,13 @@ public class EventScanner implements AutoCloseable {
 	private <T> void bindEvent(Function<EventHandler<T>, Subscription> onEvent) {
 		subscriptions.add(onEvent.apply(queue::push));
 	}
-	
+
+	private boolean isEndOfEvents = false;
 	private ConcurrentQueue<Object> queue;
 	private ArrayList<Subscription> subscriptions;
 
 	public boolean hasNextEventNow() {
-		if (isClosed()) throw createIllegalStateException();
-		return queue.canPop();
+		return !isEndOfEvents && queue.canPop();
 	}
 
 	public boolean hasNextEvent() {
@@ -57,7 +57,7 @@ public class EventScanner implements AutoCloseable {
 	public boolean hasKeyUpEvent() { return peek() instanceof KeyUpEventArgs; }
 	public boolean hasKeyPressEvent() { return peek() instanceof KeyPressEventArgs; }
 	public boolean hasWindowMoveEvent() { return peek() instanceof WindowMoveEventArgs; }
-	public boolean hasWindowCloseEvent() { return peek() == null; }
+	public boolean hasWindowCloseEvent() { return peek() instanceof WindowCloseEventArgs; }
 
 	public MouseClickEventArgs nextMouseClickEvent() { return pop(MouseClickEventArgs.class); }
 	public MouseMoveEventArgs nextMouseMoveEvent() { return pop(MouseMoveEventArgs.class); }
@@ -70,19 +70,21 @@ public class EventScanner implements AutoCloseable {
 	public KeyUpEventArgs nextKeyUpEvent() { return pop(KeyUpEventArgs.class); }
 	public KeyPressEventArgs nextKeyPressEvent() { return pop(KeyPressEventArgs.class); }
 	public WindowMoveEventArgs nextWindowMoveEvent() { return pop(WindowMoveEventArgs.class); }
+	public WindowCloseEventArgs newWindowCloseEvent() { return pop(WindowCloseEventArgs.class); }
 
 	private Object peek() {
-		if (isClosed()) throw createIllegalStateException();
-		return queue.peek();
+		return isEndOfEvents ? null : queue.peek();
 	}
 	
 	private <T> T pop(Class<T> type) {
-		if (isClosed()) throw createIllegalStateException();
+		if (isEndOfEvents) throw new NoSuchElementException();
 
 		try {
-			T tmp = type.cast(peek());
-			if (tmp == null) throw new NoSuchElementException();
-			return type.cast(queue.pop());
+			T result = type.cast(queue.pop());
+			if (result instanceof WindowCloseEventArgs) {
+				isEndOfEvents = true;
+			}
+			return result;
 		}
 		catch (ClassCastException e) {
 			throw new InputMismatchException();
@@ -91,16 +93,6 @@ public class EventScanner implements AutoCloseable {
 
 	@Override
 	public void close() {
-		if (isClosed()) throw createIllegalStateException();
 		subscriptions.forEach(Subscription::unsubscribe);
-		subscriptions = null;
-	}
-
-	private boolean isClosed() {
-		return subscriptions == null;
-	}
-
-	private IllegalStateException createIllegalStateException() {
-		return new IllegalStateException();
 	}
 }
