@@ -1,8 +1,8 @@
 import codedraw.*;
 
-public class LifeLikeCellularAutomaton {
+public class GameOfLife {
 	public static void main(String[] args) {
-		LifeLikeCellularAutomaton gof = new LifeLikeCellularAutomaton(6152, 6, 10);
+		GameOfLife gof = new GameOfLife(6152, 6, 10);
 
 		for (int i = 0; true; i++) {
 			if (i % 8 == 0) {
@@ -15,7 +15,7 @@ public class LifeLikeCellularAutomaton {
 		}
 	}
 
-	public LifeLikeCellularAutomaton(int rule, int logSize, int fieldSize) {
+	public GameOfLife(int rule, int logSize, int fieldSize) {
 		this.rule = rule;
 		size = 1 << logSize;
 		mask = size - 1;

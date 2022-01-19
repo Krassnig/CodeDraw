@@ -25,11 +25,16 @@ public class TextFormatTest {
 
 	@Test
 	public void defaultAlignmentTest() {
-		confirm.setConfirmationDialogue("The default alignment of text should be the bottom right.");
+		confirm.setConfirmationDialogue("The default alignment of text should be the top left\n(the red origin point should be to the top left).");
 
 		cd.drawLine(200, 100, 200, 300);
 		cd.drawLine(100, 200, 300, 200);
 
+		cd.setColor(Palette.RED);
+		cd.setLineWidth(4);
+		cd.drawPoint(200, 200);
+
+		cd.setColor(Palette.BLACK);
 		cd.drawText(200, 200, "Hello World!");
 
 		cd.show();

@@ -1,18 +1,26 @@
 import codedraw.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AnimationTest {
-	public static void main(String[] args) {
-		//transparencyTest();
-		//clockTest();
-		//sinCosTest();
-		//granularAngleTest();
-		//arcOriginTest();
-		//textAnimationTest();
-		//animationTest();
+	private CodeDrawConfirmation confirm;
+
+	@Before
+	public void beforeEach() {
+		confirm = new CodeDrawConfirmation();
 	}
 
-	private static void transparencyTest() {
+	@After
+	public void afterEach() {
+		confirm.close();
+	}
+
+	@Test
+	public void transparencyTest() {
+		confirm.setConfirmationDialogue("Transparent rectangles should appear and overlap each other.");
 		CodeDraw cd = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd);
 
 		for (int i = 0; i < 56; i++) {
 			int d = i * 10;
@@ -26,55 +34,18 @@ public class AnimationTest {
 		}
 
 		cd.show();
+		confirm.assertConfirmation();
+		cd.close();
 	}
 
-	private static void clockTest() {
-		CodeDraw cd = new CodeDraw();
-
-		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
-			cd.clear();
-			cd.drawLine(300, 300, Math.cos(sec) * 100 + 300, Math.sin(sec) * 100 + 300);
-
-			double min = sec / 60 - Math.PI / 2;
-			cd.drawLine(300, 300, Math.cos(min) * 70 + 300, Math.sin(min) * 70 + 300);
-
-			for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
-				cd.fillCircle(Math.cos(j) * 100 + 300, Math.sin(j) * 100 + 300, 4);
-			}
-
-			cd.show(1000);
-		}
-	}
-
-
-	private static void sinCosTest() {
-		CodeDraw cd = new CodeDraw(600, 600);
-		int radius = 100;
-
-		for (double i = 0; true; i += Math.PI / 64) {
-			cd.clear();
-
-			cd.setColor(Palette.BLACK);
-			cd.drawCircle(300, 300, radius);
-
-			cd.setColor(Palette.BLUE);
-			double newx = 300 + radius * Math.cos(i);
-			double newy = 300 + radius * Math.sin(i);
-			cd.drawLine(300, 300, newx, 300);
-			cd.drawLine(newx, 300, newx, newy);
-
-			cd.setColor(Palette.RED);
-			cd.drawLine(300, 300, newx, newy);
-
-			cd.show(16);
-		}
-	}
-
-	private static void granularAngleTest() {
+	@Test
+	public void granularAngleTest() {
+		confirm.setConfirmationDialogue("The pie should increase in size smoothly.");
 		CodeDraw cd = new CodeDraw(1000, 1000);
+		confirm.placeCodeDrawTestingInstance(cd);
 
 		double tau = Math.PI * 2;
-		double steps = tau / (1 << 14);
+		double steps = tau / (1 << 12);
 
 		for (double i = 0; i < Math.PI / 2; i += steps) {
 			cd.clear();
@@ -84,68 +55,27 @@ public class AnimationTest {
 
 			cd.show();
 		}
+
+		confirm.assertConfirmation();
 	}
 
-	private static void arcOriginTest() {
-		double tau = Math.PI * 2;
-
+	@Test
+	public void angleArcLineTest() {
+		confirm.setConfirmationDialogue(
+				"A hand should go around in a circle, follow behind by an 1/8 arc.\n" +
+				"While going around in circles an outer arc should demarcate the wandered path."
+		);
 		CodeDraw cd = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd);
 
-		double inc = tau / 16;
-
-		for (double i = 0; i < tau; i += inc) {
-			cd.fillPie(300, 300, 100, 100, i, inc);
-			cd.drawArc(300, 300, 150, 150, i, inc);
-
-			cd.show(200);
-		}
-
-		cd.setColor(Palette.RED);
-		cd.fillPie(300, 300, 50, 50, -tau / 8, tau / 8);
-
-		cd.show();
-	}
-
-	private static void textAnimationTest() {
-		CodeDraw cd = new CodeDraw();
-
-		int steps = 5;
-		int end = 80;
-		int offset = 100;
-		int pause = 10;
-
-		while (true) {
-			cd.setColor(Palette.randomColor());
-
-			for (int i = 0; i < end; i++) {
-				cd.clear();
-				cd.drawText(offset + i * steps, offset, "I'm animated!");
-				cd.show(pause);
-			}
-			cd.setColor(Palette.randomColor());
-
-			for (int i = 0; i < end; i++) {
-				cd.clear();
-				cd.drawText(offset + steps * end - i * steps, offset, "I'm animated!");
-				cd.show(pause);
-			}
-		}
-	}
-
-	private static void animationTest() {
-		CodeDraw cd = new CodeDraw();
-
-		for (int i = 0; i < 30; i++) {
+		for (double i = 0; i < Math.PI * 4; i += Math.PI / 128) {
 			cd.clear();
-
-			cd.setColor(Palette.BLACK);
-			cd.drawPoint(99, 399);
-			cd.drawText(100, 400, "Hello World!");
-			cd.fillRectangle(100 + i * 10, 100 + i, 100, 100);
-			cd.setColor(Palette.ORANGE);
-			cd.fillEllipse(20, 40, 20, 40);
-			cd.show(30);
+			cd.drawLine(300, 300, 300 + Math.cos(i) * 100, 300 + Math.sin(i) * 100);
+			cd.drawArc(300, 300, 100, i, -Math.PI / 4);
+			cd.drawArc(300, 300, 110, 0, i % (Math.PI * 2));
+			cd.show(20);
 		}
-	}
 
+		confirm.assertConfirmation();
+	}
 }
