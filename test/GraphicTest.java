@@ -5,16 +5,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GraphicTest {
+	private CodeDraw cd;
 	private CodeDrawConfirmation confirm;
 
 	@Before
 	public void beforeEach() {
 		confirm = new CodeDrawConfirmation();
+		cd = new CodeDraw();
+		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
 	@After
 	public void afterEach() {
 		confirm.close();
+		cd.close();
 	}
 
 	@Test
@@ -23,7 +27,8 @@ public class GraphicTest {
 				"Should draw a pie, the outline of a pie, arc and just lines.\n" +
 				"The left ones should look down to the left, the right should start at 12' and go to 9'."
 		);
-		CodeDraw cd = new CodeDraw(600, 650);
+		cd.close();
+		cd = new CodeDraw(600, 650);
 		confirm.placeCodeDrawTestingInstance(cd);
 
 		double startAngle = 1;
@@ -79,29 +84,12 @@ public class GraphicTest {
 	}
 
 	@Test
-	public void bezierTest() {
-		confirm.setConfirmationDialogue("");
-		CodeDraw cd = new CodeDraw();
-		confirm.placeCodeDrawTestingInstance(cd);
-
-		cd.setLineWidth(4);
-		cd.drawPoint(300, 200);
-		cd.drawPoint(200, 300);
-		cd.drawBezier(100, 100, 300, 200, 200, 300, 400, 400);
-
-		cd.show();
-		confirm.assertConfirmation();
-	}
-
-	@Test
 	public void polygonTest() {
 		confirm.setConfirmationDialogue(
 				"There should be two polygons of the same shape, one with red circles\n" +
 				"at the endpoints. For the two argument fill polygon nothing\n" +
 				"should be displayed and a line for the draw polygon."
 		);
-		CodeDraw cd = new CodeDraw();
-		confirm.placeCodeDrawTestingInstance(cd);
 
 		cd.setColor(Palette.BLACK);
 		cd.fillPolygon(
@@ -139,8 +127,6 @@ public class GraphicTest {
 	@Test
 	public void triangleTest() {
 		confirm.setConfirmationDialogue("There should be two triangle and their corners should be surrounded by red circles.");
-		CodeDraw cd = new CodeDraw();
-		confirm.placeCodeDrawTestingInstance(cd);
 
 		cd.drawTriangle(100, 100, 200, 300, 50, 220);
 		cd.fillTriangle(400, 100, 500, 300, 350, 220);
@@ -164,7 +150,8 @@ public class GraphicTest {
 				"The lines and the outlined rectangles should increase in size.\n" +
 				" The size of the filled square should stay constant."
 		);
-		CodeDraw cd = new CodeDraw(900, 750);
+		cd.close();
+		cd = new CodeDraw(900, 750);
 		confirm.placeCodeDrawTestingInstance(cd);
 
 		cd.setAntiAliased(true);
@@ -212,7 +199,8 @@ public class GraphicTest {
 				"Round corners should form a radius around the red dot.\n" +
 				"Bevel corners should cut of at the red dot."
 		);
-		CodeDraw cd = new CodeDraw(750, 750);
+		cd.close();
+		cd = new CodeDraw(750, 750);
 		confirm.placeCodeDrawTestingInstance(cd);
 		TextFormat format = cd.getTextFormat();
 

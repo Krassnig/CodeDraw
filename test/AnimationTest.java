@@ -4,23 +4,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AnimationTest {
+	private CodeDraw cd;
 	private CodeDrawConfirmation confirm;
 
 	@Before
 	public void beforeEach() {
+		cd = new CodeDraw();
 		confirm = new CodeDrawConfirmation();
+		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
 	@After
 	public void afterEach() {
+		cd.close();
 		confirm.close();
 	}
 
 	@Test
 	public void transparencyTest() {
 		confirm.setConfirmationDialogue("Transparent rectangles should appear and overlap each other.");
-		CodeDraw cd = new CodeDraw();
-		confirm.placeCodeDrawTestingInstance(cd);
 
 		for (int i = 0; i < 56; i++) {
 			int d = i * 10;
@@ -35,13 +37,13 @@ public class AnimationTest {
 
 		cd.show();
 		confirm.assertConfirmation();
-		cd.close();
 	}
 
 	@Test
 	public void granularAngleTest() {
 		confirm.setConfirmationDialogue("The pie should increase in size smoothly.");
-		CodeDraw cd = new CodeDraw(1000, 1000);
+		cd.close();
+		cd = new CodeDraw(1000, 1000);
 		confirm.placeCodeDrawTestingInstance(cd);
 
 		double tau = Math.PI * 2;
@@ -65,8 +67,6 @@ public class AnimationTest {
 				"A hand should go around in a circle, follow behind by an 1/8 arc.\n" +
 				"While going around in circles an outer arc should demarcate the wandered path."
 		);
-		CodeDraw cd = new CodeDraw();
-		confirm.placeCodeDrawTestingInstance(cd);
 
 		for (double i = 0; i < Math.PI * 4; i += Math.PI / 128) {
 			cd.clear();
