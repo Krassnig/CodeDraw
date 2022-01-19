@@ -1,23 +1,14 @@
 package codedraw.events;
 
 class ConcurrentQueue<T> {
-	public static MultiQueue createMultiQueue() {
-		return new MultiQueue();
-	}
-
 	public ConcurrentQueue() {
 		this(16);
 	}
 
 	public ConcurrentQueue(int initialCapacity) {
-		this(initialCapacity, null);
-	}
-
-	private ConcurrentQueue(int initialCapacity, Semaphore multiListCount) {
 		if (initialCapacity <= 0) throw new RuntimeException("Initial capacity must be larger than zero.");
 
 		list = createGenericArray(initialCapacity);
-		this.multiListCount = multiListCount;
 	}
 
 	private T[] list;
@@ -26,7 +17,6 @@ class ConcurrentQueue<T> {
 
 	private Semaphore listLock = new Semaphore(1);
 	private Semaphore listCount = new Semaphore(0);
-	private Semaphore multiListCount;
 
 	public void push(T element) {
 		listLock.acquire();
@@ -35,8 +25,6 @@ class ConcurrentQueue<T> {
 		}
 		pushInternal(element);
 		listLock.release();
-
-		if (multiListCount != null) multiListCount.release();
 		listCount.release();
 	}
 
@@ -46,8 +34,6 @@ class ConcurrentQueue<T> {
 
 	public T pop() {
 		listCount.acquire();
-		if (multiListCount != null) multiListCount.acquire();
-
 		listLock.acquire();
 		T result = popInternal();
 		listLock.release();
@@ -57,11 +43,9 @@ class ConcurrentQueue<T> {
 
 	public T peek(){
 		listCount.acquire();
-		if (multiListCount != null) multiListCount.acquire();
 		listLock.acquire();
 		T result = peekInternal();
 		listLock.release();
-		if (multiListCount != null) multiListCount.release();
 		listCount.release();
 		return result;
 	}
@@ -114,28 +98,5 @@ class ConcurrentQueue<T> {
 	@SuppressWarnings("unchecked")
 	private static <T> T[] createGenericArray(int length) {
 		return (T[]) new Object[length];
-	}
-
-	public static class MultiQueue {
-		private MultiQueue() { }
-
-		private Semaphore multiListCount = new Semaphore(0);
-
-		public <T> ConcurrentQueue<T> newQueue() {
-			return newQueue(16);
-		}
-
-		public <T> ConcurrentQueue<T> newQueue(int initialCapacity) {
-			return new ConcurrentQueue<>(initialCapacity, multiListCount);
-		}
-
-		public boolean canAcquire() {
-			return multiListCount.canAcquire();
-		}
-
-		public void waitForNext() {
-			multiListCount.acquire();
-			multiListCount.release();
-		}
 	}
 }

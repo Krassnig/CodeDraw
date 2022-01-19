@@ -3,6 +3,7 @@ import codedraw.events.*;
 import codedraw.textformat.*;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class CodeDrawConfirmation implements AutoCloseable {
 	public CodeDrawConfirmation() {
@@ -34,17 +35,26 @@ public class CodeDrawConfirmation implements AutoCloseable {
 	public void assertConfirmation() {
 		setState(State.CAN_CONFIRM);
 
-		try (EventAwaiter<MouseDownEventArgs> awaiter = new EventAwaiter<>(cd::onMouseDown)) {
-			MouseDownEventArgs eventArgs = awaiter.waitForNextEvent();
+		EventScanner eventScanner = new EventScanner(cd);
 
-			while (eventArgs.getY() < cd.getHeight() * 0.5) {
-				eventArgs = awaiter.waitForNextEvent();
+		while (eventScanner.hasNextEvent()) {
+			if (eventScanner.hasMouseDownEvent()) {
+				MouseDownEventArgs eventArgs = eventScanner.nextMouseDownEvent();
+				if (eventArgs.getY() > cd.getHeight() * 0.5) {
+					boolean isConfirmed = eventArgs.getX() > cd.getWidth() / 2;
+					setState(isConfirmed ? State.IS_CONFIRMED : State.IS_REJECTED);
+					assertTrue(isConfirmed);
+					eventScanner.close();
+					return;
+				}
 			}
-
-			boolean isConfirmed = eventArgs.getX() > cd.getWidth() / 2;
-			setState(isConfirmed ? State.IS_CONFIRMED : State.IS_REJECTED);
-			assertTrue(isConfirmed);
+			else {
+				eventScanner.nextEvent();
+			}
 		}
+
+		System.err.println("Test was interrupted and neither rejected nor confirmed.");
+		System.exit(0);
 	}
 
 	public void close() {
