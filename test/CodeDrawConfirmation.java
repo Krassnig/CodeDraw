@@ -2,24 +2,26 @@ import codedraw.*;
 import codedraw.events.*;
 import codedraw.textformat.*;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class CodeDrawConfirmation implements AutoCloseable {
 	public CodeDrawConfirmation() {
 		cd = new CodeDraw(600, 200);
+		esc = new EventScanner(cd);
 		cd.setWindowPositionX(0);
 		cd.setWindowPositionY(10);
-		render();
+		rerender();
 	}
 
 	private String confirmationDialogue;
 	private CodeDraw cd;
+	private EventScanner esc;
 
-	private State state = State.START;
+	private State state = State.LOADING;
+
 	private void setState(State state) {
 		this.state = state;
-		render();
+		rerender();
 	}
 
 	public void placeCodeDrawTestingInstance(CodeDraw testingInstance) {
@@ -29,27 +31,26 @@ public class CodeDrawConfirmation implements AutoCloseable {
 
 	public void setConfirmationDialogue(String text) {
 		confirmationDialogue = text;
-		setState(state);
+		rerender();
 	}
 
 	public void assertConfirmation() {
-		setState(State.CAN_CONFIRM);
+		if (state == State.LOADING) {
+			setState(State.CAN_CONFIRM);
+		}
 
-		EventScanner eventScanner = new EventScanner(cd);
+		if (state != State.CAN_CONFIRM) {
+			return;
+		}
 
-		while (eventScanner.hasNextEvent()) {
-			if (eventScanner.hasMouseDownEvent()) {
-				MouseDownEventArgs eventArgs = eventScanner.nextMouseDownEvent();
-				if (eventArgs.getY() > cd.getHeight() * 0.5) {
-					boolean isConfirmed = eventArgs.getX() > cd.getWidth() / 2;
-					setState(isConfirmed ? State.IS_CONFIRMED : State.IS_REJECTED);
-					assertTrue(isConfirmed);
-					eventScanner.close();
+		while (esc.hasNextEvent()) {
+			if (esc.hasMouseDownEvent()) {
+				if (isConfirmed(esc.nextMouseDownEvent())) {
 					return;
 				}
 			}
 			else {
-				eventScanner.nextEvent();
+				esc.nextEvent();
 			}
 		}
 
@@ -57,11 +58,51 @@ public class CodeDrawConfirmation implements AutoCloseable {
 		System.exit(0);
 	}
 
+	public boolean hasConfirmationBeenPressed() {
+		if (state == State.LOADING) {
+			setState(State.CAN_CONFIRM);
+		}
+
+		while (esc.hasNextEventNow()) {
+			if (!esc.hasNextEvent()) {
+				System.err.println("Test was interrupted and neither rejected nor confirmed.");
+				System.exit(0);
+			}
+			else if (esc.hasMouseDownEvent()) {
+				if (isConfirmed(esc.nextMouseDownEvent())) {
+					return true;
+				}
+			}
+			else {
+				esc.nextEvent();
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isConfirmed(MouseDownEventArgs a) {
+		if (a.getY() > cd.getHeight() * 0.5) {
+			boolean isConfirmed = a.getX() > cd.getWidth() / 2;
+			if (isConfirmed) {
+				setState(State.IS_CONFIRMED);
+				return true;
+			}
+			else {
+				setState(State.IS_REJECTED);
+				fail();
+			}
+		}
+
+		return false;
+	}
+
 	public void close() {
+		esc.close();
 		cd.close();
 	}
 
-	private void render() {
+	private void rerender() {
 		TextFormat tf = cd.getTextFormat();
 		tf.setHorizontalAlign(HorizontalAlign.CENTER);
 		tf.setVerticalAlign(VerticalAlign.MIDDLE);
@@ -73,7 +114,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 			cd.drawText(cd.getWidth() * 0.5, cd.getHeight() * 0.25, confirmationDialogue);
 		}
 
-		if (state == State.START) {
+		if (state == State.LOADING) {
 			cd.setColor(Palette.fromGrayscale(0x1A));
 			cd.fillRectangle(0, cd.getHeight() * 0.5, cd.getWidth(), cd.getHeight() * 0.5);
 			cd.setColor(Palette.WHITE);
@@ -101,7 +142,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 	}
 
 	private enum State {
-		START,
+		LOADING,
 		CAN_CONFIRM,
 		IS_REJECTED,
 		IS_CONFIRMED
