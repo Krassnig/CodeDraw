@@ -23,7 +23,7 @@ public class Clock {
 			}
 
 			// hour hand
-			double hourAngle = ((time.getHour() % 12) / 24D) * tau - tau / 4;
+			double hourAngle = ((time.getHour() % 12) / 12D) * tau - tau / 4;
 			cd.setLineWidth(4);
 			cd.drawLine(300, 300, Math.cos(hourAngle) * 50 + 300, Math.sin(hourAngle) * 50 + 300);
 
