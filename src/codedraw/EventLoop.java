@@ -1,5 +1,9 @@
 package codedraw;
 
+import javax.swing.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 class EventLoop {
 	public EventLoop() {
 		thread = new Thread(this::eventLoop);
@@ -15,14 +19,27 @@ class EventLoop {
 		queue.push(runnable);
 	}
 
+	public boolean isCurrentThreadOnEventLoop() {
+		return thread.equals(Thread.currentThread());
+	}
+
 	private void eventLoop() {
 		while (true) {
 			try {
 				queue.pop().run();
 			}
-			catch (Exception e) {
-				e.printStackTrace();
+			catch (Throwable t) {
+				t.printStackTrace();
+				JOptionPane.showMessageDialog(null, stackTraceToString(t),"An exception was thrown inside of an event!", JOptionPane.ERROR_MESSAGE);
+				System.exit(1);
 			}
 		}
+	}
+
+	private static String stackTraceToString(Throwable t) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		t.printStackTrace(pw);
+		return sw.toString();
 	}
 }

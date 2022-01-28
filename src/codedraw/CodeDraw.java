@@ -69,6 +69,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
+		checkEventInvocation();
 		if (canvasWidth < 150) throw new IllegalArgumentException("The width of the canvas has to be at least 150px.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be positive.");
 
@@ -97,26 +98,40 @@ public class CodeDraw implements AutoCloseable {
 	 * Changing the window position also changes the canvas position.
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
-	public int getWindowPositionX() { return window.getWindowPosition().x; }
+	public int getWindowPositionX() {
+		checkEventInvocation();
+		return window.getWindowPosition().x;
+	}
+
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
 	 * Changing the window position also changes the canvas position.
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
-	public int getWindowPositionY() { return window.getWindowPosition().y; }
+	public int getWindowPositionY() {
+		checkEventInvocation();
+		return window.getWindowPosition().y;
+	}
 
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
 	 * Changing the window position also changes the canvas position.
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
-	public void setWindowPositionX(int x) { window.setWindowPosition(new Point(x, getWindowPositionY())); }
+	public void setWindowPositionX(int x) {
+		checkEventInvocation();
+		window.setWindowPosition(new Point(x, getWindowPositionY()));
+	}
+
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
 	 * Changing the window position also changes the canvas position.
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
-	public void setWindowPositionY(int y) { window.setWindowPosition(new Point(getWindowPositionX(), y)); }
+	public void setWindowPositionY(int y) {
+		checkEventInvocation();
+		window.setWindowPosition(new Point(getWindowPositionX(), y));
+	}
 
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
@@ -124,14 +139,21 @@ public class CodeDraw implements AutoCloseable {
 	 * Changing the canvas position also changes the window position.
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
-	public int getCanvasPositionX() { return window.getCanvasPosition().x; }
+	public int getCanvasPositionX() {
+		checkEventInvocation();
+		return window.getCanvasPosition().x;
+	}
+
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
-	public int getCanvasPositionY() { return window.getCanvasPosition().y; }
+	public int getCanvasPositionY() {
+		checkEventInvocation();
+		return window.getCanvasPosition().y;
+	}
 
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
@@ -139,37 +161,53 @@ public class CodeDraw implements AutoCloseable {
 	 * Changing the canvas position also changes the window position.
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
-	public void setCanvasPositionX(int x) { window.setCanvasPosition(new Point(x, getCanvasPositionY())); }
+	public void setCanvasPositionX(int x) {
+		checkEventInvocation();
+		window.setCanvasPosition(new Point(x, getCanvasPositionY()));
+	}
+
 	/**
 	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
-	public void setCanvasPositionY(int y) { window.setCanvasPosition(new Point(getCanvasPositionX(), y)); }
+	public void setCanvasPositionY(int y) {
+		checkEventInvocation();
+		window.setCanvasPosition(new Point(getCanvasPositionX(), y));
+	}
 
 	/**
 	 * This value cannot be changed once set via the constructor.
 	 * @return the width of the canvas.
 	 */
-	public int getWidth() { return g.getWidth(); }
+	public int getWidth() {
+		return g.getWidth();
+	}
 
 	/**
 	 * This value cannot be changed once set via the constructor.
 	 * @return the height of the canvas.
 	 */
-	public int getHeight() { return g.getHeight(); }
+	public int getHeight() {
+		return g.getHeight();
+	}
 
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
 	 * @return the lineWidth of this CodeDraw window.
 	 */
-	public double getLineWidth() { return g.getLineWidth(); }
+	public double getLineWidth() {
+		checkEventInvocation();
+		return g.getLineWidth();
+	}
+
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
 	 * @param lineWidth Sets the lineWidth of this CodeDraw window.
 	 */
 	public void setLineWidth(double lineWidth) {
+		checkEventInvocation();
 		if (lineWidth <= 0) throw createParameterMustBeGreaterThanZeroException("lineWidth");
 
 		g.setLineWidth(lineWidth);
@@ -180,13 +218,18 @@ public class CodeDraw implements AutoCloseable {
 	 * See also {@link #drawText(double, double, String)}
 	 * @return the text formatting options of this CodeDraw window.
 	 */
-	public TextFormat getTextFormat() { return textFormat; }
+	public TextFormat getTextFormat() {
+		checkEventInvocation();
+		return textFormat;
+	}
+
 	/**
 	 * Defines the styling of drawn text.
 	 * See also {@link #drawText(double, double, String)}
 	 * @param textFormat Sets the text formatting options of this CodeDraw window.
 	 */
 	public void setTextFormat(TextFormat textFormat){
+		checkEventInvocation();
 		if (textFormat == null) throw createParameterNullException("textFormat");
 
 		this.textFormat = textFormat;
@@ -198,6 +241,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
+		checkEventInvocation();
 		return this.window.getCursorStyle();
 	}
 	/**
@@ -206,6 +250,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
+		checkEventInvocation();
 		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
 		window.setCursorStyle(cursorStyle);
@@ -216,13 +261,18 @@ public class CodeDraw implements AutoCloseable {
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 * @return Whether this CodeDraw window anti aliases.
 	 */
-	public boolean isAntiAliased() { return g.isAntiAliased(); }
+	public boolean isAntiAliased() {
+		checkEventInvocation();
+		return g.isAntiAliased();
+	}
+
 	/**
 	 * Defines whether drawn text, drawn shapes and filled shapes are anti-aliased.
 	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
 	 * @param isAntiAliased Sets whether this CodeDraw window anti aliases.
 	 */
 	public void setAntiAliased(boolean isAntiAliased) {
+		checkEventInvocation();
 		g.setAntiAliased(isAntiAliased);
 		g.setTextAntiAliased(isAntiAliased);
 	}
@@ -231,12 +281,17 @@ public class CodeDraw implements AutoCloseable {
 	 * Defines how the corners of drawn shapes should look.
 	 * @return the corner style of this CodeDraw window.
 	 */
-	public Corner getCorner() { return g.getCorner(); }
+	public Corner getCorner() {
+		checkEventInvocation();
+		return g.getCorner();
+	}
+
 	/**
 	 * Defines how the corners of drawn shapes should look.
 	 * @param corner Sets the corner style of this CodeDraw window.
 	 */
 	public void setCorner(Corner corner) {
+		checkEventInvocation();
 		if (corner == null) throw createParameterNullException("corner");
 
 		g.setCorner(corner);
@@ -246,12 +301,17 @@ public class CodeDraw implements AutoCloseable {
 	 * The title is the text displayed in the top left corner of the CodeDraw window.
 	 * @return the text of the title.
 	 */
-	public String getTitle() { return window.getTitle(); }
+	public String getTitle() {
+		checkEventInvocation();
+		return window.getTitle();
+	}
+
 	/**
 	 * The title is the text displayed in the top left corner of the CodeDraw window.
 	 * @param title Sets the text of the title.
 	 */
 	public void setTitle(String title)  {
+		checkEventInvocation();
 		if (title == null) throw createParameterNullException("title");
 
 		window.setTitle(title);
@@ -261,13 +321,17 @@ public class CodeDraw implements AutoCloseable {
 	 * Defines the color that is used for drawing all shapes.
 	 * @return the drawing color of this CodeDraw window.
 	 */
-	public Color getColor() { return g.getColor(); }
+	public Color getColor() {
+		checkEventInvocation();
+		return g.getColor();
+	}
 
 	/**
 	 * Defines the color that is used for drawing all shapes.
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
+		checkEventInvocation();
 		if (color == null) throw createParameterNullException("color");
 
 		g.setColor(color);
@@ -391,6 +455,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param text The text or string to be drawn.
 	 */
 	public void drawText(double x, double y, String text) {
+		checkEventInvocation();
 		if (text == null) throw createParameterNullException("text");
 
 		g.drawText(x, y, text, textFormat);
@@ -402,6 +467,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
 	public void drawPixel(double x, double y) {
+		checkEventInvocation();
 		g.drawPixel(x, y);
 	}
 
@@ -411,6 +477,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas to the center of the point.
 	 */
 	public void drawPoint(double x, double y) {
+		checkEventInvocation();
 		g.drawPoint(x, y);
 	}
 
@@ -422,6 +489,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the line.
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
+		checkEventInvocation();
 		g.drawLine(startX, startY, endX, endY);
 	}
 
@@ -437,6 +505,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
+		checkEventInvocation();
 		g.drawCurve(startX, startY, controlX, controlY, endX, endY);
 	}
 
@@ -454,6 +523,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
+		checkEventInvocation();
 		g.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
 	}
 
@@ -464,6 +534,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void drawSquare(double x, double y, double sideLength) {
+		checkEventInvocation();
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.drawSquare(x, y, sideLength);
@@ -476,6 +547,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void fillSquare(double x, double y, double sideLength) {
+		checkEventInvocation();
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.fillSquare(x, y, sideLength);
@@ -489,6 +561,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void drawRectangle(double x, double y, double width, double height) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
@@ -503,6 +576,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void fillRectangle(double x, double y, double width, double height) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
@@ -517,6 +591,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void drawCircle(double x, double y, double radius) {
+		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawCircle(x, y, radius);
@@ -530,6 +605,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void fillCircle(double x, double y, double radius) {
+		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillCircle(x, y, radius);
@@ -544,6 +620,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -559,6 +636,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -576,6 +654,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawArc(x, y, radius, startRadians, sweepRadians);
@@ -594,6 +673,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -611,6 +691,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawPie(x, y, radius, startRadians, sweepRadians);
@@ -629,6 +710,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -646,6 +728,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillPie(x, y, radius, startRadians, sweepRadians);
@@ -664,6 +747,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -680,6 +764,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		checkEventInvocation();
 		g.drawTriangle(x1, y1, x2, y2, x3, y3);
 	}
 
@@ -693,6 +778,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		checkEventInvocation();
 		g.fillTriangle(x1, y1, x2, y2, x3, y3);
 	}
 
@@ -713,6 +799,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... points) {
+		checkEventInvocation();
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.drawPolygon(points);
@@ -736,6 +823,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
+		checkEventInvocation();
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.fillPolygon(points);
@@ -762,6 +850,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image The image that will be drawn on the canvas.
 	 */
 	public void drawImage(double x, double y, Image image) {
+		checkEventInvocation();
 		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, image);
@@ -784,12 +873,14 @@ public class CodeDraw implements AutoCloseable {
 	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, String pathToImage) {
+		checkEventInvocation();
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
 		g.drawImage(x, y, pathToImage);
 	}
 
 	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
+		checkEventInvocation();
 		if (image == null) throw createParameterNullException("image");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
@@ -797,6 +888,7 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
+		checkEventInvocation();
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
@@ -825,6 +917,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image The image that will be drawn on the canvas.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -850,6 +943,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
@@ -880,6 +974,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -907,6 +1002,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
+		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
@@ -937,6 +1033,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The current buffer as an image object.
 	 */
 	public BufferedImage saveCanvas() {
+		checkEventInvocation();
 		return g.copyAsImage();
 	}
 
@@ -944,6 +1041,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Colors the whole canvas in white.
 	 */
 	public void clear() {
+		checkEventInvocation();
 		g.clear();
 	}
 
@@ -952,6 +1050,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param color The color the canvas will be colored in.
 	 */
 	public void clear(Color color) {
+		checkEventInvocation();
 		if (color == null) throw createParameterNullException("color");
 
 		g.clear(color);
@@ -966,6 +1065,7 @@ public class CodeDraw implements AutoCloseable {
 	 * this will slow down you program. Instead, you should call show from the main thread.
 	 */
 	public void show() {
+		checkEventInvocation();
 		window.render(g);
 	}
 
@@ -984,6 +1084,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(int waitMilliseconds) {
+		checkEventInvocation();
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
 		long start = System.currentTimeMillis();
@@ -1051,6 +1152,12 @@ public class CodeDraw implements AutoCloseable {
 		}
 		else {
 			throw new RuntimeException();
+		}
+	}
+
+	private static void checkEventInvocation() {
+		if (Event.isCurrentThreadOnEventLoop()) {
+			throw new CodeDrawEventInvocationException();
 		}
 	}
 }

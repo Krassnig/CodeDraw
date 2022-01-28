@@ -8,6 +8,8 @@ import java.util.ArrayList;
 class Event<TArgs> {
 	private static EventLoop eventLoop = new EventLoop();
 
+	public static boolean isCurrentThreadOnEventLoop() { return eventLoop.isCurrentThreadOnEventLoop(); }
+
 	public Event() { }
 
 	private ArrayList<EventHandler<TArgs>> subscribers = new ArrayList<>();
