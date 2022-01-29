@@ -5,7 +5,8 @@ import java.awt.*;
 /**
  * Palette provides a wide variety of colors and makes it easier to create colors.
  * Alternatively you can just use awt {@link java.awt.Color}.
- * Palette takes all the colors from the CSS colors but switches GRAY and DARK_GRAY.
+ * Palette takes all the colors from the CSS colors but switches GRAY and DARK_GRAY,
+ * so that DARK_GRAY is darker than GRAY.
  * If the Palette color does not match the awt color or CSS colors there is a note in the documentation.
  */
 public final class Palette {
