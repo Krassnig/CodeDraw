@@ -83,8 +83,6 @@ public class EventTest {
 				}
 			}
 		}
-
-		//confirm.assertConfirmation();
 	}
 
 	@Test
@@ -296,8 +294,6 @@ public class EventTest {
 			}
 			cd.show();
 		}
-
-		confirm.assertConfirmation();
 	}
 
 	private Subscription subscription;
