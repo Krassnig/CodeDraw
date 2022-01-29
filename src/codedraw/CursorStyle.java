@@ -49,7 +49,7 @@ public class CursorStyle {
 	}
 
 	public CursorStyle(String pathToImage, int x, int y) {
-		this(ImageIO.read(checkParameterNull(pathToImage, "pathTOImage")), x, y);
+		this(ImageIO.read(checkParameterNull(pathToImage, "pathToImage")), x, y);
 	}
 
 	private CursorStyle(int cursorType) {
