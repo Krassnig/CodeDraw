@@ -210,34 +210,18 @@ public class CodeDrawGraphics {
 		drawImage(x, y, image, DEFAULT_INTERPOLATION);
 	}
 
-	public void drawImage(double x, double y, String pathToImage) {
-		drawImage(x, y, ImageIO.read(pathToImage));
-	}
-
 	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, null);
-	}
-
-	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
-		drawImage(x, y, ImageIO.read(pathToImage), interpolation);
 	}
 
 	public void drawImage(double x, double y, double width, double height, Image image) {
 		drawImage(x, y, width, height, image, DEFAULT_INTERPOLATION);
 	}
 
-	public void drawImage(double x, double y, double width, double height, String pathToImage) {
-		drawImage(x, y, width, height, ImageIO.read(pathToImage));
-	}
-
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
-	}
-
-	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
-		drawImage(x, y, width, height, ImageIO.read(pathToImage), interpolation);
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {

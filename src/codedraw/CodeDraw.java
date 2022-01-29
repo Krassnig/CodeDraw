@@ -875,7 +875,7 @@ public class CodeDraw implements AutoCloseable {
 		checkEventInvocation();
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
-		g.drawImage(x, y, pathToImage);
+		drawImage(x, y, ImageIO.read(pathToImage));
 	}
 
 	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
@@ -891,7 +891,7 @@ public class CodeDraw implements AutoCloseable {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
-		g.drawImage(x, y, pathToImage, interpolation);
+		drawImage(x, y, ImageIO.read(pathToImage), interpolation);
 	}
 
 	/**
@@ -947,7 +947,7 @@ public class CodeDraw implements AutoCloseable {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
-		g.drawImage(x, y, width, height, pathToImage);
+		drawImage(x, y, width, height, ImageIO.read(pathToImage));
 	}
 
 	/**
@@ -1007,7 +1007,7 @@ public class CodeDraw implements AutoCloseable {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
-		g.drawImage(x, y, width, height, pathToImage, interpolation);
+		drawImage(x, y, width, height, ImageIO.read(pathToImage), interpolation);
 	}
 
 	/**
