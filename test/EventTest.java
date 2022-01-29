@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class EventTest {
@@ -221,7 +220,7 @@ public class EventTest {
 	@Test
 	public void mouseMoveTest() {
 		mouseTests(
-				"A red square should continuously where the mouse is moved.",
+				"Red squares should be drawn everywhere the mouse is moved.",
 				() -> esc.hasMouseMoveEvent(),
 				() -> {
 					MouseMoveEventArgs a = esc.nextMouseMoveEvent();

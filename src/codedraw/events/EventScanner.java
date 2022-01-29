@@ -8,6 +8,8 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public class EventScanner implements AutoCloseable {
+	private static final Object EndOfEvent = new Object();
+
 	public EventScanner(CodeDraw codeDraw) {
 		queue = new ConcurrentQueue<>();
 		subscriptions = new ArrayList<>(12);
@@ -30,20 +32,15 @@ public class EventScanner implements AutoCloseable {
 		subscriptions.add(onEvent.apply(queue::push));
 	}
 
-	private boolean isEndOfEvents = false;
 	private ConcurrentQueue<Object> queue;
 	private ArrayList<Subscription> subscriptions;
 
 	public boolean hasNextEventNow() {
-		return !isEndOfEvents && queue.canPop();
+		return queue.canPop() && hasNextEvent();
 	}
 
 	public boolean hasNextEvent() {
-		return peek() != null;
-	}
-
-	public Object nextEvent() {
-		return pop(Object.class);
+		return !hasEndOfEvent();
 	}
 
 	public boolean hasMouseClickEvent() { return peek() instanceof MouseClickEventArgs; }
@@ -58,7 +55,9 @@ public class EventScanner implements AutoCloseable {
 	public boolean hasKeyPressEvent() { return peek() instanceof KeyPressEventArgs; }
 	public boolean hasWindowMoveEvent() { return peek() instanceof WindowMoveEventArgs; }
 	public boolean hasWindowCloseEvent() { return peek() instanceof WindowCloseEventArgs; }
+	private boolean hasEndOfEvent() { return peek().equals(EndOfEvent); }
 
+	public Object nextEvent() { return pop(Object.class); }
 	public MouseClickEventArgs nextMouseClickEvent() { return pop(MouseClickEventArgs.class); }
 	public MouseMoveEventArgs nextMouseMoveEvent() { return pop(MouseMoveEventArgs.class); }
 	public MouseDownEventArgs nextMouseDownEvent() { return pop(MouseDownEventArgs.class); }
@@ -73,16 +72,16 @@ public class EventScanner implements AutoCloseable {
 	public WindowCloseEventArgs newWindowCloseEvent() { return pop(WindowCloseEventArgs.class); }
 
 	private Object peek() {
-		return isEndOfEvents ? null : queue.peek();
+		return queue.peek();
 	}
 	
 	private <T> T pop(Class<T> type) {
-		if (isEndOfEvents) throw new NoSuchElementException();
-
 		try {
+			if (hasEndOfEvent()) throw new NoSuchElementException();
+
 			T result = type.cast(queue.pop());
 			if (result instanceof WindowCloseEventArgs) {
-				isEndOfEvents = true;
+				queue.push(EndOfEvent);
 			}
 			return result;
 		}
@@ -94,5 +93,6 @@ public class EventScanner implements AutoCloseable {
 	@Override
 	public void close() {
 		subscriptions.forEach(Subscription::unsubscribe);
+		queue.push(EndOfEvent);
 	}
 }
