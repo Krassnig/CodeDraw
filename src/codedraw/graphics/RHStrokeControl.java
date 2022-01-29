@@ -2,12 +2,12 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-enum StrokeControl implements RenderingHintValue {
+enum RHStrokeControl implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_STROKE_DEFAULT),
 	PURE(RenderingHints.VALUE_STROKE_PURE),
 	NORMALIZE(RenderingHints.VALUE_STROKE_NORMALIZE);
 
-	StrokeControl(Object value) {
+	RHStrokeControl(Object value) {
 		this.value = value;
 	}
 

@@ -2,12 +2,12 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-enum Dithering implements RenderingHintValue {
+enum RHDithering implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_DITHER_DEFAULT),
 	DISABLE(RenderingHints.VALUE_DITHER_DISABLE),
 	ENABLE(RenderingHints.VALUE_DITHER_ENABLE);
 
-	Dithering(Object value) {
+	RHDithering(Object value) {
 		this.value = value;
 	}
 

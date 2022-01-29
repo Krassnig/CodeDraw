@@ -274,7 +274,6 @@ public class CodeDraw implements AutoCloseable {
 	public void setAntiAliased(boolean isAntiAliased) {
 		checkEventInvocation();
 		g.setAntiAliased(isAntiAliased);
-		g.setTextAntiAliased(isAntiAliased);
 	}
 
 	/**

@@ -10,6 +10,11 @@ import java.awt.image.BufferedImage;
 public class CodeDrawGraphics {
 	private static final Interpolation DEFAULT_INTERPOLATION = Interpolation.BICUBIC;
 
+	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
+		AffineTransform max = getMaximumDPIFromAllScreens();
+		return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+	}
+
 	public CodeDrawGraphics(int width, int height) {
 		this(width, height, 1, 1);
 	}
@@ -18,27 +23,21 @@ public class CodeDrawGraphics {
 		if (xScale < 1 || yScale < 1) throw new RuntimeException("scale must be greater than 0");
 		this.width = width;
 		this.height = height;
+
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
 		g.scale(xScale, yScale);
 
-		setRenderingHint(AlphaInterpolation.QUALITY);
-		setRenderingHint(ColorRendering.QUALITY);
-		setRenderingHint(Rendering.QUALITY);
-		setRenderingHint(Dithering.ENABLE);
-
-		setRenderingHint(FractionalMetrics.ON); // tested
-		setRenderingHint(StrokeControl.PURE); // tested
-
-		setRenderingHint(ResolutionVariant.DEFAULT); // unknown
-		setRenderingHint(TextAntiAliasing.ON); // user settings
-		setRenderingHint(AntiAliasing.ON); // user settings
-		setRenderingHint(Interpolation.BICUBIC); // draw image specific
+		setRenderingHint(RHAlphaInterpolation.QUALITY);
+		setRenderingHint(RHColorRendering.QUALITY);
+		setRenderingHint(RHRendering.QUALITY);
+		setRenderingHint(RHDithering.ENABLE);
+		setRenderingHint(RHFractionalMetrics.ON); // tested
+		setRenderingHint(RHResolutionVariant.DEFAULT); // unknown
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
 		setAntiAliased(true);
-		setTextAntiAliased(true);
 		setCorner(Corner.SHARP);
 
 		clear();
@@ -73,14 +72,16 @@ public class CodeDrawGraphics {
 	public boolean isAntiAliased() { return isAntiAliased; }
 	public void setAntiAliased(boolean isAntiAliased) {
 		this.isAntiAliased = isAntiAliased;
-		setRenderingHint(isAntiAliased ? AntiAliasing.ON : AntiAliasing.OFF);
-	}
-
-	private boolean isTextAntiAliased = true;
-	public boolean isTextAntiAliased() { return isTextAntiAliased; }
-	public void setTextAntiAliased(boolean isTextAntiAliased) {
-		this.isTextAntiAliased = isTextAntiAliased;
-		setRenderingHint(isTextAntiAliased ? TextAntiAliasing.ON : TextAntiAliasing.OFF);
+		if (isAntiAliased) {
+			setRenderingHint(RHAntiAliasing.ON);
+			setRenderingHint(RHTextAntiAliasing.ON);
+			setRenderingHint(RHStrokeControl.PURE);
+		}
+		else {
+			setRenderingHint(RHAntiAliasing.OFF);
+			setRenderingHint(RHTextAntiAliasing.OFF);
+			setRenderingHint(RHStrokeControl.NORMALIZE);
+		}
 	}
 
 	private void setRenderingHint(RenderingHintValue hint) {
@@ -122,10 +123,7 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawLine(double startX, double startY, double endX, double endY) {
-		g.draw(createPolygon(startX, startY, endX, endY));
-
-		/* Line2D does not work with lineWidths <= 1
-		g.draw(createLine(startX, startY, endX, endY)); */
+		g.draw(createLine(startX, startY, endX, endY));
 	}
 
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
@@ -284,6 +282,12 @@ public class CodeDrawGraphics {
 		copyTo(target.g);
 	}
 
+	public void copyTo(Image image) {
+		Graphics g = image.getGraphics();
+		copyTo(g);
+		g.dispose();
+	}
+
 	public void dispose() {
 		g.dispose();
 		image = null;
@@ -415,12 +419,6 @@ public class CodeDrawGraphics {
 
 	private static double transformSweep(double sweepRadians) {
 		return Math.toDegrees(-sweepRadians);
-	}
-
-	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
-		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new CodeDrawGraphics(width, height);
-		//return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	private static int upscale(double scale) {

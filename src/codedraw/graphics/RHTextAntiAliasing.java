@@ -2,7 +2,7 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-enum TextAntiAliasing implements RenderingHintValue {
+enum RHTextAntiAliasing implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT),
 	OFF(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF),
 	ON(RenderingHints.VALUE_TEXT_ANTIALIAS_ON),
@@ -12,7 +12,7 @@ enum TextAntiAliasing implements RenderingHintValue {
 	LCD_VBGR(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR),
 	LCD_VRGB(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB);
 
-	TextAntiAliasing(Object value) {
+	RHTextAntiAliasing(Object value) {
 		this.value = value;
 	}
 

@@ -2,12 +2,12 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-enum Rendering implements RenderingHintValue {
+enum RHRendering implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_RENDER_DEFAULT),
 	SPEED(RenderingHints.VALUE_RENDER_SPEED),
 	QUALITY(RenderingHints.VALUE_RENDER_QUALITY);
 
-	Rendering(Object value) {
+	RHRendering(Object value) {
 		this.value = value;
 	}
 

@@ -2,12 +2,12 @@ package codedraw.graphics;
 
 import java.awt.*;
 
-enum AntiAliasing implements RenderingHintValue {
+enum RHAntiAliasing implements RenderingHintValue {
 	DEFAULT(RenderingHints.VALUE_ANTIALIAS_DEFAULT),
 	OFF(RenderingHints.VALUE_ANTIALIAS_OFF),
 	ON(RenderingHints.VALUE_ANTIALIAS_ON);
 
-	AntiAliasing(Object value) {
+	RHAntiAliasing(Object value) {
 		this.value = value;
 	}
 
