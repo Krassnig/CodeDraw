@@ -1,6 +1,8 @@
 package codedraw;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -24,21 +26,29 @@ public class CursorStyle {
 
 	/**
 	 * Creates a new CursorStyle from an image.
-	 * @param image Appearance of the cursor when hovering over the canvas.
+	 * The top left corner of the image will be the click position.
+	 * @param image any image
 	 */
 	public CursorStyle(Image image) {
 		this(checkParameterNull(image, "image"), 0, 0);
 	}
 
+	/**
+	 * Creates a new CursorStyle from an image.
+	 * The top left corner of the image will be the click position.
+	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
+	 * Read their documentation for more details.
+	 * @param pathToImage A string that points to an image file.
+	 */
 	public CursorStyle(String pathToImage) {
 		this(ImageReader.read(checkParameterNull(pathToImage, "pathToImage")));
 	}
 
 	/**
 	 * Creates a new CursorStyle from an image.
-	 * @param image Appearance of the cursor when hovering over the canvas.
-	 * @param x The click position relative to the image.
-	 * @param y The click position relative to the image.
+	 * @param image any image
+	 * @param x The click position relative to the top of the image.
+	 * @param y The click position relative to the left of the image.
 	 */
 	public CursorStyle(Image image, int x, int y) {
 		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -48,6 +58,14 @@ public class CursorStyle {
 		);
 	}
 
+	/**
+	 * Creates a new CursorStyle from an image.
+	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
+	 * Read their documentation for more details.
+	 * @param pathToImage A string that points to an image file.
+	 * @param x The click position relative to the top of the image.
+	 * @param y The click position relative to the left of the image.
+	 */
 	public CursorStyle(String pathToImage, int x, int y) {
 		this(ImageReader.read(checkParameterNull(pathToImage, "pathToImage")), x, y);
 	}
