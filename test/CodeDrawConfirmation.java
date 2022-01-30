@@ -10,14 +10,14 @@ public class CodeDrawConfirmation implements AutoCloseable {
 		esc = new EventScanner(cd);
 		cd.setWindowPositionX(0);
 		cd.setWindowPositionY(10);
-		rerender();
+		setState(State.LOADING);
 	}
 
 	private String confirmationDialogue;
 	private CodeDraw cd;
 	private EventScanner esc;
 
-	private State state = State.LOADING;
+	private State state;
 
 	private void setState(State state) {
 		this.state = state;
