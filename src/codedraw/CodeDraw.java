@@ -663,7 +663,11 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws the outline of an arc with the center being the (x, y) coordinates.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.drawArc(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param radius The radius of the arc in pixel.
@@ -682,7 +686,11 @@ public class CodeDraw implements AutoCloseable {
 	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.drawArc(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param horizontalRadius The horizontal radius of the arc in pixel. The width of the arc is 2 * horizontalRadius.
@@ -702,7 +710,11 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws the outline of a pie with the center being the (x, y) coordinates.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
-	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.drawPie(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
@@ -721,7 +733,11 @@ public class CodeDraw implements AutoCloseable {
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
-	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.drawPie(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
@@ -740,7 +756,11 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws a filled pie with the center being the (x, y) coordinates.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
-	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.fillPie(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
@@ -758,7 +778,11 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws a filled pie with the center being the (x, y) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
-	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * The total length of the pie is defined by the sweepRadians parameter.<br>
+	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
+	 * <pre>{@code
+	 * cd.fillPie(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
+	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.

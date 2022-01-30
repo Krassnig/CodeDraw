@@ -1,4 +1,0 @@
-file path as string in CursorStyle/CodeDrawGraphics.
-drawLine() -> doc: explanation corner size. Explain lineSize.
-isBold (get/set) -> get: isBold and set: setBold
-drawArc add explanation with Math.toRadians(degree);
