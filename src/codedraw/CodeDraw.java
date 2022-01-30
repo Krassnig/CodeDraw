@@ -4,6 +4,7 @@ import codedraw.events.*;
 import codedraw.graphics.CodeDrawGraphics;
 import codedraw.textformat.*;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,17 +15,14 @@ import java.io.File;
  * and makes it very simple to draw and animate various shapes and images to a canvas.
  * <br>
  * <br>
- * You can view the CodeDraw repository <a href="https://github.com/Krassnig/CodeDraw">here</a>.
+ * The source code can be found in the <a href="https://github.com/Krassnig/CodeDraw">CodeDraw repository</a>.
  * <br>
- * To get a brief overview and a bunch of examples visit the
- * <a href="https://github.com/Krassnig/CodeDraw/blob/master/README.md">README of the CodeDraw repository</a>.
- * <br>
- * Read the <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">introduction to CodeDraw</a>
- * for a beginners guide to CodeDraw.
+ * If you are unfamiliar with graphical output and/or want more details you can read the
+ * <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">Introduction to CodeDraw</a>.
  * <br>
  * For the JavaDoc visit <a href="https://krassnig.github.io/CodeDrawJavaDoc/">CodeDrawJavaDoc</a>.
  * <br>
- * An example to get you started:<br>
+ * Here is an example to get you started:<br>
  * <pre>{@code
  * import codedraw.*;
  *
@@ -44,7 +42,7 @@ import java.io.File;
  *         cd.setColor(Palette.LIGHT_BLUE);
  *         cd.fillCircle(300, 200, 50);
  *
- *         // Finally, the method show must be called
+ *         // Finally, the method cd.show() must be called
  *         // to display the drawn shapes in the CodeDraw window.
  *         cd.show();
  *     }
@@ -195,6 +193,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
+	 * Must be greater than zero.
 	 * @return the lineWidth of this CodeDraw window.
 	 */
 	public double getLineWidth() {
@@ -204,6 +203,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines the width or thickness of drawn shapes and lines.
+	 * Must be greater than zero.
 	 * @param lineWidth Sets the lineWidth of this CodeDraw window.
 	 */
 	public void setLineWidth(double lineWidth) {
@@ -215,7 +215,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines the styling of drawn text.
-	 * See also {@link #drawText(double, double, String)}
+	 * See also {@link #drawText(double, double, String)} on how the styling is applied.
 	 * @return the text formatting options of this CodeDraw window.
 	 */
 	public TextFormat getTextFormat() {
@@ -225,7 +225,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines the styling of drawn text.
-	 * See also {@link #drawText(double, double, String)}
+	 * See also {@link #drawText(double, double, String)} on how the styling is applied.
 	 * @param textFormat Sets the text formatting options of this CodeDraw window.
 	 */
 	public void setTextFormat(TextFormat textFormat){
@@ -242,7 +242,7 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public CursorStyle getCursorStyle() {
 		checkEventInvocation();
-		return this.window.getCursorStyle();
+		return window.getCursorStyle();
 	}
 	/**
 	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
@@ -278,6 +278,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines how the corners of drawn shapes should look.
+	 * See {@link Corner} for details.
 	 * @return the corner style of this CodeDraw window.
 	 */
 	public Corner getCorner() {
@@ -287,6 +288,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines how the corners of drawn shapes should look.
+	 * See {@link Corner} for details.
 	 * @param corner Sets the corner style of this CodeDraw window.
 	 */
 	public void setCorner(Corner corner) {
@@ -327,6 +329,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Defines the color that is used for drawing all shapes.
+	 * Use {@link Palette} for a large selection of colors.
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
@@ -482,6 +485,8 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws a straight line between the start point and end point.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param startX The distance in pixel from the left side of the canvas to the start of the line.
 	 * @param startY The distance in pixel from the top side of the canvas to the start of the line.
 	 * @param endX The distance in pixel from the left side of the canvas to the end of the line.
@@ -496,6 +501,8 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws a quadratic bezier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The controlX/Y parameter specifies in what way the curve will be bent.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param startX The distance in pixel from the left side of the canvas to the start of the curve.
 	 * @param startY The distance in pixel from the top side of the canvas to the start of the curve.
 	 * @param controlX Defines the way the curve bends in the x direction.
@@ -512,6 +519,8 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws a cubic bezier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param startX The distance in pixel from the left side of the canvas to the start of the curve.
 	 * @param startY The distance in pixel from the top side of the canvas to the start of the curve.
 	 * @param control1X Defines the way the curve bends in the x direction.
@@ -528,6 +537,8 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws the outline of a square.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the left size of the square.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the square.
 	 * @param sideLength The width and the height of the square in pixel.
@@ -541,6 +552,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws a filled square.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the left size of the square.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the square.
 	 * @param sideLength The width and the height of the square in pixel.
@@ -554,6 +566,8 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws the outline of a rectangle.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the left size of the rectangle.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the rectangle.
 	 * @param height The height of the rectangle in pixel.
@@ -569,6 +583,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws a filled rectangle.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the left size of the rectangle.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the rectangle.
 	 * @param height The height of the rectangle in pixel.
@@ -585,6 +600,7 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws the outline of a circle.
 	 * The center of the circle will be at the specified (x, y) coordinate.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the circle.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the circle.
 	 * @param radius The radius of the circle in pixel.
@@ -613,6 +629,7 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws the outline of an ellipse.
 	 * The center of the ellipse will be at the specified (x, y) coordinate.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the ellipse.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the ellipse.
 	 * @param horizontalRadius The horizontal radius of the ellipse in pixel. The width of the ellipse is 2 * horizontalRadius.
@@ -646,6 +663,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws the outline of an arc with the center being the (x, y) coordinates.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param radius The radius of the arc in pixel.
@@ -664,6 +682,7 @@ public class CodeDraw implements AutoCloseable {
 	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param horizontalRadius The horizontal radius of the arc in pixel. The width of the arc is 2 * horizontalRadius.
@@ -683,6 +702,7 @@ public class CodeDraw implements AutoCloseable {
 	 * Draws the outline of a pie with the center being the (x, y) coordinates.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
@@ -701,6 +721,7 @@ public class CodeDraw implements AutoCloseable {
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
@@ -755,6 +776,8 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws the outline of a triangle.
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
 	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
 	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
@@ -795,6 +818,8 @@ public class CodeDraw implements AutoCloseable {
 	 *     300, 200
 	 * );
 	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... points) {
@@ -819,6 +844,7 @@ public class CodeDraw implements AutoCloseable {
 	 *     300, 200
 	 * );
 	 * }</pre>
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
@@ -831,22 +857,9 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
 	 * The width and height of the image will be used to draw the image.
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * BufferedImage img;
-	 * try {
-	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
-	 * } catch (IOException e) {
-	 *     throw new UncheckedIOException(e);
-	 * }
-	 *
-	 * cd.drawImage(100, 100, img);
-	 * cd.show();
-	 * }</pre>
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param image The image that will be drawn on the canvas.
+	 * @param image Any image.
 	 */
 	public void drawImage(double x, double y, Image image) {
 		checkEventInvocation();
@@ -858,62 +871,30 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
 	 * The width and height of the image will be used to draw the image.
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, "C:\\pathToDirectory\\filename.png");
-	 * cd.show();
-	 * }</pre><br>
 	 * Supported image formats are:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
+	 * Read their documentation for more details.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 * @param pathToImage A string that points to an image file.
 	 */
 	public void drawImage(double x, double y, String pathToImage) {
 		checkEventInvocation();
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
-		drawImage(x, y, ImageIO.read(pathToImage));
-	}
-
-	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
-		checkEventInvocation();
-		if (image == null) throw createParameterNullException("image");
-		if (interpolation == null) throw createParameterNullException("interpolation");
-
-		g.drawImage(x, y, image, interpolation);
-	}
-
-	public void drawImage(double x, double y, String pathToImage, Interpolation interpolation) {
-		checkEventInvocation();
-		if (pathToImage == null) throw createParameterNullException("pathToImage");
-		if (interpolation == null) throw createParameterNullException("interpolation");
-
-		drawImage(x, y, ImageIO.read(pathToImage), interpolation);
+		drawImage(x, y, ImageReader.read(pathToImage));
 	}
 
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * BufferedImage img;
-	 * try {
-	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
-	 * } catch (IOException e) {
-	 *     throw new UncheckedIOException(e);
-	 * }
-	 *
-	 * cd.drawImage(100, 100, 200, 200, img);
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
+	 * The image will be rescaled to fit within the width and height given as parameters.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param image The image that will be drawn on the canvas.
+	 * @param width The width of the image on the canvas.
+	 * @param height The height of the image on the canvas.
+	 * @param image Any image.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image) {
 		checkEventInvocation();
@@ -926,20 +907,17 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png");
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
+	 * The image will be rescaled to fit within the width and height given as parameters.
 	 * Supported image formats are:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
+	 * Read their documentation for more details.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 * @param width The width of the image on the canvas.
+	 * @param height The height of the image on the canvas.
+	 * @param pathToImage A string that points to an image file.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage) {
 		checkEventInvocation();
@@ -947,29 +925,17 @@ public class CodeDraw implements AutoCloseable {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
-		drawImage(x, y, width, height, ImageIO.read(pathToImage));
+		drawImage(x, y, width, height, ImageReader.read(pathToImage));
 	}
 
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * BufferedImage img;
-	 * try {
-	 *     img = ImageIO.read(new File("C:\\pathToDirectory\\filename.png"));
-	 * } catch (IOException e) {
-	 *     throw new UncheckedIOException(e);
-	 * }
-	 *
-	 * cd.drawImage(100, 100, 200, 200, img, Interpolation.BICUBIC);
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
+	 * The image will be rescaled to fit within the width and height given as parameters.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param image The image that will be drawn on the canvas.
+	 * @param width The width of the image on the canvas.
+	 * @param height The height of the image on the canvas.
+	 * @param image Any image.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
@@ -984,20 +950,17 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.<br>
-	 * <pre>{@code
-	 * CodeDraw cd = new CodeDraw();
-	 *
-	 * cd.drawImage(100, 100, 200, 200, "C:\\pathToDirectory\\filename.png", Interpolation.BICUBIC);
-	 * cd.show();
-	 * }</pre>
-	 * The size of the example image will be 200x200 pixel.<br>
+	 * The image will be rescaled to fit within the width and height given as parameters.
 	 * Supported image formats are:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
+	 * Read their documentation for more details.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param pathToImage A pathToImage that points to an image file. See {@link javax.imageio.ImageIO#read(File)} and {@link java.io.File}.
+	 * @param width The width of the image on the canvas.
+	 * @param height The height of the image on the canvas.
+	 * @param pathToImage A string that points to an image file.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
@@ -1007,17 +970,15 @@ public class CodeDraw implements AutoCloseable {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
-		drawImage(x, y, width, height, ImageIO.read(pathToImage), interpolation);
+		drawImage(x, y, width, height, ImageReader.read(pathToImage), interpolation);
 	}
 
 	/**
 	 * Creates a copy of the current buffer (not the displayed image) and returns
-	 * it as a buffered image. A BufferedImage can be saved as a file with the following code:
+	 * it as a buffered image. A BufferedImage can be saved to a file with the following code:
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
-	 *
 	 * // some drawing occurs here
-	 *
 	 * try {
 	 *      ImageIO.write(
 	 *          cd.saveCanvas(),
@@ -1028,7 +989,7 @@ public class CodeDraw implements AutoCloseable {
 	 *      throw new UncheckedIOException(e);
 	 * }
 	 * }</pre>
-	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b><br>.
+	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>.
 	 * @return The current buffer as an image object.
 	 */
 	public BufferedImage saveCanvas() {
@@ -1056,12 +1017,9 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
-	 * Displays the drawn shapes and images on the canvas.
-	 * Showing the drawn text on the CodeDraw window is computationally expensive.
+	 * Displays all the drawn and filled shapes that have been drawn until now.
+	 * Showing the drawn elements in the CodeDraw window is slow.
 	 * Calling show frequently will slow down your program.
-	 *
-	 * Calling show while executing an event is generally not recommended because rendering is slow and
-	 * this will slow down you program. Instead, you should call show from the main thread.
 	 */
 	public void show() {
 		checkEventInvocation();
@@ -1069,20 +1027,18 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
-	 * Displays the drawn shapes and images on the canvas and then waits for the given amount of milliseconds.
-	 * The copying of the buffer to the screen also takes a bit of time and that will be the minimum time it
-	 * takes for this method to return.<br>
+	 * Displays all the drawn and filled shapes that have been drawn until now
+	 * and then waits for the given amount of milliseconds.
+	 * Since showing the drawn elements in the CodeDraw window is slow,
+	 * CodeDraw will subtract the time it takes to show from waitMilliseconds.
 	 * The amount of milliseconds this method must be called with to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>
 	 * 60 fps ~ 16ms<br>
 	 * 120 fps ~ 8ms<br>
-	 *
-	 * Calling show or sleeping while executing an event will block all other events from executing.
-	 * It is generally not recommended. Instead, you should call show from the main thread.
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
-	public void show(int waitMilliseconds) {
+	public void show(long waitMilliseconds) {
 		checkEventInvocation();
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 

@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-class ImageIO {
-	private ImageIO() { }
+class ImageReader {
+	private ImageReader() { }
 
 	public static BufferedImage read(String pathToImage) {
 		try {

@@ -8,8 +8,6 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 public class CodeDrawGraphics {
-	private static final Interpolation DEFAULT_INTERPOLATION = Interpolation.BICUBIC;
-
 	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
 		AffineTransform max = getMaximumDPIFromAllScreens();
 		return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
@@ -207,16 +205,11 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawImage(double x, double y, Image image) {
-		drawImage(x, y, image, DEFAULT_INTERPOLATION);
-	}
-
-	public void drawImage(double x, double y, Image image, Interpolation interpolation) {
-		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, null);
 	}
 
 	public void drawImage(double x, double y, double width, double height, Image image) {
-		drawImage(x, y, width, height, image, DEFAULT_INTERPOLATION);
+		drawImage(x, y, width, height, image, Interpolation.BICUBIC);
 	}
 
 	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
