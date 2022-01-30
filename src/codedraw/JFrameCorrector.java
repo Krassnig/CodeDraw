@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class JFrameCorrector {
+class JFrameCorrector {
 	public JFrameCorrector(JFrame jFrame, Dimension jFrameTargetDimension) {
 		if (jFrame.isUndecorated()) throw new RuntimeException("JFrame correction is not necessary for undecorated frames");
 		frame = jFrame;
