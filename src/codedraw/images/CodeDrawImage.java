@@ -12,6 +12,8 @@ import java.util.Base64;
 
 public class CodeDrawImage {
 	public static CodeDrawImage fromFile(String pathToImage) {
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
+
 		try {
 			return new CodeDrawImage(ImageIO.read(new File(pathToImage)));
 		} catch (IOException e) {
@@ -20,6 +22,8 @@ public class CodeDrawImage {
 	}
 
 	public static CodeDrawImage fromBase64String(String base64) {
+		if (base64 == null) throw createParameterNullException("base64");
+
 		try {
 			return new CodeDrawImage(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
 		} catch (IOException e) {
@@ -28,11 +32,17 @@ public class CodeDrawImage {
 	}
 
 	public static CodeDrawImage fromDPIAwareSize(int width, int height) {
+		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
+		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
+
 		AffineTransform max = getMaximumDPIFromAllScreens();
 		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	public static void saveAsPNG(CodeDrawImage image, String pathToImage) {
+		if (image == null) throw createParameterNullException("image");
+		if (pathToImage == null) throw createParameterNullException("pathToImage");
+
 		try {
 			ImageIO.write(image.image, "png", new File(pathToImage));
 		}
@@ -42,11 +52,14 @@ public class CodeDrawImage {
 	}
 
 	public CodeDrawImage(CodeDrawImage image) {
-		this(image.image);
+		this(checkParameterNull(image, "image").image);
 	}
 
 	public CodeDrawImage(Image image) {
-		this(image.getWidth(null), image.getHeight(null));
+		this(
+				checkParameterNull(image, "image").getWidth(null),
+				checkParameterNull(image, "image").getHeight(null)
+		);
 		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
@@ -55,7 +68,10 @@ public class CodeDrawImage {
 	}
 
 	private CodeDrawImage(int width, int height, int xScale, int yScale) {
-		if (xScale < 1 || yScale < 1) throw new RuntimeException("Scale must be greater than 0.");
+		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
+		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
+		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
+		if (yScale < 1) throw createParameterMustBeGreaterThanZeroException("yScale");
 		this.width = width;
 		this.height = height;
 
@@ -86,12 +102,21 @@ public class CodeDrawImage {
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 
-	public Color getColor() { return g.getColor(); }
-	public void setColor(Color color) { g.setColor(color); }
+	public Color getColor() {
+		return g.getColor();
+	}
+
+	public void setColor(Color color) {
+		if (color == null) throw createParameterNullException("color");
+
+		g.setColor(color);
+	}
 
 	private double lineWidth = 1;
 	public double getLineWidth() { return lineWidth; }
 	public void setLineWidth(double lineWidth) {
+		if (lineWidth <= 0) throw createParameterMustBeGreaterThanZeroException("lineWidth");
+
 		this.lineWidth = lineWidth;
 		updateBrush();
 	}
@@ -99,6 +124,8 @@ public class CodeDrawImage {
 	private Corner corner = Corner.SHARP;
 	public Corner getCorner() { return corner; }
 	public void setCorner(Corner corner) {
+		if (corner == null) throw createParameterNullException("corner");
+
 		this.corner = corner;
 		updateBrush();
 	}
@@ -170,58 +197,93 @@ public class CodeDrawImage {
 	}
 
 	public void drawSquare(double x, double y, double sideLength) {
+		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
+
 		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
 	}
 
 	public void fillSquare(double x, double y, double sideLength) {
+		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
+
 		g.fill(createFillRectangle(x, y, sideLength, sideLength));
 	}
 
 	public void drawRectangle(double x, double y, double width, double height) {
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+
 		g.draw(createDrawRectangle(x, y, width, height));
 	}
 
 	public void fillRectangle(double x, double y, double width, double height) {
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+
 		g.fill(createFillRectangle(x, y, width, height));
 	}
 
 	public void drawCircle(double x, double y, double radius) {
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
 		g.draw(createEllipse(x, y, radius, radius));
 	}
 
 	public void fillCircle(double x, double y, double radius) {
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
 		g.fill(createEllipse(x, y, radius, radius));
 	}
 
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
 		g.draw(createEllipse(x, y, horizontalRadius, verticalRadius));
 	}
 
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
 		g.fill(createEllipse(x, y, horizontalRadius, verticalRadius));
 	}
 
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
 		g.draw(createArc(x, y, radius, radius, startRadians, sweepRadians));
 	}
 
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
 		g.draw(createArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 	}
 
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
 		g.draw(createPie(x, y, radius, radius, startRadians, sweepRadians));
 	}
 
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
 		g.draw(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 	}
 
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
 		g.fill(createPie(x, y, radius, radius, startRadians, sweepRadians));
 	}
 
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
+		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
 		g.fill(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 	}
 
@@ -234,10 +296,14 @@ public class CodeDrawImage {
 	}
 
 	public void drawPolygon(double... points) {
+		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
+
 		g.draw(createPolygon(points));
 	}
 
 	public void fillPolygon(double... points) {
+		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
+
 		g.fill(createPolygon(points));
 	}
 
@@ -247,22 +313,37 @@ public class CodeDrawImage {
 	}
 
 	public void drawImage(CodeDrawImage image) {
+		if (image == null) throw createParameterNullException("image");
+
 		drawImageInternal(0, 0, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
 	public void drawImage(double x, double y, CodeDrawImage image) {
+		if (image == null) throw createParameterNullException("image");
+
 		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
 	public void drawImage(double x, double y, double width, double height, CodeDrawImage image) {
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (image == null) throw createParameterNullException("image");
+
 		drawImageInternal(x, y, width, height, image.image, Interpolation.BICUBIC);
 	}
 
 	public void drawImage(double x, double y, double width, double height, CodeDrawImage image, Interpolation interpolation) {
+		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
+		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
+		if (image == null) throw createParameterNullException("image");
+
 		drawImageInternal(x, y, width, height, image.image, interpolation);
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {
+		if (text == null) throw createParameterNullException("text");
+		if (textFormat == null) throw createParameterNullException("textFormat");
+
 		g.setFont(TextRendering.createFont(textFormat));
 		TextRendering.drawText(g, x, y, text, textFormat);
 	}
@@ -272,6 +353,8 @@ public class CodeDrawImage {
 	}
 
 	public void clear(Color color) {
+		if (color == null) throw createParameterNullException("color");
+
 		Color c = getColor();
 		setColor(color);
 		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
@@ -279,6 +362,9 @@ public class CodeDrawImage {
 	}
 
 	public void copyTo(Graphics target, Interpolation interpolation) {
+		if (target == null) throw createParameterNullException("target");
+		if (interpolation == null) throw createParameterNullException("interpolation");
+
 		if (target instanceof Graphics2D) {
 			RenderingHintValue.applyHint((Graphics2D) target, interpolation);
 		}
@@ -452,5 +538,40 @@ public class CodeDrawImage {
 				Math.max(a.getScaleY(), b.getScaleY())
 		);
 		return result;
+	}
+
+	private static IllegalArgumentException createParameterNullException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+	}
+
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
+	}
+
+	private static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be equal or greater than zero.");
+	}
+
+	private static boolean isInvalidPolygonCount(double[] polygonParameter) {
+		return polygonParameter.length < 4 || (polygonParameter.length & 1) == 1;
+	}
+
+	private static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
+		if (polygonParameter.length < 4) {
+			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
+		}
+		else if ((polygonParameter.length & 1) == 1) {
+			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of on point of the polygon.");
+		}
+		else {
+			throw new RuntimeException();
+		}
+	}
+
+	private static <T> T checkParameterNull(T parameter, String parameterName) {
+		if (parameter == null)
+			throw new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+		else
+			return parameter;
 	}
 }
