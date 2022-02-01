@@ -1,22 +1,13 @@
 import codedraw.*;
+import codedraw.images.CodeDrawImage;
 import codedraw.textformat.HorizontalAlign;
-import codedraw.textformat.VerticalAlign;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.time.Instant;
-import java.util.Base64;
 
 import static codedraw.CursorStyle.*;
-import static org.junit.Assert.fail;
 
 public class CodeDrawTest {
 	private CodeDraw cd;
@@ -68,17 +59,13 @@ public class CodeDrawTest {
 		confirm.assertConfirmation();
 	}
 
-	private static BufferedImage getCodeDrawIcon() {
-		try {
-			return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(
-					"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
-							"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
-							"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +
-							"0kJyJrAGJUDbAMmAI1QBFz7NBPgXRK/qAAAAAElFTkSuQmCC"
-			)));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
+	private static CodeDrawImage getCodeDrawIcon() {
+		return CodeDrawImage.fromBase64String(
+				"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
+				"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
+				"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +
+				"0kJyJrAGJUDbAMmAI1QBFz7NBPgXRK/qAAAAAElFTkSuQmCC"
+		);
 	}
 
 	@Test
@@ -174,11 +161,7 @@ public class CodeDrawTest {
 		cd.setColor(Palette.RED);
 		cd.fillCircle(200, 200, 10);
 
-		try {
-			ImageIO.write(cd.saveCanvas(), "png", new File("./test/out.png"));
-		} catch (IOException e) {
-			fail("could not save image");
-		}
+		CodeDrawImage.saveAsPNG(cd.copyCanvas(), "./test/out.png");
 
 		cd.show();
 		confirm.assertConfirmation();
@@ -188,7 +171,7 @@ public class CodeDrawTest {
 	public void imageTestScale() {
 		confirm.setConfirmationDialogue("The image should display the scaled down 200x200 image.");
 
-		cd.drawImage(100, 100, 200, 200, "test/test.jpg");
+		cd.drawImage(100, 100, 200, 200, CodeDrawImage.fromFile("test/test.jpg"));
 		cd.show();
 
 		confirm.assertConfirmation();
@@ -202,7 +185,7 @@ public class CodeDrawTest {
 		cd = new CodeDraw(820, 620);
 		confirm.placeCodeDrawTestingInstance(cd);
 
-		cd.drawImage(10, 10, "test/test.jpg");
+		cd.drawImage(10, 10, CodeDrawImage.fromFile("test/test.jpg"));
 		cd.show();
 
 		confirm.assertConfirmation();

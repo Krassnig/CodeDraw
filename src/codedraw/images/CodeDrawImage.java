@@ -3,14 +3,54 @@ package codedraw.images;
 import codedraw.*;
 import codedraw.textformat.*;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Base64;
 
 public class CodeDrawImage {
-	public static CodeDrawImage createDPIAwareCodeDrawGraphics(int width, int height) {
+	public static CodeDrawImage fromFile(String pathToImage) {
+		try {
+			return new CodeDrawImage(ImageIO.read(new File(pathToImage)));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public static CodeDrawImage fromBase64String(String base64) {
+		try {
+			return new CodeDrawImage(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public static void saveAsPNG(CodeDrawImage image, String pathToImage) {
+		try {
+			ImageIO.write(image.image, "png", new File(pathToImage));
+		}
+		catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public static CodeDrawImage fromDPIAwareImage(int width, int height) {
 		AffineTransform max = getMaximumDPIFromAllScreens();
 		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+	}
+
+	public CodeDrawImage(CodeDrawImage image) {
+		this(image.image);
+	}
+
+	public CodeDrawImage(Image image) {
+		this(image.getWidth(null), image.getHeight(null));
+		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
 	public CodeDrawImage(int width, int height) {
@@ -18,7 +58,7 @@ public class CodeDrawImage {
 	}
 
 	private CodeDrawImage(int width, int height, int xScale, int yScale) {
-		if (xScale < 1 || yScale < 1) throw new RuntimeException("scale must be greater than 0");
+		if (xScale < 1 || yScale < 1) throw new RuntimeException("Scale must be greater than 0.");
 		this.width = width;
 		this.height = height;
 
@@ -204,17 +244,25 @@ public class CodeDrawImage {
 		g.fill(createPolygon(points));
 	}
 
-	public void drawImage(double x, double y, Image image) {
-		g.drawImage(image, (int)x, (int)y, null);
-	}
-
-	public void drawImage(double x, double y, double width, double height, Image image) {
-		drawImage(x, y, width, height, image, Interpolation.BICUBIC);
-	}
-
-	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+	private void drawImageInternal(double x, double y, double width, double height, Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
+	}
+
+	public void drawImage(CodeDrawImage image) {
+		drawImageInternal(0, 0, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
+	}
+
+	public void drawImage(double x, double y, CodeDrawImage image) {
+		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
+	}
+
+	public void drawImage(double x, double y, double width, double height, CodeDrawImage image) {
+		drawImageInternal(x, y, width, height, image.image, Interpolation.BICUBIC);
+	}
+
+	public void drawImage(double x, double y, double width, double height, CodeDrawImage image, Interpolation interpolation) {
+		drawImageInternal(x, y, width, height, image.image, interpolation);
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {
@@ -234,18 +282,15 @@ public class CodeDrawImage {
 	}
 
 	public BufferedImage copyAsImage() {
-		BufferedImage result = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-
-		Graphics2D g = result.createGraphics();
-		copyTo(g);
-		g.dispose();
-
-		return result;
+		CodeDrawImage result = new CodeDrawImage(getWidth(), getHeight());
+		result.drawImage(this);
+		result.g.dispose();
+		return result.image;
 	}
 
-	public void copyTo(Graphics target) {
+	public void copyTo(Graphics target, Interpolation interpolation) {
 		if (target instanceof Graphics2D) {
-			RenderingHintValue.applyHint((Graphics2D) target, Interpolation.BICUBIC);
+			RenderingHintValue.applyHint((Graphics2D) target, interpolation);
 		}
 
 		Color c = target.getColor();
@@ -253,16 +298,6 @@ public class CodeDrawImage {
 		target.drawRect(0, 0, getWidth(), getHeight());
 		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
 		target.setColor(c);
-	}
-
-	public void copyTo(CodeDrawImage target) {
-		copyTo(target.g);
-	}
-
-	public void copyTo(Image image) {
-		Graphics g = image.getGraphics();
-		copyTo(g);
-		g.dispose();
 	}
 
 	public void dispose() {

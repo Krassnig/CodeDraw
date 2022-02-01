@@ -8,7 +8,7 @@ import java.awt.datatransfer.Clipboard;
 
 class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
-		displayBuffer = CodeDrawImage.createDPIAwareCodeDrawGraphics(width, height);
+		displayBuffer = CodeDrawImage.fromDPIAwareImage(width, height);
 
 		setLayout(null);
 		setPreferredSize(new Dimension(width, height));
@@ -23,7 +23,7 @@ class CanvasPanel extends JPanel {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 
-		codeDrawBuffer.copyTo(displayBuffer);
+		displayBuffer.drawImage(codeDrawBuffer);
 
 		renderCopyLock.release();
 		clipboardCopyLock.release();
@@ -43,7 +43,7 @@ class CanvasPanel extends JPanel {
 		super.paintComponent(componentGraphics);
 
 		renderCopyLock.acquire();
-		displayBuffer.copyTo(componentGraphics);
+		displayBuffer.copyTo(componentGraphics, Interpolation.BICUBIC);
 		renderCopyLock.release();
 	}
 }

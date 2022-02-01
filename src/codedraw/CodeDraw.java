@@ -4,10 +4,7 @@ import codedraw.events.*;
 import codedraw.images.CodeDrawImage;
 import codedraw.textformat.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
@@ -73,7 +70,7 @@ public class CodeDraw implements AutoCloseable {
 
 		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
-		g = CodeDrawImage.createDPIAwareCodeDrawGraphics(canvasWidth, canvasHeight);
+		g = CodeDrawImage.fromDPIAwareImage(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
@@ -885,30 +882,11 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, Image image) {
+	public void drawImage(double x, double y, CodeDrawImage image) {
 		checkEventInvocation();
 		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, image);
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The width and height of the image will be used to draw the image.
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
-	 * Read their documentation for more details.
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param pathToImage A string that points to an image file.
-	 */
-	public void drawImage(double x, double y, String pathToImage) {
-		checkEventInvocation();
-		if (pathToImage == null) throw createParameterNullException("pathToImage");
-
-		drawImage(x, y, ImageReader.read(pathToImage));
 	}
 
 	/**
@@ -920,7 +898,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param height The height of the image on the canvas.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, double width, double height, Image image) {
+	public void drawImage(double x, double y, double width, double height, CodeDrawImage image) {
 		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
@@ -932,29 +910,6 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
 	 * The image will be rescaled to fit within the width and height given as parameters.
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
-	 * Read their documentation for more details.
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param width The width of the image on the canvas.
-	 * @param height The height of the image on the canvas.
-	 * @param pathToImage A string that points to an image file.
-	 */
-	public void drawImage(double x, double y, double width, double height, String pathToImage) {
-		checkEventInvocation();
-		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
-		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
-		if (pathToImage == null) throw createParameterNullException("pathToImage");
-
-		drawImage(x, y, width, height, ImageReader.read(pathToImage));
-	}
-
-	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.
 	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param width The width of the image on the canvas.
@@ -962,7 +917,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image Any image.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
-	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+	public void drawImage(double x, double y, double width, double height, CodeDrawImage image, Interpolation interpolation) {
 		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
@@ -973,52 +928,21 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
-	 * Draws an image at the specified (x, y) coordinate.
-	 * The image will be rescaled to fit within the width and height given as parameters.
-	 * Supported image formats are:
-	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
-	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * CodeDraw uses {@link ImageIO#read(File)} and {@link File#File(String)} to read images from the file system.
-	 * Read their documentation for more details.
-	 * @param x The distance in pixel from the left side of the canvas to the left side of the image.
-	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
-	 * @param width The width of the image on the canvas.
-	 * @param height The height of the image on the canvas.
-	 * @param pathToImage A string that points to an image file.
-	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
-	 */
-	public void drawImage(double x, double y, double width, double height, String pathToImage, Interpolation interpolation) {
-		checkEventInvocation();
-		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
-		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
-		if (pathToImage == null) throw createParameterNullException("pathToImage");
-		if (interpolation == null) throw createParameterNullException("interpolation");
-
-		drawImage(x, y, width, height, ImageReader.read(pathToImage), interpolation);
-	}
-
-	/**
 	 * Creates a copy of the current buffer (not the displayed image) and returns
 	 * it as a buffered image. A BufferedImage can be saved to a file with the following code:
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
+	 *
 	 * // some drawing occurs here
-	 * try {
-	 *      ImageIO.write(
-	 *          cd.saveCanvas(),
-	 *          "png",
-	 *          new File("C:\\pathToDirectory\\filename.png")
-	 *      );
-	 * } catch (IOException e) {
-	 *      throw new UncheckedIOException(e);
-	 * }
+	 *
+	 * CodeDrawImage.saveAsPNG(cd.copyCanvas(), "/pathToDirectory/filename.png");
 	 * }</pre>
 	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>.
 	 * @return The current buffer as an image object.
 	 */
-	public BufferedImage saveCanvas() {
+	public CodeDrawImage copyCanvas() {
 		checkEventInvocation();
-		return g.copyAsImage();
+		return new CodeDrawImage(g);
 	}
 
 	/**
