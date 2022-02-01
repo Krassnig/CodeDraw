@@ -85,7 +85,6 @@ public class CodeDraw implements AutoCloseable {
 	private CanvasWindow window;
 	private CodeDrawImage g;
 	private EventCollection events;
-	private TextFormat textFormat = new TextFormat();
 	private Subscription ctrlCSubscription;
 
 	/**
@@ -217,7 +216,7 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public TextFormat getTextFormat() {
 		checkEventInvocation();
-		return textFormat;
+		return g.getTextFormat();
 	}
 
 	/**
@@ -229,7 +228,7 @@ public class CodeDraw implements AutoCloseable {
 		checkEventInvocation();
 		if (textFormat == null) throw createParameterNullException("textFormat");
 
-		this.textFormat = textFormat;
+		g.setTextFormat(textFormat);
 	}
 
 	/**
@@ -457,7 +456,7 @@ public class CodeDraw implements AutoCloseable {
 		checkEventInvocation();
 		if (text == null) throw createParameterNullException("text");
 
-		g.drawText(x, y, text, textFormat);
+		g.drawText(x, y, text);
 	}
 
 	/**
