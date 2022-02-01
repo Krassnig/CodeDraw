@@ -7,10 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.Base64;
 
 public class CodeDrawImage {
@@ -30,6 +27,11 @@ public class CodeDrawImage {
 		}
 	}
 
+	public static CodeDrawImage fromDPIAwareSize(int width, int height) {
+		AffineTransform max = getMaximumDPIFromAllScreens();
+		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+	}
+
 	public static void saveAsPNG(CodeDrawImage image, String pathToImage) {
 		try {
 			ImageIO.write(image.image, "png", new File(pathToImage));
@@ -37,11 +39,6 @@ public class CodeDrawImage {
 		catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
-	}
-
-	public static CodeDrawImage fromDPIAwareImage(int width, int height) {
-		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	public CodeDrawImage(CodeDrawImage image) {
@@ -281,13 +278,6 @@ public class CodeDrawImage {
 		setColor(c);
 	}
 
-	public BufferedImage copyAsImage() {
-		CodeDrawImage result = new CodeDrawImage(getWidth(), getHeight());
-		result.drawImage(this);
-		result.g.dispose();
-		return result.image;
-	}
-
 	public void copyTo(Graphics target, Interpolation interpolation) {
 		if (target instanceof Graphics2D) {
 			RenderingHintValue.applyHint((Graphics2D) target, interpolation);
@@ -298,6 +288,12 @@ public class CodeDrawImage {
 		target.drawRect(0, 0, getWidth(), getHeight());
 		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
 		target.setColor(c);
+	}
+
+	public BufferedImage convertToBufferedImage() {
+		CodeDrawImage result = new CodeDrawImage(this);
+		result.g.dispose();
+		return result.image;
 	}
 
 	public void dispose() {

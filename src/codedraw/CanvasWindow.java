@@ -14,8 +14,8 @@ import java.io.UncheckedIOException;
 import java.util.Base64;
 
 class CanvasWindow {
-	private static BufferedImage codeDrawIcon = getCodeDrawIcon();
-	private static Semaphore windowCountLock = new Semaphore(1);
+	private static final BufferedImage codeDrawIcon = getCodeDrawIcon();
+	private static final Semaphore windowCountLock = new Semaphore(1);
 	private static int windowCount = 0;
 	private boolean terminateOnLastClose = true;
 
@@ -191,20 +191,17 @@ class CanvasWindow {
 		this.terminateOnLastClose = terminateOnLastClose;
 		windowCountLock.release();
 
+		jFrameCorrector.stop();
 		frame.dispose();
 	}
 
 	private static BufferedImage getCodeDrawIcon() {
-		try {
-			return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(
-					"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
-					"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
-					"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +
-					"0kJyJrAGJUDbAMmAI1QBFz7NBPgXRK/qAAAAAElFTkSuQmCC"
-			)));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
+		return CodeDrawImage.fromBase64String(
+				"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
+				"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
+				"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +
+				"0kJyJrAGJUDbAMmAI1QBFz7NBPgXRK/qAAAAAElFTkSuQmCC"
+		).convertToBufferedImage();
 	}
 
 	private static Point minus(Point a, Point b) {

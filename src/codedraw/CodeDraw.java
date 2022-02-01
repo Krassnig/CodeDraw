@@ -70,7 +70,7 @@ public class CodeDraw implements AutoCloseable {
 
 		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
-		g = CodeDrawImage.fromDPIAwareImage(canvasWidth, canvasHeight);
+		g = CodeDrawImage.fromDPIAwareSize(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();

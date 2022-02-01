@@ -41,7 +41,7 @@ public class CursorStyle {
 	 */
 	public CursorStyle(CodeDrawImage image, int x, int y) {
 		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(
-				checkParameterNull(image, "image").copyAsImage(),
+				checkParameterNull(image, "image").convertToBufferedImage(),
 				new Point(x, y),
 				"CodeDraw Custom Cursor " + Objects.hash(image, x, y)
 		);

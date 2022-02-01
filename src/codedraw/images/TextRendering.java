@@ -32,7 +32,7 @@ class TextRendering {
 			case BOTTOM:
 				return -leadings;
 			default:
-				throw new RuntimeException("Unknown vertical alignment option");
+				throw new RuntimeException("Unknown vertical alignment option.");
 		}
 	}
 
@@ -45,7 +45,7 @@ class TextRendering {
 			case RIGHT:
 				return -fontMetrics.stringWidth(text);
 			default:
-				throw new RuntimeException("Unknown horizontal alignment option");
+				throw new RuntimeException("Unknown horizontal alignment option.");
 		}
 	}
 
