@@ -1,4 +1,4 @@
-package codedraw.graphics;
+package codedraw.images;
 
 import codedraw.Interpolation;
 

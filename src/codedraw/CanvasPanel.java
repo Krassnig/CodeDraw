@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.graphics.CodeDrawGraphics;
+import codedraw.images.CodeDrawImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,18 +8,18 @@ import java.awt.datatransfer.Clipboard;
 
 class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
-		displayBuffer = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(width, height);
+		displayBuffer = CodeDrawImage.createDPIAwareCodeDrawGraphics(width, height);
 
 		setLayout(null);
 		setPreferredSize(new Dimension(width, height));
 	}
 
-	private CodeDrawGraphics displayBuffer;
+	private CodeDrawImage displayBuffer;
 
 	private Semaphore clipboardCopyLock = new Semaphore(1);
 	private Semaphore renderCopyLock = new Semaphore(1);
 
-	public void render(CodeDrawGraphics codeDrawBuffer) {
+	public void render(CodeDrawImage codeDrawBuffer) {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 

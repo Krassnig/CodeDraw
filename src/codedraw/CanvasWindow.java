@@ -1,7 +1,7 @@
 package codedraw;
 
 import codedraw.events.*;
-import codedraw.graphics.CodeDrawGraphics;
+import codedraw.images.CodeDrawImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -78,7 +78,7 @@ class CanvasWindow {
 		this.canvas.setCursor(cursorStyle.getCursor());
 	}
 
-	public void render(CodeDrawGraphics buffer) {
+	public void render(CodeDrawImage buffer) {
 		canvas.render(buffer);
 	}
 

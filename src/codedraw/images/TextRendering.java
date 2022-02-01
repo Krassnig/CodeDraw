@@ -1,4 +1,4 @@
-package codedraw.graphics;
+package codedraw.images;
 
 import codedraw.textformat.*;
 
@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 
-class CodeDrawGraphicsText {
-	private CodeDrawGraphicsText() { }
+class TextRendering {
+	private TextRendering() { }
 
 	public static void drawText(Graphics2D graphics, double x, double y, String text, TextFormat textFormat) {
 		FontMetrics fontMetrics = graphics.getFontMetrics();

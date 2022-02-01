@@ -1,4 +1,4 @@
-package codedraw.graphics;
+package codedraw.images;
 
 import codedraw.*;
 import codedraw.textformat.*;
@@ -7,17 +7,17 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
-public class CodeDrawGraphics {
-	public static CodeDrawGraphics createDPIAwareCodeDrawGraphics(int width, int height) {
+public class CodeDrawImage {
+	public static CodeDrawImage createDPIAwareCodeDrawGraphics(int width, int height) {
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new CodeDrawGraphics(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
-	public CodeDrawGraphics(int width, int height) {
+	public CodeDrawImage(int width, int height) {
 		this(width, height, 1, 1);
 	}
 
-	private CodeDrawGraphics(int width, int height, int xScale, int yScale) {
+	private CodeDrawImage(int width, int height, int xScale, int yScale) {
 		if (xScale < 1 || yScale < 1) throw new RuntimeException("scale must be greater than 0");
 		this.width = width;
 		this.height = height;
@@ -218,8 +218,8 @@ public class CodeDrawGraphics {
 	}
 
 	public void drawText(double x, double y, String text, TextFormat textFormat) {
-		g.setFont(CodeDrawGraphicsText.createFont(textFormat));
-		CodeDrawGraphicsText.drawText(g, x, y, text, textFormat);
+		g.setFont(TextRendering.createFont(textFormat));
+		TextRendering.drawText(g, x, y, text, textFormat);
 	}
 
 	public void clear() {
@@ -255,7 +255,7 @@ public class CodeDrawGraphics {
 		target.setColor(c);
 	}
 
-	public void copyTo(CodeDrawGraphics target) {
+	public void copyTo(CodeDrawImage target) {
 		copyTo(target.g);
 	}
 

@@ -1,7 +1,7 @@
 package codedraw;
 
 import codedraw.events.*;
-import codedraw.graphics.CodeDrawGraphics;
+import codedraw.images.CodeDrawImage;
 import codedraw.textformat.*;
 
 import javax.imageio.ImageIO;
@@ -73,7 +73,7 @@ public class CodeDraw implements AutoCloseable {
 
 		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
-		g = CodeDrawGraphics.createDPIAwareCodeDrawGraphics(canvasWidth, canvasHeight);
+		g = CodeDrawImage.createDPIAwareCodeDrawGraphics(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
@@ -86,7 +86,7 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	private CanvasWindow window;
-	private CodeDrawGraphics g;
+	private CodeDrawImage g;
 	private EventCollection events;
 	private TextFormat textFormat = new TextFormat();
 	private Subscription ctrlCSubscription;
