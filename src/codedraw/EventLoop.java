@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UncheckedIOException;
 
 class EventLoop {
 	public EventLoop() {
@@ -43,10 +44,10 @@ class EventLoop {
 			PrintWriter pw = new PrintWriter(sw)
 		) {
 			t.printStackTrace(pw);
-			return sw.toString();
+			return sw.toString().replaceAll("\t", "    ");
 		}
-		catch (IOException ignored) {
-			return "Stacktrace failed";
+		catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
 	}
 }
