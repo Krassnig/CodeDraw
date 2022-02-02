@@ -295,6 +295,21 @@ public class EventTest {
 		}
 	}
 
+	@Test
+	public void windowCloseTest() {
+		confirm.setConfirmationDialogue("Close the window");
+
+		while (esc.hasNextEvent()) {
+			if (esc.hasWindowCloseEvent()) {
+				esc.nextWindowCloseEvent();
+				break;
+			}
+			else {
+				esc.nextEvent();
+			}
+		}
+	}
+
 	private Subscription subscription;
 	private EventHandler<KeyPressEventArgs> key;
 	private EventHandler<MouseClickEventArgs> mouse;

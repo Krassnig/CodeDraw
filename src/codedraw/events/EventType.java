@@ -1,0 +1,18 @@
+package codedraw.events;
+
+enum EventType {
+	ANY,
+	MOUSE_CLICK,
+	MOUSE_MOVE,
+	MOUSE_DOWN,
+	MOUSE_UP,
+	MOUSE_ENTER,
+	MOUSE_LEAVE,
+	MOUSE_WHEEL,
+	KEY_DOWN,
+	KEY_UP,
+	KEY_PRESS,
+	WINDOW_MOVE,
+	WINDOW_CLOSE,
+	END_OF_EVENT
+}
