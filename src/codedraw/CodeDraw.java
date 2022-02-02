@@ -1012,7 +1012,6 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public void close(boolean terminateProcess) {
 		ctrlCSubscription.unsubscribe();
-		g.dispose();
 		window.dispose(terminateProcess);
 	}
 

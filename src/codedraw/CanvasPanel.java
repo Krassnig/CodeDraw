@@ -23,7 +23,7 @@ class CanvasPanel extends JPanel {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 
-		displayBuffer.drawImage(codeDrawBuffer);
+		displayBuffer.drawImage(0, 0, codeDrawBuffer);
 
 		renderCopyLock.release();
 		clipboardCopyLock.release();

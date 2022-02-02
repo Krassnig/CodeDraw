@@ -7,10 +7,21 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.*;
 import java.util.Base64;
 
 public class CodeDrawImage {
+	/**
+	 * Loads an image from the file system.
+	 * Supported image formats:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * {@link ImageIO#read(File)} and {@link File#File(String)} are used to read the image from the file system.
+	 * Read their documentation for more details.
+	 * @param pathToImage A string that points to an image file.
+	 * @return An image.
+	 */
 	public static CodeDrawImage fromFile(String pathToImage) {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
@@ -21,6 +32,15 @@ public class CodeDrawImage {
 		}
 	}
 
+	/**
+	 * Converts a Base64 string into a CodeDrawImage.
+	 * Supported image formats:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * {@link ImageIO#read(InputStream)} and {@link Base64.Decoder#decode(String)} are used to convert the image.
+	 * @param base64 a Base64 string
+	 * @return a CodeDraw image
+	 */
 	public static CodeDrawImage fromBase64String(String base64) {
 		if (base64 == null) throw createParameterNullException("base64");
 
@@ -31,6 +51,15 @@ public class CodeDrawImage {
 		}
 	}
 
+	/**
+	 * Creates a CodeDraw image with an up-scaled resolution.
+	 * The upscaling factor depends on the highest resolution of all monitors on the current machine.
+	 * The pixel grid coordinates will be the same as a regular CodeDrawImage
+	 * but round edges and fractional coordinates will be more precisely drawn
+	 * @param width The width of the CodeDrawImage.
+	 * @param height The height of the CodeDrawImage.
+	 * @return a CodeDrawImage
+	 */
 	public static CodeDrawImage fromDPIAwareSize(int width, int height) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
@@ -39,6 +68,13 @@ public class CodeDrawImage {
 		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
+	/**
+	 * Saves the image to the specified location.
+	 * {@link ImageIO#write(RenderedImage, String, File)} and {@link File#File(String)} are used to read the image from the file system.
+	 * Read their documentation for more details.
+	 * @param image a CodeDrawImage
+	 * @param pathToImage The location where the image should be saved.
+	 */
 	public static void saveAsPNG(CodeDrawImage image, String pathToImage) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
@@ -51,10 +87,22 @@ public class CodeDrawImage {
 		}
 	}
 
+	/**
+	 * Creates a copy of the CodeDrawImage supplied as a parameter.
+	 * The configuration of the CodeDrawImage will not be copied.
+	 * All parameters of the result will be set to their default value.
+	 * DPIAware scaling will also be ignored.
+	 * @param image Image that is to be copied.
+	 */
 	public CodeDrawImage(CodeDrawImage image) {
 		this(checkParameterNull(image, "image").image);
 	}
 
+	/**
+	 * Creates a CodeDrawImage from the Image supplied as a parameter.
+	 * The contents of the supplied image will be copied to create this new CodeDrawImage instance.
+	 * @param image Image that is to be converted to a CodeDrawImage.
+	 */
 	public CodeDrawImage(Image image) {
 		this(
 				checkParameterNull(image, "image").getWidth(null),
@@ -63,6 +111,11 @@ public class CodeDrawImage {
 		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
+	/**
+	 * Creates a white CodeDrawImage of the specified size.
+	 * @param width The width of the CodeDrawImage.
+	 * @param height The height of the CodeDrawImage.
+	 */
 	public CodeDrawImage(int width, int height) {
 		this(width, height, 1, 1);
 	}
@@ -661,12 +714,6 @@ public class CodeDrawImage {
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
-	public void drawImage(CodeDrawImage image) {
-		if (image == null) throw createParameterNullException("image");
-
-		drawImageInternal(0, 0, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
-	}
-
 	/**
 	 * Draws an image at the specified (x, y) coordinate.
 	 * The width and height of the image will be used to draw the image.
@@ -735,10 +782,12 @@ public class CodeDrawImage {
 		setColor(c);
 	}
 
-	public void copyTo(Graphics target) {
-		copyTo(target, Interpolation.BICUBIC);
-	}
-
+	/**
+	 * Copies this CodeDrawImage onto the graphics object.
+	 * Also applies an interpolation rendering hint if the graphics target is an instance of Graphics2D.
+	 * @param target a graphics object.
+	 * @param interpolation Defines the way the images is interpolated when drawn onto the graphics object. See {@link Interpolation}.
+	 */
 	public void copyTo(Graphics target, Interpolation interpolation) {
 		if (target == null) throw createParameterNullException("target");
 		if (interpolation == null) throw createParameterNullException("interpolation");
@@ -754,15 +803,14 @@ public class CodeDrawImage {
 		target.setColor(c);
 	}
 
+	/**
+	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
+	 * @return a BufferedImage.
+	 */
 	public BufferedImage convertToBufferedImage() {
 		CodeDrawImage result = new CodeDrawImage(this);
 		result.g.dispose();
 		return result.image;
-	}
-
-	public void dispose() {
-		g.dispose();
-		image = null;
 	}
 
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {
