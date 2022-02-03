@@ -3,15 +3,10 @@ package codedraw;
 import codedraw.events.*;
 import codedraw.images.CodeDrawImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Base64;
 
 class CanvasWindow {
 	private static final BufferedImage codeDrawIcon = getCodeDrawIcon();
@@ -87,13 +82,11 @@ class CanvasWindow {
 	}
 
 	private void bindEvents(EventCollection events) {
-		KeyDownMap keyDownMap = new KeyDownMap(events.keyDown);
-
 		canvas.addMouseListener(createMouseListener(events));
 		canvas.addMouseMotionListener(createMouseMotionListener(events));
 		canvas.addMouseWheelListener(createMouseWheelListener(events));
 
-		frame.addKeyListener(createKeyListener(events, keyDownMap));
+		frame.addKeyListener(createKeyListener(events));
 		frame.addComponentListener(createComponentListener(events));
 		frame.addWindowListener(createWindowListener(events));
 	}
@@ -113,19 +106,18 @@ class CanvasWindow {
 	}
 
 	private static MouseListener createMouseListener(EventCollection events) {
-		return new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				events.mouseClick.invoke(new MouseClickEventArgs(e));
-			}
+		return new MouseAdapter() {
+			private MouseClickMap clickMap = new MouseClickMap(events.mouseClick);
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+				clickMap.mousePressed(e);
 				events.mouseDown.invoke(new MouseDownEventArgs(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				clickMap.mouseReleased(e);
 				events.mouseUp.invoke(new MouseUpEventArgs(e));
 			}
 
@@ -141,8 +133,10 @@ class CanvasWindow {
 		};
 	}
 
-	private KeyListener createKeyListener(EventCollection events, KeyDownMap keyDownMap) {
+	private KeyListener createKeyListener(EventCollection events) {
 		return new KeyAdapter() {
+			private KeyDownMap keyDownMap = new KeyDownMap(events.keyDown);
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				keyDownMap.keyPress(e);

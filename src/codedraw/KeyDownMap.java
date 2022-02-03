@@ -1,7 +1,6 @@
 package codedraw;
 
 import codedraw.events.KeyDownEventArgs;
-import codedraw.events.KeyPressEventArgs;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
