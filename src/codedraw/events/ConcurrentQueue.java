@@ -28,8 +28,8 @@ class ConcurrentQueue<T> {
 		listCount.release();
 	}
 
-	public boolean canPop() {
-		return listCount.canAcquire();
+	public boolean isEmpty() {
+		return !listCount.canAcquire();
 	}
 
 	public T pop() {
@@ -61,7 +61,7 @@ class ConcurrentQueue<T> {
 	private T popInternal() {
 		T result = list[offset++ % capacity()];
 		length--;
-		if (offsetIsMultipleOfCapacity() || isEmpty()) offset = 0;
+		if (offsetIsMultipleOfCapacity() || isEmptyInternal()) offset = 0;
 		return result;
 	}
 
@@ -73,7 +73,7 @@ class ConcurrentQueue<T> {
 		return list.length;
 	}
 
-	private boolean isEmpty() {
+	private boolean isEmptyInternal() {
 		return length == 0;
 	}
 

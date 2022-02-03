@@ -14,5 +14,14 @@ enum EventType {
 	KEY_PRESS,
 	WINDOW_MOVE,
 	WINDOW_CLOSE,
-	END_OF_EVENT
+	END_OF_EVENT;
+
+	public boolean isEqual(EventType other) {
+		return this == other || this == ANY || other == ANY;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString().toLowerCase().replace('_', ' ').concat(" event");
+	}
 }

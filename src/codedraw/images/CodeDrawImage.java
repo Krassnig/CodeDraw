@@ -11,6 +11,9 @@ import java.awt.image.RenderedImage;
 import java.io.*;
 import java.util.Base64;
 
+/**
+ * CodeDrawImage represents an image that can be used within the CodeDraw library.
+ */
 public class CodeDrawImage {
 	/**
 	 * Loads an image from the file system.

@@ -42,7 +42,7 @@ public class GameOfLife {
 	private boolean setValue = false;
 
 	public void processEvents() {
-		while (esc.hasNextEventNow()) {
+		while (esc.hasEventNow()) {
 			if (esc.hasMouseDownEvent()) {
 				MouseDownEventArgs a = esc.nextMouseDownEvent();
 				isMouseDown = true;

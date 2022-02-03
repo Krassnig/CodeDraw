@@ -5,15 +5,78 @@ import codedraw.CodeDraw;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 import static codedraw.events.EventType.*;
 
+/**
+ * The EventScanner works in the same way as a {@link java.util.Scanner}.
+ * The source of the events is specified as an argument to the constructor of the EventScanner.
+ * If multi EventScanner listen to the same CodeDraw instance/window,
+ * then the event will appear in both EventScanner.
+ * <br><br>
+ * The following example shows the current position of the mouse and the number of clicks:
+ * <pre>{@code
+ * CodeDraw cd = new CodeDraw();
+ * EventScanner es = new EventScanner(cd);
+ *
+ * int x = 0;
+ * int y = 0;
+ * int clickCount = 0;
+ *
+ * while (!es.isClosed()) {
+ *     while (es.hasEventNow()) {
+ *         if (es.hasMouseMoveEvent()) {
+ *             MouseMoveEventArgs a = es.nextMouseMoveEvent();
+ *             x = a.getX();
+ *             y = a.getY();
+ *         }
+ *         if (es.hasMouseClickEvent()) {
+ *             clickCount++;
+ *             es.nextEvent();
+ *         }
+ *         else {
+ *             es.nextEvent();
+ *         }
+ *     }
+ *
+ *     cd.clear();
+ *     cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+ *     cd.show();
+ * }
+ * }</pre>
+ * This example first check if there are events available.
+ * If there are, they get processed until there are no more events available.
+ * Events that are not moves or clicks are ignored.
+ * Once the events are processed the x/y position and clickCount are shown.
+ * This continues in a loop until the user closes the window.
+ * <br><br>
+ * The EventScanner automatically closes when the CodeDraw window is closed.
+ * The remaining events can still be consumed when the EventScanner is closed,
+ * but no new events will appear.
+ */
 public class EventScanner implements AutoCloseable {
 	private static final EventInfo EndOfEvent = new EventInfo(END_OF_EVENT, null);
 
+	public static <T> T waitFor(Function<EventHandler<T>, Subscription> codeDrawEvent) {
+		Semaphore semaphore = new Semaphore(0);
+		AtomicReference<T> result = new AtomicReference<>(null);
+		Subscription subscription = codeDrawEvent.apply(a -> {
+			result.set(a);
+			semaphore.release();
+		});
+		semaphore.acquire();
+		subscription.unsubscribe();
+		return result.get();
+	}
+
+	/**
+	 * Creates a new EventScanner. Read the class documentation for a detailed explanation.
+	 * @param codeDraw the source of the events.
+	 */
 	public EventScanner(CodeDraw codeDraw) {
-		queue = new ConcurrentQueue<>();
+		queue = new ConcurrentQueue<>(128);
 		subscriptions = new ArrayList<>(12);
 		
 		bindEvent(codeDraw::onMouseClick, MOUSE_CLICK);
@@ -36,63 +99,234 @@ public class EventScanner implements AutoCloseable {
 
 	private ConcurrentQueue<EventInfo> queue;
 	private ArrayList<Subscription> subscriptions;
+	private boolean isClosed = false;
 
-	public boolean hasNextEventNow() {
-		return queue.canPop() && hasNextEvent();
+	/**
+	 * Doesn't wait until the next event is available,
+	 * but instead returns immediately.
+	 * If there is currently an event available returns true
+	 * otherwise false.
+	 * @return whether there are currently events available
+	 */
+	public boolean hasEventNow() {
+		return !queue.isEmpty() && hasEvent();
 	}
 
-	public boolean hasNextEvent() {
+	/**
+	 * Waits until the next event is available.
+	 * Returns false if there are no more events.
+	 * @return whether there are more events available
+	 */
+	public boolean hasEvent() {
 		return !hasEndOfEvent();
 	}
 
-	public boolean hasMouseClickEvent() { return peek(MOUSE_CLICK); }
-	public boolean hasMouseMoveEvent() { return peek(MOUSE_MOVE); }
-	public boolean hasMouseDownEvent() { return peek(MOUSE_DOWN); }
-	public boolean hasMouseUpEvent() { return peek(MOUSE_UP); }
-	public boolean hasMouseEnterEvent() { return peek(MOUSE_ENTER); }
-	public boolean hasMouseLeaveEvent() { return peek(MOUSE_LEAVE); }
-	public boolean hasMouseWheelEvent() { return peek(MOUSE_WHEEL); }
-	public boolean hasKeyDownEvent() { return peek(KEY_DOWN); }
-	public boolean hasKeyUpEvent() { return peek(KEY_UP); }
-	public boolean hasKeyPressEvent() { return peek(KEY_PRESS); }
-	public boolean hasWindowMoveEvent() { return peek(WINDOW_MOVE); }
-	public boolean hasWindowCloseEvent() { return peek(WINDOW_CLOSE); }
-	private boolean hasEndOfEvent() { return peek(END_OF_EVENT); }
+	/**
+	 * Waits until the next mouse click event is available.
+	 * Returns true if the next event is a mouse click event, otherwise false.
+	 * @return whether the next event is a mouse click event.
+	 */
+	public boolean hasMouseClickEvent() { return has(MOUSE_CLICK); }
+	/**
+	 * Waits until the next mouse move event is available.
+	 * Returns true if the next event is a mouse move event, otherwise false.
+	 * @return whether the next event is a mouse move event.
+	 */
+	public boolean hasMouseMoveEvent() { return has(MOUSE_MOVE); }
+	/**
+	 * Waits until the next mouse down event is available.
+	 * Returns true if the next event is a mouse down event, otherwise false.
+	 * @return whether the next event is a mouse down event.
+	 */
+	public boolean hasMouseDownEvent() { return has(MOUSE_DOWN); }
+	/**
+	 * Waits until the next mouse up event is available.
+	 * Returns true if the next event is a mouse up event, otherwise false.
+	 * @return whether the next event is a mouse up event.
+	 */
+	public boolean hasMouseUpEvent() { return has(MOUSE_UP); }
+	/**
+	 * Waits until the next mouse enter event is available.
+	 * Returns true if the next event is a mouse enter event, otherwise false.
+	 * @return whether the next event is a mouse enter event.
+	 */
+	public boolean hasMouseEnterEvent() { return has(MOUSE_ENTER); }
+	/**
+	 * Waits until the next mouse leave event is available.
+	 * Returns true if the next event is a mouse leave event, otherwise false.
+	 * @return whether the next event is a mouse leave event.
+	 */
+	public boolean hasMouseLeaveEvent() { return has(MOUSE_LEAVE); }
+	/**
+	 * Waits until the next mouse wheel event is available.
+	 * Returns true if the next event is a mouse wheel event, otherwise false.
+	 * @return whether the next event is a mouse wheel event.
+	 */
+	public boolean hasMouseWheelEvent() { return has(MOUSE_WHEEL); }
+	/**
+	 * Waits until the next key down event is available.
+	 * Returns true if the next event is a key down event, otherwise false.
+	 * @return whether the next event is a key down event.
+	 */
+	public boolean hasKeyDownEvent() { return has(KEY_DOWN); }
+	/**
+	 * Waits until the next key up event is available.
+	 * Returns true if the next event is a key up event, otherwise false.
+	 * @return whether the next event is a key up event.
+	 */
+	public boolean hasKeyUpEvent() { return has(KEY_UP); }
+	/**
+	 * Waits until the next key press event is available.
+	 * Returns true if the next event is a key press event, otherwise false.
+	 * @return whether the next event is a key press event.
+	 */
+	public boolean hasKeyPressEvent() { return has(KEY_PRESS); }
+	/**
+	 * Waits until the next window move event is available.
+	 * Returns true if the next event is a window move event, otherwise false.
+	 * @return whether the next event is a window move event.
+	 */
+	public boolean hasWindowMoveEvent() { return has(WINDOW_MOVE); }
+	/**
+	 * Waits until the next window close event is available.
+	 * Returns true if the next event is a window close event, otherwise false.
+	 * @return whether the next event is a window close event.
+	 */
+	public boolean hasWindowCloseEvent() { return has(WINDOW_CLOSE); }
+	private boolean hasEndOfEvent() { return has(END_OF_EVENT); }
 
-	public Object nextEvent() { return pop(ANY); }
-	public MouseClickEventArgs nextMouseClickEvent() { return pop(MOUSE_CLICK); }
-	public MouseMoveEventArgs nextMouseMoveEvent() { return pop(MOUSE_MOVE); }
-	public MouseDownEventArgs nextMouseDownEvent() { return pop(MOUSE_DOWN); }
-	public MouseUpEventArgs nextMouseUpEvent() { return pop(MOUSE_UP); }
-	public MouseEnterEventArgs nextMouseEnterEvent() { return pop(MOUSE_ENTER); }
-	public MouseLeaveEventArgs nextMouseLeaveEvent() { return pop(MOUSE_LEAVE); }
-	public MouseWheelEventArgs nextMouseWheelEvent() { return pop(MOUSE_WHEEL); }
-	public KeyDownEventArgs nextKeyDownEvent() { return pop(KEY_DOWN); }
-	public KeyUpEventArgs nextKeyUpEvent() { return pop(KEY_UP); }
-	public KeyPressEventArgs nextKeyPressEvent() { return pop(KEY_PRESS); }
-	public WindowMoveEventArgs nextWindowMoveEvent() { return pop(WINDOW_MOVE); }
-	public WindowCloseEventArgs nextWindowCloseEvent() { return pop(WINDOW_CLOSE); }
+	/**
+	 * Waits for the next event and then returns it.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return The event args as an object.
+	 */
+	public Object nextEvent() { return next(ANY); }
 
-	private boolean peek(EventType type) {
-		return queue.peek().type == type;
+	/**
+	 * Waits for the next mouse click event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse click event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse click event.
+	 */
+	public MouseClickEventArgs nextMouseClickEvent() { return next(MOUSE_CLICK); }
+	/**
+	 * Waits for the next mouse move event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse move event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse move event.
+	 */
+	public MouseMoveEventArgs nextMouseMoveEvent() { return next(MOUSE_MOVE); }
+	/**
+	 * Waits for the next mouse down event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse down event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse down event.
+	 */
+	public MouseDownEventArgs nextMouseDownEvent() { return next(MOUSE_DOWN); }
+	/**
+	 * Waits for the next mouse up event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse up event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse up event.
+	 */
+	public MouseUpEventArgs nextMouseUpEvent() { return next(MOUSE_UP); }
+	/**
+	 * Waits for the next mouse enter event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse enter event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse enter event.
+	 */
+	public MouseEnterEventArgs nextMouseEnterEvent() { return next(MOUSE_ENTER); }
+	/**
+	 * Waits for the next mouse leave event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse leave event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse leave event.
+	 */
+	public MouseLeaveEventArgs nextMouseLeaveEvent() { return next(MOUSE_LEAVE); }
+	/**
+	 * Waits for the next mouse wheel event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a mouse wheel event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a mouse wheel event.
+	 */
+	public MouseWheelEventArgs nextMouseWheelEvent() { return next(MOUSE_WHEEL); }
+	/**
+	 * Waits for the next key down event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a key down event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a key down event.
+	 */
+	public KeyDownEventArgs nextKeyDownEvent() { return next(KEY_DOWN); }
+	/**
+	 * Waits for the next key up event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a key up event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a key up event.
+	 */
+	public KeyUpEventArgs nextKeyUpEvent() { return next(KEY_UP); }
+	/**
+	 * Waits for the next key press event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a key press event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a key press event.
+	 */
+	public KeyPressEventArgs nextKeyPressEvent() { return next(KEY_PRESS); }
+	/**
+	 * Waits for the next window move event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a window move event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a window move event.
+	 */
+	public WindowMoveEventArgs nextWindowMoveEvent() { return next(WINDOW_MOVE); }
+	/**
+	 * Waits for the next window close event and then consumes the event.
+	 * @throws InputMismatchException if the next event is not a window close event.
+	 * @throws NoSuchElementException if there are no more events.
+	 * @return a window close event.
+	 */
+	public WindowCloseEventArgs nextWindowCloseEvent() { return next(WINDOW_CLOSE); }
+
+	private boolean has(EventType type) {
+		return peekType().isEqual(type);
 	}
 
-	private <T> T pop(EventType type) {
-		if (hasEndOfEvent()) throw new NoSuchElementException();
-
-		EventInfo ei = queue.pop();
-		if (type != ei.type && type != ANY) throw new InputMismatchException();
-		if (ei.type == WINDOW_CLOSE) {
-			queue.push(EndOfEvent);
-		}
-
-		return (T)ei.args;
+	private EventType peekType() {
+		return queue.peek().type;
 	}
 
+	private <T> T next(EventType expected) {
+		EventType actual = peekType();
+
+		if (actual.isEqual(END_OF_EVENT)) throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
+		if (actual.isEqual(WINDOW_CLOSE)) close();
+		if (!actual.isEqual(expected)) throw new InputMismatchException("The next event is a " + actual + " but tried to consume " + expected + ". Check whether " + actual + " is next before consuming.");
+
+		return (T)queue.pop().args;
+	}
+
+	/**
+	 * Closes the EventScanner.
+	 * The EventScanner automatically closes when the CodeDraw window is closed.
+	 * The remaining events can still be consumed when the EventScanner is closed,
+	 * but no new events will appear.
+	 */
 	@Override
 	public void close() {
-		subscriptions.forEach(Subscription::unsubscribe);
-		queue.push(EndOfEvent);
+		if (!isClosed) {
+			subscriptions.forEach(Subscription::unsubscribe);
+			queue.push(EndOfEvent);
+			isClosed = true;
+		}
+	}
+
+	/**
+	 * Checks whether this EventScanner is closed.
+	 * The EventScanner automatically closes when the CodeDraw window is closed.
+	 * @return whether the EventScanner still received new events.
+	 */
+	public boolean isClosed() {
+		return isClosed;
 	}
 
 	private static class EventInfo {

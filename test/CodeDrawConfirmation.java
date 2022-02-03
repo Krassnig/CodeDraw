@@ -43,7 +43,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 			return;
 		}
 
-		while (esc.hasNextEvent()) {
+		while (esc.hasEvent()) {
 			if (esc.hasMouseDownEvent()) {
 				if (isConfirmed(esc.nextMouseDownEvent())) {
 					return;
@@ -63,8 +63,8 @@ public class CodeDrawConfirmation implements AutoCloseable {
 			setState(State.CAN_CONFIRM);
 		}
 
-		while (esc.hasNextEventNow()) {
-			if (!esc.hasNextEvent()) {
+		while (esc.hasEventNow()) {
+			if (!esc.hasEvent()) {
 				System.err.println("Test was interrupted and neither rejected nor confirmed.");
 				System.exit(0);
 			}

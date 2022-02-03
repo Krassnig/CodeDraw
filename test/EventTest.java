@@ -70,7 +70,7 @@ public class EventTest {
 		confirm.setConfirmationDialogue("The curve should follow your mouse.");
 
 		while (!confirm.hasConfirmationBeenPressed()) {
-			if (esc.hasNextEventNow()) {
+			if (esc.hasEventNow()) {
 				if (esc.hasMouseMoveEvent()) {
 					MouseMoveEventArgs a = esc.nextMouseMoveEvent();
 					cd.clear();
@@ -100,7 +100,7 @@ public class EventTest {
 		int dy = 0;
 
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (esc.hasWindowMoveEvent()) {
 					WindowMoveEventArgs a = esc.nextWindowMoveEvent();
 					dx = x - a.getCanvasPositionX();
@@ -124,7 +124,7 @@ public class EventTest {
 		String text = "";
 		cd.setColor(Palette.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (esc.hasKeyDownEvent()) {
 					text += esc.nextKeyDownEvent().getChar();
 				}
@@ -146,7 +146,7 @@ public class EventTest {
 		String text = "";
 		cd.setColor(Palette.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (esc.hasKeyUpEvent()) {
 					text += esc.nextKeyUpEvent().getChar();
 				}
@@ -168,7 +168,7 @@ public class EventTest {
 		String text = "";
 		cd.setColor(Palette.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (esc.hasKeyPressEvent()) {
 					text += esc.nextKeyPressEvent().getChar();
 				}
@@ -190,7 +190,7 @@ public class EventTest {
 		double l = 0;
 		cd.setColor(Palette.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (esc.hasMouseWheelEvent()) {
 					l += esc.nextMouseWheelEvent().getWheelRotation();
 				}
@@ -282,7 +282,7 @@ public class EventTest {
 
 		cd.setColor(Palette.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
-			while (esc.hasNextEventNow()) {
+			while (esc.hasEventNow()) {
 				if (hasEvent.get()) {
 					Point p = nextEvent.get();
 					cd.fillRectangle(p.getX() - 5, p.getY() - 5, 10, 10);
@@ -299,7 +299,7 @@ public class EventTest {
 	public void windowCloseTest() {
 		confirm.setConfirmationDialogue("Close the window");
 
-		while (esc.hasNextEvent()) {
+		while (esc.hasEvent()) {
 			if (esc.hasWindowCloseEvent()) {
 				esc.nextWindowCloseEvent();
 				break;
