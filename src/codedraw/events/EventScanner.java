@@ -59,6 +59,22 @@ import static codedraw.events.EventType.*;
 public class EventScanner implements AutoCloseable {
 	private static final EventInfo EndOfEvent = new EventInfo(END_OF_EVENT, null);
 
+	/**
+	 * Waits until the next time the given event is triggered and
+	 * then returns the event arguments as the result of this function.
+	 * However, events that happen just before or after calling waitFor are lost.
+	 * That means if events happen in between waitFor calls these events will be lost.
+	 * To prevent that create an EventScanner object and use that object.
+	 * <br><br>
+	 * Example:
+	 * <pre>{@code
+	 * MouseClickEventArgs args = EventScanner.waitFor(codeDraw::onMouseClick);
+	 * // use args here
+	 * }</pre>
+	 * @param codeDrawEvent a CodeDraw Event.
+	 * @param <T> a type of event argument.
+	 * @return The event argument.
+	 */
 	public static <T> T waitFor(Function<EventHandler<T>, Subscription> codeDrawEvent) {
 		Semaphore semaphore = new Semaphore(0);
 		AtomicReference<T> result = new AtomicReference<>(null);
