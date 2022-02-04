@@ -33,8 +33,7 @@ class CanvasWindow {
 		frame.toFront();
 		frame.setVisible(true);
 
-		windowPosition = frame.getLocationOnScreen();
-		canvasPosition = canvas.getLocationOnScreen();
+		updateWindowAndCanvasPosition();
 
 		bindEvents(events);
 	}
@@ -43,20 +42,23 @@ class CanvasWindow {
 	private JFrameCorrector jFrameCorrector;
 	private CanvasPanel canvas;
 	private Point windowPosition;
-	private Point canvasPosition;
+	private Point distanceFromWindowToCanvas;
 	private CursorStyle cursorStyle;
 
 	public Point getWindowPosition() { return windowPosition; }
 	public void setWindowPosition(Point newPosition) {
-		canvasPosition = plus(canvasPosition, minus(windowPosition, newPosition));
 		windowPosition = newPosition;
-
 		frame.setLocation(windowPosition);
 	}
 
-	public Point getCanvasPosition() { return canvasPosition; }
+	public Point getCanvasPosition() { return plus(windowPosition, distanceFromWindowToCanvas); }
 	public void setCanvasPosition(Point newPosition) {
-		setWindowPosition(minus(newPosition, minus(getCanvasPosition(), getWindowPosition())));
+		setWindowPosition(minus(newPosition, distanceFromWindowToCanvas));
+	}
+
+	private void updateWindowAndCanvasPosition() {
+		this.windowPosition = frame.getLocationOnScreen().getLocation();
+		distanceFromWindowToCanvas = minus(canvas.getLocationOnScreen().getLocation(), windowPosition);
 	}
 
 	public String getTitle() { return frame.getTitle(); }
@@ -93,8 +95,7 @@ class CanvasWindow {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				windowPosition = frame.getLocationOnScreen();
-				canvasPosition = canvas.getLocationOnScreen();
+				updateWindowAndCanvasPosition();
 				events.windowMove.invoke(e);
 			}
 		};
