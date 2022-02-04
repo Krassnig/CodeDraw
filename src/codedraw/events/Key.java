@@ -192,7 +192,7 @@ public enum Key {
 	BEGIN(VK_BEGIN),
 	UNDEFINED(VK_UNDEFINED);
 
-	private int keyCode;
+	private final int keyCode;
 
 	Key(int keyCode) {
 		this.keyCode = keyCode;

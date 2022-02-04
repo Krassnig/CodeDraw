@@ -9,7 +9,7 @@ public class MouseClickMap {
 		this.mouseClickEvent = mouseClickEvent;
 	}
 
-	private Event<MouseClickEventArgs> mouseClickEvent;
+	private final Event<MouseClickEventArgs> mouseClickEvent;
 	private MouseEvent lastMouseDown;
 
 	public void mousePressed(MouseEvent mouseEvent) {

@@ -14,10 +14,10 @@ class CanvasPanel extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 	}
 
-	private CodeDrawImage displayBuffer;
+	private final CodeDrawImage displayBuffer;
 
-	private Semaphore clipboardCopyLock = new Semaphore(1);
-	private Semaphore renderCopyLock = new Semaphore(1);
+	private final Semaphore clipboardCopyLock = new Semaphore(1);
+	private final Semaphore renderCopyLock = new Semaphore(1);
 
 	public void render(CodeDrawImage codeDrawBuffer) {
 		clipboardCopyLock.acquire();

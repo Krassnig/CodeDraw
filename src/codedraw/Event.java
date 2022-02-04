@@ -6,14 +6,14 @@ import codedraw.events.Subscription;
 import java.util.ArrayList;
 
 class Event<TArgs> {
-	private static EventLoop eventLoop = new EventLoop();
+	private static final EventLoop eventLoop = new EventLoop();
 
 	public static boolean isCurrentThreadOnEventLoop() { return eventLoop.isCurrentThreadOnEventLoop(); }
 
 	public Event() { }
 
-	private ArrayList<EventHandler<TArgs>> subscribers = new ArrayList<>();
-	private Semaphore subscriberLock = new Semaphore(1);
+	private final ArrayList<EventHandler<TArgs>> subscribers = new ArrayList<>();
+	private final Semaphore subscriberLock = new Semaphore(1);
 
 	public void invoke(TArgs args) {
 		eventLoop.queue(() -> invokeAll(args));

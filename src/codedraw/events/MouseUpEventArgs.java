@@ -7,7 +7,7 @@ public class MouseUpEventArgs {
 		this.e = e;
 	}
 
-	private MouseEvent e;
+	private final MouseEvent e;
 
 	public int getX() {
 		return e.getX();

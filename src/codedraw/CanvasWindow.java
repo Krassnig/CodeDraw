@@ -38,9 +38,9 @@ class CanvasWindow {
 		bindEvents(events);
 	}
 
-	private JFrameCorrector jFrameCorrector;
-	private JFrame frame;
-	private CanvasPanel canvas;
+	private final JFrameCorrector jFrameCorrector;
+	private final JFrame frame;
+	private final CanvasPanel canvas;
 	private Point windowPosition;
 	private Point distanceFromWindowToCanvas;
 	private CursorStyle cursorStyle;
@@ -107,7 +107,7 @@ class CanvasWindow {
 
 	private static MouseListener createMouseListener(EventCollection events) {
 		return new MouseAdapter() {
-			private MouseClickMap clickMap = new MouseClickMap(events.mouseClick);
+			private final MouseClickMap clickMap = new MouseClickMap(events.mouseClick);
 
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -135,7 +135,7 @@ class CanvasWindow {
 
 	private KeyListener createKeyListener(EventCollection events) {
 		return new KeyAdapter() {
-			private KeyDownMap keyDownMap = new KeyDownMap(events.keyDown);
+			private final KeyDownMap keyDownMap = new KeyDownMap(events.keyDown);
 
 			@Override
 			public void keyPressed(KeyEvent e) {

@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * TextFormat is used to specify how CodeDraw formats, places and styles its drawn text.
  * See also {@link codedraw.CodeDraw#drawText(double, double, String)}
- * and {@link CodeDrawImage#drawText(double, double, String, TextFormat)}.
+ * and {@link CodeDrawImage#drawText(double, double, String)}.
  */
 public final class TextFormat {
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
@@ -38,14 +38,14 @@ public final class TextFormat {
 
 	/**
 	 * Defines the vertical alignment of the drawn text.
-	 * The default is VerticalAlign.TOP
+	 * The default is {@link VerticalAlign#TOP}
 	 * @return the vertical alignment.
 	 */
 	public VerticalAlign getVerticalAlign() { return verticalAlign; }
 
 	/**
 	 * Defines the vertical alignment of the drawn text.
-	 * The default is VerticalAlign.TOP
+	 * The default is {@link VerticalAlign#TOP}
 	 * @param verticalAlign Sets the vertical alignment.
 	 */
 	public void setVerticalAlign(VerticalAlign verticalAlign) {

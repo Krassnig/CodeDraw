@@ -14,8 +14,8 @@ class EventLoop {
 		thread.start();
 	}
 
-	private Thread thread;
-	private ConcurrentQueue<Runnable> queue = new ConcurrentQueue<>();
+	private final Thread thread;
+	private final ConcurrentQueue<Runnable> queue = new ConcurrentQueue<>();
 
 	public void queue(Runnable runnable) {
 		queue.push(runnable);

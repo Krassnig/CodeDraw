@@ -13,7 +13,7 @@ public enum Interpolation {
 	NEAREST_NEIGHBOR,
 	/**
 	 * Bilinear interpolation interpolates pixel values via linear equations.
-	 * This reduces contrast and makes images appear less sharp.
+	 * Bilinear reduces contrast and makes images appear less sharp.
 	 */
 	BILINEAR,
 	/**

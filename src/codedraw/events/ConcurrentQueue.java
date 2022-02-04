@@ -15,8 +15,8 @@ class ConcurrentQueue<T> {
 	private int offset = 0;
 	private int length = 0;
 
-	private Semaphore listLock = new Semaphore(1);
-	private Semaphore listCount = new Semaphore(0);
+	private final Semaphore listLock = new Semaphore(1);
+	private final Semaphore listCount = new Semaphore(0);
 
 	public void push(T element) {
 		listLock.acquire();

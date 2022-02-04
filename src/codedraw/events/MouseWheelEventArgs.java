@@ -7,7 +7,7 @@ public class MouseWheelEventArgs {
 		this.e = e;
 	}
 
-	private MouseWheelEvent e;
+	private final MouseWheelEvent e;
 
 	public double getWheelRotation() {
 		return e.getPreciseWheelRotation();

@@ -10,8 +10,8 @@ class KeyDownMap {
 		this.event = keyDownEvent;
 	}
 
-	private Event<KeyDownEventArgs> event;
-	private HashMap<Integer, Boolean> map = new HashMap<>();
+	private final Event<KeyDownEventArgs> event;
+	private final HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
 		Integer keyCode = keyEvent.getExtendedKeyCode();

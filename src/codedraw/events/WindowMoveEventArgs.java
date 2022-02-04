@@ -8,8 +8,8 @@ public class WindowMoveEventArgs {
 		this.windowPosition = windowPosition.getLocation();
 	}
 
-	private Point canvasPosition;
-	private Point windowPosition;
+	private final Point canvasPosition;
+	private final Point windowPosition;
 
 	public int getCanvasPositionX() {
 		return canvasPosition.x;

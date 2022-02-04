@@ -8,8 +8,8 @@ public class KeyDownEventArgs {
 		key = Key.getKeyFromKeyCode(e.getKeyCode());
 	}
 
-	private KeyEvent e;
-	private Key key;
+	private final KeyEvent e;
+	private final Key key;
 
 	public Key getKey() {
 		return key;

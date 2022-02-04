@@ -5,7 +5,7 @@ class Semaphore {
 		s = new java.util.concurrent.Semaphore(initialCount);
 	}
 
-	private java.util.concurrent.Semaphore s;
+	private final java.util.concurrent.Semaphore s;
 
 	public void acquire() {
 		try {

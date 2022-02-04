@@ -113,8 +113,8 @@ public class EventScanner implements AutoCloseable {
 		subscriptions.add(onEvent.apply(a -> queue.push(new EventInfo(type, a))));
 	}
 
-	private ConcurrentQueue<EventInfo> queue;
-	private ArrayList<Subscription> subscriptions;
+	private final ConcurrentQueue<EventInfo> queue;
+	private final ArrayList<Subscription> subscriptions;
 	private boolean isClosed = false;
 
 	/**

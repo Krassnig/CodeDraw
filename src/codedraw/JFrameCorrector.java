@@ -5,9 +5,6 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 class JFrameCorrector {
 	public JFrameCorrector(JFrame jFrame, Dimension jFrameTargetDimension) {

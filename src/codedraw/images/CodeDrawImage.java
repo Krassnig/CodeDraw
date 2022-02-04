@@ -414,7 +414,7 @@ public class CodeDrawImage {
 	}
 
 	/**
-	 * Draws a quadratic bezier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a quadratic Bézier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The controlX/Y parameter specifies in what way the curve will be bent.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
@@ -431,7 +431,7 @@ public class CodeDrawImage {
 	}
 
 	/**
-	 * Draws a cubic bezier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a cubic Bézier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
