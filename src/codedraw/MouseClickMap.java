@@ -4,7 +4,7 @@ import codedraw.events.MouseClickEventArgs;
 
 import java.awt.event.MouseEvent;
 
-public class MouseClickMap {
+class MouseClickMap {
 	public MouseClickMap(Event<MouseClickEventArgs> mouseClickEvent) {
 		this.mouseClickEvent = mouseClickEvent;
 	}
