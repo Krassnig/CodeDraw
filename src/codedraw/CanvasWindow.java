@@ -25,7 +25,7 @@ class CanvasWindow {
 		frame = new JFrame();
 		frame.setContentPane(canvas);
 		frame.pack();
-		frame.setMinimumSize(frame.getPreferredSize());
+		jFrameCorrector = new JFrameCorrector(frame, frame.getPreferredSize());
 		frame.setResizable(false);
 		frame.setIconImage(getCodeDrawIcon());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -40,6 +40,7 @@ class CanvasWindow {
 	}
 
 	private JFrame frame;
+	private JFrameCorrector jFrameCorrector;
 	private CanvasPanel canvas;
 	private Point windowPosition;
 	private Point canvasPosition;
@@ -177,6 +178,7 @@ class CanvasWindow {
 		this.exitOnLastClose = exitOnLastClose;
 		windowCountLock.release();
 
+		jFrameCorrector.stop();
 		frame.dispose();
 	}
 
