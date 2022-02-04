@@ -9,10 +9,20 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Base64;
 
 /**
  * CodeDrawImage represents an image that can be used within the CodeDraw library.
+ * Empty images can be created via the constructor.
+ * <pre>{@code
+ * CodeDrawImage image = new CodeDrawImage(400, 600);
+ * }</pre>
+ * External images can be loaded via static methods.
+ * <pre>{@code
+ * CodeDrawImage image = CodeDrawImage.fromFile("/Directory/Filename.png");
+ * }</pre>
  */
 public class CodeDrawImage {
 	/**
@@ -20,8 +30,7 @@ public class CodeDrawImage {
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
-	 * {@link ImageIO#read(File)} and {@link File#File(String)} are used to read the image from the file system.
-	 * Read their documentation for more details.
+	 * {@link ImageIO#read(File)} is used to read images from the file system.
 	 * @param pathToImage A string that points to an image file.
 	 * @return An image.
 	 */
@@ -36,13 +45,66 @@ public class CodeDrawImage {
 	}
 
 	/**
+	 * Loads an image file from the internet.
+	 * This function might be very slow depending on speed of the network connection
+	 * or the availability of the server.
+	 * <pre>{@code
+	 * CodeDrawImage image = CodeDrawImage.fromUrl("https://exmaple.com/example-image.png");
+	 * }</pre>
+	 * Supported image formats:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * {@link ImageIO#read(URL)} is used to load images from the network.
+	 * @param url Link to the image file.
+	 * @return An image.
+	 */
+	public static CodeDrawImage fromUrl(String url) {
+		if (url == null) throw createParameterNullException("url");
+
+		try {
+			return new CodeDrawImage(ImageIO.read(new URL(url)));
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Loads CodeDrawImages from the resource folder.
+	 * <pre>{@code
+	 * CodeDrawImage image = CodeDrawImage.fromResource("./my_image.png");
+	 * }</pre>
+	 * Supported image formats:
+	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
+	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * {@link ImageIO#read(URL)} is used to read images from the resource folder.
+	 * @param resourceName Path to the resource from the root of the resource folder.
+	 * @return An image.
+	 */
+	public static CodeDrawImage fromResource(String resourceName) {
+		if (resourceName == null) throw createParameterNullException("resourceName");
+
+		URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
+		if (url == null) {
+			//url = CodeDrawImage.class.getClassLoader().getResource(resourceName);
+		}
+		if (url == null) throw new RuntimeException();
+		try {
+			return new CodeDrawImage(ImageIO.read(url));
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
 	 * Converts a Base64 string into a CodeDrawImage.
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * {@link ImageIO#read(InputStream)} and {@link Base64.Decoder#decode(String)} are used to convert the image.
 	 * @param base64 a Base64 string
-	 * @return a CodeDraw image
+	 * @return a CodeDrawImage
 	 */
 	public static CodeDrawImage fromBase64String(String base64) {
 		if (base64 == null) throw createParameterNullException("base64");
@@ -58,7 +120,7 @@ public class CodeDrawImage {
 	 * Creates a CodeDraw image with an up-scaled resolution.
 	 * The upscaling factor depends on the highest resolution of all monitors on the current machine.
 	 * The pixel grid coordinates will be the same as a regular CodeDrawImage
-	 * but round edges and fractional coordinates will be more precisely drawn
+	 * but round edges and fractional coordinates will be more precisely drawn.
 	 * @param width The width of the CodeDrawImage.
 	 * @param height The height of the CodeDrawImage.
 	 * @return a CodeDrawImage
