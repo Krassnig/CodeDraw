@@ -17,7 +17,7 @@ class MouseClickMap {
 	}
 
 	public void mouseMoved(MouseEvent mouseEvent) {
-		if (calculateDelta(lastMouseDown, mouseEvent) > 38 * 38) {
+		if (lastMouseDown != null && calculateDelta(lastMouseDown, mouseEvent) > 38 * 38) {
 			lastMouseDown = null;
 		}
 	}
