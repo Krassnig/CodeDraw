@@ -16,15 +16,23 @@ class MouseClickMap {
 		lastMouseDown = mouseEvent;
 	}
 
+	public void mouseMoved(MouseEvent mouseEvent) {
+		if (calculateDelta(lastMouseDown, mouseEvent) > 38 * 38) {
+			lastMouseDown = null;
+		}
+	}
+
 	public void mouseReleased(MouseEvent mouseEvent) {
 		if (lastMouseDown != null) {
-			int deltaX = Math.abs(lastMouseDown.getX() - mouseEvent.getX());
-			int deltaY = Math.abs(lastMouseDown.getY() - mouseEvent.getY());
-			int delta = deltaX * deltaX + deltaY * deltaY;
-
-			if (delta < 38 * 38) {
+			if (calculateDelta(lastMouseDown, mouseEvent) < 38 * 38) {
 				mouseClickEvent.invoke(new MouseClickEventArgs(mouseEvent));
 			}
 		}
+	}
+
+	private static int calculateDelta(MouseEvent a, MouseEvent b) {
+		int deltaX = Math.abs(a.getX() - b.getX());
+		int deltaY = Math.abs(a.getY() - b.getY());
+		return deltaX * deltaX + deltaY * deltaY;
 	}
 }

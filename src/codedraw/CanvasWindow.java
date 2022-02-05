@@ -82,8 +82,9 @@ class CanvasWindow {
 	}
 
 	private void bindEvents(EventCollection events) {
-		canvas.addMouseListener(createMouseListener(events));
-		canvas.addMouseMotionListener(createMouseMotionListener(events));
+		MouseClickMap clickMap = new MouseClickMap(events.mouseClick);
+		canvas.addMouseListener(createMouseListener(events, clickMap));
+		canvas.addMouseMotionListener(createMouseMotionListener(events, clickMap));
 		canvas.addMouseWheelListener(createMouseWheelListener(events));
 
 		frame.addKeyListener(createKeyListener(events));
@@ -105,10 +106,8 @@ class CanvasWindow {
 		};
 	}
 
-	private static MouseListener createMouseListener(EventCollection events) {
+	private static MouseListener createMouseListener(EventCollection events, MouseClickMap clickMap) {
 		return new MouseAdapter() {
-			private final MouseClickMap clickMap = new MouseClickMap(events.mouseClick);
-
 			@Override
 			public void mousePressed(MouseEvent e) {
 				clickMap.mousePressed(e);
@@ -133,6 +132,22 @@ class CanvasWindow {
 		};
 	}
 
+	private MouseMotionListener createMouseMotionListener(EventCollection events, MouseClickMap clickMap) {
+		return new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				clickMap.mouseMoved(e);
+				events.mouseMove.invoke(new MouseMoveEventArgs(e));
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				clickMap.mouseMoved(e);
+				events.mouseMove.invoke(new MouseMoveEventArgs(e));
+			}
+		};
+	}
+
 	private KeyListener createKeyListener(EventCollection events) {
 		return new KeyAdapter() {
 			private final KeyDownMap keyDownMap = new KeyDownMap(events.keyDown);
@@ -147,20 +162,6 @@ class CanvasWindow {
 			public void keyReleased(KeyEvent e) {
 				keyDownMap.keyRelease(e);
 				events.keyUp.invoke(new KeyUpEventArgs(e));
-			}
-		};
-	}
-
-	private MouseMotionListener createMouseMotionListener(EventCollection events) {
-		return new MouseMotionListener() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				events.mouseMove.invoke(new MouseMoveEventArgs(e));
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				events.mouseMove.invoke(new MouseMoveEventArgs(e));
 			}
 		};
 	}

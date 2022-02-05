@@ -21,7 +21,7 @@ import java.util.Base64;
  * }</pre>
  * External images can be loaded via static methods.
  * <pre>{@code
- * CodeDrawImage image = CodeDrawImage.fromFile("/Directory/Filename.png");
+ * CodeDrawImage image = CodeDrawImage.fromFile("/directory/filename.png");
  * }</pre>
  */
 public class CodeDrawImage {
