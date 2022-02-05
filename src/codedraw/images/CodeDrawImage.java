@@ -134,18 +134,33 @@ public class CodeDrawImage {
 	}
 
 	/**
-	 * Saves the image to the specified location.
+	 * Saves the image to the specified location using the specified image format.
+	 * Supported formats are all values in {@link ImageFormat}.
+	 * The formats {@link ImageFormat#JPG}, {@link ImageFormat#JPEG} and {@link ImageFormat#BMP} do not support transparency.
 	 * {@link ImageIO#write(RenderedImage, String, File)} and {@link File#File(String)} are used to read the image from the file system.
 	 * Read their documentation for more details.
 	 * @param image a CodeDrawImage
 	 * @param pathToImage The location where the image should be saved.
+	 * @param format The format the image should be saved in.
+	 *               As a default choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
 	 */
-	public static void saveAsPNG(CodeDrawImage image, String pathToImage) {
+	public static void saveAs(CodeDrawImage image, String pathToImage, ImageFormat format) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
+		if (format == null) throw createParameterNullException("format");
+
+		BufferedImage drawThis = image.image;
+		if (!format.supportsTransparency()) {
+			BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = tmp.createGraphics();
+			g.drawImage(drawThis, 0, 0, image.getWidth(), image.getHeight(), Palette.WHITE, null);
+			g.dispose();
+			drawThis = tmp;
+		}
 
 		try {
-			ImageIO.write(image.image, "png", new File(pathToImage));
+			boolean result = ImageIO.write(drawThis, format.getFormatName(), new File(pathToImage));
+			if (!result) throw new RuntimeException("Could not save image, because no appropriate writer has been found in ImageIO.");
 		}
 		catch (IOException e) {
 			throw new UncheckedIOException(e);
@@ -156,7 +171,7 @@ public class CodeDrawImage {
 	 * Creates a copy of the CodeDrawImage supplied as a parameter.
 	 * The configuration of the CodeDrawImage will not be copied.
 	 * All parameters of the result will be set to their default value.
-	 * DPIAware scaling will also be ignored.
+	 * DPI aware scaling will also be ignored.
 	 * @param image Image that is to be copied.
 	 */
 	public CodeDrawImage(CodeDrawImage image) {
@@ -173,7 +188,7 @@ public class CodeDrawImage {
 				checkParameterNull(image, "image").getWidth(null),
 				checkParameterNull(image, "image").getHeight(null)
 		);
-		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.NEAREST_NEIGHBOR);
+		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 import codedraw.*;
 import codedraw.images.CodeDrawImage;
+import codedraw.images.ImageFormat;
 import codedraw.textformat.HorizontalAlign;
 import org.junit.After;
 import org.junit.Before;
@@ -161,7 +162,7 @@ public class CodeDrawTest {
 		cd.setColor(Palette.RED);
 		cd.fillCircle(200, 200, 10);
 
-		CodeDrawImage.saveAsPNG(cd.copyCanvas(), "./test/out.png");
+		CodeDrawImage.saveAs(cd.copyCanvas(), "./test/out.png", ImageFormat.PNG);
 
 		cd.show();
 		confirm.assertConfirmation();
