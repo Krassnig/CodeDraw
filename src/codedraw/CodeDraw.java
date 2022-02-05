@@ -337,6 +337,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers once when a mouse button is pressed down and quickly released again.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseClick(EventHandler<MouseClickEventArgs> handler) {
@@ -346,6 +347,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers continuously while the mouse is being moved.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseMove(EventHandler<MouseMoveEventArgs> handler) {
@@ -355,6 +357,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers exactly once when a mouse button is pressed down.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseDown(EventHandler<MouseDownEventArgs> handler) {
@@ -364,6 +367,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers when a mouse button is released.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseUp(EventHandler<MouseUpEventArgs> handler) {
@@ -373,6 +377,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers when the mouse enters the canvas.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseEnter(EventHandler<MouseEnterEventArgs> handler) {
@@ -382,6 +387,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers when the mouse leaves the canvas.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseLeave(EventHandler<MouseLeaveEventArgs> handler) {
@@ -391,6 +397,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers each time the mouse wheel is turned.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onMouseWheel(EventHandler<MouseWheelEventArgs> handler) {
@@ -400,6 +407,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Trigger exactly once when a key is pressed down.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onKeyDown(EventHandler<KeyDownEventArgs> handler) {
@@ -408,7 +416,8 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
-	 * Trigger when a key is released.
+	 * Trigger exactly once when a key is released.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onKeyUp(EventHandler<KeyUpEventArgs> handler) {
@@ -417,7 +426,8 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
-	 * onKeyPress will continuously trigger while a key is being held down.
+	 * Triggers continuously while a key is being held down.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onKeyPress(EventHandler<KeyPressEventArgs> handler) {
@@ -427,6 +437,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers every time the CodeDraw window is moved.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onWindowMove(EventHandler<WindowMoveEventArgs> handler) {
@@ -436,6 +447,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
+	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
 	public Subscription onWindowClose(EventHandler<WindowCloseEventArgs> handler) {

@@ -2,7 +2,13 @@ package codedraw.events;
 
 import static java.awt.event.KeyEvent.*;
 
+/**
+ * Represents various Keys. The number keys have the prefix N.
+ * The numpad keys have the NUMPAD prefix.
+ * If the key is not found or unknown the key value {@link Key#UNDEFINED} will be used.
+ */
 public enum Key {
+	UNDEFINED(VK_UNDEFINED),
 	ENTER(VK_ENTER),
 	BACK_SPACE(VK_BACK_SPACE),
 	TAB(VK_TAB),
@@ -189,8 +195,7 @@ public enum Key {
 	STOP(VK_STOP),
 	COMPOSE(VK_COMPOSE),
 	ALT_GRAPH(VK_ALT_GRAPH),
-	BEGIN(VK_BEGIN),
-	UNDEFINED(VK_UNDEFINED);
+	BEGIN(VK_BEGIN);
 
 	private final int keyCode;
 
@@ -205,6 +210,6 @@ public enum Key {
 			}
 		}
 
-		return null;
+		return Key.UNDEFINED;
 	}
 }

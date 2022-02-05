@@ -291,7 +291,8 @@ public class EventTest {
 					esc.nextEvent();
 				}
 			}
-			cd.show();
+
+			cd.show(16);
 		}
 	}
 

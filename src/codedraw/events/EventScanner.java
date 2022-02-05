@@ -140,79 +140,120 @@ public class EventScanner implements AutoCloseable {
 	/**
 	 * Waits until the next mouse click event is available.
 	 * Returns true if the next event is a mouse click event, otherwise false.
+	 * The mouse click event is triggered once when a mouse button is pressed down and quickly released again.
 	 * @return whether the next event is a mouse click event.
 	 */
 	public boolean hasMouseClickEvent() { return has(MOUSE_CLICK); }
+
 	/**
 	 * Waits until the next mouse move event is available.
 	 * Returns true if the next event is a mouse move event, otherwise false.
+	 * The mouse move event is triggered continuously while the mouse is being moved.
 	 * @return whether the next event is a mouse move event.
 	 */
 	public boolean hasMouseMoveEvent() { return has(MOUSE_MOVE); }
+
 	/**
 	 * Waits until the next mouse down event is available.
 	 * Returns true if the next event is a mouse down event, otherwise false.
+	 * The mouse down event is triggered exactly once when a mouse button is pressed down.
 	 * @return whether the next event is a mouse down event.
 	 */
 	public boolean hasMouseDownEvent() { return has(MOUSE_DOWN); }
+
 	/**
 	 * Waits until the next mouse up event is available.
 	 * Returns true if the next event is a mouse up event, otherwise false.
+	 * The mouse up event is triggered when a mouse button is released.
 	 * @return whether the next event is a mouse up event.
 	 */
 	public boolean hasMouseUpEvent() { return has(MOUSE_UP); }
+
 	/**
 	 * Waits until the next mouse enter event is available.
 	 * Returns true if the next event is a mouse enter event, otherwise false.
+	 * The mouse enter event is triggered when the mouse enters the canvas.
 	 * @return whether the next event is a mouse enter event.
 	 */
 	public boolean hasMouseEnterEvent() { return has(MOUSE_ENTER); }
+
 	/**
 	 * Waits until the next mouse leave event is available.
 	 * Returns true if the next event is a mouse leave event, otherwise false.
+	 * The mouse leave event is triggered when the mouse leaves the canvas.
 	 * @return whether the next event is a mouse leave event.
 	 */
 	public boolean hasMouseLeaveEvent() { return has(MOUSE_LEAVE); }
+
 	/**
 	 * Waits until the next mouse wheel event is available.
 	 * Returns true if the next event is a mouse wheel event, otherwise false.
+	 * The mouse wheel event is triggered each time the mouse wheel is turned.
 	 * @return whether the next event is a mouse wheel event.
 	 */
 	public boolean hasMouseWheelEvent() { return has(MOUSE_WHEEL); }
+
 	/**
 	 * Waits until the next key down event is available.
 	 * Returns true if the next event is a key down event, otherwise false.
+	 * The key down event is triggered exactly once when a key is pressed down.
 	 * @return whether the next event is a key down event.
 	 */
 	public boolean hasKeyDownEvent() { return has(KEY_DOWN); }
+
 	/**
 	 * Waits until the next key up event is available.
 	 * Returns true if the next event is a key up event, otherwise false.
+	 * The key up event is triggered exactly once when a key is released.
 	 * @return whether the next event is a key up event.
 	 */
 	public boolean hasKeyUpEvent() { return has(KEY_UP); }
+
 	/**
 	 * Waits until the next key press event is available.
 	 * Returns true if the next event is a key press event, otherwise false.
+	 * The key press event is triggered continuously while a key is being held down.
 	 * @return whether the next event is a key press event.
 	 */
 	public boolean hasKeyPressEvent() { return has(KEY_PRESS); }
+
 	/**
 	 * Waits until the next window move event is available.
 	 * Returns true if the next event is a window move event, otherwise false.
+	 * The window move event is triggered every time the CodeDraw window is moved.
 	 * @return whether the next event is a window move event.
 	 */
 	public boolean hasWindowMoveEvent() { return has(WINDOW_MOVE); }
+
 	/**
 	 * Waits until the next window close event is available.
 	 * Returns true if the next event is a window close event, otherwise false.
+	 * The window close event is triggered exactly once when the user closes the window or {@link CodeDraw#close()} is called.
 	 * @return whether the next event is a window close event.
 	 */
 	public boolean hasWindowCloseEvent() { return has(WINDOW_CLOSE); }
+
 	private boolean hasEndOfEvent() { return has(END_OF_EVENT); }
 
 	/**
 	 * Waits for the next event and then returns it.
+	 * Check {@link #hasEvent()} or {@link #hasEventNow()} before calling this function.
+	 * <br><br>
+	 * In the newer java version 17+ you can use switch pattern matching to handle events.
+	 * <pre>{@code
+	 * EventScanner es = new EventScanner(codeDraw);
+	 * while (es.hasEvent()) {
+	 *     switch (es.nextEvent()) {
+	 *         case MouseDownEventArgs a:
+	 *             System.out.println("The mouse has been pressed at x=" + a.getX() + " y=" + a.getY() + ".");
+	 *             break;
+	 *         case KeyDownEventArgs a:
+	 *             System.out.println("The " + a.getKey() + " has been pressed.");
+	 *             break;
+	 *         default:
+	 *     }
+	 * }
+	 * }</pre>
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return The event args as an object.
 	 */
@@ -220,83 +261,118 @@ public class EventScanner implements AutoCloseable {
 
 	/**
 	 * Waits for the next mouse click event and then consumes the event.
+	 * The mouse click event is triggered once when a mouse button is pressed down and quickly released again.
+	 * Check {@link #hasMouseClickEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse click event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse click event.
 	 */
 	public MouseClickEventArgs nextMouseClickEvent() { return next(MOUSE_CLICK); }
+
 	/**
 	 * Waits for the next mouse move event and then consumes the event.
+	 * The mouse move event is triggered continuously while the mouse is being moved.
+	 * Check {@link #hasMouseMoveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse move event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse move event.
 	 */
 	public MouseMoveEventArgs nextMouseMoveEvent() { return next(MOUSE_MOVE); }
+
 	/**
 	 * Waits for the next mouse down event and then consumes the event.
+	 * The mouse down event is triggered exactly once when a mouse button is pressed down.
+	 * Check {@link #hasMouseDownEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse down event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse down event.
 	 */
 	public MouseDownEventArgs nextMouseDownEvent() { return next(MOUSE_DOWN); }
+
 	/**
 	 * Waits for the next mouse up event and then consumes the event.
+	 * The mouse up event is triggered when a mouse button is released.
+	 * Check {@link #hasMouseUpEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse up event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse up event.
 	 */
 	public MouseUpEventArgs nextMouseUpEvent() { return next(MOUSE_UP); }
+
 	/**
 	 * Waits for the next mouse enter event and then consumes the event.
+	 * The mouse enter event is triggered when the mouse enters the canvas.
+	 * Check {@link #hasMouseEnterEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse enter event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse enter event.
 	 */
 	public MouseEnterEventArgs nextMouseEnterEvent() { return next(MOUSE_ENTER); }
+
 	/**
 	 * Waits for the next mouse leave event and then consumes the event.
+	 * The mouse leave event is triggered when the mouse leaves the canvas.
+	 * Check {@link #hasMouseLeaveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse leave event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse leave event.
 	 */
 	public MouseLeaveEventArgs nextMouseLeaveEvent() { return next(MOUSE_LEAVE); }
+
 	/**
 	 * Waits for the next mouse wheel event and then consumes the event.
+	 * The mouse wheel event is triggered each time the mouse wheel is turned.
+	 * Check {@link #hasMouseWheelEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse wheel event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse wheel event.
 	 */
 	public MouseWheelEventArgs nextMouseWheelEvent() { return next(MOUSE_WHEEL); }
+
 	/**
 	 * Waits for the next key down event and then consumes the event.
+	 * The key down event is triggered exactly once when a key is pressed down.
+	 * Check {@link #hasKeyDownEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key down event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key down event.
 	 */
 	public KeyDownEventArgs nextKeyDownEvent() { return next(KEY_DOWN); }
+
 	/**
 	 * Waits for the next key up event and then consumes the event.
+	 * The key up event is triggered exactly once when a key is released.
+	 * Check {@link #hasKeyUpEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key up event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key up event.
 	 */
 	public KeyUpEventArgs nextKeyUpEvent() { return next(KEY_UP); }
+
 	/**
 	 * Waits for the next key press event and then consumes the event.
+	 * The key press event is triggered continuously while a key is being held down.
+	 * Check {@link #hasKeyPressEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key press event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key press event.
 	 */
 	public KeyPressEventArgs nextKeyPressEvent() { return next(KEY_PRESS); }
+
 	/**
 	 * Waits for the next window move event and then consumes the event.
+	 * The window move event is triggered every time the CodeDraw window is moved.
+	 * Check {@link #hasWindowMoveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a window move event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a window move event.
 	 */
 	public WindowMoveEventArgs nextWindowMoveEvent() { return next(WINDOW_MOVE); }
+
 	/**
 	 * Waits for the next window close event and then consumes the event.
+	 * The window close event is triggered exactly once when the user closes the window or {@link CodeDraw#close()} is called.
+	 * Check {@link #hasWindowCloseEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a window close event.
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a window close event.
