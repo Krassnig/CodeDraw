@@ -314,9 +314,12 @@ public class EventScanner implements AutoCloseable {
 	private <T> T next(EventType expected) {
 		EventType actual = peekType();
 
-		if (actual.isEqual(END_OF_EVENT)) throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
-		if (actual.isEqual(WINDOW_CLOSE)) close();
-		if (!actual.isEqual(expected)) throw new InputMismatchException("The next event is a " + actual + " but tried to consume " + expected + ". Check whether " + actual + " is next before consuming.");
+		if (actual.isEqual(END_OF_EVENT))
+			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
+		if (actual.isEqual(WINDOW_CLOSE))
+			close();
+		if (!actual.isEqual(expected))
+			throw new InputMismatchException("The next event is a " + actual + " but tried to consume " + expected + ". Check whether " + actual + " is next before consuming.");
 
 		return (T)queue.pop().args;
 	}
