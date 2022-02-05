@@ -22,6 +22,8 @@ public class GameOfLife {
 				if (es.hasMouseDownEvent()) {
 					MouseDownEventArgs a = es.nextMouseDownEvent();
 					isMouseDown = true;
+					// the value that is used to draw cells depends on the state of the cell where the initial click happens
+					// if that cell was white then every subsequent move of the mouse will draw black cells.
 					setValue = !field[a.getX() / FIELD_SIZE][a.getY() / FIELD_SIZE];
 				}
 				else if (es.hasMouseUpEvent() || es.hasMouseLeaveEvent()) {
@@ -39,6 +41,7 @@ public class GameOfLife {
 				}
 			}
 
+			// update to next generation only every eighth render
 			if (i % 8 == 0) {
 				field = simulateNextGeneration(field, mask);
 			}
@@ -69,6 +72,7 @@ public class GameOfLife {
 
 				for (int xn = -radius; xn <= radius; xn++) {
 					for (int yn = -radius; yn <= radius; yn++) {
+						// ignore the center    and only sum if the neighbor is alive
 						if ((xn != 0 || yn != 0) && field[(x + xn) & mask][(y + yn) & mask]) {
 							sum++;
 						}
