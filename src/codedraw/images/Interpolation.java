@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.images;
 
 /**
  * Interpolation defines how drawn images are upscaled and downscaled.

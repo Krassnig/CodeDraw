@@ -1,7 +1,5 @@
 package codedraw.images;
 
-import codedraw.Interpolation;
-
 import java.awt.*;
 
 enum RHInterpolation implements RenderingHintValue {
