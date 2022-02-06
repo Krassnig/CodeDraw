@@ -32,12 +32,14 @@ Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Jav
 
 ## Examples
 
+### Static Images
+
 Here is a quick illustration on how CodeDraw works.
 
 ```java
 import codedraw.*;
 
-public class MyProgram {
+public class Main {
 	public static void main(String[] args) {
 		// Creates a new CodeDraw window with the size of 600x600 pixel
 		CodeDraw cd = new CodeDraw();
@@ -70,7 +72,7 @@ Animation can be created by repeatedly rendering different images and waiting af
 ```java
 import codedraw.*;
 
-public class MyProgram {
+public class Main {
 	public static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
 
@@ -94,126 +96,42 @@ public class MyProgram {
 
 https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-863f-ffdb3f3f8017.mp4
 
-## Api
+### User Interaction
 
-### Properties
-
-#### Drawing Properties
-
-- color
-- lineWidth
-- corner
-- isAntiAliased
-- cursorStyle
-- textFormat
-	- fontName
-	- fontSize
-	- horizontalAlign
-	- verticalAlign
-	- underline
-	- isBold
-	- isItalic
-	- isStrikethrough
-
-#### Window Properties
-
-- title
-- width/height
-- windowPosition
-- canvasPosition
-
-### General Methods 
-
-- show: Displays the drawn shapes and images on the canvas.
-- saveCanvas: Copies the canvas as an Image.
-- dispose: Closes the canvas and frees all associated resources.
-
-### Drawing Methods
-
-Draw methods draw just the outline of the shape while fill methods draw the shape and fill their contents.
-The origin points for non-circular shapes is the top-left corner, while for circular shapes it is the center.
-
-#### Points and Lines
-
-- drawPixel
-- drawPoint
-- drawLine
-- drawCurve
-- drawBezier
-
-#### Outline Methods
- 
-- drawSquare
-- drawRectangle
-- drawCircle
-- drawEllipse
-- drawArc
-- drawPie
-- drawTriangle
-- drawPolygon
-
-#### Fill Methods
-
-- fillSquare
-- fillRectangle
-- fillCircle
-- fillEllipse
-- fillPie
-- fillTriangle
-- fillPolygon
-
-#### Additional Drawing Methods
-
-- drawText
-- drawImage
-- clear: *Clear* fills the entire canvas with white (or with a color of your choosing).
-
-### Events
-
-An event is something that occurs based on user input like the user
-pressing a button or moving the mouse. You can subscribe to an Event
-by passing a method reference or lambda to CodeDraw.
-All events start with the 'on' keyword (e.g. *onKeyPress* or *onMouseMove*).
-By subscribing to an event will return a Subscription which
-can be used to unsubscribe from the event.
-
-Available events:
-- onMouseClick
-- onMouseMove
-- onMouseDown
-- onMouseUp
-- onMouseEnter
-- onMouseLeave
-- onMouseWheel
-- onKeyDown
-- onKeyUp
-- onKeyPress
-- onWindowMove
-
-
-Event Example:
+User interaction can be created with the EventScanner.
+Events created by user interaction can be read from the EventScanner
+with the has****() methods and next****() methods.
+The EventScanner works similarly to the Scanner in Java.
 
 ```java
 import codedraw.*;
-import codedraw.events.MouseClickEventArgs;
+import codedraw.events.*;
 
 public class Main {
 	public static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
+		EventScanner es = new EventScanner(cd);
 
 		cd.drawText(200, 200, "Move your mouse over here.");
 		cd.show();
+		
 		cd.setColor(Palette.RED);
 
-		cd.onMouseMove(Main::draw);
-	}
-
-	// This method will be called by CodeDraw everytime the user moves their mouse
-	static void draw(CodeDraw cd, MouseClickEventArgs me) {
-		cd.fillSquare(me.getX() - 2, me.getY() - 2, 4);
-		cd.show();
+		while (!es.isClosed()) {
+			while (es.hasEventNow()) {
+				if (es.hasMouseMoveEvent()) {
+					MouseMoveEventArgs a = es.nextMouseMoveEvent();
+					cd.fillSquare(a.getX() - 5, a.getY() - 5, 10);
+				} else {
+					es.nextEvent();
+				}
+			}
+			
+			cd.show(16);
+		}
 	}
 }
 ```
 
 https://user-images.githubusercontent.com/24553082/122690528-4a2f3800-d22a-11eb-9a8d-72162af9c50f.mp4
+
