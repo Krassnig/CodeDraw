@@ -16,19 +16,20 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 ## Table of contents
 - [Introduction to CodeDraw](#introduction-to-codedraw)
     * [What is CodeDraw](#what-is-codedraw)
-    * [Getting Started](#getting-started)
+    * [Table of contents](#table-of-contents)
+    * [Getting started](#getting-started)
     * [The coordinate system](#the-coordinate-system)
-    * [Properties](#properties)
-    * [Text](#text)
-    * [Canvas and Window](#canvas-and-window)
-    * [Points, Lines and Curves](#points--lines-and-curves)
-    * [Outline and filled Shapes](#outline-and-filled-shapes)
+    * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
+    * [Drawing text](#drawing-text)
+    * [Canvas and window](#canvas-and-window)
+    * [Points, lines and curves](#points--lines-and-curves)
+    * [Outline and filled shapes](#outline-and-filled-shapes)
     * [Images in CodeDraw](#images-in-codedraw)
     * [Animations](#animations)
     * [Events](#events)
         + [Events without EventScanner](#events-without-eventscanner)
 
-## Getting Started
+## Getting started
 
 Instruction on how to install CodeDraw can be found
 in the [How to install section in the CodeDraw repository](https://github.com/Krassnig/CodeDraw#how-to-install).
@@ -92,7 +93,7 @@ The pixel coordinate (150, 150) is part of that rectangle.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
 
-## Properties
+## Modifying the way things are drawn
 
 CodeDraw has a number of properties that change the way shapes are drawn.
 You can access these properties through their getter and setter.
@@ -128,7 +129,7 @@ List of drawing properties:
  - getCorner/setCorner
  - isAntiAliased/setAntiAliased
 
-## Text
+## Drawing text
 
 Text is drawn with the *drawText* method.
 The way the text is drawn can be defined through the TextFormat object.
@@ -172,7 +173,7 @@ List of text format options:
  - getUnderline/setUnderline
  - isStrikethrough/setStrikethrough
 
-## Canvas and Window
+## Canvas and window
 
 The canvas is the rectangle on the screen that is used for drawing.
 The width and the height of the canvas cannot be changed once a CodeDraw window has been created.
@@ -201,7 +202,7 @@ Methods about the CodeDraw window:
  - getCanvasPositionX/setCanvasPositionX
  - getCanvasPositionY/getCanvasPositionY
 
-## Points, Lines and Curves
+## Points, lines and curves
 
 A pixel can be drawn with *drawPixel*.
 A point can be drawn with *drawPoint*, points change their size based on the *lineWidth* property.
@@ -241,7 +242,7 @@ Points, Lines and Curves:
  - drawBezier
  - drawArc
 
-## Outline and filled Shapes
+## Outline and filled shapes
 
 In general CodeDraw has two kinds of drawing methods. *Fill*-methods and *draw*-methods.
 Fill methods always completely fill a shape and draw only draws their outline.
@@ -417,7 +418,7 @@ public class Main {
 			
 			cd.clear();
 			cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
-			cd.show();
+			cd.show(16);
 		}
 	}
 }
