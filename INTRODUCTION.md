@@ -13,7 +13,20 @@ A list of all methods can be found in the [Api section in the CodeDraw repositor
 The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
 or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
-[TOC]
+## Table of contents
+- [Introduction to CodeDraw](#introduction-to-codedraw)
+    * [What is CodeDraw](#what-is-codedraw)
+    * [Getting Started](#getting-started)
+    * [The coordinate system](#the-coordinate-system)
+    * [Properties](#properties)
+    * [Text](#text)
+    * [Canvas and Window](#canvas-and-window)
+    * [Points, Lines and Curves](#points--lines-and-curves)
+    * [Outline and filled Shapes](#outline-and-filled-shapes)
+    * [Images in CodeDraw](#images-in-codedraw)
+    * [Animations](#animations)
+    * [Events](#events)
+        + [Events without EventScanner](#events-without-eventscanner)
 
 ## Getting Started
 
