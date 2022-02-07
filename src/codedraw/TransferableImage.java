@@ -4,13 +4,17 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 class TransferableImage implements Transferable {
 	private static final DataFlavor flavor = DataFlavor.imageFlavor;
 
-	public TransferableImage(Image image) {
-		this.image = image;
+	public TransferableImage(BufferedImage image) {
+		BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = tmp.createGraphics();
+		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), Palette.WHITE, null);
+		g.dispose();
+		this.image = tmp;
 	}
 
 	private final Image image;

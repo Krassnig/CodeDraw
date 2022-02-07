@@ -65,8 +65,8 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
 		checkEventInvocation();
-		if (canvasWidth < 150) throw new IllegalArgumentException("The width of the canvas has to be at least 150px.");
-		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be positive.");
+		if (canvasWidth < 1) throw new IllegalArgumentException("The width of the canvas has to be a positive number.");
+		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be a positive number.");
 
 		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
