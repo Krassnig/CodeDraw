@@ -8,8 +8,6 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
-import static codedraw.events.EventType.*;
-
 /**
  * The EventScanner works in the same way as a {@link java.util.Scanner}.
  * The source of the events is specified as an argument to the constructor of the EventScanner.
@@ -57,8 +55,6 @@ import static codedraw.events.EventType.*;
  * but no new events will appear.
  */
 public class EventScanner implements AutoCloseable {
-	private static final EventInfo EndOfEvent = new EventInfo(END_OF_EVENT, null);
-
 	/**
 	 * Waits until the next time the given event is triggered and
 	 * then returns the event arguments as the result of this function.
@@ -95,25 +91,25 @@ public class EventScanner implements AutoCloseable {
 		queue = new ConcurrentQueue<>(128);
 		subscriptions = new ArrayList<>(12);
 		
-		bindEvent(codeDraw::onMouseClick, MOUSE_CLICK);
-		bindEvent(codeDraw::onMouseMove, MOUSE_MOVE);
-		bindEvent(codeDraw::onMouseDown, MOUSE_DOWN);
-		bindEvent(codeDraw::onMouseUp, MOUSE_UP);
-		bindEvent(codeDraw::onMouseEnter, MOUSE_ENTER);
-		bindEvent(codeDraw::onMouseLeave, MOUSE_LEAVE);
-		bindEvent(codeDraw::onMouseWheel, MOUSE_WHEEL);
-		bindEvent(codeDraw::onKeyDown, KEY_DOWN);
-		bindEvent(codeDraw::onKeyUp, KEY_UP);
-		bindEvent(codeDraw::onKeyPress, KEY_PRESS);
-		bindEvent(codeDraw::onWindowMove, WINDOW_MOVE);
-		bindEvent(codeDraw::onWindowClose, WINDOW_CLOSE);
+		bindEvent(codeDraw::onMouseClick);
+		bindEvent(codeDraw::onMouseMove);
+		bindEvent(codeDraw::onMouseDown);
+		bindEvent(codeDraw::onMouseUp);
+		bindEvent(codeDraw::onMouseEnter);
+		bindEvent(codeDraw::onMouseLeave);
+		bindEvent(codeDraw::onMouseWheel);
+		bindEvent(codeDraw::onKeyDown);
+		bindEvent(codeDraw::onKeyUp);
+		bindEvent(codeDraw::onKeyPress);
+		bindEvent(codeDraw::onWindowMove);
+		bindEvent(codeDraw::onWindowClose);
 	}
 
-	private <T> void bindEvent(Function<EventHandler<T>, Subscription> onEvent, EventType type) {
-		subscriptions.add(onEvent.apply(a -> queue.push(new EventInfo(type, a))));
+	private <T> void bindEvent(Function<EventHandler<T>, Subscription> onEvent) {
+		subscriptions.add(onEvent.apply(queue::push));
 	}
 
-	private final ConcurrentQueue<EventInfo> queue;
+	private final ConcurrentQueue<Object> queue;
 	private final ArrayList<Subscription> subscriptions;
 	private boolean isClosed = false;
 
@@ -143,7 +139,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse click event is triggered once when a mouse button is pressed down and quickly released again.
 	 * @return whether the next event is a mouse click event.
 	 */
-	public boolean hasMouseClickEvent() { return has(MOUSE_CLICK); }
+	public boolean hasMouseClickEvent() { return has(MouseClickEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse move event is available.
@@ -151,7 +147,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse move event is triggered continuously while the mouse is being moved.
 	 * @return whether the next event is a mouse move event.
 	 */
-	public boolean hasMouseMoveEvent() { return has(MOUSE_MOVE); }
+	public boolean hasMouseMoveEvent() { return has(MouseMoveEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse down event is available.
@@ -159,7 +155,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse down event is triggered exactly once when a mouse button is pressed down.
 	 * @return whether the next event is a mouse down event.
 	 */
-	public boolean hasMouseDownEvent() { return has(MOUSE_DOWN); }
+	public boolean hasMouseDownEvent() { return has(MouseDownEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse up event is available.
@@ -167,7 +163,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse up event is triggered when a mouse button is released.
 	 * @return whether the next event is a mouse up event.
 	 */
-	public boolean hasMouseUpEvent() { return has(MOUSE_UP); }
+	public boolean hasMouseUpEvent() { return has(MouseUpEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse enter event is available.
@@ -175,7 +171,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse enter event is triggered when the mouse enters the canvas.
 	 * @return whether the next event is a mouse enter event.
 	 */
-	public boolean hasMouseEnterEvent() { return has(MOUSE_ENTER); }
+	public boolean hasMouseEnterEvent() { return has(MouseEnterEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse leave event is available.
@@ -183,7 +179,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse leave event is triggered when the mouse leaves the canvas.
 	 * @return whether the next event is a mouse leave event.
 	 */
-	public boolean hasMouseLeaveEvent() { return has(MOUSE_LEAVE); }
+	public boolean hasMouseLeaveEvent() { return has(MouseLeaveEventArgs.class); }
 
 	/**
 	 * Waits until the next mouse wheel event is available.
@@ -191,7 +187,7 @@ public class EventScanner implements AutoCloseable {
 	 * The mouse wheel event is triggered each time the mouse wheel is turned.
 	 * @return whether the next event is a mouse wheel event.
 	 */
-	public boolean hasMouseWheelEvent() { return has(MOUSE_WHEEL); }
+	public boolean hasMouseWheelEvent() { return has(MouseWheelEventArgs.class); }
 
 	/**
 	 * Waits until the next key down event is available.
@@ -199,7 +195,7 @@ public class EventScanner implements AutoCloseable {
 	 * The key down event is triggered exactly once when a key is pressed down.
 	 * @return whether the next event is a key down event.
 	 */
-	public boolean hasKeyDownEvent() { return has(KEY_DOWN); }
+	public boolean hasKeyDownEvent() { return has(KeyDownEventArgs.class); }
 
 	/**
 	 * Waits until the next key up event is available.
@@ -207,7 +203,7 @@ public class EventScanner implements AutoCloseable {
 	 * The key up event is triggered exactly once when a key is released.
 	 * @return whether the next event is a key up event.
 	 */
-	public boolean hasKeyUpEvent() { return has(KEY_UP); }
+	public boolean hasKeyUpEvent() { return has(KeyUpEventArgs.class); }
 
 	/**
 	 * Waits until the next key press event is available.
@@ -215,7 +211,7 @@ public class EventScanner implements AutoCloseable {
 	 * The key press event is triggered continuously while a key is being held down.
 	 * @return whether the next event is a key press event.
 	 */
-	public boolean hasKeyPressEvent() { return has(KEY_PRESS); }
+	public boolean hasKeyPressEvent() { return has(KeyPressEventArgs.class); }
 
 	/**
 	 * Waits until the next window move event is available.
@@ -223,7 +219,7 @@ public class EventScanner implements AutoCloseable {
 	 * The window move event is triggered every time the CodeDraw window is moved.
 	 * @return whether the next event is a window move event.
 	 */
-	public boolean hasWindowMoveEvent() { return has(WINDOW_MOVE); }
+	public boolean hasWindowMoveEvent() { return has(WindowMoveEventArgs.class); }
 
 	/**
 	 * Waits until the next window close event is available.
@@ -231,9 +227,9 @@ public class EventScanner implements AutoCloseable {
 	 * The window close event is triggered exactly once when the user closes the window or {@link CodeDraw#close()} is called.
 	 * @return whether the next event is a window close event.
 	 */
-	public boolean hasWindowCloseEvent() { return has(WINDOW_CLOSE); }
+	public boolean hasWindowCloseEvent() { return has(WindowCloseEventArgs.class); }
 
-	private boolean hasEndOfEvent() { return has(END_OF_EVENT); }
+	private boolean hasEndOfEvent() { return has(EndOfEventArgs.class); }
 
 	/**
 	 * Waits for the next event and then returns it.
@@ -257,7 +253,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return The event args as an object.
 	 */
-	public Object nextEvent() { return next(ANY); }
+	public Object nextEvent() { return next(Object.class); }
 
 	/**
 	 * Waits for the next mouse click event and then consumes the event.
@@ -267,7 +263,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse click event.
 	 */
-	public MouseClickEventArgs nextMouseClickEvent() { return next(MOUSE_CLICK); }
+	public MouseClickEventArgs nextMouseClickEvent() { return next(MouseClickEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse move event and then consumes the event.
@@ -277,7 +273,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse move event.
 	 */
-	public MouseMoveEventArgs nextMouseMoveEvent() { return next(MOUSE_MOVE); }
+	public MouseMoveEventArgs nextMouseMoveEvent() { return next(MouseMoveEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse down event and then consumes the event.
@@ -287,7 +283,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse down event.
 	 */
-	public MouseDownEventArgs nextMouseDownEvent() { return next(MOUSE_DOWN); }
+	public MouseDownEventArgs nextMouseDownEvent() { return next(MouseDownEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse up event and then consumes the event.
@@ -297,7 +293,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse up event.
 	 */
-	public MouseUpEventArgs nextMouseUpEvent() { return next(MOUSE_UP); }
+	public MouseUpEventArgs nextMouseUpEvent() { return next(MouseUpEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse enter event and then consumes the event.
@@ -307,7 +303,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse enter event.
 	 */
-	public MouseEnterEventArgs nextMouseEnterEvent() { return next(MOUSE_ENTER); }
+	public MouseEnterEventArgs nextMouseEnterEvent() { return next(MouseEnterEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse leave event and then consumes the event.
@@ -317,7 +313,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse leave event.
 	 */
-	public MouseLeaveEventArgs nextMouseLeaveEvent() { return next(MOUSE_LEAVE); }
+	public MouseLeaveEventArgs nextMouseLeaveEvent() { return next(MouseLeaveEventArgs.class); }
 
 	/**
 	 * Waits for the next mouse wheel event and then consumes the event.
@@ -327,7 +323,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a mouse wheel event.
 	 */
-	public MouseWheelEventArgs nextMouseWheelEvent() { return next(MOUSE_WHEEL); }
+	public MouseWheelEventArgs nextMouseWheelEvent() { return next(MouseWheelEventArgs.class); }
 
 	/**
 	 * Waits for the next key down event and then consumes the event.
@@ -337,7 +333,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key down event.
 	 */
-	public KeyDownEventArgs nextKeyDownEvent() { return next(KEY_DOWN); }
+	public KeyDownEventArgs nextKeyDownEvent() { return next(KeyDownEventArgs.class); }
 
 	/**
 	 * Waits for the next key up event and then consumes the event.
@@ -347,7 +343,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key up event.
 	 */
-	public KeyUpEventArgs nextKeyUpEvent() { return next(KEY_UP); }
+	public KeyUpEventArgs nextKeyUpEvent() { return next(KeyUpEventArgs.class); }
 
 	/**
 	 * Waits for the next key press event and then consumes the event.
@@ -357,7 +353,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a key press event.
 	 */
-	public KeyPressEventArgs nextKeyPressEvent() { return next(KEY_PRESS); }
+	public KeyPressEventArgs nextKeyPressEvent() { return next(KeyPressEventArgs.class); }
 
 	/**
 	 * Waits for the next window move event and then consumes the event.
@@ -367,7 +363,7 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a window move event.
 	 */
-	public WindowMoveEventArgs nextWindowMoveEvent() { return next(WINDOW_MOVE); }
+	public WindowMoveEventArgs nextWindowMoveEvent() { return next(WindowMoveEventArgs.class); }
 
 	/**
 	 * Waits for the next window close event and then consumes the event.
@@ -377,27 +373,27 @@ public class EventScanner implements AutoCloseable {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return a window close event.
 	 */
-	public WindowCloseEventArgs nextWindowCloseEvent() { return next(WINDOW_CLOSE); }
+	public WindowCloseEventArgs nextWindowCloseEvent() { return next(WindowCloseEventArgs.class); }
 
-	private boolean has(EventType type) {
-		return peekType().isEqual(type);
+	private boolean has(Class<?> type) {
+		return type.isAssignableFrom(peekType());
 	}
 
-	private EventType peekType() {
-		return queue.peek().type;
+	private Class<?> peekType() {
+		return queue.peek().getClass();
 	}
 
-	private <T> T next(EventType expected) {
-		EventType actual = peekType();
+	private <T> T next(Class<T> expected) {
+		Class<?> actual = peekType();
 
-		if (actual.isEqual(END_OF_EVENT))
+		if (EndOfEventArgs.class.isAssignableFrom(actual))
 			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
-		if (actual.isEqual(WINDOW_CLOSE))
+		if (WindowCloseEventArgs.class.isAssignableFrom(actual))
 			close();
-		if (!actual.isEqual(expected))
+		if (!expected.isAssignableFrom(actual))
 			throw new InputMismatchException("The next event is a " + actual + " but tried to consume " + expected + ". Check whether " + actual + " is next before consuming.");
 
-		return (T)queue.pop().args;
+		return expected.cast(queue.pop());
 	}
 
 	/**
@@ -410,7 +406,7 @@ public class EventScanner implements AutoCloseable {
 	public void close() {
 		if (!isClosed) {
 			subscriptions.forEach(Subscription::unsubscribe);
-			queue.push(EndOfEvent);
+			queue.push(EndOfEventArgs.Instance);
 			isClosed = true;
 		}
 	}
@@ -424,13 +420,9 @@ public class EventScanner implements AutoCloseable {
 		return isClosed;
 	}
 
-	private static class EventInfo {
-		public EventInfo(EventType type, Object args) {
-			this.type = type;
-			this.args = args;
-		}
+	private static class EndOfEventArgs {
+		private EndOfEventArgs() { }
 
-		private final EventType type;
-		private final Object args;
+		public static final EndOfEventArgs Instance = new EndOfEventArgs();
 	}
 }
