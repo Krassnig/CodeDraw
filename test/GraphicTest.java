@@ -239,9 +239,12 @@ public class GraphicTest {
 		cd.fillSquare(x + 100, y, 50);
 		cd.drawSquare(x + 100, y + 100, 50);
 
+		cd.fillTriangle(x + 200, y, x + 200, y + 50, x + 250, y + 50);
+		cd.drawTriangle(x + 200, y + 100, x + 200, y + 150, x + 250, y + 150);
+
 		cd.setColor(Palette.RED);
 		cd.setLineWidth(2);
-		cd.drawRectangle(x - 12, y - 12, 250, 170);
+		cd.drawRectangle(x - 12, y - 12, 290, 170);
 
 		cd.drawPoint(x, y);
 		cd.drawPoint(x + 50, y + 50);

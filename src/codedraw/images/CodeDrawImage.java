@@ -589,6 +589,8 @@ public class CodeDrawImage {
 	 * <pre>{@code
 	 * cd.drawArc(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param radius The radius of the arc in pixel.
@@ -611,6 +613,8 @@ public class CodeDrawImage {
 	 * <pre>{@code
 	 * cd.drawArc(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param horizontalRadius The horizontal radius of the arc in pixel. The width of the arc is 2 * horizontalRadius.
@@ -634,6 +638,8 @@ public class CodeDrawImage {
 	 * <pre>{@code
 	 * cd.drawPie(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
@@ -656,6 +662,8 @@ public class CodeDrawImage {
 	 * <pre>{@code
 	 * cd.drawPie(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
 	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
@@ -780,7 +788,6 @@ public class CodeDrawImage {
 	 *     300, 200
 	 * );
 	 * }</pre>
-	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
