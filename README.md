@@ -61,8 +61,9 @@ public class Main {
 	}
 }
 ```
-
 # ❗ Don't forget to call .show() ❗
+
+![static_image](https://user-images.githubusercontent.com/24553082/153450298-403d3adc-87f9-476e-82a4-48aeac21ec90.png)
 
 ### Animations
 
@@ -92,6 +93,8 @@ public class Main {
 	}
 }
 ```
+
+https://user-images.githubusercontent.com/24553082/153450395-71f69b67-9b86-4f16-b0b6-e88c85650391.mp4
 
 ### User Interaction
 
@@ -129,3 +132,5 @@ public class Main {
 	}
 }
 ```
+
+https://user-images.githubusercontent.com/24553082/153450427-b9091fb7-3b1e-413b-b01e-6b89bf50d447.mp4
