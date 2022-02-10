@@ -454,6 +454,8 @@ public class Main {
 
 https://user-images.githubusercontent.com/24553082/153450933-a957c3e9-6f60-4896-8b32-0acf2894393d.mp4
 
+For a more complicated and interesting examples look at a simple implementation of [Conway's Game of Life](https://github.com/Krassnig/CodeDraw/blob/cc2ed6eabc03c43c8538a6e95d5c85f43358cff2/src/examples/java/GameOfLife.java).
+
 ### Events without EventScanner
 
 You can also subscribe to an event by passing a method reference or lambda to CodeDraw.
