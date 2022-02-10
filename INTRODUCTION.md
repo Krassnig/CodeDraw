@@ -443,7 +443,7 @@ public class Main {
 		cd.onMouseMove(a -> {
 			x = a.getX();
 			y = a.getY();
-        });
+		});
 		
 		while (true) {
 			cd.drawText(x, y, "The text will follow your mouse.");
