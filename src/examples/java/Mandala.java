@@ -1,5 +1,4 @@
-import codedraw.CodeDraw;
-import codedraw.Palette;
+import codedraw.*;
 
 public class Mandala {
 	public static void main(String[] args) {

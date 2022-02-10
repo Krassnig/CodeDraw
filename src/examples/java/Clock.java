@@ -1,6 +1,4 @@
-import codedraw.CodeDraw;
-import codedraw.Corner;
-import codedraw.Palette;
+import codedraw.*;
 
 import java.time.OffsetDateTime;
 

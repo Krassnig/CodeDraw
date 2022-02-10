@@ -1,5 +1,4 @@
-import codedraw.CodeDraw;
-import codedraw.Palette;
+import codedraw.*;
 import codedraw.events.*;
 
 public class GameOfLife {

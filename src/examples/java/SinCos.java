@@ -1,5 +1,4 @@
-import codedraw.CodeDraw;
-import codedraw.Palette;
+import codedraw.*;
 
 public class SinCos {
 	public static void main(String[] args) {
