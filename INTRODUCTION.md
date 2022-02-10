@@ -498,7 +498,7 @@ public class Main {
 		cd.onMouseMove(a -> {
 			cd.drawSquare(a.getX() - 5, a.getY() - 5, 10);
 			cd.show();
-        });
+		});
 	}
 }
 ```
