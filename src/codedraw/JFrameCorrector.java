@@ -30,9 +30,10 @@ class JFrameCorrector {
 	private Dimension lastCorrection = null;
 
 	public void stop() {
-		if (listener == null) throw new RuntimeException("FrameCorrector already stopped");
-		frame.removeComponentListener(listener);
-		listener = null;
+		if (listener != null) {
+			frame.removeComponentListener(listener);
+			listener = null;
+		}
 	}
 
 	private ComponentListener createComponentListener() {
