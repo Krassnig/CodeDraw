@@ -162,7 +162,7 @@ public class CodeDrawTest {
 		cd.setColor(Palette.RED);
 		cd.fillCircle(200, 200, 10);
 
-		CodeDrawImage.saveAs(cd.copyCanvas(), "./test/out.png", ImageFormat.PNG);
+		CodeDrawImage.saveAs(cd.copyCanvas(), "./src/test/java/out.png", ImageFormat.PNG);
 
 		cd.show();
 		confirm.assertConfirmation();
