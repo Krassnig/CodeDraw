@@ -80,6 +80,8 @@ public class MyProgram {
 When you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle and a filled light blue circle.
 
+![01 Gettings started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
+
 ## The coordinate system
 
 In mathematics the origin coordinate (0, 0) is usually in the **bottom-left** corner.
@@ -91,6 +93,8 @@ to the bottom-right of that point.
 The pixel coordinate (180, 150) is part of that rectangle.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
+
+![02 The coordinate system](https://user-images.githubusercontent.com/24553082/153450673-0b3470cc-7548-4b92-b597-05b4dd13bc1d.png)
 
 ## Modifying the way things are drawn
 
@@ -119,6 +123,9 @@ public class Main {
 	}
 }
 ```
+
+![03 Modifying the way things are drawn](https://user-images.githubusercontent.com/24553082/153450719-418eab8a-80ab-481d-9ac2-ca90dc4b2370.png)
+
 For example, this program will create a green rectangle with round corners.
 The outline of the rectangle will be 10 pixels wide. 
 
@@ -159,6 +166,9 @@ public class Main {
 	}
 }
 ```
+
+![04 Drawing text](https://user-images.githubusercontent.com/24553082/153450747-27066c3f-a831-4961-91ec-295f40a26813.png)
+
 This example draws the text horizontally centered below the origin point.
 The origin point is indicated by the red dot.
 Per default text is drawn to the bottom right of the origin point.
@@ -193,6 +203,9 @@ public class Main {
 	}
 }
 ```
+
+![05 Canvas and window](https://user-images.githubusercontent.com/24553082/153450766-60aac8f5-ea8b-4701-b7c2-6b064fd373ca.png)
+
 The width and height can be accessed through the *getWidth* and *getHeight* methods.
 The window is the frame surrounding the canvas.
 It contains the closing and minimize button, the title and the CodeDraw icon.
@@ -240,6 +253,8 @@ public class Main {
 	}
 }
 ```
+
+![06 Points, lines and curves](https://user-images.githubusercontent.com/24553082/153450804-cc0835d2-e5d4-4ac2-9e49-0d4da78a60fe.png)
 
 Points, Lines and Curves:
  - drawPixel
@@ -310,6 +325,9 @@ public class Main {
 }
 ```
 
+![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/153450852-bf25f473-225e-46bc-b6c5-192b0dcfdbdf.png)
+
+
 The first *drawImage* method takes the width and height of the given image to draw the image.
 The second *drawImage* rescales the image to fit inside the 200x200 bounds.
 The third *drawImage* also rescales the image but also specifies how pixels are supposed to be interpolated.
@@ -354,6 +372,8 @@ public class Main {
 	}
 }
 ```
+
+https://user-images.githubusercontent.com/24553082/153450896-51e4de7b-d741-4832-b850-c77adb96d01b.mp4
 
 ## Events
 
@@ -432,6 +452,8 @@ public class Main {
 }
 ```
 
+https://user-images.githubusercontent.com/24553082/153450933-a957c3e9-6f60-4896-8b32-0acf2894393d.mp4
+
 ### Events without EventScanner
 
 You can also subscribe to an event by passing a method reference or lambda to CodeDraw.
@@ -462,7 +484,7 @@ public class Main {
 }
 ```
 
-https://user-images.githubusercontent.com/24553082/122690528-4a2f3800-d22a-11eb-9a8d-72162af9c50f.mp4
+https://user-images.githubusercontent.com/24553082/153450985-499f540b-aec9-4578-b8ff-79da6a42ab84.mp4
 
 Note! You are not allowed to call most methods of the CodeDraw class inside a CodeDraw event.
 Something like the following would crash your program:
