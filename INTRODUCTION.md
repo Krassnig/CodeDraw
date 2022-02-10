@@ -6,9 +6,7 @@ CodeDraw is an easy-to-use drawing library where you use code to create pictures
 It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
-
-A list of all methods can be found in the [Api section in the CodeDraw repository](https://github.com/Krassnig/CodeDraw#api).
-
+The source code is available at the [CodeDraw repository](https://github.com/Krassnig/CodeDraw).
 
 The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
 or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
