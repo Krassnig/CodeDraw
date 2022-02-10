@@ -76,7 +76,6 @@ public class MyProgram {
 	}
 }
 ```
-![basic](https://user-images.githubusercontent.com/24553082/132953425-dd003617-865e-4589-8ccc-67f42e2ae2a9.png)
 
 When you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle and a filled light blue circle.
@@ -86,10 +85,10 @@ another filled rectangle and a filled light blue circle.
 In mathematics the origin coordinate (0, 0) is usually in the **bottom-left** corner.
 This is different in computer graphics.
 In computer graphics the **top-left** corner is used as the origin coordinate.
-For Example: *cd.fillSquare(150, 150, 50);* will start at the **top-left** corner,
-go 150 pixel to the right, 150 pixel down and start drawing a 50 by 50 pixel square
+For Example: *cd.fillSquare(180, 150, 50);* will start at the **top-left** corner,
+go 180 pixel to the right, 150 pixel down and start drawing a 50 by 50 pixel square
 to the bottom-right of that point.
-The pixel coordinate (150, 150) is part of that rectangle.
+The pixel coordinate (180, 150) is part of that rectangle.
 Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
 Circular Shapes have their starting point in their center.
 
@@ -108,7 +107,7 @@ import codedraw.*;
 
 public class Main {
 	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+		CodeDraw cd = new CodeDraw(400, 400);
 		
 		cd.setColor(Palette.GREEN);
 		cd.setCorner(Corner.ROUND);
@@ -121,7 +120,7 @@ public class Main {
 }
 ```
 For example, this program will create a green rectangle with round corners.
-The outline of the rectangle will be 5 pixels wide. 
+The outline of the rectangle will be 10 pixels wide. 
 
 List of drawing properties:
  - getColor/setColor
@@ -144,23 +143,28 @@ import codedraw.textformat.*;
 
 public class Main {
 	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+		CodeDraw cd = new CodeDraw(400, 400);
 		TextFormat format = cd.getTextFormat();
 
+		format.setFontSize(20);
 		format.setHorizontalAlign(HorizontalAlign.CENTER);
-		format.setStrikethrough(true);
-		
-		cd.drawText(300, 100, "Hello World!\nMulti lines Work!");
-		cd.fillCircle(300, 100, 5);
+		format.setItalic(true);
+
+		cd.drawText(200, 100, "Hello World!\nMulti lines!");
+
+		cd.setColor(Palette.RED);
+		cd.fillCircle(200, 100, 5);
+
 		cd.show();
 	}
 }
 ```
 This example draws the text horizontally centered below the origin point.
-The origin point is indicated by the filled circle.
+The origin point is indicated by the red dot.
 Per default text is drawn to the bottom right of the origin point.
+By setting the font size the size of the font can be increased.
 By setting HorizontalAlign to center the text is horizontally centered.
-By setting StrikeThrough to true a line is drawn through the text.
+By setting italic to true the text is tilted.
 Text can also be draw over multiple lines by including a newline character.
 
 List of text format options:
@@ -180,10 +184,13 @@ The width and the height of the canvas cannot be changed once a CodeDraw window 
 They can only be set when you create a CodeDraw window by passing the desired size to the constructor.
 For example: The following code creates a CodeDraw window with a canvas of the size 300x300 pixel.
 ```java
+import codedraw.*;
+
 public class Main {
 	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw(300, 300);
-    }
+		CodeDraw cd = new CodeDraw(300, 100);
+		cd.setTitle("Hello World!");
+	}
 }
 ```
 The width and height can be accessed through the *getWidth* and *getHeight* methods.
@@ -326,29 +333,27 @@ with the execution of you program.
 ```java
 import codedraw.*;
 
-public class MyProgram {
+public class Main {
 	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+		CodeDraw cd = new CodeDraw(400, 400);
 
 		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
 			// clears the entire canvas
 			cd.clear();
 			// draws the second hand
-			cd.drawLine(300, 300, Math.cos(sec) * 100 + 300, Math.sin(sec) * 100 + 300);
+			cd.drawLine(200, 200, Math.cos(sec) * 100 + 200, Math.sin(sec) * 100 + 200);
 
 			// draws the twelve dots
 			for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
-				cd.fillCircle(Math.cos(j) * 100 + 300, Math.sin(j) * 100 + 300, 4);
+				cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
 			}
 
-			// displays the drawn objects and waits 1 second (or 1000 milliseconds)
+			// displays the drawn objects and waits 1 second
 			cd.show(1000);
 		}
 	}
 }
 ```
-
-https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-863f-ffdb3f3f8017.mp4
 
 ## Events
 
@@ -391,15 +396,18 @@ Calling *es.nextEvent()* just skips the event. (*nextEvent* returns the event as
 After processing the events display the new data based on *x*, *y* and *clickCount*.
 
 ```java
+import codedraw.*;
+import codedraw.events.*;
+
 public class Main {
 	public static void main(String[] args) {
 		CodeDraw cd = new CodeDraw();
 		EventScanner es = new EventScanner(cd);
-		
+
 		int x = 0;
 		int y = 0;
 		int clickCount = 0;
-		
+
 		while (!es.isClosed()) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseMoveEvent()) {
@@ -415,7 +423,7 @@ public class Main {
 					es.nextEvent();
 				}
 			}
-			
+
 			cd.clear();
 			cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
 			cd.show(16);
@@ -446,6 +454,7 @@ public class Main {
 		});
 		
 		while (true) {
+			cd.clear();
 			cd.drawText(x, y, "The text will follow your mouse.");
 			cd.show(16);
 		}

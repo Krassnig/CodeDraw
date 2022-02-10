@@ -41,8 +41,8 @@ import codedraw.*;
 
 public class Main {
 	public static void main(String[] args) {
-		// Creates a new CodeDraw window with the size of 600x600 pixel
-		CodeDraw cd = new CodeDraw();
+		// Creates a new CodeDraw window with the size of 400x400 pixel
+		CodeDraw cd = new CodeDraw(400, 400);
 
 		// Sets the drawing color to red
 		cd.setColor(Palette.RED);
@@ -61,7 +61,6 @@ public class Main {
 	}
 }
 ```
-![basic](https://user-images.githubusercontent.com/24553082/132953399-135a5872-3fd7-47aa-b37a-2f39400fa052.png)
 
 # ❗ Don't forget to call .show() ❗
 
@@ -74,17 +73,17 @@ import codedraw.*;
 
 public class Main {
 	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+		CodeDraw cd = new CodeDraw(400, 400);
 
 		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
 			// clears the entire canvas
 			cd.clear();
 			// draws the second hand
-			cd.drawLine(300, 300, Math.cos(sec) * 100 + 300, Math.sin(sec) * 100 + 300);
+			cd.drawLine(200, 200, Math.cos(sec) * 100 + 200, Math.sin(sec) * 100 + 200);
 
 			// draws the twelve dots
 			for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
-				cd.fillCircle(Math.cos(j) * 100 + 300, Math.sin(j) * 100 + 300, 4);
+				cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
 			}
 
 			// displays the drawn objects and waits 1 second
@@ -93,8 +92,6 @@ public class Main {
 	}
 }
 ```
-
-https://user-images.githubusercontent.com/24553082/122690522-3d124900-d22a-11eb-863f-ffdb3f3f8017.mp4
 
 ### User Interaction
 
@@ -132,6 +129,3 @@ public class Main {
 	}
 }
 ```
-
-https://user-images.githubusercontent.com/24553082/122690528-4a2f3800-d22a-11eb-9a8d-72162af9c50f.mp4
-
