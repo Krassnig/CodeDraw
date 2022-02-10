@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.function.Supplier;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class EventTest {
 	private CodeDrawConfirmation confirm;

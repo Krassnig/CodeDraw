@@ -4,7 +4,7 @@ import java.awt.*;
 
 /**
  * Palette provides a wide variety of colors and makes it easier to create colors.
- * Alternatively you can just use awt {@link java.awt.Color}.
+ * Alternatively you can just use awt {@link Color}.
  * Palette takes all the colors from the CSS colors but switches GRAY and DARK_GRAY,
  * so that DARK_GRAY is darker than GRAY.
  * If the Palette color does not match the awt color or CSS colors there is a note in the documentation.
@@ -112,7 +112,7 @@ public final class Palette {
 	public static final Color BLUE = new Color(0x0000FF);
 	public static final Color DARK_GREEN = new Color(0x006400);
 	/**
-	 * This color differs from {@link java.awt.Color#GREEN}.
+	 * This color differs from {@link Color#GREEN}.
 	 * If you want awt Green use {@link Palette#LIME} instead.
 	 */
 	public static final Color GREEN = new Color(0x008000);
@@ -160,7 +160,7 @@ public final class Palette {
 	public static final Color PURPLE = new Color(0x800080);
 	public static final Color OLIVE = new Color(0x808000);
 	/**
-	 * This color differs from {@link java.awt.Color#GRAY}.
+	 * This color differs from {@link Color#GRAY}.
 	 * If you want awt gray use {@link Palette#DARK_GRAY} instead.
 	 * Note that this color does not match CSS gray but instead matches CSS dark gray.
 	 */
@@ -181,7 +181,7 @@ public final class Palette {
 	public static final Color SIENNA = new Color(0xA0522D);
 	public static final Color BROWN = new Color(0xA52A2A);
 	/**
-	 * This color differs from {@link java.awt.Color#DARK_GRAY}
+	 * This color differs from {@link Color#DARK_GRAY}
 	 * Note that this color does not match CSS dark gray but instead matches CSS gray.
 	 */
 	public static final Color DARK_GRAY = new Color(0x808080);
@@ -202,7 +202,7 @@ public final class Palette {
 	public static final Color CHOCOLATE = new Color(0xD2691E);
 	public static final Color TAN = new Color(0xD2B48C);
 	/**
-	 * This color differs from {@link java.awt.Color#LIGHT_GRAY}.
+	 * This color differs from {@link Color#LIGHT_GRAY}.
 	 * If you want awt light gray use {@link Palette#SILVER} instead.
 	 */
 	public static final Color LIGHT_GRAY = new Color(0xD3D3D3);
@@ -252,12 +252,12 @@ public final class Palette {
 	public static final Color DARK_ORANGE = new Color(0xFF8C00);
 	public static final Color LIGHT_SALMON = new Color(0xFFA07A);
 	/**
-	 * This color differs from {@link java.awt.Color#ORANGE}.
+	 * This color differs from {@link Color#ORANGE}.
 	 */
 	public static final Color ORANGE = new Color(0xFFA500);
 	public static final Color LIGHT_PINK = new Color(0xFFB6C1);
 	/**
-	 * This color differs from {@link java.awt.Color#PINK}.
+	 * This color differs from {@link Color#PINK}.
 	 */
 	public static final Color PINK = new Color(0xFFC0CB);
 	public static final Color GOLD = new Color(0xFFD700);
