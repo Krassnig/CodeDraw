@@ -7,6 +7,9 @@ import org.junit.Test;
 import java.awt.*;
 import java.util.function.Supplier;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 public class EventTest {
 	private CodeDrawConfirmation confirm;
 	private CodeDraw cd;
@@ -353,5 +356,14 @@ public class EventTest {
 		}
 
 		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void waitForClickTest() {
+		confirm.setConfirmationDialogue("Please click anywhere.");
+
+		MouseClickEventArgs a = EventScanner.waitFor(cd::onMouseClick);
+
+		assertNotNull(a);
 	}
 }
