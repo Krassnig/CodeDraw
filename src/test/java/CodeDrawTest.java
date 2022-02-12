@@ -172,7 +172,7 @@ public class CodeDrawTest {
 	public void imageTestScale() {
 		confirm.setConfirmationDialogue("The image should display the scaled down 200x200 image.");
 
-		cd.drawImage(100, 100, 200, 200, CodeDrawImage.fromFile("test/test.jpg"));
+		cd.drawImage(100, 100, 200, 200, CodeDrawImage.fromFile("./src/test/java/test.jpg"));
 		cd.show();
 
 		confirm.assertConfirmation();
@@ -186,7 +186,7 @@ public class CodeDrawTest {
 		cd = new CodeDraw(820, 620);
 		confirm.placeCodeDrawTestingInstance(cd);
 
-		cd.drawImage(10, 10, CodeDrawImage.fromFile("test/test.jpg"));
+		cd.drawImage(10, 10, CodeDrawImage.fromFile("./src/test/java/test.jpg"));
 		cd.show();
 
 		confirm.assertConfirmation();
