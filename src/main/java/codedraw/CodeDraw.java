@@ -947,7 +947,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Creates a copy of the current buffer (not the displayed image) and returns
-	 * it as a {@link codedraw.images.CodeDrawImage}. A {@link codedraw.images.CodeDrawImage} can be saved to a file with the following code:
+	 * it as a {@link CodeDrawImage}. A {@link CodeDrawImage} can be saved to a file with the following code:
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
@@ -956,7 +956,7 @@ public class CodeDraw implements AutoCloseable {
 	 * CodeDrawImage.saveAsPNG(cd.copyCanvas(), "/pathToDirectory/filename.png");
 	 * }</pre>
 	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>.
-	 * @return The current buffer as a {@link codedraw.images.CodeDrawImage}.
+	 * @return The current buffer as a {@link CodeDrawImage}.
 	 */
 	public CodeDrawImage copyCanvas() {
 		checkEventInvocation();

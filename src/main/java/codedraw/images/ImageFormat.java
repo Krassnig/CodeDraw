@@ -5,6 +5,7 @@ package codedraw.images;
  */
 public enum ImageFormat {
 	PNG,
+	GIF,
 	/**
 	 * Does not support transparency.
 	 */
@@ -13,14 +14,13 @@ public enum ImageFormat {
 	 * Does not support transparency.
 	 */
 	JPEG,
-	GIF,
 	/**
 	 * Does not support transparency.
 	 */
 	BMP;
 
 	boolean supportsTransparency() {
-		return this != JPG && this != JPEG && this != BMP;
+		return this == PNG || this == GIF;
 	}
 
 	String getFormatName() {
