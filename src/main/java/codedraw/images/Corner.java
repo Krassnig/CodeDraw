@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.images;
 
 /**
  * Defines how the corners of drawn shapes should look.

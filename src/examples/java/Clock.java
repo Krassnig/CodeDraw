@@ -1,4 +1,5 @@
 import codedraw.*;
+import codedraw.images.Corner;
 
 import java.time.OffsetDateTime;
 
