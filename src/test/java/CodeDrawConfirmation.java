@@ -81,7 +81,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 		return false;
 	}
 
-	private boolean isConfirmed(MouseDownEventArgs a) {
+	private boolean isConfirmed(MouseDownEvent a) {
 		if (a.getY() > cd.getHeight() * 0.5) {
 			boolean isConfirmed = a.getX() > cd.getWidth() / 2;
 			if (isConfirmed) {

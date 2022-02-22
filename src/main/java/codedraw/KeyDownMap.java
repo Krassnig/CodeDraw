@@ -1,16 +1,16 @@
 package codedraw;
 
-import codedraw.events.KeyDownEventArgs;
+import codedraw.events.KeyDownEvent;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 class KeyDownMap {
-	public KeyDownMap(Event<KeyDownEventArgs> keyDownEvent) {
+	public KeyDownMap(Event<KeyDownEvent> keyDownEvent) {
 		this.event = keyDownEvent;
 	}
 
-	private final Event<KeyDownEventArgs> event;
+	private final Event<KeyDownEvent> event;
 	private final HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
@@ -18,7 +18,7 @@ class KeyDownMap {
 
 		if (!isKeyAlreadyPressed(keyCode)) {
 			map.put(keyCode, true);
-			event.invoke(new KeyDownEventArgs(keyEvent));
+			event.invoke(new KeyDownEvent(keyEvent));
 		}
 	}
 

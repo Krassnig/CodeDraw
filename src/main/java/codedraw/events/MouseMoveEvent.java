@@ -3,10 +3,10 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given exactly once when a mouse button is released.
+ * This argument is given continuously while the mouse is being moved.
  */
-public class MouseUpEventArgs {
-	public MouseUpEventArgs(MouseEvent e) {
+public class MouseMoveEvent {
+	public MouseMoveEvent(MouseEvent e) {
 		this.e = e;
 	}
 
@@ -26,13 +26,5 @@ public class MouseUpEventArgs {
 	 */
 	public int getY() {
 		return e.getY();
-	}
-
-	/**
-	 * Gets the type of mouse button that was pressed to trigger the event.
-	 * @return a mouse button.
-	 */
-	public MouseButton getMouseButton() {
-		return MouseButton.values()[e.getButton() - 1];
 	}
 }

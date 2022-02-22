@@ -1,15 +1,15 @@
 package codedraw;
 
-import codedraw.events.MouseClickEventArgs;
+import codedraw.events.MouseClickEvent;
 
 import java.awt.event.MouseEvent;
 
 class MouseClickMap {
-	public MouseClickMap(Event<MouseClickEventArgs> mouseClickEvent) {
+	public MouseClickMap(Event<MouseClickEvent> mouseClickEvent) {
 		this.mouseClickEvent = mouseClickEvent;
 	}
 
-	private final Event<MouseClickEventArgs> mouseClickEvent;
+	private final Event<MouseClickEvent> mouseClickEvent;
 	private MouseEvent lastMouseDown;
 
 	public void mousePressed(MouseEvent mouseEvent) {
@@ -25,7 +25,7 @@ class MouseClickMap {
 	public void mouseReleased(MouseEvent mouseEvent) {
 		if (lastMouseDown != null) {
 			if (calculateDelta(lastMouseDown, mouseEvent) < 38 * 38) {
-				mouseClickEvent.invoke(new MouseClickEventArgs(mouseEvent));
+				mouseClickEvent.invoke(new MouseClickEvent(mouseEvent));
 			}
 		}
 	}

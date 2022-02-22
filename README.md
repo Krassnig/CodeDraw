@@ -114,19 +114,19 @@ public class Main {
 
 		cd.drawText(200, 200, "Move your mouse over here.");
 		cd.show();
-		
+
 		cd.setColor(Palette.RED);
 
 		while (!es.isClosed()) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseMoveEvent()) {
-					MouseMoveEventArgs a = es.nextMouseMoveEvent();
+					MouseMoveEvent a = es.nextMouseMoveEvent();
 					cd.fillSquare(a.getX() - 5, a.getY() - 5, 10);
 				} else {
 					es.nextEvent();
 				}
 			}
-			
+
 			cd.show(16);
 		}
 	}

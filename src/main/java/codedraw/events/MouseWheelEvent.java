@@ -1,16 +1,14 @@
 package codedraw.events;
 
-import java.awt.event.MouseWheelEvent;
-
 /**
  * This argument is given each time the mouse wheel is turned.
  */
-public class MouseWheelEventArgs {
-	public MouseWheelEventArgs(MouseWheelEvent e) {
+public class MouseWheelEvent {
+	public MouseWheelEvent(java.awt.event.MouseWheelEvent e) {
 		this.e = e;
 	}
 
-	private final MouseWheelEvent e;
+	private final java.awt.event.MouseWheelEvent e;
 
 	/**
 	 * Returns the amount of wheel rotation. One rotation is one click on the mouse.

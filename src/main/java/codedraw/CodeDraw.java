@@ -340,7 +340,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseClick(EventHandler<MouseClickEventArgs> handler) {
+	public Subscription onMouseClick(EventHandler<MouseClickEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseClick.onInvoke(handler);
 	}
@@ -350,7 +350,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseMove(EventHandler<MouseMoveEventArgs> handler) {
+	public Subscription onMouseMove(EventHandler<MouseMoveEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseMove.onInvoke(handler);
 	}
@@ -360,7 +360,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseDown(EventHandler<MouseDownEventArgs> handler) {
+	public Subscription onMouseDown(EventHandler<MouseDownEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseDown.onInvoke(handler);
 	}
@@ -370,7 +370,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseUp(EventHandler<MouseUpEventArgs> handler) {
+	public Subscription onMouseUp(EventHandler<MouseUpEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseUp.onInvoke(handler);
 	}
@@ -380,7 +380,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseEnter(EventHandler<MouseEnterEventArgs> handler) {
+	public Subscription onMouseEnter(EventHandler<MouseEnterEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseEnter.onInvoke(handler);
 	}
@@ -390,7 +390,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseLeave(EventHandler<MouseLeaveEventArgs> handler) {
+	public Subscription onMouseLeave(EventHandler<MouseLeaveEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseLeave.onInvoke(handler);
 	}
@@ -400,7 +400,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onMouseWheel(EventHandler<MouseWheelEventArgs> handler) {
+	public Subscription onMouseWheel(EventHandler<MouseWheelEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.mouseWheel.onInvoke(handler);
 	}
@@ -410,7 +410,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyDown(EventHandler<KeyDownEventArgs> handler) {
+	public Subscription onKeyDown(EventHandler<KeyDownEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyDown.onInvoke(handler);
 	}
@@ -420,7 +420,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyUp(EventHandler<KeyUpEventArgs> handler) {
+	public Subscription onKeyUp(EventHandler<KeyUpEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyUp.onInvoke(handler);
 	}
@@ -430,7 +430,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onKeyPress(EventHandler<KeyPressEventArgs> handler) {
+	public Subscription onKeyPress(EventHandler<KeyPressEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.keyPress.onInvoke(handler);
 	}
@@ -440,7 +440,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowMove(EventHandler<WindowMoveEventArgs> handler) {
+	public Subscription onWindowMove(EventHandler<WindowMoveEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.windowMove.onInvoke(handler);
 	}
@@ -450,7 +450,7 @@ public class CodeDraw implements AutoCloseable {
 	 * If you have difficulty with this method try the {@link EventScanner}.
 	 * @param handler A lambda or function reference.
 	 */
-	public Subscription onWindowClose(EventHandler<WindowCloseEventArgs> handler) {
+	public Subscription onWindowClose(EventHandler<WindowCloseEvent> handler) {
 		if (handler == null) throw createParameterNullException("handler");
 		return events.windowClose.onInvoke(handler);
 	}

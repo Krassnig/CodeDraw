@@ -74,7 +74,7 @@ public class EventTest {
 		while (!confirm.hasConfirmationBeenPressed()) {
 			if (esc.hasEventNow()) {
 				if (esc.hasMouseMoveEvent()) {
-					MouseMoveEventArgs a = esc.nextMouseMoveEvent();
+					MouseMoveEvent a = esc.nextMouseMoveEvent();
 					cd.clear();
 					cd.drawCurve(200, 200, a.getX(), a.getY(), 400, 400);
 					cd.show();
@@ -104,7 +104,7 @@ public class EventTest {
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (esc.hasWindowMoveEvent()) {
-					WindowMoveEventArgs a = esc.nextWindowMoveEvent();
+					WindowMoveEvent a = esc.nextWindowMoveEvent();
 					dx = x - a.getCanvasPositionX();
 					dy = y - a.getCanvasPositionY();
 				}
@@ -213,7 +213,7 @@ public class EventTest {
 				"A red square should appear once where the mouse is clicked.",
 				() -> esc.hasMouseClickEvent(),
 				() -> {
-					MouseClickEventArgs a = esc.nextMouseClickEvent();
+					MouseClickEvent a = esc.nextMouseClickEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -225,7 +225,7 @@ public class EventTest {
 				"Red squares should be drawn everywhere the mouse is moved.",
 				() -> esc.hasMouseMoveEvent(),
 				() -> {
-					MouseMoveEventArgs a = esc.nextMouseMoveEvent();
+					MouseMoveEvent a = esc.nextMouseMoveEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -237,7 +237,7 @@ public class EventTest {
 				"A red square should appear once exactly as you click down.",
 				() -> esc.hasMouseDownEvent(),
 				() -> {
-					MouseDownEventArgs a = esc.nextMouseDownEvent();
+					MouseDownEvent a = esc.nextMouseDownEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -249,7 +249,7 @@ public class EventTest {
 				"A red square should appear once exactly as you release a mouse button.",
 				() -> esc.hasMouseUpEvent(),
 				() -> {
-					MouseUpEventArgs a = esc.nextMouseUpEvent();
+					MouseUpEvent a = esc.nextMouseUpEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -261,7 +261,7 @@ public class EventTest {
 				"A red square should appear once exactly where the window is entered.",
 				() -> esc.hasMouseEnterEvent(),
 				() -> {
-					MouseEnterEventArgs a = esc.nextMouseEnterEvent();
+					MouseEnterEvent a = esc.nextMouseEnterEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -273,7 +273,7 @@ public class EventTest {
 				"A red square should appear once exactly where the window is left.",
 				() -> esc.hasMouseLeaveEvent(),
 				() -> {
-					MouseLeaveEventArgs a = esc.nextMouseLeaveEvent();
+					MouseLeaveEvent a = esc.nextMouseLeaveEvent();
 					return new Point(a.getX(), a.getY());
 				}
 		);
@@ -314,8 +314,8 @@ public class EventTest {
 	}
 
 	private Subscription subscription;
-	private EventHandler<KeyPressEventArgs> key;
-	private EventHandler<MouseClickEventArgs> mouse;
+	private EventHandler<KeyPressEvent> key;
+	private EventHandler<MouseClickEvent> mouse;
 	private int unsubscribeProgress = 0;
 
 	@Test
@@ -361,7 +361,7 @@ public class EventTest {
 	public void waitForClickTest() {
 		confirm.setConfirmationDialogue("Please click anywhere.");
 
-		MouseClickEventArgs a = EventScanner.waitFor(cd::onMouseClick);
+		MouseClickEvent a = EventScanner.waitFor(cd::onMouseClick);
 
 		assertNotNull(a);
 	}

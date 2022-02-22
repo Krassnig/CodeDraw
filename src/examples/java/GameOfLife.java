@@ -19,7 +19,7 @@ public class GameOfLife {
 		for (int i = 0; !es.isClosed(); i++) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseDownEvent()) {
-					MouseDownEventArgs a = es.nextMouseDownEvent();
+					MouseDownEvent a = es.nextMouseDownEvent();
 					isMouseDown = true;
 					// the value that is used to draw cells depends on the state of the cell where the initial click happens
 					// if that cell was white then every subsequent move of the mouse will draw black cells.
@@ -32,7 +32,7 @@ public class GameOfLife {
 					isMouseDown = false;
 				}
 				else if (es.hasMouseMoveEvent()) {
-					MouseMoveEventArgs a = es.nextMouseMoveEvent();
+					MouseMoveEvent a = es.nextMouseMoveEvent();
 					if (isMouseDown) {
 						field[a.getX() / FIELD_SIZE][a.getY() / FIELD_SIZE] = setValue;
 					}

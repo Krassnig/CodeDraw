@@ -5,8 +5,8 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given exactly once when a mouse button is pressed down.
  */
-public class MouseDownEventArgs {
-	public MouseDownEventArgs(MouseEvent e) {
+public class MouseDownEvent {
+	public MouseDownEvent(MouseEvent e) {
 		this.e = e;
 	}
 

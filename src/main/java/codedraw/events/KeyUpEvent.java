@@ -3,10 +3,10 @@ package codedraw.events;
 import java.awt.event.KeyEvent;
 
 /**
- * This argument is given continuously while a key is being held down.
+ * This argument is given exactly once when a key is released.
  */
-public class KeyPressEventArgs {
-	public KeyPressEventArgs(KeyEvent e) {
+public class KeyUpEvent {
+	public KeyUpEvent(KeyEvent e) {
 		this.e = e;
 		key = Key.getKeyFromKeyCode(e.getKeyCode());
 	}

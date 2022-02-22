@@ -3,10 +3,10 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given once when a mouse button is pressed down and quickly released again.
+ * This argument is given exactly once when a mouse button is released.
  */
-public class MouseClickEventArgs {
-	public MouseClickEventArgs(MouseEvent e) {
+public class MouseUpEvent {
+	public MouseUpEvent(MouseEvent e) {
 		this.e = e;
 	}
 

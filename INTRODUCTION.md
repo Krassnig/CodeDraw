@@ -418,35 +418,34 @@ import codedraw.*;
 import codedraw.events.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
-		EventScanner es = new EventScanner(cd);
+  public static void main(String[] args) {
+    CodeDraw cd = new CodeDraw();
+    EventScanner es = new EventScanner(cd);
 
-		int x = 0;
-		int y = 0;
-		int clickCount = 0;
+    int x = 0;
+    int y = 0;
+    int clickCount = 0;
 
-		while (!es.isClosed()) {
-			while (es.hasEventNow()) {
-				if (es.hasMouseMoveEvent()) {
-					MouseMoveEventArgs a = es.nextMouseMoveEvent();
-					x = a.getX();
-					y = a.getY();
-				}
-				if (es.hasMouseClickEvent()) {
-					clickCount++;
-					es.nextEvent();
-				}
-				else {
-					es.nextEvent();
-				}
-			}
+    while (!es.isClosed()) {
+      while (es.hasEventNow()) {
+        if (es.hasMouseMoveEvent()) {
+          MouseMoveEvent a = es.nextMouseMoveEvent();
+          x = a.getX();
+          y = a.getY();
+        }
+        if (es.hasMouseClickEvent()) {
+          clickCount++;
+          es.nextEvent();
+        } else {
+          es.nextEvent();
+        }
+      }
 
-			cd.clear();
-			cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
-			cd.show(16);
-		}
-	}
+      cd.clear();
+      cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+      cd.show(16);
+    }
+  }
 }
 ```
 

@@ -5,16 +5,16 @@ import codedraw.events.*;
 class EventCollection {
 	public EventCollection() { }
 
-	public final Event<MouseClickEventArgs> mouseClick = new Event<>();
-	public final Event<MouseMoveEventArgs> mouseMove = new Event<>();
-	public final Event<MouseDownEventArgs> mouseDown = new Event<>();
-	public final Event<MouseUpEventArgs> mouseUp = new Event<>();
-	public final Event<MouseEnterEventArgs> mouseEnter = new Event<>();
-	public final Event<MouseLeaveEventArgs> mouseLeave = new Event<>();
-	public final Event<MouseWheelEventArgs> mouseWheel = new Event<>();
-	public final Event<KeyDownEventArgs> keyDown = new Event<>();
-	public final Event<KeyUpEventArgs> keyUp = new Event<>();
-	public final Event<KeyPressEventArgs> keyPress = new Event<>();
-	public final Event<WindowMoveEventArgs> windowMove = new Event<>();
-	public final Event<WindowCloseEventArgs> windowClose = new Event<>();
+	public final Event<MouseClickEvent> mouseClick = new Event<>();
+	public final Event<MouseMoveEvent> mouseMove = new Event<>();
+	public final Event<MouseDownEvent> mouseDown = new Event<>();
+	public final Event<MouseUpEvent> mouseUp = new Event<>();
+	public final Event<MouseEnterEvent> mouseEnter = new Event<>();
+	public final Event<MouseLeaveEvent> mouseLeave = new Event<>();
+	public final Event<MouseWheelEvent> mouseWheel = new Event<>();
+	public final Event<KeyDownEvent> keyDown = new Event<>();
+	public final Event<KeyUpEvent> keyUp = new Event<>();
+	public final Event<KeyPressEvent> keyPress = new Event<>();
+	public final Event<WindowMoveEvent> windowMove = new Event<>();
+	public final Event<WindowCloseEvent> windowClose = new Event<>();
 }

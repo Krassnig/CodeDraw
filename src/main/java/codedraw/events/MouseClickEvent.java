@@ -3,10 +3,10 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given when the mouse enters the canvas.
+ * This argument is given once when a mouse button is pressed down and quickly released again.
  */
-public class MouseEnterEventArgs {
-	public MouseEnterEventArgs(MouseEvent e) {
+public class MouseClickEvent {
+	public MouseClickEvent(MouseEvent e) {
 		this.e = e;
 	}
 
@@ -26,5 +26,13 @@ public class MouseEnterEventArgs {
 	 */
 	public int getY() {
 		return e.getY();
+	}
+
+	/**
+	 * Gets the type of mouse button that was pressed to trigger the event.
+	 * @return a mouse button.
+	 */
+	public MouseButton getMouseButton() {
+		return MouseButton.values()[e.getButton() - 1];
 	}
 }
