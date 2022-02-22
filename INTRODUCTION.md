@@ -325,8 +325,7 @@ public class Main {
 }
 ```
 
-![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/153450852-bf25f473-225e-46bc-b6c5-192b0dcfdbdf.png)
-
+![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/155164429-43e1273a-ed01-4a42-b87f-7e448537ffda.png)
 
 The first *drawImage* method takes the width and height of the given image to draw the image.
 The second *drawImage* rescales the image to fit inside the 200x200 bounds.
