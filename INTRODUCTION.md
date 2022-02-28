@@ -283,7 +283,6 @@ Outlined Shapes:
  - drawPie
  - drawTriangle
  - drawPolygon
- - drawArc (actually a line)
 
 Filled Shapes:
  - fillSquare
