@@ -385,6 +385,7 @@ public class CodeDrawImage {
 	 * Draws the text at the specified (x, y) coordinate.
 	 * Formatting options can be set via the TextFormat object.
 	 * See {@link #getTextFormat()}, {@link #setTextFormat(TextFormat)} and the {@link TextFormat} class.
+	 * Multiple lines can be drawn by including newline characters in the text parameter.
 	 * If not specified otherwise in the TextFormat object the (x, y) coordinates will be in the top left corner of the text.
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
