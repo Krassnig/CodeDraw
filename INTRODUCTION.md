@@ -20,7 +20,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
     * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
     * [Drawing text](#drawing-text)
     * [Canvas and window](#canvas-and-window)
-    * [Points, lines and curves](#points--lines-and-curves)
+    * [Points, lines and curves](#points-lines-and-curves)
     * [Outline and filled shapes](#outline-and-filled-shapes)
     * [Images in CodeDraw](#images-in-codedraw)
     * [Animations](#animations)
