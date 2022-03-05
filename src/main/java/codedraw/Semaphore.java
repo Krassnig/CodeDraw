@@ -18,4 +18,8 @@ class Semaphore {
 	public void release() {
 		s.release();
 	}
+
+	public void acquireAll() {
+		while (s.tryAcquire());
+	}
 }

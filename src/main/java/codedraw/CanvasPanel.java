@@ -18,8 +18,9 @@ class CanvasPanel extends JPanel {
 
 	private final Semaphore clipboardCopyLock = new Semaphore(1);
 	private final Semaphore renderCopyLock = new Semaphore(1);
+	private final Semaphore waitRender = new Semaphore(0);
 
-	public void render(CodeDrawImage codeDrawBuffer) {
+	public void render(CodeDrawImage codeDrawBuffer, boolean waitForDisplay) {
 		clipboardCopyLock.acquire();
 		renderCopyLock.acquire();
 
@@ -28,7 +29,9 @@ class CanvasPanel extends JPanel {
 		renderCopyLock.release();
 		clipboardCopyLock.release();
 
+		waitRender.acquireAll();
 		repaint();
+		if (waitForDisplay) waitRender.acquire();
 	}
 
 	public void copyImageToClipboard() {
@@ -45,5 +48,7 @@ class CanvasPanel extends JPanel {
 		renderCopyLock.acquire();
 		displayBuffer.copyTo(componentGraphics, Interpolation.BICUBIC);
 		renderCopyLock.release();
+
+		waitRender.release();
 	}
 }

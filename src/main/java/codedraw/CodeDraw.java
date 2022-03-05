@@ -86,6 +86,24 @@ public class CodeDraw implements AutoCloseable {
 	private CodeDrawImage g;
 	private EventCollection events;
 	private Subscription ctrlCSubscription;
+	private boolean drawImmediately = false;
+
+	/**
+	 * When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * Enabling ImmediateDraw makes CodeDraw slow.
+	 * ImmediateDraw is disabled per default.
+	 */
+	public void enableImmediateDraw() {
+		drawImmediately = true;
+	}
+
+	/**
+	 * When ImmediateDraw is disabled CodeDraw will only draw shapes to the window once show is called.
+	 * ImmediateDraw is disabled per default.
+	 */
+	public void disableImmediateDraw() {
+		drawImmediately = false;
+	}
 
 	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
@@ -470,6 +488,7 @@ public class CodeDraw implements AutoCloseable {
 		if (text == null) throw createParameterNullException("text");
 
 		g.drawText(x, y, text);
+		afterDrawing();
 	}
 
 	/**
@@ -480,6 +499,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawPixel(double x, double y) {
 		checkEventInvocation();
 		g.drawPixel(x, y);
+		afterDrawing();
 	}
 
 	/**
@@ -490,6 +510,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawPoint(double x, double y) {
 		checkEventInvocation();
 		g.drawPoint(x, y);
+		afterDrawing();
 	}
 
 	/**
@@ -504,6 +525,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawLine(double startX, double startY, double endX, double endY) {
 		checkEventInvocation();
 		g.drawLine(startX, startY, endX, endY);
+		afterDrawing();
 	}
 
 	/**
@@ -522,6 +544,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
 		checkEventInvocation();
 		g.drawCurve(startX, startY, controlX, controlY, endX, endY);
+		afterDrawing();
 	}
 
 	/**
@@ -542,6 +565,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
 		checkEventInvocation();
 		g.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
+		afterDrawing();
 	}
 
 	/**
@@ -557,6 +581,7 @@ public class CodeDraw implements AutoCloseable {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.drawSquare(x, y, sideLength);
+		afterDrawing();
 	}
 
 	/**
@@ -571,6 +596,7 @@ public class CodeDraw implements AutoCloseable {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.fillSquare(x, y, sideLength);
+		afterDrawing();
 	}
 
 	/**
@@ -588,6 +614,7 @@ public class CodeDraw implements AutoCloseable {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
 		g.drawRectangle(x, y, width, height);
+		afterDrawing();
 	}
 
 	/**
@@ -604,6 +631,7 @@ public class CodeDraw implements AutoCloseable {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
 		g.fillRectangle(x, y, width, height);
+		afterDrawing();
 	}
 
 	/**
@@ -619,6 +647,7 @@ public class CodeDraw implements AutoCloseable {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawCircle(x, y, radius);
+		afterDrawing();
 	}
 
 	/**
@@ -633,6 +662,7 @@ public class CodeDraw implements AutoCloseable {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillCircle(x, y, radius);
+		afterDrawing();
 	}
 
 	/**
@@ -650,6 +680,7 @@ public class CodeDraw implements AutoCloseable {
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawEllipse(x, y, horizontalRadius, verticalRadius);
+		afterDrawing();
 	}
 
 	/**
@@ -666,6 +697,7 @@ public class CodeDraw implements AutoCloseable {
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.fillEllipse(x, y, horizontalRadius, verticalRadius);
+		afterDrawing();
 	}
 
 	/**
@@ -690,6 +722,7 @@ public class CodeDraw implements AutoCloseable {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawArc(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -717,6 +750,7 @@ public class CodeDraw implements AutoCloseable {
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -741,6 +775,7 @@ public class CodeDraw implements AutoCloseable {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawPie(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -768,6 +803,7 @@ public class CodeDraw implements AutoCloseable {
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -789,6 +825,7 @@ public class CodeDraw implements AutoCloseable {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillPie(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -813,6 +850,7 @@ public class CodeDraw implements AutoCloseable {
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		g.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
 	}
 
 	/**
@@ -829,6 +867,7 @@ public class CodeDraw implements AutoCloseable {
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkEventInvocation();
 		g.drawTriangle(x1, y1, x2, y2, x3, y3);
+		afterDrawing();
 	}
 
 	/**
@@ -843,6 +882,7 @@ public class CodeDraw implements AutoCloseable {
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkEventInvocation();
 		g.fillTriangle(x1, y1, x2, y2, x3, y3);
+		afterDrawing();
 	}
 
 	/**
@@ -868,6 +908,7 @@ public class CodeDraw implements AutoCloseable {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.drawPolygon(points);
+		afterDrawing();
 	}
 
 	/**
@@ -892,6 +933,7 @@ public class CodeDraw implements AutoCloseable {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
 
 		g.fillPolygon(points);
+		afterDrawing();
 	}
 
 	/**
@@ -906,6 +948,7 @@ public class CodeDraw implements AutoCloseable {
 		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, image);
+		afterDrawing();
 	}
 
 	/**
@@ -924,6 +967,7 @@ public class CodeDraw implements AutoCloseable {
 		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, width, height, image);
+		afterDrawing();
 	}
 
 	/**
@@ -944,6 +988,7 @@ public class CodeDraw implements AutoCloseable {
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
 		g.drawImage(x, y, width, height, image, interpolation);
+		afterDrawing();
 	}
 
 	/**
@@ -970,6 +1015,7 @@ public class CodeDraw implements AutoCloseable {
 	public void clear() {
 		checkEventInvocation();
 		g.clear();
+		afterDrawing();
 	}
 
 	/**
@@ -981,6 +1027,7 @@ public class CodeDraw implements AutoCloseable {
 		if (color == null) throw createParameterNullException("color");
 
 		g.clear(color);
+		afterDrawing();
 	}
 
 	/**
@@ -990,7 +1037,7 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public void show() {
 		checkEventInvocation();
-		window.render(g);
+		window.render(g, drawImmediately);
 	}
 
 	/**
@@ -1033,6 +1080,10 @@ public class CodeDraw implements AutoCloseable {
 	public void close(boolean terminateProcess) {
 		ctrlCSubscription.unsubscribe();
 		window.dispose(terminateProcess);
+	}
+
+	private void afterDrawing() {
+		if (drawImmediately) show();
 	}
 
 	@Override
