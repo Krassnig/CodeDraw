@@ -73,8 +73,8 @@ class CanvasWindow {
 		this.canvas.setCursor(cursorStyle.getCursor());
 	}
 
-	public void render(CodeDrawImage buffer) {
-		canvas.render(buffer);
+	public void render(CodeDrawImage buffer, boolean waitForDisplay) {
+		canvas.render(buffer, waitForDisplay);
 	}
 
 	public void copyCanvasToClipboard() {
