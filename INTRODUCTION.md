@@ -20,6 +20,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
     * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
     * [Drawing text](#drawing-text)
     * [Canvas and window](#canvas-and-window)
+    * [Debugging CodeDraw and ImmediateDraw](#debugging-codedraw-and-immediatedraw)
     * [Points, lines and curves](#points-lines-and-curves)
     * [Outline and filled shapes](#outline-and-filled-shapes)
     * [Images in CodeDraw](#images-in-codedraw)
@@ -211,15 +212,54 @@ It contains the closing and minimize button, the title and the CodeDraw icon.
 The window is larger than the size given to the constructor of CodeDraw, since it surrounds the canvas.
 The position of the canvas and window can both be changed. Changing one also changes the other.
 The title can also be changed with *setTitle*.
+If you want the CodeDraw window to always be displayed on top of other windows you can call *codeDraw.setAlwaysOnTop(true);*. 
+ImmediateDraw will be covered in the next section.
 
 Methods about the CodeDraw window:
  - getWidth
  - getHeight
  - getTitle/setTitle
+ - isAlwaysOnTop/setAlwaysOnTop
+ - enableImmediateDraw/disableImmediateDraw
  - getWindowPositionX/setWindowPositionX
  - getWindowPositionY/setWindowPositionY
  - getCanvasPositionX/setCanvasPositionX
  - getCanvasPositionY/getCanvasPositionY
+
+## Debugging CodeDraw and ImmediateDraw
+
+When debugging CodeDraw in Intellij, Intellij stops the entire Program including the CodeDraw window and your Code.
+To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging follow these 4 steps:
+
+1. Set a breakpoint anywhere in your Code by left-clicking next to the line number.
+2. Right-click on the breakpoint.
+3. Select the *Thread* options (instead of *All*).
+4. Click on *Make Default*.
+
+IMAGE
+
+When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+This can be used to better understand what is happening in your application
+but also slows down drawing object because CodeDraw has to render each time.
+
+Additionally, you can setAlwaysOnTop to true that CodeDraw doesn't disappear behind your IDE.
+
+```java
+import codedraw.*;
+
+public class Main {
+	public static void main(String[] args) {
+		CodeDraw cd = new CodeDraw();
+		cd.enableImmediateDraw();
+		cd.setAlwaysOnTop(true);
+		
+		cd.drawCircle(300, 300, 100);
+		
+		// The circle is displayed without calling
+		// cd.show();
+    }
+}
+```
 
 ## Points, lines and curves
 
