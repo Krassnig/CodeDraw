@@ -20,7 +20,8 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
     * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
     * [Drawing text](#drawing-text)
     * [Canvas and window](#canvas-and-window)
-    * [Points, lines and curves](#points--lines-and-curves)
+    * [Debugging CodeDraw and ImmediateDraw](#debugging-codedraw-and-immediatedraw)
+    * [Points, lines and curves](#points-lines-and-curves)
     * [Outline and filled shapes](#outline-and-filled-shapes)
     * [Images in CodeDraw](#images-in-codedraw)
     * [Animations](#animations)
@@ -106,6 +107,7 @@ and the thickness of the outlines of shapes.
 
 ```java
 import codedraw.*;
+import codedraw.images.Corner;
 
 public class Main {
 	public static void main(String[] args) {
@@ -210,15 +212,54 @@ It contains the closing and minimize button, the title and the CodeDraw icon.
 The window is larger than the size given to the constructor of CodeDraw, since it surrounds the canvas.
 The position of the canvas and window can both be changed. Changing one also changes the other.
 The title can also be changed with *setTitle*.
+If you want the CodeDraw window to always be displayed on top of other windows you can call *codeDraw.setAlwaysOnTop(true);*. 
+ImmediateDraw will be covered in the next section.
 
 Methods about the CodeDraw window:
  - getWidth
  - getHeight
  - getTitle/setTitle
+ - isAlwaysOnTop/setAlwaysOnTop
+ - enableImmediateDraw/disableImmediateDraw
  - getWindowPositionX/setWindowPositionX
  - getWindowPositionY/setWindowPositionY
  - getCanvasPositionX/setCanvasPositionX
  - getCanvasPositionY/getCanvasPositionY
+
+## Debugging CodeDraw and ImmediateDraw
+
+When debugging CodeDraw in Intellij, Intellij stops the entire Program including the CodeDraw window and your Code.
+To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging follow these 4 steps:
+
+1. Set a breakpoint anywhere in your Code by left-clicking next to the line number.
+2. Right-click on the breakpoint.
+3. Select the *Thread* options (instead of *All*).
+4. Click on *Make Default*.
+
+IMAGE
+
+When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+This can be used to better understand what is happening in your application
+but also slows down drawing object because CodeDraw has to render each time.
+
+Additionally, you can setAlwaysOnTop to true that CodeDraw doesn't disappear behind your IDE.
+
+```java
+import codedraw.*;
+
+public class Main {
+	public static void main(String[] args) {
+		CodeDraw cd = new CodeDraw();
+		cd.enableImmediateDraw();
+		cd.setAlwaysOnTop(true);
+		
+		cd.drawCircle(300, 300, 100);
+		
+		// The circle is displayed without calling
+		// cd.show();
+    }
+}
+```
 
 ## Points, lines and curves
 
@@ -233,6 +274,7 @@ The ends of style of the ending of lines can be changed with *setCorner*.
 
 ```java
 import codedraw.*;
+import codedraw.images.Corner;
 
 public class Main {
 	public static void main(String[] args) {
@@ -281,7 +323,6 @@ Outlined Shapes:
  - drawPie
  - drawTriangle
  - drawPolygon
- - drawArc (actually a line)
 
 Filled Shapes:
  - fillSquare
@@ -323,8 +364,7 @@ public class Main {
 }
 ```
 
-![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/153450852-bf25f473-225e-46bc-b6c5-192b0dcfdbdf.png)
-
+![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/155164429-43e1273a-ed01-4a42-b87f-7e448537ffda.png)
 
 The first *drawImage* method takes the width and height of the given image to draw the image.
 The second *drawImage* rescales the image to fit inside the 200x200 bounds.
@@ -418,35 +458,34 @@ import codedraw.*;
 import codedraw.events.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
-		EventScanner es = new EventScanner(cd);
+  public static void main(String[] args) {
+    CodeDraw cd = new CodeDraw();
+    EventScanner es = new EventScanner(cd);
 
-		int x = 0;
-		int y = 0;
-		int clickCount = 0;
+    int x = 0;
+    int y = 0;
+    int clickCount = 0;
 
-		while (!es.isClosed()) {
-			while (es.hasEventNow()) {
-				if (es.hasMouseMoveEvent()) {
-					MouseMoveEventArgs a = es.nextMouseMoveEvent();
-					x = a.getX();
-					y = a.getY();
-				}
-				if (es.hasMouseClickEvent()) {
-					clickCount++;
-					es.nextEvent();
-				}
-				else {
-					es.nextEvent();
-				}
-			}
+    while (!es.isClosed()) {
+      while (es.hasEventNow()) {
+        if (es.hasMouseMoveEvent()) {
+          MouseMoveEvent a = es.nextMouseMoveEvent();
+          x = a.getX();
+          y = a.getY();
+        }
+        if (es.hasMouseClickEvent()) {
+          clickCount++;
+          es.nextEvent();
+        } else {
+          es.nextEvent();
+        }
+      }
 
-			cd.clear();
-			cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
-			cd.show(16);
-		}
-	}
+      cd.clear();
+      cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+      cd.show(16);
+    }
+  }
 }
 ```
 
