@@ -106,6 +106,22 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	/**
+	 * @return whether the CodeDraw window is always displayed on top of other windows.
+	 */
+	public boolean isAlwaysOnTop() {
+		return window.isAlwaysOnTop();
+	}
+
+	/**
+	 * When set to true this CodeDraw window will always be displayed on top of other windows.
+	 * When set to false this CodeDraw window will disappear behind other windows when CodeDraw loses focus.
+	 * @param isAlwaysOnTop defines whether this CodeDraw window is displayed on top of other windows.
+	 */
+	public void setAlwaysOnTop(boolean isAlwaysOnTop) {
+		window.setIsAlwaysOnTop(isAlwaysOnTop);
+	}
+
+	/**
 	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
 	 * Changing the window position also changes the canvas position.
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.

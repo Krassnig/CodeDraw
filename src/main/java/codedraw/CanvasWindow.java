@@ -46,6 +46,14 @@ class CanvasWindow {
 	private Point distanceFromWindowToCanvas;
 	private CursorStyle cursorStyle;
 
+	public boolean isAlwaysOnTop() {
+		return frame.isAlwaysOnTop();
+	}
+
+	public void setIsAlwaysOnTop(boolean isAlwaysOnTop) {
+		frame.setAlwaysOnTop(isAlwaysOnTop);
+	}
+
 	public Point getWindowPosition() { return windowPosition; }
 	public void setWindowPosition(Point newWindowPosition) {
 		windowPosition = newWindowPosition;
