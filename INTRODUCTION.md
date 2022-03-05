@@ -236,7 +236,7 @@ To make Intellij only stop your Code and not make the CodeDraw window freeze whe
 3. Select the *Thread* options (instead of *All*).
 4. Click on *Make Default*.
 
-IMAGE
+![06 Debugging CodeDraw and ImmediateDraw](https://user-images.githubusercontent.com/24553082/156898569-6dbc7bb0-b5f2-43d7-a423-078d82d37767.png)
 
 When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
 This can be used to better understand what is happening in your application
