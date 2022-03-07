@@ -20,7 +20,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
     * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
     * [Drawing text](#drawing-text)
     * [Canvas and window](#canvas-and-window)
-    * [Debugging CodeDraw and ImmediateDraw](#debugging-codedraw-and-immediatedraw)
+    * [Debugging CodeDraw and drawing instantly](#debugging-codedraw-and-drawing-instantly)
     * [Points, lines and curves](#points-lines-and-curves)
     * [Outline and filled shapes](#outline-and-filled-shapes)
     * [Images in CodeDraw](#images-in-codedraw)
@@ -226,7 +226,7 @@ Methods about the CodeDraw window:
  - getCanvasPositionX/setCanvasPositionX
  - getCanvasPositionY/getCanvasPositionY
 
-## Debugging CodeDraw and ImmediateDraw
+## Debugging CodeDraw and drawing instantly
 
 When debugging CodeDraw in Intellij, Intellij stops the entire Program including the CodeDraw window and your Code.
 To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging follow these 4 steps:
@@ -238,7 +238,7 @@ To make Intellij only stop your Code and not make the CodeDraw window freeze whe
 
 ![06 Debugging CodeDraw and ImmediateDraw](https://user-images.githubusercontent.com/24553082/156898569-6dbc7bb0-b5f2-43d7-a423-078d82d37767.png)
 
-When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+When InstantDraw is enabled CodeDraw will instantly draw all shapes to the canvas.
 This can be used to better understand what is happening in your application
 but also slows down drawing object because CodeDraw has to render each time.
 
@@ -248,16 +248,16 @@ Additionally, you can setAlwaysOnTop to true that CodeDraw doesn't disappear beh
 import codedraw.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
-		cd.enableImmediateDraw();
-		cd.setAlwaysOnTop(true);
-		
-		cd.drawCircle(300, 300, 100);
-		
-		// The circle is displayed without calling
-		// cd.show();
-    }
+  public static void main(String[] args) {
+    CodeDraw cd = new CodeDraw();
+    cd.setInstantDraw(true);
+    cd.setAlwaysOnTop(true);
+
+    cd.drawCircle(300, 300, 100);
+
+    // The circle is displayed without calling
+    // cd.show();
+  }
 }
 ```
 

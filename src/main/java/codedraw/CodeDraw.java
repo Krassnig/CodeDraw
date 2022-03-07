@@ -86,23 +86,26 @@ public class CodeDraw implements AutoCloseable {
 	private CodeDrawImage g;
 	private EventCollection events;
 	private Subscription ctrlCSubscription;
-	private boolean drawImmediately = false;
+	private boolean isInstantDraw = false;
 
 	/**
-	 * When ImmediateDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
-	 * Enabling ImmediateDraw makes CodeDraw slow.
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
 	 * ImmediateDraw is disabled per default.
+	 * @return whether InstantDraw is enabled.
 	 */
-	public void enableImmediateDraw() {
-		drawImmediately = true;
+	public boolean isInstantDraw() {
+		return isInstantDraw;
 	}
 
 	/**
-	 * When ImmediateDraw is disabled CodeDraw will only draw shapes to the window once show is called.
-	 * ImmediateDraw is disabled per default.
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * InstantDraw is disabled per default.
+	 * @param isInstantDraw defines whether InstantDraw is enabled.
 	 */
-	public void disableImmediateDraw() {
-		drawImmediately = false;
+	public void setInstantDraw(boolean isInstantDraw) {
+		this.isInstantDraw = isInstantDraw;
 	}
 
 	/**
@@ -1053,7 +1056,7 @@ public class CodeDraw implements AutoCloseable {
 	 */
 	public void show() {
 		checkEventInvocation();
-		window.render(g, drawImmediately);
+		window.render(g, isInstantDraw);
 	}
 
 	/**
@@ -1099,7 +1102,7 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	private void afterDrawing() {
-		if (drawImmediately) show();
+		if (isInstantDraw) show();
 	}
 
 	@Override
