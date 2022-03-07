@@ -91,7 +91,7 @@ public class CodeDraw implements AutoCloseable {
 	/**
 	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
 	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
-	 * ImmediateDraw is disabled per default.
+	 * InstantDraw is disabled per default.
 	 * @return whether InstantDraw is enabled.
 	 */
 	public boolean isInstantDraw() {

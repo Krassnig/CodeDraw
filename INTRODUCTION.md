@@ -229,7 +229,7 @@ Methods about the CodeDraw window:
 ## Debugging CodeDraw and drawing instantly
 
 When debugging CodeDraw in Intellij, Intellij stops the entire Program including the CodeDraw window and your Code.
-To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging follow these 4 steps:
+To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging, follow these 4 steps:
 
 1. Set a breakpoint anywhere in your Code by left-clicking next to the line number.
 2. Right-click on the breakpoint.
@@ -240,9 +240,9 @@ To make Intellij only stop your Code and not make the CodeDraw window freeze whe
 
 When InstantDraw is enabled CodeDraw will instantly draw all shapes to the canvas.
 This can be used to better understand what is happening in your application
-but also slows down drawing object because CodeDraw has to render each time.
+but also slows down drawing objects because CodeDraw has to render each time.
 
-Additionally, you can setAlwaysOnTop to true that CodeDraw doesn't disappear behind your IDE.
+Additionally, you can setAlwaysOnTop to true so that CodeDraw doesn't disappear behind your IDE.
 
 ```java
 import codedraw.*;
