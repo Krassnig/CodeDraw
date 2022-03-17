@@ -391,10 +391,11 @@ public class EventScanner implements AutoCloseable {
 		if (WindowCloseEvent.class.isAssignableFrom(actual))
 			close();
 		if (!expected.isAssignableFrom(actual)) {
-			String expectedName = expected.getSimpleName();
+			String expectedName = getEventName(expected);
+			String actualName = getEventName(actual);
 			throw new InputMismatchException(
-				"The next event is of type " + actual.getSimpleName() + " but method next" + expectedName + "() was called. " +
-				"Check whether an event of type " + expectedName + " is available by calling has" + expected.getSimpleName() + "() before calling next" + expected.getSimpleName() + "()."
+				"The next event is of type " + actualName + " but method next" + expectedName + "() was called. " +
+				"Check whether an event of type " + expectedName + " is available by calling has" + expectedName + "() before calling next" + expectedName + "()."
 			);
 		}
 
@@ -423,6 +424,15 @@ public class EventScanner implements AutoCloseable {
 	 */
 	public boolean isClosed() {
 		return isClosed;
+	}
+
+	private static <T> String getEventName(Class<T> eventType) {
+		if (Object.class.isAssignableFrom(eventType)) {
+			return "Event";
+		}
+		else {
+			return eventType.getSimpleName();
+		}
 	}
 
 	private static class EndOfEvent {
