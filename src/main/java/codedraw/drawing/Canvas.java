@@ -24,7 +24,7 @@ import java.util.Base64;
  * CodeDrawImage image = CodeDrawImage.fromFile("/directory/filename.png");
  * }</pre>
  */
-public class CodeDrawImage {
+public class Canvas {
 	/**
 	 * Loads an image from the file system.
 	 * Supported image formats:
@@ -34,11 +34,11 @@ public class CodeDrawImage {
 	 * @param pathToImage A string that points to an image file.
 	 * @return An image.
 	 */
-	public static CodeDrawImage fromFile(String pathToImage) {
+	public static Canvas fromFile(String pathToImage) {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
 		try {
-			return new CodeDrawImage(ImageIO.read(new File(pathToImage)));
+			return new Canvas(ImageIO.read(new File(pathToImage)));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -58,11 +58,11 @@ public class CodeDrawImage {
 	 * @param url Link to the image file.
 	 * @return An image.
 	 */
-	public static CodeDrawImage fromUrl(String url) {
+	public static Canvas fromUrl(String url) {
 		if (url == null) throw createParameterNullException("url");
 
 		try {
-			return new CodeDrawImage(ImageIO.read(new URL(url)));
+			return new Canvas(ImageIO.read(new URL(url)));
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
@@ -82,7 +82,7 @@ public class CodeDrawImage {
 	 * @param resourceName Path to the resource from the root of the resource folder.
 	 * @return An image.
 	 */
-	public static CodeDrawImage fromResource(String resourceName) {
+	public static Canvas fromResource(String resourceName) {
 		if (resourceName == null) throw createParameterNullException("resourceName");
 
 		URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
@@ -91,7 +91,7 @@ public class CodeDrawImage {
 		}
 		if (url == null) throw new RuntimeException();
 		try {
-			return new CodeDrawImage(ImageIO.read(url));
+			return new Canvas(ImageIO.read(url));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -106,11 +106,11 @@ public class CodeDrawImage {
 	 * @param base64 a Base64 string
 	 * @return a CodeDrawImage
 	 */
-	public static CodeDrawImage fromBase64String(String base64) {
+	public static Canvas fromBase64String(String base64) {
 		if (base64 == null) throw createParameterNullException("base64");
 
 		try {
-			return new CodeDrawImage(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
+			return new Canvas(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -125,12 +125,12 @@ public class CodeDrawImage {
 	 * @param height The height of the CodeDrawImage.
 	 * @return a CodeDrawImage
 	 */
-	public static CodeDrawImage fromDPIAwareSize(int width, int height) {
+	public static Canvas fromDPIAwareSize(int width, int height) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new CodeDrawImage(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class CodeDrawImage {
 	 * @param format The format the image should be saved in.
 	 *               As a default choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
 	 */
-	public static void saveAs(CodeDrawImage image, String pathToImage, ImageFormat format) {
+	public static void saveAs(Canvas image, String pathToImage, ImageFormat format) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (format == null) throw createParameterNullException("format");
@@ -174,7 +174,7 @@ public class CodeDrawImage {
 	 * DPI aware scaling will also be ignored.
 	 * @param image Image that is to be copied.
 	 */
-	public CodeDrawImage(CodeDrawImage image) {
+	public Canvas(Canvas image) {
 		this(checkParameterNull(image, "image").image);
 	}
 
@@ -183,7 +183,7 @@ public class CodeDrawImage {
 	 * The contents of the supplied image will be copied to create this new CodeDrawImage instance.
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
-	public CodeDrawImage(Image image) {
+	public Canvas(Image image) {
 		this(
 				checkParameterNull(image, "image").getWidth(null),
 				checkParameterNull(image, "image").getHeight(null)
@@ -196,11 +196,11 @@ public class CodeDrawImage {
 	 * @param width The width of the CodeDrawImage.
 	 * @param height The height of the CodeDrawImage.
 	 */
-	public CodeDrawImage(int width, int height) {
+	public Canvas(int width, int height) {
 		this(width, height, 1, 1);
 	}
 
-	private CodeDrawImage(int width, int height, int xScale, int yScale) {
+	private Canvas(int width, int height, int xScale, int yScale) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
@@ -809,7 +809,7 @@ public class CodeDrawImage {
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, CodeDrawImage image) {
+	public void drawImage(double x, double y, Canvas image) {
 		if (image == null) throw createParameterNullException("image");
 
 		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
@@ -824,7 +824,7 @@ public class CodeDrawImage {
 	 * @param height The height of the image on the canvas.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, double width, double height, CodeDrawImage image) {
+	public void drawImage(double x, double y, double width, double height, Canvas image) {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -842,7 +842,7 @@ public class CodeDrawImage {
 	 * @param image Any image.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
-	public void drawImage(double x, double y, double width, double height, CodeDrawImage image, Interpolation interpolation) {
+	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -896,7 +896,7 @@ public class CodeDrawImage {
 	 * @return a BufferedImage.
 	 */
 	public BufferedImage convertToBufferedImage() {
-		CodeDrawImage result = new CodeDrawImage(this);
+		Canvas result = new Canvas(this);
 		result.g.dispose();
 		return result.image;
 	}

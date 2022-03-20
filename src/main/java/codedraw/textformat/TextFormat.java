@@ -1,6 +1,6 @@
 package codedraw.textformat;
 
-import codedraw.drawing.CodeDrawImage;
+import codedraw.drawing.Canvas;
 
 import java.awt.*;
 import java.util.*;
@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * TextFormat is used to specify how CodeDraw formats, places and styles its drawn text.
  * See also {@link codedraw.CodeDraw#drawText(double, double, String)}
- * and {@link CodeDrawImage#drawText(double, double, String)}.
+ * and {@link Canvas#drawText(double, double, String)}.
  */
 public final class TextFormat {
 	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));

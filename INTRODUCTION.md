@@ -346,21 +346,21 @@ import codedraw.*;
 import codedraw.drawing.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
-		
-		CodeDrawImage image = CodeDrawImage.fromFile("./path_to/image.png");
-		
-		cd.drawImage(50, 50, image);
-		
-		cd.drawImage(200, 50, 200, 200, image);
-		
-		cd.drawImage(200, 250, 200, 200, image, Interpolation.NEAREST_NEIGHBOR);
+  public static void main(String[] args) {
+    CodeDraw cd = new CodeDraw();
 
-		cd.show();
-		
-		CodeDrawImage.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
-	}
+    Canvas image = Canvas.fromFile("./path_to/image.png");
+
+    cd.drawImage(50, 50, image);
+
+    cd.drawImage(200, 50, 200, 200, image);
+
+    cd.drawImage(200, 250, 200, 200, image, Interpolation.NEAREST_NEIGHBOR);
+
+    cd.show();
+
+    Canvas.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
+  }
 }
 ```
 

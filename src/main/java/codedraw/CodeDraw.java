@@ -1,5 +1,6 @@
 package codedraw;
 
+import codedraw.drawing.Canvas;
 import codedraw.events.*;
 import codedraw.drawing.*;
 import codedraw.textformat.*;
@@ -70,7 +71,7 @@ public class CodeDraw implements AutoCloseable {
 
 		events = new EventCollection();
 		window = new CanvasWindow(events, canvasWidth, canvasHeight);
-		g = CodeDrawImage.fromDPIAwareSize(canvasWidth, canvasHeight);
+		g = Canvas.fromDPIAwareSize(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
@@ -83,7 +84,7 @@ public class CodeDraw implements AutoCloseable {
 	}
 
 	private CanvasWindow window;
-	private CodeDrawImage g;
+	private Canvas g;
 	private EventCollection events;
 	private Subscription ctrlCSubscription;
 	private boolean isInstantDraw = false;
@@ -962,7 +963,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, CodeDrawImage image) {
+	public void drawImage(double x, double y, Canvas image) {
 		checkEventInvocation();
 		if (image == null) throw createParameterNullException("image");
 
@@ -979,7 +980,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param height The height of the image on the canvas.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, double width, double height, CodeDrawImage image) {
+	public void drawImage(double x, double y, double width, double height, Canvas image) {
 		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
@@ -999,7 +1000,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image Any image.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
-	public void drawImage(double x, double y, double width, double height, CodeDrawImage image, Interpolation interpolation) {
+	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
 		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
@@ -1012,7 +1013,7 @@ public class CodeDraw implements AutoCloseable {
 
 	/**
 	 * Creates a copy of the current buffer (not the displayed image) and returns
-	 * it as a {@link CodeDrawImage}. A {@link CodeDrawImage} can be saved to a file with the following code:
+	 * it as a {@link Canvas}. A {@link Canvas} can be saved to a file with the following code:
 	 * <pre>{@code
 	 * CodeDraw cd = new CodeDraw();
 	 *
@@ -1021,11 +1022,11 @@ public class CodeDraw implements AutoCloseable {
 	 * CodeDrawImage.saveAsPNG(cd.copyCanvas(), "/pathToDirectory/filename.png");
 	 * }</pre>
 	 * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>.
-	 * @return The current buffer as a {@link CodeDrawImage}.
+	 * @return The current buffer as a {@link Canvas}.
 	 */
-	public CodeDrawImage copyCanvas() {
+	public Canvas copyCanvas() {
 		checkEventInvocation();
-		return new CodeDrawImage(g);
+		return new Canvas(g);
 	}
 
 	/**

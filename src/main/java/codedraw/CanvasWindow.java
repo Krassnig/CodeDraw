@@ -2,7 +2,7 @@ package codedraw;
 
 import codedraw.events.*;
 import codedraw.events.MouseWheelEvent;
-import codedraw.drawing.CodeDrawImage;
+import codedraw.drawing.Canvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +82,7 @@ class CanvasWindow {
 		this.canvas.setCursor(cursorStyle.getCursor());
 	}
 
-	public void render(CodeDrawImage buffer, boolean waitForDisplay) {
+	public void render(Canvas buffer, boolean waitForDisplay) {
 		canvas.render(buffer, waitForDisplay);
 	}
 
@@ -200,7 +200,7 @@ class CanvasWindow {
 	}
 
 	private static BufferedImage getCodeDrawIcon() {
-		return CodeDrawImage.fromBase64String(
+		return Canvas.fromBase64String(
 				"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
 				"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
 				"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +
