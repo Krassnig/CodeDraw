@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 public class CodeDrawConfirmation implements AutoCloseable {
 	public CodeDrawConfirmation() {
 		cd = new CodeDraw(600, 200);
-		esc = new EventScanner(cd);
+		esc = cd.getEventScanner();
 		cd.setWindowPositionX(0);
 		cd.setWindowPositionY(10);
 		setState(State.LOADING);
@@ -98,7 +98,6 @@ public class CodeDrawConfirmation implements AutoCloseable {
 	}
 
 	public void close() {
-		esc.close();
 		cd.close();
 	}
 

@@ -21,6 +21,10 @@ class Semaphore {
 		return result;
 	}
 
+	public void acquireAll() {
+		while (s.tryAcquire());
+	}
+
 	public void release() {
 		s.release();
 	}

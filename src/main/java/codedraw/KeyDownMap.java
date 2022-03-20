@@ -1,16 +1,20 @@
 package codedraw;
 
+import codedraw.events.Key;
 import codedraw.events.KeyDownEvent;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 class KeyDownMap {
-	public KeyDownMap(Event<KeyDownEvent> keyDownEvent) {
-		this.event = keyDownEvent;
+	public KeyDownMap(Consumer<Object> queue, GuiExtension guiExtension) {
+		this.queue = queue;
+		this.guiExtension = guiExtension;
 	}
 
-	private final Event<KeyDownEvent> event;
+	private final GuiExtension guiExtension;
+	private final Consumer<Object> queue;
 	private final HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
@@ -18,7 +22,11 @@ class KeyDownMap {
 
 		if (!isKeyAlreadyPressed(keyCode)) {
 			map.put(keyCode, true);
-			event.invoke(new KeyDownEvent(keyEvent));
+			KeyDownEvent a = new KeyDownEvent(keyEvent);
+			if (a.getKey() == Key.C && a.isShiftDown()) {
+				guiExtension.copyCanvasToClipboard();
+			}
+			queue.accept(a);
 		}
 	}
 

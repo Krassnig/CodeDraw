@@ -2,11 +2,9 @@ package codedraw.events;
 
 import codedraw.CodeDraw;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /**
  * The EventScanner works in the same way as a {@link java.util.Scanner}.
@@ -17,7 +15,7 @@ import java.util.function.Function;
  * The following example shows the current position of the mouse and the number of clicks:
  * <pre>{@code
  * CodeDraw cd = new CodeDraw();
- * EventScanner es = new EventScanner(cd);
+ * EventScanner es = cd.getEventScanner();
  *
  * int x = 0;
  * int y = 0;
@@ -54,63 +52,17 @@ import java.util.function.Function;
  * The remaining events can still be consumed when the EventScanner is closed,
  * but no new events will appear.
  */
-public class EventScanner implements AutoCloseable {
-	/**
-	 * Waits until the next time the given event is triggered and
-	 * then returns the event arguments as the result of this function.
-	 * However, events that happen just before or after calling waitFor are lost.
-	 * That means if events happen in between waitFor calls these events will be lost.
-	 * To prevent that create an EventScanner object and use that object.
-	 * <br><br>
-	 * Example:
-	 * <pre>{@code
-	 * MouseClickEventArgs args = EventScanner.waitFor(codeDraw::onMouseClick);
-	 * // use args here
-	 * }</pre>
-	 * @param codeDrawEvent a CodeDraw Event.
-	 * @param <T> a type of event argument.
-	 * @return The event argument.
-	 */
-	public static <T> T waitFor(Function<EventHandler<T>, Subscription> codeDrawEvent) {
-		Semaphore semaphore = new Semaphore(0);
-		AtomicReference<T> result = new AtomicReference<>(null);
-		Subscription subscription = codeDrawEvent.apply(a -> {
-			result.set(a);
-			semaphore.release();
-		});
-		semaphore.acquire();
-		subscription.unsubscribe();
-		return result.get();
-	}
-
+public class EventScanner {
 	/**
 	 * Creates a new EventScanner. Read the class documentation for a detailed explanation.
-	 * @param codeDraw the source of the events.
+	 * @param arg the source of the events.
 	 */
-	public EventScanner(CodeDraw codeDraw) {
-		queue = new ConcurrentQueue<>(128);
-		subscriptions = new ArrayList<>(12);
-		
-		bindEvent(codeDraw::onMouseClick);
-		bindEvent(codeDraw::onMouseMove);
-		bindEvent(codeDraw::onMouseDown);
-		bindEvent(codeDraw::onMouseUp);
-		bindEvent(codeDraw::onMouseEnter);
-		bindEvent(codeDraw::onMouseLeave);
-		bindEvent(codeDraw::onMouseWheel);
-		bindEvent(codeDraw::onKeyDown);
-		bindEvent(codeDraw::onKeyUp);
-		bindEvent(codeDraw::onKeyPress);
-		bindEvent(codeDraw::onWindowMove);
-		bindEvent(codeDraw::onWindowClose);
-	}
-
-	private <T> void bindEvent(Function<EventHandler<T>, Subscription> onEvent) {
-		subscriptions.add(onEvent.apply(queue::push));
+	public EventScanner(Consumer<Consumer<Object>> arg) {
+		this.queue = new ConcurrentQueue<>(128);
+		arg.accept(queue::push);
 	}
 
 	private final ConcurrentQueue<Object> queue;
-	private final ArrayList<Subscription> subscriptions;
 	private boolean isClosed = false;
 
 	/**
@@ -402,16 +354,8 @@ public class EventScanner implements AutoCloseable {
 		return expected.cast(queue.pop());
 	}
 
-	/**
-	 * Closes the EventScanner.
-	 * The EventScanner automatically closes when the CodeDraw window is closed.
-	 * The remaining events can still be consumed when the EventScanner is closed,
-	 * but no new events will appear.
-	 */
-	@Override
-	public void close() {
+	private void close() {
 		if (!isClosed) {
-			subscriptions.forEach(Subscription::unsubscribe);
 			queue.push(EndOfEvent.INSTANCE);
 			isClosed = true;
 		}

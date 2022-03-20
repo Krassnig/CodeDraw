@@ -65,28 +65,18 @@ public class CodeDraw implements AutoCloseable {
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
-		checkEventInvocation();
 		if (canvasWidth < 1) throw new IllegalArgumentException("The width of the canvas has to be a positive number.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be a positive number.");
 
-		events = new EventCollection();
-		window = new CanvasWindow(events, canvasWidth, canvasHeight);
+		window = new CanvasWindow(canvasWidth, canvasHeight);
 		g = Canvas.fromDPIAwareSize(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
-
-		ctrlCSubscription = onKeyDown(args -> {
-			if (args.isControlDown() && args.getKey() == Key.C) {
-				window.copyCanvasToClipboard();
-			}
-		});
 	}
 
 	private CanvasWindow window;
 	private Canvas g;
-	private EventCollection events;
-	private Subscription ctrlCSubscription;
 	private boolean isInstantDraw = false;
 
 	/**
@@ -131,7 +121,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public int getWindowPositionX() {
-		checkEventInvocation();
 		return window.getWindowPosition().x;
 	}
 
@@ -141,7 +130,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public int getWindowPositionY() {
-		checkEventInvocation();
 		return window.getWindowPosition().y;
 	}
 
@@ -151,7 +139,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public void setWindowPositionX(int x) {
-		checkEventInvocation();
 		window.setWindowPosition(new Point(x, getWindowPositionY()));
 	}
 
@@ -161,7 +148,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public void setWindowPositionY(int y) {
-		checkEventInvocation();
 		window.setWindowPosition(new Point(getWindowPositionX(), y));
 	}
 
@@ -172,7 +158,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionX() {
-		checkEventInvocation();
 		return window.getCanvasPosition().x;
 	}
 
@@ -183,7 +168,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionY() {
-		checkEventInvocation();
 		return window.getCanvasPosition().y;
 	}
 
@@ -194,7 +178,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionX(int x) {
-		checkEventInvocation();
 		window.setCanvasPosition(new Point(x, getCanvasPositionY()));
 	}
 
@@ -205,7 +188,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionY(int y) {
-		checkEventInvocation();
 		window.setCanvasPosition(new Point(getCanvasPositionX(), y));
 	}
 
@@ -231,7 +213,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the lineWidth of this CodeDraw window.
 	 */
 	public double getLineWidth() {
-		checkEventInvocation();
 		return g.getLineWidth();
 	}
 
@@ -241,7 +222,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param lineWidth Sets the lineWidth of this CodeDraw window.
 	 */
 	public void setLineWidth(double lineWidth) {
-		checkEventInvocation();
 		if (lineWidth <= 0) throw createParameterMustBeGreaterThanZeroException("lineWidth");
 
 		g.setLineWidth(lineWidth);
@@ -253,7 +233,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the text formatting options of this CodeDraw window.
 	 */
 	public TextFormat getTextFormat() {
-		checkEventInvocation();
 		return g.getTextFormat();
 	}
 
@@ -263,7 +242,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param textFormat Sets the text formatting options of this CodeDraw window.
 	 */
 	public void setTextFormat(TextFormat textFormat){
-		checkEventInvocation();
 		if (textFormat == null) throw createParameterNullException("textFormat");
 
 		g.setTextFormat(textFormat);
@@ -275,7 +253,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
-		checkEventInvocation();
 		return window.getCursorStyle();
 	}
 	/**
@@ -284,7 +261,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
-		checkEventInvocation();
 		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
 		window.setCursorStyle(cursorStyle);
@@ -296,7 +272,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return Whether this CodeDraw window anti aliases.
 	 */
 	public boolean isAntiAliased() {
-		checkEventInvocation();
 		return g.isAntiAliased();
 	}
 
@@ -306,7 +281,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param isAntiAliased Sets whether this CodeDraw window anti aliases.
 	 */
 	public void setAntiAliased(boolean isAntiAliased) {
-		checkEventInvocation();
 		g.setAntiAliased(isAntiAliased);
 	}
 
@@ -316,7 +290,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the corner style of this CodeDraw window.
 	 */
 	public Corner getCorner() {
-		checkEventInvocation();
 		return g.getCorner();
 	}
 
@@ -326,7 +299,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param corner Sets the corner style of this CodeDraw window.
 	 */
 	public void setCorner(Corner corner) {
-		checkEventInvocation();
 		if (corner == null) throw createParameterNullException("corner");
 
 		g.setCorner(corner);
@@ -337,7 +309,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the text of the title.
 	 */
 	public String getTitle() {
-		checkEventInvocation();
 		return window.getTitle();
 	}
 
@@ -346,7 +317,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param title Sets the text of the title.
 	 */
 	public void setTitle(String title)  {
-		checkEventInvocation();
 		if (title == null) throw createParameterNullException("title");
 
 		window.setTitle(title);
@@ -357,7 +327,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return the drawing color of this CodeDraw window.
 	 */
 	public Color getColor() {
-		checkEventInvocation();
 		return g.getColor();
 	}
 
@@ -367,130 +336,13 @@ public class CodeDraw implements AutoCloseable {
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
-		checkEventInvocation();
 		if (color == null) throw createParameterNullException("color");
 
 		g.setColor(color);
 	}
 
-	/**
-	 * Triggers once when a mouse button is pressed down and quickly released again.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseClick(EventHandler<MouseClickEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseClick.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers continuously while the mouse is being moved.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseMove(EventHandler<MouseMoveEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseMove.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers exactly once when a mouse button is pressed down.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseDown(EventHandler<MouseDownEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseDown.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers when a mouse button is released.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseUp(EventHandler<MouseUpEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseUp.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers when the mouse enters the canvas.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseEnter(EventHandler<MouseEnterEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseEnter.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers when the mouse leaves the canvas.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseLeave(EventHandler<MouseLeaveEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseLeave.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers each time the mouse wheel is turned.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onMouseWheel(EventHandler<MouseWheelEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.mouseWheel.onInvoke(handler);
-	}
-
-	/**
-	 * Trigger exactly once when a key is pressed down.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onKeyDown(EventHandler<KeyDownEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.keyDown.onInvoke(handler);
-	}
-
-	/**
-	 * Trigger exactly once when a key is released.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onKeyUp(EventHandler<KeyUpEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.keyUp.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers continuously while a key is being held down.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onKeyPress(EventHandler<KeyPressEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.keyPress.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers every time the CodeDraw window is moved.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onWindowMove(EventHandler<WindowMoveEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.windowMove.onInvoke(handler);
-	}
-
-	/**
-	 * Triggers exactly once when the user closes the window or {@link #close()} is called.
-	 * If you have difficulty with this method try the {@link EventScanner}.
-	 * @param handler A lambda or function reference.
-	 */
-	public Subscription onWindowClose(EventHandler<WindowCloseEvent> handler) {
-		if (handler == null) throw createParameterNullException("handler");
-		return events.windowClose.onInvoke(handler);
+	public EventScanner getEventScanner() {
+		return window.getEventScanner();
 	}
 
 	/**
@@ -504,7 +356,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param text The text or string to be drawn.
 	 */
 	public void drawText(double x, double y, String text) {
-		checkEventInvocation();
 		if (text == null) throw createParameterNullException("text");
 
 		g.drawText(x, y, text);
@@ -517,7 +368,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
 	public void drawPixel(double x, double y) {
-		checkEventInvocation();
 		g.drawPixel(x, y);
 		afterDrawing();
 	}
@@ -528,7 +378,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the canvas to the center of the point.
 	 */
 	public void drawPoint(double x, double y) {
-		checkEventInvocation();
 		g.drawPoint(x, y);
 		afterDrawing();
 	}
@@ -543,7 +392,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the line.
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
-		checkEventInvocation();
 		g.drawLine(startX, startY, endX, endY);
 		afterDrawing();
 	}
@@ -562,7 +410,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
-		checkEventInvocation();
 		g.drawCurve(startX, startY, controlX, controlY, endX, endY);
 		afterDrawing();
 	}
@@ -583,7 +430,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		checkEventInvocation();
 		g.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
 		afterDrawing();
 	}
@@ -597,7 +443,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void drawSquare(double x, double y, double sideLength) {
-		checkEventInvocation();
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.drawSquare(x, y, sideLength);
@@ -612,7 +457,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sideLength The width and the height of the square in pixel.
 	 */
 	public void fillSquare(double x, double y, double sideLength) {
-		checkEventInvocation();
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
 		g.fillSquare(x, y, sideLength);
@@ -629,7 +473,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void drawRectangle(double x, double y, double width, double height) {
-		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
@@ -646,7 +489,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param width The width of the rectangle in pixel.
 	 */
 	public void fillRectangle(double x, double y, double width, double height) {
-		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
@@ -663,7 +505,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void drawCircle(double x, double y, double radius) {
-		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawCircle(x, y, radius);
@@ -678,7 +519,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param radius The radius of the circle in pixel.
 	 */
 	public void fillCircle(double x, double y, double radius) {
-		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillCircle(x, y, radius);
@@ -695,7 +535,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -712,7 +551,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
 	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -738,7 +576,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawArc(x, y, radius, startRadians, sweepRadians);
@@ -765,7 +602,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
 	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -791,7 +627,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.drawPie(x, y, radius, startRadians, sweepRadians);
@@ -818,7 +653,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -841,7 +675,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		g.fillPie(x, y, radius, startRadians, sweepRadians);
@@ -865,7 +698,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
 	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		checkEventInvocation();
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
@@ -885,7 +717,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		checkEventInvocation();
 		g.drawTriangle(x1, y1, x2, y2, x3, y3);
 		afterDrawing();
 	}
@@ -900,7 +731,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		checkEventInvocation();
 		g.fillTriangle(x1, y1, x2, y2, x3, y3);
 		afterDrawing();
 	}
@@ -924,7 +754,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... points) {
-		checkEventInvocation();
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
 		g.drawPolygon(points);
@@ -949,7 +778,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void fillPolygon(double... points) {
-		checkEventInvocation();
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
 
 		g.fillPolygon(points);
@@ -964,7 +792,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image Any image.
 	 */
 	public void drawImage(double x, double y, Canvas image) {
-		checkEventInvocation();
 		if (image == null) throw createParameterNullException("image");
 
 		g.drawImage(x, y, image);
@@ -981,7 +808,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param image Any image.
 	 */
 	public void drawImage(double x, double y, double width, double height, Canvas image) {
-		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -1001,7 +827,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
 	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
-		checkEventInvocation();
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
@@ -1025,7 +850,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @return The current buffer as a {@link Canvas}.
 	 */
 	public Canvas copyCanvas() {
-		checkEventInvocation();
 		return new Canvas(g);
 	}
 
@@ -1033,7 +857,6 @@ public class CodeDraw implements AutoCloseable {
 	 * Colors the whole canvas in white.
 	 */
 	public void clear() {
-		checkEventInvocation();
 		g.clear();
 		afterDrawing();
 	}
@@ -1043,7 +866,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param color The color the canvas will be colored in.
 	 */
 	public void clear(Color color) {
-		checkEventInvocation();
 		if (color == null) throw createParameterNullException("color");
 
 		g.clear(color);
@@ -1056,7 +878,6 @@ public class CodeDraw implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		checkEventInvocation();
 		window.render(g, isInstantDraw);
 	}
 
@@ -1073,7 +894,6 @@ public class CodeDraw implements AutoCloseable {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(long waitMilliseconds) {
-		checkEventInvocation();
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
 		long start = System.currentTimeMillis();
@@ -1098,7 +918,6 @@ public class CodeDraw implements AutoCloseable {
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void close(boolean terminateProcess) {
-		ctrlCSubscription.unsubscribe();
 		window.dispose(terminateProcess);
 	}
 
@@ -1144,12 +963,6 @@ public class CodeDraw implements AutoCloseable {
 		}
 		else {
 			throw new RuntimeException();
-		}
-	}
-
-	private static void checkEventInvocation() {
-		if (Event.isCurrentThreadOnEventLoop()) {
-			throw new CodeDrawEventInvocationException();
 		}
 	}
 }

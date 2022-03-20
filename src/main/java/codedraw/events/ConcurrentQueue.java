@@ -34,6 +34,7 @@ class ConcurrentQueue<T> {
 
 	public T pop() {
 		listCount.acquire();
+
 		listLock.acquire();
 		T result = popInternal();
 		listLock.release();
@@ -61,7 +62,7 @@ class ConcurrentQueue<T> {
 	private T popInternal() {
 		T result = list[offset++ % capacity()];
 		length--;
-		if (offsetIsMultipleOfCapacity() || isEmptyInternal()) offset = 0;
+		if (offsetIsMultipleOfCapacity() || isEmpty()) offset = 0;
 		return result;
 	}
 

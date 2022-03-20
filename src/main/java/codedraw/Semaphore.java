@@ -15,11 +15,17 @@ class Semaphore {
 		}
 	}
 
-	public void release() {
-		s.release();
+	public boolean canAcquire() {
+		boolean result = s.tryAcquire();
+		if (result) s.release();
+		return result;
 	}
 
 	public void acquireAll() {
 		while (s.tryAcquire());
+	}
+
+	public void release() {
+		s.release();
 	}
 }

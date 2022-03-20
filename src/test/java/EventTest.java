@@ -18,51 +18,43 @@ public class EventTest {
 	public void beforeEach() {
 		confirm = new CodeDrawConfirmation();
 		cd = new CodeDraw();
-		esc = new EventScanner(cd);
+		esc = cd.getEventScanner();
 		confirm.placeCodeDrawTestingInstance(cd);
 	}
 
 	@After
 	public void afterEach() {
-		esc.close();
 		cd.close();
 		confirm.close();
 	}
 
-	private int eventSleepProgress = 0;
 	@Test
 	public void eventSleepTest() {
 		confirm.setConfirmationDialogue("Upon clicking, the square should turn blue, then green.");
 
-		Subscription s = cd.onMouseDown(a -> eventSleepProgress = 1);
+		EventScanner esc = cd.getEventScanner();
 
-		while (eventSleepProgress <= 2) {
-			if (eventSleepProgress == 0) {
-				cd.clear();
-				cd.drawText(50, 50, "Click here, then I will turn blue, then green!");
-				cd.setColor(Palette.RED);
-				cd.fillSquare(100, 100, 100);
-				cd.show(100);
-			}
-			else if (eventSleepProgress == 1) {
-				s.unsubscribe();
+		cd.clear();
+		cd.drawText(50, 50, "Click here, then I will turn blue, then green!");
+		cd.setColor(Palette.RED);
+		cd.fillSquare(100, 100, 100);
+		cd.show(100);
 
-				cd.clear();
-				cd.setColor(Palette.BLUE);
-				cd.drawText(50, 50, "I'm blue da ba dee!");
-				cd.fillSquare(100, 100, 100);
-				cd.show(3000);
-				eventSleepProgress = 2;
-			}
-			else if (eventSleepProgress == 2) {
-				cd.clear();
-				cd.setColor(Palette.GREEN);
-				cd.drawText(50, 50, "Now I'm green.");
-				cd.fillSquare(100, 100, 100);
-				cd.show();
-				eventSleepProgress = 3;
-			}
+		while (!esc.hasMouseClickEvent()) {
+			esc.nextEvent();
 		}
+
+		cd.clear();
+		cd.setColor(Palette.BLUE);
+		cd.drawText(50, 50, "I'm blue da ba dee!");
+		cd.fillSquare(100, 100, 100);
+		cd.show(3000);
+
+		cd.clear();
+		cd.setColor(Palette.GREEN);
+		cd.drawText(50, 50, "Now I'm green.");
+		cd.fillSquare(100, 100, 100);
+		cd.show(1000);
 
 		confirm.assertConfirmation();
 	}
@@ -313,28 +305,12 @@ public class EventTest {
 		}
 	}
 
-	private Subscription subscription;
-	private EventHandler<KeyPressEvent> key;
-	private EventHandler<MouseClickEvent> mouse;
-	private int unsubscribeProgress = 0;
-
 	@Test
 	public void unsubscribeTest() {
 		confirm.setConfirmationDialogue("The bar should only go up by alternating between pressing a key or a mouse button.");
 
-		mouse = a -> {
-			unsubscribeProgress++;
-			subscription.unsubscribe();
-			subscription = cd.onKeyPress(key);
-		};
-		key = a -> {
-			unsubscribeProgress++;
-			subscription.unsubscribe();
-			subscription = cd.onMouseClick(mouse);
-		};
-
-		subscription = cd.onMouseClick(mouse);
-		mouse.handle(null);
+		EventScanner esc = cd.getEventScanner();
+		int unsubscribeProgress = 0;
 
 		while (!confirm.hasConfirmationBeenPressed()) {
 			cd.clear();
@@ -351,18 +327,18 @@ public class EventTest {
 			}
 
 			cd.fillRectangle(10, 10, 40, unsubscribeProgress * 5);
-			cd.show(10);
+			cd.show();
+
+			while (esc.hasEventNow()) {
+				if (unsubscribeProgress % 2 == 0 ? esc.hasMouseClickEvent() : esc.hasKeyPressEvent()) {
+					unsubscribeProgress++;
+					esc.nextEvent();
+					break;
+				}
+				esc.nextEvent();
+			}
 		}
 
 		confirm.assertConfirmation();
-	}
-
-	@Test
-	public void waitForClickTest() {
-		confirm.setConfirmationDialogue("Please click anywhere.");
-
-		MouseClickEvent a = EventScanner.waitFor(cd::onMouseClick);
-
-		assertNotNull(a);
 	}
 }

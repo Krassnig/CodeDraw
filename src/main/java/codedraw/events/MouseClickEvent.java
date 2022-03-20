@@ -35,4 +35,9 @@ public class MouseClickEvent {
 	public MouseButton getMouseButton() {
 		return MouseButton.values()[e.getButton() - 1];
 	}
+
+	@Override
+	public String toString() {
+		return "[" + getMouseButton() + ", x:" + getX() + ", y:" + getY() + "]";
+	}
 }

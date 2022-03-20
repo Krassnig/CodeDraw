@@ -9,7 +9,7 @@ public class GameOfLife {
 		final int mask = size - 1;
 
 		CodeDraw cd = new CodeDraw(size * FIELD_SIZE, size * FIELD_SIZE);
-		EventScanner es = new EventScanner(cd);
+		EventScanner es = cd.getEventScanner();
 
 		boolean[][] field = createRandomBooleans(size);
 
