@@ -130,7 +130,7 @@ public class Canvas {
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new Canvas(null, width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class Canvas {
 	 * @param image Image that is to be copied.
 	 */
 	public Canvas(Canvas image) {
-		this(checkParameterNull(image, "image").image);
+		this(checkParameterNull(image, "image").image, image.getWidth(), image.getHeight(), image.xScale, image.yScale);
 	}
 
 	/**
@@ -184,11 +184,7 @@ public class Canvas {
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
 	public Canvas(Image image) {
-		this(
-				checkParameterNull(image, "image").getWidth(null),
-				checkParameterNull(image, "image").getHeight(null)
-		);
-		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
+		this(image, image.getWidth(null), image.getHeight(null), 1, 1);
 	}
 
 	/**
@@ -197,20 +193,25 @@ public class Canvas {
 	 * @param height The height of the CodeDrawImage.
 	 */
 	public Canvas(int width, int height) {
-		this(width, height, 1, 1);
+		this(null, width, height, 1, 1);
 	}
 
-	private Canvas(int width, int height, int xScale, int yScale) {
+	private Canvas(Image source, int width, int height, int xScale, int yScale) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
 		if (yScale < 1) throw createParameterMustBeGreaterThanZeroException("yScale");
 		this.width = width;
 		this.height = height;
+		this.xScale = xScale;
+		this.yScale = yScale;
 
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
 		g.scale(xScale, yScale);
+		if (source != null) {
+			drawImageInternal(0, 0, source.getWidth(null), source.getHeight(null), source, Interpolation.BICUBIC);
+		}
 
 		setRenderingHint(RHAlphaInterpolation.QUALITY);
 		setRenderingHint(RHColorRendering.QUALITY);
@@ -231,6 +232,9 @@ public class Canvas {
 	private Graphics2D g;
 	private int width;
 	private int height;
+	private int xScale;
+	private int yScale;
+
 	private double lineWidth = 1;
 	private Corner corner = Corner.SHARP;
 	private boolean isAntiAliased = true;
