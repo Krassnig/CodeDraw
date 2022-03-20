@@ -40,6 +40,36 @@ public class ColorTest {
 		assertEquals(color, 100, 100, 100, 255);
 	}
 
+	@Test
+	public void testHSVMin() {
+		Color color = Palette.fromHSV(0, 0, 0);
+		assertEquals(color, 0, 0, 0);
+	}
+
+	@Test
+	public void testHSVMax() {
+		Color color = Palette.fromHSV(360, 100, 100);
+		assertEquals(color, 255, 0, 0);
+	}
+
+	@Test
+	public void testHSV() {
+		Color color = Palette.fromHSV(262, 29, 51);
+		assertEquals(color, 106, 92, 130);
+	}
+
+	@Test
+	public void testHSV2() {
+		Color color = Palette.fromHSV(147, 35, 51);
+		assertEquals(color, 84, 130, 105);
+	}
+
+	@Test
+	public void testHSV3() {
+		Color color = Palette.fromHSV(250, 88, 4);
+		assertEquals(color, 2, 1, 10);
+	}
+
 	private static void assertEquals(Color color, int red, int green, int blue) {
 		assertEquals(color, red, green, blue, 0xFF);
 	}

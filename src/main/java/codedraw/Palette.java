@@ -32,6 +32,48 @@ public final class Palette {
 	}
 
 	/**
+	 * Converts a color from the HSV color space to the RGB color space.
+	 * See <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">Wikipedia HSL and HSV</a> for more information.
+	 * @param hue The coloration on a color wheel. Can be a value between 0 and 360.
+	 * @param saturation The intensity of the color. Can be a value between 0 and 100.
+	 * @param brightness The brightness or luminosity of the color. Can be a value between 0 and 100.
+	 * @return an RGB Color.
+	 */
+	public static Color fromHSV(int hue, int saturation, int brightness) {
+		checkRange(hue, "hue", 0, 361);
+		checkRange(saturation, "saturation", 0, 101);
+		checkRange(brightness, "brightness", 0, 101);
+
+		int v = brightness * 3;
+		int c = saturation * 3 * v;
+
+		int x = c * (60 - Math.abs(hue % 120 - 60));
+		int m = (v * 300 - c) * 60;
+		c *= 60;
+
+		int r;
+		int g;
+		int b;
+
+		switch (hue / 60) {
+			case 6:
+			case 0: r = c; g = x; b = 0; break;
+			case 1: r = x; g = c; b = 0; break;
+			case 2: r = 0; g = c; b = x; break;
+			case 3: r = 0; g = x; b = c; break;
+			case 4: r = x; g = 0; b = c; break;
+			case 5: r = c; g = 0; b = x; break;
+			default: throw new RuntimeException("Invalid input for hue");
+		}
+
+		return fromRGB(toColorByte(r + m), toColorByte(g + m), toColorByte(b + m));
+	}
+
+	private static int toColorByte(int x) {
+		return x * 255 / (300 * 300 * 60);
+	}
+
+	/**
 	 * Creates a rgba color with the alpha implicitly being 255. The 8 most significant bits are ignored.
 	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
 	 *
