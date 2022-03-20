@@ -1,7 +1,7 @@
 package codedraw;
 
 import codedraw.events.*;
-import codedraw.images.*;
+import codedraw.drawing.*;
 import codedraw.textformat.*;
 
 import java.awt.*;

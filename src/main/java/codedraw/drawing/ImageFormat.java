@@ -1,4 +1,4 @@
-package codedraw.images;
+package codedraw.drawing;
 
 /**
  * Defines possible image formats.

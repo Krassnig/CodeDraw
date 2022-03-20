@@ -1,5 +1,5 @@
 import codedraw.*;
-import codedraw.images.Corner;
+import codedraw.drawing.Corner;
 import codedraw.textformat.*;
 import org.junit.After;
 import org.junit.Before;

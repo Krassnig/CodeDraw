@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.images.*;
+import codedraw.drawing.*;
 
 import javax.swing.*;
 import java.awt.*;

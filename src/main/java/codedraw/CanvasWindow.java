@@ -2,7 +2,7 @@ package codedraw;
 
 import codedraw.events.*;
 import codedraw.events.MouseWheelEvent;
-import codedraw.images.CodeDrawImage;
+import codedraw.drawing.CodeDrawImage;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 import codedraw.*;
-import codedraw.images.CodeDrawImage;
-import codedraw.images.ImageFormat;
+import codedraw.drawing.CodeDrawImage;
+import codedraw.drawing.ImageFormat;
 import codedraw.textformat.HorizontalAlign;
 import org.junit.After;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package codedraw.images;
+package codedraw.drawing;
 
 import codedraw.*;
 import codedraw.textformat.*;
