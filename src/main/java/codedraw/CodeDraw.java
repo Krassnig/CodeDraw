@@ -76,6 +76,27 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	}
 
 	private CanvasWindow window;
+	private boolean isInstantDraw;
+
+	/**
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * InstantDraw is disabled per default.
+	 * @return whether InstantDraw is enabled.
+	 */
+	public boolean isInstantDraw() {
+		return isInstantDraw;
+	}
+
+	/**
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * InstantDraw is disabled per default.
+	 * @param isInstantDraw defines whether InstantDraw is enabled.
+	 */
+	public void setInstantDraw(boolean isInstantDraw) {
+		this.isInstantDraw = isInstantDraw;
+	}
 
 	/**
 	 * @return whether the CodeDraw window is always displayed on top of other windows.
@@ -212,13 +233,187 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 		return window.getEventScanner();
 	}
 
+	@Override
+	public void drawText(double x, double y, String text) {
+		super.drawText(x, y, text);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawPixel(double x, double y) {
+		super.drawPixel(x, y);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawPoint(double x, double y) {
+		super.drawPoint(x, y);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawLine(double startX, double startY, double endX, double endY) {
+		super.drawLine(startX, startY, endX, endY);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
+		super.drawCurve(startX, startY, controlX, controlY, endX, endY);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
+		super.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawSquare(double x, double y, double sideLength) {
+		super.drawSquare(x, y, sideLength);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillSquare(double x, double y, double sideLength) {
+		super.fillSquare(x, y, sideLength);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawRectangle(double x, double y, double width, double height) {
+		super.drawRectangle(x, y, width, height);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillRectangle(double x, double y, double width, double height) {
+		super.fillRectangle(x, y, width, height);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawCircle(double x, double y, double radius) {
+		super.drawCircle(x, y, radius);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillCircle(double x, double y, double radius) {
+		super.fillCircle(x, y, radius);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		super.drawEllipse(x, y, horizontalRadius, verticalRadius);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+		super.fillEllipse(x, y, horizontalRadius, verticalRadius);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+		super.drawArc(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		super.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		super.drawPie(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		super.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+		super.fillPie(x, y, radius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+		super.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		super.drawTriangle(x1, y1, x2, y2, x3, y3);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		super.fillTriangle(x1, y1, x2, y2, x3, y3);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawPolygon(double... points) {
+		super.drawPolygon(points);
+		afterDrawing();
+	}
+
+	@Override
+	public void fillPolygon(double... points) {
+		super.fillPolygon(points);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawImage(double x, double y, Canvas image) {
+		super.drawImage(x, y, image);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawImage(double x, double y, double width, double height, Canvas image) {
+		super.drawImage(x, y, width, height, image);
+		afterDrawing();
+	}
+
+	@Override
+	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
+		super.drawImage(x, y, width, height, image, interpolation);
+		afterDrawing();
+	}
+
+	@Override
+	public void clear() {
+		super.clear();
+		afterDrawing();
+	}
+
+	@Override
+	public void clear(Color color) {
+		super.clear(color);
+		afterDrawing();
+	}
+
 	/**
 	 * Displays all the drawn and filled shapes that have been drawn until now.
 	 * Showing the drawn elements in the CodeDraw window is slow.
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		window.render(this, false);
+		window.render(this, isInstantDraw);
 	}
 
 	/**
@@ -264,6 +459,10 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	@Override
 	public String toString() {
 		return "CodeDraw " + getWidth() + "x" + getHeight();
+	}
+
+	private void afterDrawing() {
+		if (isInstantDraw) show();
 	}
 
 	private static void sleep(long waitMilliseconds) {
