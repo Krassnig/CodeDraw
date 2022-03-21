@@ -107,7 +107,7 @@ and the thickness of the outlines of shapes.
 
 ```java
 import codedraw.*;
-import codedraw.drawing.Corner;
+import codedraw.images.Corner;
 
 public class Main {
 	public static void main(String[] args) {
@@ -274,7 +274,7 @@ The ends of style of the ending of lines can be changed with *setCorner*.
 
 ```java
 import codedraw.*;
-import codedraw.drawing.Corner;
+import codedraw.images.Corner;
 
 public class Main {
 	public static void main(String[] args) {
@@ -349,7 +349,7 @@ public class Main {
   public static void main(String[] args) {
     CodeDraw cd = new CodeDraw();
 
-    Canvas image = Canvas.fromFile("./path_to/image.png");
+    CodeDrawImage image = CodeDrawImage.fromFile("./path_to/image.png");
 
     cd.drawImage(50, 50, image);
 
@@ -359,7 +359,7 @@ public class Main {
 
     cd.show();
 
-    Canvas.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
+    CodeDrawImage.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
   }
 }
 ```
