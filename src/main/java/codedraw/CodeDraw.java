@@ -3,7 +3,6 @@ package codedraw;
 import codedraw.drawing.Canvas;
 import codedraw.events.*;
 import codedraw.drawing.*;
-import codedraw.textformat.*;
 
 import java.awt.*;
 
@@ -69,13 +68,13 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 		if (canvasWidth < 1) throw new IllegalArgumentException("The width of the canvas has to be a positive number.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be a positive number.");
 
-		window = new CanvasWindow(canvasWidth, canvasHeight);
+		window = new CanvasFrame(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
 	}
 
-	private CanvasWindow window;
+	private CanvasFrame window;
 	private boolean isInstantDraw;
 
 	/**

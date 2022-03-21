@@ -7,10 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-class CanvasWindow {
+class CanvasFrame {
 	private static final BufferedImage codeDrawIcon = getCodeDrawIcon();
 
-	public CanvasWindow(int canvasWidth, int canvasHeight) {
+	public CanvasFrame(int canvasWidth, int canvasHeight) {
 		panel = new CanvasPanel(canvasWidth, canvasHeight);
 
 		frame = new JFrame();
