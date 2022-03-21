@@ -41,38 +41,38 @@ import codedraw.*;
 // Without this CodeDraw cannot be used in your program.
 
 public class MyProgram {
-	public static void main(String[] args) {
-		// Instantiates a new CodeDraw window with the size of 600x600 pixel
-		CodeDraw cd = new CodeDraw();
-		// The created window can now be accessed through the cd variable.
-		// By calling the method *setColor* the rectangle
-		// and the square will be drawn in the color red.
-		cd.setColor(Palette.RED);
-		// When setColor is called all shapes that are drawn after
-		// will have the given color, until *setColor* is called again
-		// with a different color.
-		cd.drawRectangle(100, 100, 200, 100);
-		// drawRectangle draws the outline of a rectangle,
-		// offset by 100 pixel from the top left corner.
-		// The Rectangle will have a width of 200 pixel
-		// and a height of 100 pixel.
-		cd.fillSquare(180, 150, 80);
-		// The filled square will be offset to the left by 180 pixel
-		// and 150 pixel to the top. Its size will be 80x80 pixel.
-		
-		// The next line changes the color to light blue.
-		cd.setColor(Palette.LIGHT_BLUE);
-		// fillCircle draws a filled circle where its center is
-		// offset by 300 pixel to the left and 200 pixel to the top.
-		// The radius of the circle will have a size of 50 pixel.
-		cd.fillCircle(300, 200, 50);
-		// Shapes that are drawn later will be drawn over
-		// the shapes that are drawn earlier.
-		
-		cd.show();
-		// Finally, the method show must be called
-		// to display the drawn shapes in the CodeDraw window.
-	}
+    public static void main(String[] args) {
+        // Instantiates a new CodeDraw window with the size of 600x600 pixel
+        CodeDraw cd = new CodeDraw();
+        // The created window can now be accessed through the cd variable.
+        // By calling the method *setColor* the rectangle
+        // and the square will be drawn in the color red.
+        cd.setColor(Palette.RED);
+        // When setColor is called all shapes that are drawn after
+        // will have the given color, until *setColor* is called again
+        // with a different color.
+        cd.drawRectangle(100, 100, 200, 100);
+        // drawRectangle draws the outline of a rectangle,
+        // offset by 100 pixel from the top left corner.
+        // The Rectangle will have a width of 200 pixel
+        // and a height of 100 pixel.
+        cd.fillSquare(180, 150, 80);
+        // The filled square will be offset to the left by 180 pixel
+        // and 150 pixel to the top. Its size will be 80x80 pixel.
+        
+        // The next line changes the color to light blue.
+        cd.setColor(Palette.LIGHT_BLUE);
+        // fillCircle draws a filled circle where its center is
+        // offset by 300 pixel to the left and 200 pixel to the top.
+        // The radius of the circle will have a size of 50 pixel.
+        cd.fillCircle(300, 200, 50);
+        // Shapes that are drawn later will be drawn over
+        // the shapes that are drawn earlier.
+        
+        cd.show();
+        // Finally, the method show must be called
+        // to display the drawn shapes in the CodeDraw window.
+    }
 }
 ```
 
@@ -110,17 +110,17 @@ import codedraw.*;
 import codedraw.images.Corner;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw(400, 400);
-		
-		cd.setColor(Palette.GREEN);
-		cd.setCorner(Corner.ROUND);
-		cd.setLineWidth(5);
-		
-		cd.drawRectangle(100, 100, 200, 100);
-		
-		cd.show();
-	}
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+        
+        cd.setColor(Palette.GREEN);
+        cd.setCorner(Corner.ROUND);
+        cd.setLineWidth(5);
+        
+        cd.drawRectangle(100, 100, 200, 100);
+        
+        cd.show();
+    }
 }
 ```
 
@@ -149,21 +149,21 @@ import codedraw.*;
 import codedraw.textformat.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw(400, 400);
-		TextFormat format = cd.getTextFormat();
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+        TextFormat format = cd.getTextFormat();
 
-		format.setFontSize(20);
-		format.setHorizontalAlign(HorizontalAlign.CENTER);
-		format.setItalic(true);
+        format.setFontSize(20);
+        format.setHorizontalAlign(HorizontalAlign.CENTER);
+        format.setItalic(true);
 
-		cd.drawText(200, 100, "Hello World!\nMulti lines!");
+        cd.drawText(200, 100, "Hello World!\nMulti lines!");
 
-		cd.setColor(Palette.RED);
-		cd.fillCircle(200, 100, 5);
+        cd.setColor(Palette.RED);
+        cd.fillCircle(200, 100, 5);
 
-		cd.show();
-	}
+        cd.show();
+    }
 }
 ```
 
@@ -197,10 +197,10 @@ For example: The following code creates a CodeDraw window with a canvas of the s
 import codedraw.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw(300, 100);
-		cd.setTitle("Hello World!");
-	}
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(300, 100);
+        cd.setTitle("Hello World!");
+    }
 }
 ```
 
@@ -248,16 +248,16 @@ Additionally, you can setAlwaysOnTop to true so that CodeDraw doesn't disappear 
 import codedraw.*;
 
 public class Main {
-  public static void main(String[] args) {
-    CodeDraw cd = new CodeDraw();
-    cd.setInstantDraw(true);
-    cd.setAlwaysOnTop(true);
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
+        cd.setInstantDraw(true);
+        cd.setAlwaysOnTop(true);
 
-    cd.drawCircle(300, 300, 100);
+        cd.drawCircle(300, 300, 100);
 
-    // The circle is displayed without calling
-    // cd.show();
-  }
+        // The circle is displayed without calling
+        // cd.show();
+    }
 }
 ```
 
@@ -277,20 +277,20 @@ import codedraw.*;
 import codedraw.images.Corner;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
 
-		cd.drawCurve(100, 100, 250, 50, 200, 200);
+        cd.drawCurve(100, 100, 250, 50, 200, 200);
 
-		cd.setLineWidth(10);
-		cd.setCorner(Corner.ROUND);
+        cd.setLineWidth(10);
+        cd.setCorner(Corner.ROUND);
 
-		cd.drawCurve(100, 300, 250, 250, 200, 400);
+        cd.drawCurve(100, 300, 250, 250, 200, 400);
 
-		cd.drawArc(300, 300, 100, -Math.PI / 2, Math.PI);
+        cd.drawArc(300, 300, 100, -Math.PI / 2, Math.PI);
 
-		cd.show();
-	}
+        cd.show();
+    }
 }
 ```
 
@@ -346,21 +346,21 @@ import codedraw.*;
 import codedraw.drawing.*;
 
 public class Main {
-  public static void main(String[] args) {
-    CodeDraw cd = new CodeDraw();
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
 
-    CodeDrawImage image = CodeDrawImage.fromFile("./path_to/image.png");
+        CodeDrawImage image = CodeDrawImage.fromFile("./path_to/image.png");
 
-    cd.drawImage(50, 50, image);
+        cd.drawImage(50, 50, image);
 
-    cd.drawImage(200, 50, 200, 200, image);
+        cd.drawImage(200, 50, 200, 200, image);
 
-    cd.drawImage(200, 250, 200, 200, image, Interpolation.NEAREST_NEIGHBOR);
+        cd.drawImage(200, 250, 200, 200, image, Interpolation.NEAREST_NEIGHBOR);
 
-    cd.show();
+        cd.show();
 
-    CodeDrawImage.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
-  }
+        CodeDrawImage.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
+    }
 }
 ```
 
@@ -390,24 +390,24 @@ with the execution of you program.
 import codedraw.*;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw(400, 400);
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
 
-		for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
-			// clears the entire canvas
-			cd.clear();
-			// draws the second hand
-			cd.drawLine(200, 200, Math.cos(sec) * 100 + 200, Math.sin(sec) * 100 + 200);
+        for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
+            // clears the entire canvas
+            cd.clear();
+            // draws the second hand
+            cd.drawLine(200, 200, Math.cos(sec) * 100 + 200, Math.sin(sec) * 100 + 200);
 
-			// draws the twelve dots
-			for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
-				cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
-			}
+            // draws the twelve dots
+            for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
+            	cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
+            }
 
-			// displays the drawn objects and waits 1 second
-			cd.show(1000);
-		}
-	}
+            // displays the drawn objects and waits 1 second
+            cd.show(1000);
+        }
+    }
 }
 ```
 
@@ -458,34 +458,34 @@ import codedraw.*;
 import codedraw.events.*;
 
 public class Main {
-  public static void main(String[] args) {
-    CodeDraw cd = new CodeDraw();
-    EventScanner es = new EventScanner(cd);
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
+        EventScanner es = new EventScanner(cd);
 
-    int x = 0;
-    int y = 0;
-    int clickCount = 0;
+        int x = 0;
+        int y = 0;
+        int clickCount = 0;
 
-    while (!es.isClosed()) {
-      while (es.hasEventNow()) {
-        if (es.hasMouseMoveEvent()) {
-          MouseMoveEvent a = es.nextMouseMoveEvent();
-          x = a.getX();
-          y = a.getY();
+        while (!es.isClosed()) {
+            while (es.hasEventNow()) {
+                if (es.hasMouseMoveEvent()) {
+                    MouseMoveEvent a = es.nextMouseMoveEvent();
+                    x = a.getX();
+                    y = a.getY();
+                }
+                if (es.hasMouseClickEvent()) {
+                    clickCount++;
+                    es.nextEvent();
+                } else {
+                    es.nextEvent();
+                }
+            }
+
+            cd.clear();
+            cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+            cd.show(16);
         }
-        if (es.hasMouseClickEvent()) {
-          clickCount++;
-          es.nextEvent();
-        } else {
-          es.nextEvent();
-        }
-      }
-
-      cd.clear();
-      cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
-      cd.show(16);
     }
-  }
 }
 ```
 
@@ -503,23 +503,23 @@ Given a method reference or lambda to an event will return a Subscription which 
 import codedraw.*;
 
 public class Main {
-	private static int x = 0;
-	private static int y = 0;
-	
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
+    private static int x = 0;
+    private static int y = 0;
+    
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
 
-		cd.onMouseMove(a -> {
-			x = a.getX();
-			y = a.getY();
-		});
-		
-		while (true) {
-			cd.clear();
-			cd.drawText(x, y, "The text will follow your mouse.");
-			cd.show(16);
-		}
-	}
+        cd.onMouseMove(a -> {
+            x = a.getX();
+            y = a.getY();
+        });
+        
+        while (true) {
+            cd.clear();
+            cd.drawText(x, y, "The text will follow your mouse.");
+            cd.show(16);
+        }
+    }
 }
 ```
 
@@ -532,13 +532,13 @@ Something like the following would crash your program:
 import codedraw.CodeDraw;
 
 public class Main {
-	public static void main(String[] args) {
-		CodeDraw cd = new CodeDraw();
-		cd.onMouseMove(a -> {
-			cd.drawSquare(a.getX() - 5, a.getY() - 5, 10);
-			cd.show();
-		});
-	}
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
+        cd.onMouseMove(a -> {
+            cd.drawSquare(a.getX() - 5, a.getY() - 5, 10);
+            cd.show();
+        });
+    }
 }
 ```
 
