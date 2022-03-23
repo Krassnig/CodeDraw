@@ -899,7 +899,7 @@ public class Canvas {
 	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
 	 * @return a BufferedImage.
 	 */
-	public BufferedImage convertToBufferedImage() {
+	public BufferedImage toBufferedImage() {
 		Canvas result = new Canvas(this);
 		result.g.dispose();
 		return result.image;
