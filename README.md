@@ -120,7 +120,7 @@ public class Main {
 		while (!es.isClosed()) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseMoveEvent()) {
-					MouseMoveEvent a = es.nextMouseMoveEvent();
+					MouseMoveEventArgs a = es.nextMouseMoveEvent();
 					cd.fillSquare(a.getX() - 5, a.getY() - 5, 10);
 				} else {
 					es.nextEvent();
