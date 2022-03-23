@@ -124,6 +124,7 @@ public class CodeDraw implements AutoCloseable {
 	 * @param delayMilliseconds the delay time in milliseconds.
 	 */
 	public void setInstantDrawDelay(long delayMilliseconds) {
+		if (delayMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("delayMilliseconds");
 		this.instantDrawDelay = delayMilliseconds;
 	}
 
