@@ -107,7 +107,6 @@ and the thickness of the outlines of shapes.
 
 ```java
 import codedraw.*;
-import codedraw.images.Corner;
 
 public class Main {
     public static void main(String[] args) {
@@ -274,7 +273,6 @@ The ends of style of the ending of lines can be changed with *setCorner*.
 
 ```java
 import codedraw.*;
-import codedraw.images.Corner;
 
 public class Main {
     public static void main(String[] args) {
@@ -343,7 +341,7 @@ This can be done with the *CodeDrawImage.fromFile* function.
 
 ```java
 import codedraw.*;
-import codedraw.drawing.*;
+import codedraw.images.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -529,7 +527,7 @@ Note! You are not allowed to call most methods of the CodeDraw class inside a Co
 Something like the following would crash your program:
 
 ```java
-import codedraw.CodeDraw;
+import codedraw.*;
 
 public class Main {
     public static void main(String[] args) {
