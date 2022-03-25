@@ -144,7 +144,7 @@ public class Canvas {
 	 * @param format The format the image should be saved in.
 	 *               As a default choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
 	 */
-	public static void saveAs(Canvas image, String pathToImage, ImageFormat format) {
+	public static void save(Canvas image, String pathToImage, ImageFormat format) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (format == null) throw createParameterNullException("format");
