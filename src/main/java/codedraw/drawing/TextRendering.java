@@ -11,7 +11,7 @@ class TextRendering {
 
 	public static void drawText(Graphics2D graphics, double x, double y, String text, TextFormat textFormat) {
 		FontMetrics fontMetrics = graphics.getFontMetrics();
-		String[] lines = text.split("(\r\n)|\r|\n");
+		String[] lines = text.split("(\r\n)|\r|\n", -1);
 
 		y += calculateVerticalOffset(textFormat.getVerticalAlign(), fontMetrics, lines.length);
 
