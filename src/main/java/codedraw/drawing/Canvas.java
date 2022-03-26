@@ -242,13 +242,13 @@ public class Canvas {
 
 	/**
 	 * This value cannot be changed once set via the constructor.
-	 * @return the width of the canvas.
+	 * @return the width of the canvas in pixel.
 	 */
 	public int getWidth() { return width; }
 
 	/**
 	 * This value cannot be changed once set via the constructor.
-	 * @return the height of the canvas.
+	 * @return the height of the canvas in pixel.
 	 */
 	public int getHeight() { return height; }
 
