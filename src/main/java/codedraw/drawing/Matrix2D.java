@@ -41,24 +41,20 @@ public class Matrix2D {
 		};
 	}
 
-	private Matrix2D(Matrix2D matrix) {
-		this(matrix.matrix);
-	}
-
 	private final double[][] matrix;
 
 	public double get(int row, int column) {
-		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
 		if (row < 0 || 3 <= row) throw new IllegalArgumentException();
+		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
 
 		return matrix[row][column];
 	}
 
 	public Matrix2D set(int row, int column, double value) {
-		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
 		if (row < 0 || 3 <= row) throw new IllegalArgumentException();
+		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
 
-		Matrix2D result = new Matrix2D(this);
+		Matrix2D result = new Matrix2D(matrix);
 		result.matrix[row][column] = value;
 		return result;
 	}
@@ -141,13 +137,24 @@ public class Matrix2D {
 	}
 
 	AffineTransform toAffineTransform() {
-		AffineTransform result = new AffineTransform(
+		return new AffineTransform(
 			matrix[0][0], matrix[1][0],
 			matrix[0][1], matrix[1][1],
 			matrix[0][2], matrix[1][2]
 		);
+	}
 
-		return result;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Matrix2D matrix2D = (Matrix2D) o;
+		return Arrays.deepEquals(matrix, matrix2D.matrix);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.deepHashCode(matrix);
 	}
 
 	@Override
