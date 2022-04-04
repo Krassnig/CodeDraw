@@ -209,9 +209,6 @@ public class Canvas {
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
 		g.scale(xScale, yScale);
-		if (source != null) {
-			drawImageInternal(0, 0, source.getWidth(null), source.getHeight(null), source, Interpolation.BICUBIC);
-		}
 
 		setRenderingHint(RHAlphaInterpolation.QUALITY);
 		setRenderingHint(RHColorRendering.QUALITY);
@@ -224,8 +221,11 @@ public class Canvas {
 		setLineWidth(1);
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
-
 		clear();
+
+		if (source != null) {
+			drawImageInternal(0, 0, width, height, source, Interpolation.BICUBIC);
+		}
 	}
 
 	private BufferedImage image;
