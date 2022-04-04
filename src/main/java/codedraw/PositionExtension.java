@@ -1,18 +1,15 @@
 package codedraw;
 
-import javax.swing.*;
 import java.awt.*;
 
-class GuiExtension {
-	public GuiExtension(JFrame frame, CanvasPanel panel) {
+class PositionExtension {
+	public PositionExtension(Frame frame) {
 		this.frame = frame;
-		this.panel = panel;
 
 		updateWindowAndCanvasPosition();
 	}
 
-	private final JFrame frame;
-	private final CanvasPanel panel;
+	private final Frame frame;
 	private final Semaphore positionLock = new Semaphore(1);
 
 	private Point windowPosition;
@@ -47,12 +44,8 @@ class GuiExtension {
 	public void updateWindowAndCanvasPosition() {
 		positionLock.acquire();
 		this.windowPosition = frame.getLocationOnScreen().getLocation();
-		distanceFromWindowToCanvas = minus(panel.getLocationOnScreen(), windowPosition);
+		distanceFromWindowToCanvas = minus(frame.getPanel().getLocationOnScreen(), windowPosition);
 		positionLock.release();
-	}
-
-	public void copyCanvasToClipboard() {
-		panel.copyCanvasToClipboard();
 	}
 
 	private void setWindowPositionInternal(Point newWindowPosition) {

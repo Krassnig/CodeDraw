@@ -68,13 +68,13 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 		if (canvasWidth < 1) throw new IllegalArgumentException("The width of the canvas has to be a positive number.");
 		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be a positive number.");
 
-		window = new CanvasFrame(canvasWidth, canvasHeight);
+		window = new WindowFrame(canvasWidth, canvasHeight);
 
 		setTitle("CodeDraw");
 		show();
 	}
 
-	private CanvasFrame window;
+	private WindowFrame window;
 	private boolean isInstantDraw;
 
 	/**
@@ -412,7 +412,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		window.render(this, isInstantDraw);
+		window.render(this, 0, isInstantDraw);
 	}
 
 	/**

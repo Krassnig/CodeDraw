@@ -4,6 +4,7 @@ import codedraw.events.*;
 import codedraw.events.MouseWheelEvent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.function.Consumer;
 
@@ -12,23 +13,21 @@ class EventHandler {
 	private static int windowCount = 0;
 	private boolean terminateOnLastClose = true;
 
-	public EventHandler(JFrame frame, CanvasPanel panel, GuiExtension guiExtension) {
+	public EventHandler(Frame frame) {
 		windowCloseLock.acquire();
 		windowCount++;
 		windowCloseLock.release();
 
 		this.frame = frame;
-		this.panel = panel;
-		this.guiExtension = guiExtension;
+		this.position = new PositionExtension(frame);
 		eventScanner = new EventScanner(s -> queue = s);
 
 		createEvents();
 		bindEvents();
 	}
 
-	private final JFrame frame;
-	private final CanvasPanel panel;
-	private final GuiExtension guiExtension;
+	private final Frame frame;
+	private final PositionExtension position;
 	private final EventScanner eventScanner;
 
 	private Consumer<Object> queue;
@@ -39,6 +38,22 @@ class EventHandler {
 	private KeyListener keyListener;
 	private ComponentListener componentListener;
 	private WindowListener windowListener;
+
+	public Point getWindowPosition() {
+		return position.getWindowPosition();
+	}
+
+	public void setWindowPosition(Point newWindowPosition) {
+		position.setWindowPosition(newWindowPosition);
+	}
+
+	public Point getCanvasPosition() {
+		return position.getCanvasPosition();
+	}
+
+	public void setCanvasPosition(Point newCanvasPosition) {
+		position.setCanvasPosition(newCanvasPosition);
+	}
 
 	public EventScanner getEventScanner() {
 		return eventScanner;
@@ -64,18 +79,18 @@ class EventHandler {
 	}
 
 	private void bindEvents() {
-		panel.addMouseListener(mouseListener);
-		panel.addMouseMotionListener(mouseMotionListener);
-		panel.addMouseWheelListener(mouseWheelListener);
+		frame.getPanel().addMouseListener(mouseListener);
+		frame.getPanel().addMouseMotionListener(mouseMotionListener);
+		frame.getPanel().addMouseWheelListener(mouseWheelListener);
 		frame.addKeyListener(keyListener);
 		frame.addComponentListener(componentListener);
 		frame.addWindowListener(windowListener);
 	}
 
 	private void unbindEvents() {
-		panel.removeMouseListener(mouseListener);
-		panel.removeMouseMotionListener(mouseMotionListener);
-		panel.removeMouseWheelListener(mouseWheelListener);
+		frame.getPanel().removeMouseListener(mouseListener);
+		frame.getPanel().removeMouseMotionListener(mouseMotionListener);
+		frame.getPanel().removeMouseWheelListener(mouseWheelListener);
 		frame.removeKeyListener(keyListener);
 		frame.removeComponentListener(componentListener);
 		frame.removeWindowListener(windowListener);
@@ -129,7 +144,7 @@ class EventHandler {
 
 	private KeyListener createKeyListener() {
 		return new KeyAdapter() {
-			private final KeyDownMap keyDownMap = new KeyDownMap(queue, guiExtension);
+			private final KeyDownMap keyDownMap = new KeyDownMap(queue, frame.getPanel());
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -149,8 +164,8 @@ class EventHandler {
 		return new ComponentAdapter() {
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				guiExtension.updateWindowAndCanvasPosition();
-				queue.accept(new WindowMoveEvent(guiExtension.getCanvasPosition(), guiExtension.getWindowPosition()));
+				position.updateWindowAndCanvasPosition();
+				queue.accept(new WindowMoveEvent(position.getCanvasPosition(), position.getWindowPosition()));
 			}
 		};
 	}
