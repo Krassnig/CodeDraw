@@ -15,42 +15,26 @@ public final class TextFormat {
 
 	public TextFormat() { }
 
-	private HorizontalAlign horizontalAlign = HorizontalAlign.LEFT;
+	private TextOrigin textOrigin = TextOrigin.TOP_LEFT;
 
 	/**
-	 * Defines the horizontal alignment of the drawn text.
-	 * The default is HorizontalAlign.LEFT.
-	 * @return the horizontal alignment.
+	 * Defines the origin of the drawn text.
+	 * The default is {@link TextOrigin#TOP_LEFT}.
+	 * See {@link TextOrigin} for a more detailed explanation.
+	 * @return the text origin
 	 */
-	public HorizontalAlign getHorizontalAlign() { return horizontalAlign; }
-
-	/**
-	 * Defines the horizontal alignment of the drawn text.
-	 * The default is HorizontalAlign.LEFT.
-	 * @param horizontalAlign Sets the horizontal alignment.
-	 */
-	public void setHorizontalAlign(HorizontalAlign horizontalAlign) {
-		if (horizontalAlign == null) throw createParameterNullException("horizontalAlign");
-		this.horizontalAlign = horizontalAlign;
+	public TextOrigin getTextOrigin() {
+		return textOrigin;
 	}
 
-	private VerticalAlign verticalAlign = VerticalAlign.TOP;
-
 	/**
-	 * Defines the vertical alignment of the drawn text.
-	 * The default is {@link VerticalAlign#TOP}
-	 * @return the vertical alignment.
+	 * Defines the origin of the drawn text.
+	 * The default is {@link TextOrigin#TOP_LEFT}.
+	 * See {@link TextOrigin} for a more detailed explanation.
+	 * @param textOrigin Sets the text origin.
 	 */
-	public VerticalAlign getVerticalAlign() { return verticalAlign; }
-
-	/**
-	 * Defines the vertical alignment of the drawn text.
-	 * The default is {@link VerticalAlign#TOP}
-	 * @param verticalAlign Sets the vertical alignment.
-	 */
-	public void setVerticalAlign(VerticalAlign verticalAlign) {
-		if (horizontalAlign == null) throw createParameterNullException("verticalAlign");
-		this.verticalAlign = verticalAlign;
+	public void setTextOrigin(TextOrigin textOrigin) {
+		this.textOrigin = textOrigin;
 	}
 
 	private int fontSize = 16;
@@ -170,12 +154,12 @@ public final class TextFormat {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		TextFormat that = (TextFormat) o;
-		return fontSize == that.fontSize && isBold == that.isBold && isItalic == that.isItalic && isStrikethrough == that.isStrikethrough && horizontalAlign == that.horizontalAlign && verticalAlign == that.verticalAlign && Objects.equals(fontName, that.fontName) && underline == that.underline;
+		return fontSize == that.fontSize && isBold == that.isBold && isItalic == that.isItalic && isStrikethrough == that.isStrikethrough && textOrigin == that.textOrigin && Objects.equals(fontName, that.fontName) && underline == that.underline;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(horizontalAlign, verticalAlign, fontSize, fontName, isBold, isItalic, underline, isStrikethrough);
+		return Objects.hash(textOrigin, fontSize, fontName, isBold, isItalic, underline, isStrikethrough);
 	}
 
 	@Override
@@ -183,8 +167,7 @@ public final class TextFormat {
 		return "TextFormat{"
 				+ "fontName: " + fontName
 				+ ", fontSize: " + fontSize
-				+ ", horizontalAlign: " + horizontalAlign
-				+ ", verticalAlign: " + verticalAlign
+				+ ", textOrigin: " + textOrigin
 				+ ", underline: " + underline
 				+ ", isBold: " + isBold
 				+ ", isItalic: " + isItalic

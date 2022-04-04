@@ -205,7 +205,7 @@ public class GraphicTest {
 		confirm.placeCodeDrawTestingInstance(cd);
 		TextFormat format = cd.getTextFormat();
 
-		format.setVerticalAlign(VerticalAlign.BOTTOM);
+		format.setTextOrigin(TextOrigin.BOTTOM_LEFT);
 
 		cd.setAntiAliased(true);
 		cd.setColor(Palette.BLACK);

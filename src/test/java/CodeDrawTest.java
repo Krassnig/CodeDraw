@@ -1,7 +1,7 @@
 import codedraw.*;
 import codedraw.drawing.Canvas;
 import codedraw.drawing.ImageFormat;
-import codedraw.textformat.HorizontalAlign;
+import codedraw.textformat.TextOrigin;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class CodeDrawTest {
 				new CursorStyle(getCodeDrawIcon())
 		};
 
-		cd.getTextFormat().setHorizontalAlign(HorizontalAlign.CENTER);
+		cd.getTextFormat().setTextOrigin(TextOrigin.TOP_CENTER);
 		cd.drawText(300, 200, "Move mouse over here.");
 
 		for (CursorStyle cursorStyle : cursors) {

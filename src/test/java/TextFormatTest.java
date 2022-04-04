@@ -131,30 +131,29 @@ public class TextFormatTest {
 	public void multilineAlignmentTest() {
 		confirm.setConfirmationDialogue("The text should be differently aligned for each quadrant.");
 
-		drawAlignment(100, 100, VerticalAlign.TOP   , HorizontalAlign.LEFT);
-		drawAlignment(300, 100, VerticalAlign.TOP   , HorizontalAlign.CENTER);
-		drawAlignment(500, 100, VerticalAlign.TOP   , HorizontalAlign.RIGHT);
-		drawAlignment(100, 300, VerticalAlign.MIDDLE, HorizontalAlign.LEFT);
-		drawAlignment(300, 300, VerticalAlign.MIDDLE, HorizontalAlign.CENTER);
-		drawAlignment(500, 300, VerticalAlign.MIDDLE, HorizontalAlign.RIGHT);
-		drawAlignment(100, 500, VerticalAlign.BOTTOM, HorizontalAlign.LEFT);
-		drawAlignment(300, 500, VerticalAlign.BOTTOM, HorizontalAlign.CENTER);
-		drawAlignment(500, 500, VerticalAlign.BOTTOM, HorizontalAlign.RIGHT);
+		drawAlignment(100, 100, TextOrigin.TOP_LEFT);
+		drawAlignment(300, 100, TextOrigin.TOP_CENTER);
+		drawAlignment(500, 100, TextOrigin.TOP_RIGHT);
+		drawAlignment(100, 300, TextOrigin.CENTER_LEFT);
+		drawAlignment(300, 300, TextOrigin.CENTER);
+		drawAlignment(500, 300, TextOrigin.CENTER_RIGHT);
+		drawAlignment(100, 500, TextOrigin.BOTTOM_LEFT);
+		drawAlignment(300, 500, TextOrigin.BOTTOM_CENTER);
+		drawAlignment(500, 500, TextOrigin.BOTTOM_RIGHT);
 
 		cd.show();
 		confirm.assertConfirmation();
 	}
 
-	private void drawAlignment(double x, double y, VerticalAlign va, HorizontalAlign ha) {
+	private void drawAlignment(double x, double y, TextOrigin textOrigin) {
 		TextFormat format = cd.getTextFormat();
-		format.setVerticalAlign(va);
-		format.setHorizontalAlign(ha);
+		format.setTextOrigin(textOrigin);
 
 		cd.setColor(Palette.RED);
 		cd.drawLine(x - 80, y, x + 80, y);
 		cd.drawLine(x, y - 80, x, y + 80);
 		cd.setColor(Palette.BLACK);
-		cd.drawText(x, y, va + "\n" + (ha + "").toLowerCase() + "\nTEST");
+		cd.drawText(x, y, String.join("\n", textOrigin.name().split("_", -1)).toLowerCase() + "\nTest");
 	}
 
 	private static String[] getAvailableFontNames() {

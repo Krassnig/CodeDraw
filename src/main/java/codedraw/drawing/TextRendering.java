@@ -13,41 +13,55 @@ class TextRendering {
 		FontMetrics fontMetrics = graphics.getFontMetrics();
 		String[] lines = text.split("(\r\n)|\r|\n", -1);
 
-		y += calculateVerticalOffset(textFormat.getVerticalAlign(), fontMetrics, lines.length);
+		y += calculateVerticalOffset(textFormat.getTextOrigin(), fontMetrics, lines.length);
 
 		for (int i = 0; i < lines.length; i++) {
-			double xi = x + calculateHorizontalOffset(textFormat.getHorizontalAlign(), fontMetrics, lines[i]);
+			double xi = x + calculateHorizontalOffset(textFormat.getTextOrigin(), fontMetrics, lines[i]);
 			graphics.drawString(lines[i], (float) xi, (float)(y + i * fontMetrics.getHeight()));
 		}
 	}
 
-	private static double calculateVerticalOffset(VerticalAlign verticalAlign, FontMetrics fontMetrics, int lineCount) {
+	private static double calculateVerticalOffset(TextOrigin verticalAlign, FontMetrics fontMetrics, int lineCount) {
 		double capHeight = fontMetrics.getAscent() - fontMetrics.getDescent();
 		double leadings = fontMetrics.getHeight() * (lineCount - 1);
 		switch (verticalAlign) {
-			case TOP:
+			case TOP_LEFT:
+			case TOP_CENTER:
+			case TOP_RIGHT:
 				return capHeight;
-			case MIDDLE:
+			case CENTER_LEFT:
+			case CENTER:
+			case CENTER_RIGHT:
 				return (capHeight - leadings) / 2;
-			case BOTTOM:
+			case BOTTOM_LEFT:
+			case BOTTOM_CENTER:
+			case BOTTOM_RIGHT:
 				return -leadings;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option.");
 		}
 	}
 
-	private static double calculateHorizontalOffset(HorizontalAlign horizontalAlign, FontMetrics fontMetrics, String text) {
+	private static double calculateHorizontalOffset(TextOrigin horizontalAlign, FontMetrics fontMetrics, String text) {
 		switch (horizontalAlign) {
-			case LEFT:
+			case TOP_LEFT:
+			case CENTER_LEFT:
+			case BOTTOM_LEFT:
 				return 0;
+			case TOP_CENTER:
 			case CENTER:
+			case BOTTOM_CENTER:
 				return -fontMetrics.stringWidth(text) / 2D;
-			case RIGHT:
+			case TOP_RIGHT:
+			case CENTER_RIGHT:
+			case BOTTOM_RIGHT:
 				return -fontMetrics.stringWidth(text);
 			default:
 				throw new RuntimeException("Unknown horizontal alignment option.");
 		}
 	}
+
+
 
 	public static Font createFont(TextFormat format) {
 		return Font.getFont(new HashMap<TextAttribute, Object>() {{

@@ -102,9 +102,8 @@ public class CodeDrawConfirmation implements AutoCloseable {
 	}
 
 	private void rerender() {
-		TextFormat tf = cd.getTextFormat();
-		tf.setHorizontalAlign(HorizontalAlign.CENTER);
-		tf.setVerticalAlign(VerticalAlign.MIDDLE);
+		TextFormat format = cd.getTextFormat();
+		format.setTextOrigin(TextOrigin.CENTER);
 
 		cd.clear(Palette.LIGHT_GRAY);
 
