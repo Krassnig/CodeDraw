@@ -140,7 +140,13 @@ public class FullScreen extends Canvas implements AutoCloseable {
 	}
 
 	public void close(boolean terminateProcess) {
+		graphicsDevice.setFullScreenWindow(null);
 		frame.dispose(terminateProcess);
+	}
+
+	@Override
+	protected void afterDrawing() {
+		if (isInstantDraw) show();
 	}
 
 	@Override

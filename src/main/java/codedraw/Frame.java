@@ -5,7 +5,7 @@ import codedraw.drawing.Canvas;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
-public class Frame extends JFrame {
+class Frame extends JFrame {
 	private static final BufferedImage codeDrawIcon = getCodeDrawIcon();
 
 	public Frame(int canvasWidth, int canvasHeight) {
