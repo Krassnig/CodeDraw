@@ -5,8 +5,6 @@ import java.awt.*;
 class PositionExtension {
 	public PositionExtension(Frame frame) {
 		this.frame = frame;
-
-		updateWindowAndCanvasPosition();
 	}
 
 	private final Frame frame;
@@ -16,6 +14,8 @@ class PositionExtension {
 	private Point distanceFromWindowToCanvas;
 
 	public Point getWindowPosition() {
+		updatePositionIfNull();
+
 		positionLock.acquire();
 		Point result = windowPosition.getLocation();
 		positionLock.release();
@@ -23,12 +23,16 @@ class PositionExtension {
 	}
 
 	public void setWindowPosition(Point newWindowPosition) {
+		updatePositionIfNull();
+
 		positionLock.acquire();
 		setWindowPositionInternal(newWindowPosition);
 		positionLock.release();
 	}
 
 	public Point getCanvasPosition() {
+		updatePositionIfNull();
+
 		positionLock.acquire();
 		Point result = plus(windowPosition, distanceFromWindowToCanvas);
 		positionLock.release();
@@ -36,6 +40,8 @@ class PositionExtension {
 	}
 
 	public void setCanvasPosition(Point newCanvasPosition) {
+		updatePositionIfNull();
+
 		positionLock.acquire();
 		setWindowPositionInternal(minus(newCanvasPosition, distanceFromWindowToCanvas));
 		positionLock.release();
@@ -46,6 +52,12 @@ class PositionExtension {
 		this.windowPosition = frame.getLocationOnScreen().getLocation();
 		distanceFromWindowToCanvas = minus(frame.getPanel().getLocationOnScreen(), windowPosition);
 		positionLock.release();
+	}
+
+	private void updatePositionIfNull() {
+		if (windowPosition == null) {
+			updateWindowAndCanvasPosition();
+		}
 	}
 
 	private void setWindowPositionInternal(Point newWindowPosition) {
