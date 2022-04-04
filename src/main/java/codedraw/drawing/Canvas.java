@@ -398,8 +398,10 @@ public class Canvas {
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createParameterNullException("text");
 
+		beforeDrawing();
 		g.setFont(TextRendering.createFont(textFormat));
 		TextRendering.drawText(g, x, y, text, textFormat);
+		afterDrawing();
 	}
 
 	/**
@@ -408,7 +410,9 @@ public class Canvas {
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
 	public void drawPixel(double x, double y) {
+		beforeDrawing();
 		g.fill(createSharpRectangle(x, y, 1, 1));
+		afterDrawing();
 	}
 
 	/**
@@ -417,7 +421,9 @@ public class Canvas {
 	 * @param y The distance in pixel from the top side of the canvas to the center of the point.
 	 */
 	public void drawPoint(double x, double y) {
+		beforeDrawing();
 		g.fill(createEllipse(x, y, getLineWidth(), getLineWidth()));
+		afterDrawing();
 	}
 
 	/**
@@ -430,7 +436,9 @@ public class Canvas {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the line.
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
+		beforeDrawing();
 		g.draw(createLine(startX, startY, endX, endY));
+		afterDrawing();
 	}
 
 	/**
@@ -447,7 +455,9 @@ public class Canvas {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
+		beforeDrawing();
 		g.draw(createCurve(startX, startY, controlX, controlY, endX, endY));
+		afterDrawing();
 	}
 
 	/**
@@ -466,7 +476,9 @@ public class Canvas {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
+		beforeDrawing();
 		g.draw(createBezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
+		afterDrawing();
 	}
 
 	/**
@@ -480,7 +492,9 @@ public class Canvas {
 	public void drawSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
+		beforeDrawing();
 		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
+		afterDrawing();
 	}
 
 	/**
@@ -493,7 +507,9 @@ public class Canvas {
 	public void fillSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
+		beforeDrawing();
 		g.fill(createFillRectangle(x, y, sideLength, sideLength));
+		afterDrawing();
 	}
 
 	/**
@@ -509,7 +525,9 @@ public class Canvas {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
+		beforeDrawing();
 		g.draw(createDrawRectangle(x, y, width, height));
+		afterDrawing();
 	}
 
 	/**
@@ -524,7 +542,9 @@ public class Canvas {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
+		beforeDrawing();
 		g.fill(createFillRectangle(x, y, width, height));
+		afterDrawing();
 	}
 
 	/**
@@ -538,7 +558,9 @@ public class Canvas {
 	public void drawCircle(double x, double y, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		beforeDrawing();
 		g.draw(createEllipse(x, y, radius, radius));
+		afterDrawing();
 	}
 
 	/**
@@ -551,7 +573,9 @@ public class Canvas {
 	public void fillCircle(double x, double y, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		beforeDrawing();
 		g.fill(createEllipse(x, y, radius, radius));
+		afterDrawing();
 	}
 
 	/**
@@ -567,7 +591,9 @@ public class Canvas {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		beforeDrawing();
 		g.draw(createEllipse(x, y, horizontalRadius, verticalRadius));
+		afterDrawing();
 	}
 
 	/**
@@ -582,7 +608,9 @@ public class Canvas {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		beforeDrawing();
 		g.fill(createEllipse(x, y, horizontalRadius, verticalRadius));
+		afterDrawing();
 	}
 
 	/**
@@ -605,7 +633,9 @@ public class Canvas {
 	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		beforeDrawing();
 		g.draw(createArc(x, y, radius, radius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -631,7 +661,9 @@ public class Canvas {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		beforeDrawing();
 		g.draw(createArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -654,7 +686,9 @@ public class Canvas {
 	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		beforeDrawing();
 		g.draw(createPie(x, y, radius, radius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -680,7 +714,9 @@ public class Canvas {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		beforeDrawing();
 		g.draw(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -700,7 +736,9 @@ public class Canvas {
 	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		beforeDrawing();
 		g.fill(createPie(x, y, radius, radius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -723,7 +761,9 @@ public class Canvas {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		beforeDrawing();
 		g.fill(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		afterDrawing();
 	}
 
 	/**
@@ -738,7 +778,9 @@ public class Canvas {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		beforeDrawing();
 		g.draw(createTriangle(x1, y1, x2, y2, x3, y3));
+		afterDrawing();
 	}
 
 	/**
@@ -751,7 +793,9 @@ public class Canvas {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		beforeDrawing();
 		g.fill(createTriangle(x1, y1, x2, y2, x3, y3));
+		afterDrawing();
 	}
 
 	/**
@@ -775,7 +819,9 @@ public class Canvas {
 	public void drawPolygon(double... points) {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
 
+		beforeDrawing();
 		g.draw(createPolygon(points));
+		afterDrawing();
 	}
 
 	/**
@@ -798,7 +844,9 @@ public class Canvas {
 	public void fillPolygon(double... points) {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
 
+		beforeDrawing();
 		g.fill(createPolygon(points));
+		afterDrawing();
 	}
 
 	private void drawImageInternal(double x, double y, double width, double height, Image image, Interpolation interpolation) {
@@ -816,7 +864,9 @@ public class Canvas {
 	public void drawImage(double x, double y, Canvas image) {
 		if (image == null) throw createParameterNullException("image");
 
+		beforeDrawing();
 		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
+		afterDrawing();
 	}
 
 	/**
@@ -833,7 +883,9 @@ public class Canvas {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
 
+		beforeDrawing();
 		drawImageInternal(x, y, width, height, image.image, Interpolation.BICUBIC);
+		afterDrawing();
 	}
 
 	/**
@@ -851,7 +903,9 @@ public class Canvas {
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
 
+		beforeDrawing();
 		drawImageInternal(x, y, width, height, image.image, interpolation);
+		afterDrawing();
 	}
 
 	/**
@@ -868,10 +922,14 @@ public class Canvas {
 	public void clear(Color color) {
 		if (color == null) throw createParameterNullException("color");
 
+		beforeDrawing();
+
 		Color c = getColor();
 		setColor(color);
 		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
 		setColor(c);
+
+		afterDrawing();
 	}
 
 	/**
@@ -904,6 +962,10 @@ public class Canvas {
 		result.g.dispose();
 		return result.image;
 	}
+
+	protected void beforeDrawing() { }
+
+	protected void afterDrawing() { }
 
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {
 		return new Line2D.Double(

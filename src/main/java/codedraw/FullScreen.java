@@ -48,6 +48,9 @@ public class FullScreen extends Canvas implements AutoCloseable {
 		frame.toFront();
 
 		graphicsDevice.setFullScreenWindow(frame);
+
+		setTitle("CodeDraw");
+		show();
 	}
 
 	private final Frame frame;
@@ -70,21 +73,38 @@ public class FullScreen extends Canvas implements AutoCloseable {
 		frame.setAlwaysOnTop(isAlwaysOnTop);
 	}
 
-	public Point getWindowPosition() {
-		return frame.getEventHandler().getWindowPosition();
+	public int getWindowPositionX() {
+		return frame.getEventHandler().getWindowPosition().x;
 	}
 
-	public void setWindowPosition(Point newWindowPosition) {
-		frame.getEventHandler().setWindowPosition(newWindowPosition);
+	public int getWindowPositionY() {
+		return frame.getEventHandler().getWindowPosition().y;
 	}
 
-	public Point getCanvasPosition() {
-		return frame.getEventHandler().getCanvasPosition();
+	public void setWindowPositionX(int x) {
+		frame.getEventHandler().setWindowPosition(new Point(x, getWindowPositionY()));
 	}
 
-	public void setCanvasPosition(Point newCanvasPosition) {
-		frame.getEventHandler().setCanvasPosition(newCanvasPosition);
+	public void setWindowPositionY(int y) {
+		frame.getEventHandler().setWindowPosition(new Point(getWindowPositionX(), y));
 	}
+
+	public int getCanvasPositionX() {
+		return frame.getEventHandler().getCanvasPosition().x;
+	}
+
+	public int getCanvasPositionY() {
+		return frame.getEventHandler().getCanvasPosition().y;
+	}
+
+	public void setCanvasPositionX(int x) {
+		frame.getEventHandler().setCanvasPosition(new Point(x, getCanvasPositionY()));
+	}
+
+	public void setCanvasPositionY(int y) {
+		frame.getEventHandler().setCanvasPosition(new Point(getCanvasPositionX(), y));
+	}
+
 
 	public String getTitle() {
 		return frame.getTitle();
@@ -121,6 +141,11 @@ public class FullScreen extends Canvas implements AutoCloseable {
 
 	public void close(boolean terminateProcess) {
 		frame.dispose(terminateProcess);
+	}
+
+	@Override
+	public String toString() {
+		return "FullScreen " + getWidth() + "x" + getHeight();
 	}
 
 	private static GraphicsDevice getByScreenId(String screenId) {

@@ -2,8 +2,8 @@ package codedraw;
 
 import codedraw.drawing.Canvas;
 import codedraw.events.*;
-import codedraw.drawing.*;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -65,16 +65,25 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
 		super(Canvas.fromDPIAwareSize(canvasWidth, canvasHeight));
-		if (canvasWidth < 1) throw new IllegalArgumentException("The width of the canvas has to be a positive number.");
-		if (canvasHeight < 1) throw new IllegalArgumentException("The height of the canvas has to be a positive number.");
 
-		window = new WindowFrame(canvasWidth, canvasHeight);
+		frame = new Frame(canvasWidth, canvasHeight);
+		frame.setLayout(null);
+		frame.pack();
+
+		jFrameCorrector = new JFrameCorrector(frame, frame.getPreferredSize());
+
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.setLocationByPlatform(true);
+		frame.setVisible(true);
+		frame.toFront();
 
 		setTitle("CodeDraw");
 		show();
 	}
 
-	private WindowFrame window;
+	private final Frame frame;
+	private final JFrameCorrector jFrameCorrector;
 	private boolean isInstantDraw;
 
 	/**
@@ -101,7 +110,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return whether the CodeDraw window is always displayed on top of other windows.
 	 */
 	public boolean isAlwaysOnTop() {
-		return window.isAlwaysOnTop();
+		return frame.isAlwaysOnTop();
 	}
 
 	/**
@@ -110,7 +119,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param isAlwaysOnTop defines whether this CodeDraw window is displayed on top of other windows.
 	 */
 	public void setAlwaysOnTop(boolean isAlwaysOnTop) {
-		window.setIsAlwaysOnTop(isAlwaysOnTop);
+		frame.setAlwaysOnTop(isAlwaysOnTop);
 	}
 
 	/**
@@ -119,7 +128,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public int getWindowPositionX() {
-		return window.getWindowPosition().x;
+		return frame.getEventHandler().getWindowPosition().x;
 	}
 
 	/**
@@ -128,7 +137,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public int getWindowPositionY() {
-		return window.getWindowPosition().y;
+		return frame.getEventHandler().getWindowPosition().y;
 	}
 
 	/**
@@ -137,7 +146,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public void setWindowPositionX(int x) {
-		window.setWindowPosition(new Point(x, getWindowPositionY()));
+		frame.getEventHandler().setWindowPosition(new Point(x, getWindowPositionY()));
 	}
 
 	/**
@@ -146,7 +155,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public void setWindowPositionY(int y) {
-		window.setWindowPosition(new Point(getWindowPositionX(), y));
+		frame.getEventHandler().setWindowPosition(new Point(getWindowPositionX(), y));
 	}
 
 	/**
@@ -156,7 +165,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionX() {
-		return window.getCanvasPosition().x;
+		return frame.getEventHandler().getCanvasPosition().x;
 	}
 
 	/**
@@ -166,7 +175,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionY() {
-		return window.getCanvasPosition().y;
+		return frame.getEventHandler().getCanvasPosition().y;
 	}
 
 	/**
@@ -176,7 +185,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionX(int x) {
-		window.setCanvasPosition(new Point(x, getCanvasPositionY()));
+		frame.getEventHandler().setCanvasPosition(new Point(x, getCanvasPositionY()));
 	}
 
 	/**
@@ -186,9 +195,8 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionY(int y) {
-		window.setCanvasPosition(new Point(getCanvasPositionX(), y));
+		frame.getEventHandler().setCanvasPosition(new Point(getCanvasPositionX(), y));
 	}
-
 
 	/**
 	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
@@ -196,7 +204,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
-		return window.getCursorStyle();
+		return frame.getCursorStyle();
 	}
 
 	/**
@@ -207,7 +215,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	public void setCursorStyle(CursorStyle cursorStyle) {
 		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
-		window.setCursorStyle(cursorStyle);
+		frame.setCursorStyle(cursorStyle);
 	}
 
 	/**
@@ -215,7 +223,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return the text of the title.
 	 */
 	public String getTitle() {
-		return window.getTitle();
+		return frame.getTitle();
 	}
 
 	/**
@@ -225,185 +233,11 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	public void setTitle(String title)  {
 		if (title == null) throw createParameterNullException("title");
 
-		window.setTitle(title);
+		frame.setTitle(title);
 	}
 
 	public EventScanner getEventScanner() {
-		return window.getEventScanner();
-	}
-
-	@Override
-	public void drawText(double x, double y, String text) {
-		super.drawText(x, y, text);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawPixel(double x, double y) {
-		super.drawPixel(x, y);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawPoint(double x, double y) {
-		super.drawPoint(x, y);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawLine(double startX, double startY, double endX, double endY) {
-		super.drawLine(startX, startY, endX, endY);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
-		super.drawCurve(startX, startY, controlX, controlY, endX, endY);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		super.drawBezier(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawSquare(double x, double y, double sideLength) {
-		super.drawSquare(x, y, sideLength);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillSquare(double x, double y, double sideLength) {
-		super.fillSquare(x, y, sideLength);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawRectangle(double x, double y, double width, double height) {
-		super.drawRectangle(x, y, width, height);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillRectangle(double x, double y, double width, double height) {
-		super.fillRectangle(x, y, width, height);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawCircle(double x, double y, double radius) {
-		super.drawCircle(x, y, radius);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillCircle(double x, double y, double radius) {
-		super.fillCircle(x, y, radius);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		super.drawEllipse(x, y, horizontalRadius, verticalRadius);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		super.fillEllipse(x, y, horizontalRadius, verticalRadius);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
-		super.drawArc(x, y, radius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		super.drawArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		super.drawPie(x, y, radius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		super.drawPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
-		super.fillPie(x, y, radius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		super.fillPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		super.drawTriangle(x1, y1, x2, y2, x3, y3);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		super.fillTriangle(x1, y1, x2, y2, x3, y3);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawPolygon(double... points) {
-		super.drawPolygon(points);
-		afterDrawing();
-	}
-
-	@Override
-	public void fillPolygon(double... points) {
-		super.fillPolygon(points);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawImage(double x, double y, Canvas image) {
-		super.drawImage(x, y, image);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawImage(double x, double y, double width, double height, Canvas image) {
-		super.drawImage(x, y, width, height, image);
-		afterDrawing();
-	}
-
-	@Override
-	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
-		super.drawImage(x, y, width, height, image, interpolation);
-		afterDrawing();
-	}
-
-	@Override
-	public void clear() {
-		super.clear();
-		afterDrawing();
-	}
-
-	@Override
-	public void clear(Color color) {
-		super.clear(color);
-		afterDrawing();
+		return frame.getEventHandler().getEventScanner();
 	}
 
 	/**
@@ -412,7 +246,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		window.render(this, 0, isInstantDraw);
+		show(0);
 	}
 
 	/**
@@ -430,12 +264,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	public void show(long waitMilliseconds) {
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
-		long start = System.currentTimeMillis();
-		show();
-		long executionTime = System.currentTimeMillis() - start;
-		long remainingMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
-
-		sleep(remainingMilliseconds);
+		frame.getPanel().render(this, waitMilliseconds, isInstantDraw);
 	}
 
 	/**
@@ -452,7 +281,8 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void close(boolean terminateProcess) {
-		window.dispose(terminateProcess);
+		jFrameCorrector.stop();
+		frame.dispose(terminateProcess);
 	}
 
 	@Override
@@ -460,16 +290,9 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 		return "CodeDraw " + getWidth() + "x" + getHeight();
 	}
 
-	private void afterDrawing() {
+	@Override
+	protected void afterDrawing() {
 		if (isInstantDraw) show();
-	}
-
-	private static void sleep(long waitMilliseconds) {
-		try {
-			Thread.sleep(waitMilliseconds);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static IllegalArgumentException createParameterNullException(String parameterName) {
