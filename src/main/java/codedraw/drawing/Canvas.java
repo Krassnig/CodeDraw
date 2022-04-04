@@ -221,6 +221,7 @@ public class Canvas {
 		setLineWidth(1);
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
+		setTransformation(Matrix2D.IDENTITY);
 		clear();
 
 		if (source != null) {
@@ -239,6 +240,7 @@ public class Canvas {
 	private Corner corner = Corner.SHARP;
 	private boolean isAntiAliased = true;
 	private TextFormat textFormat = new TextFormat();
+	private Matrix2D transformation;
 
 	/**
 	 * This value cannot be changed once set via the constructor.
@@ -383,6 +385,19 @@ public class Canvas {
 			case BEVEL: return BasicStroke.JOIN_BEVEL;
 			default: throw new RuntimeException("Unknown corner type.");
 		}
+	}
+
+	public Matrix2D getTransformation() {
+		return transformation;
+	}
+
+	public void setTransformation(Matrix2D transformation) {
+		this.transformation = transformation;
+		this.g.setTransform(transformation.toAffineTransform());
+	}
+
+	public void setTransformationDefault() {
+		setTransformation(Matrix2D.IDENTITY);
 	}
 
 	/**
