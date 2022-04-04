@@ -1,6 +1,4 @@
-package codedraw.textformat;
-
-import codedraw.drawing.Canvas;
+package codedraw.drawing;
 
 import java.awt.*;
 import java.util.*;

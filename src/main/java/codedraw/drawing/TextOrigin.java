@@ -1,4 +1,4 @@
-package codedraw.textformat;
+package codedraw.drawing;
 
 /**
  * Horizontally and vertically aligns text.

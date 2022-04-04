@@ -1,7 +1,7 @@
 import codedraw.*;
 import codedraw.drawing.Canvas;
 import codedraw.drawing.ImageFormat;
-import codedraw.textformat.TextOrigin;
+import codedraw.drawing.TextOrigin;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

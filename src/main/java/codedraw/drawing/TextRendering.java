@@ -1,7 +1,5 @@
 package codedraw.drawing;
 
-import codedraw.textformat.*;
-
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;

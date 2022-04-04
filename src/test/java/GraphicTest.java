@@ -1,6 +1,7 @@
 import codedraw.*;
 import codedraw.drawing.Corner;
-import codedraw.textformat.*;
+import codedraw.drawing.TextFormat;
+import codedraw.drawing.TextOrigin;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

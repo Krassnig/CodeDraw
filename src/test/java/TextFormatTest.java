@@ -1,5 +1,7 @@
 import codedraw.*;
-import codedraw.textformat.*;
+import codedraw.drawing.TextFormat;
+import codedraw.drawing.TextOrigin;
+import codedraw.drawing.Underline;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

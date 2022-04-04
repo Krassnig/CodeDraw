@@ -1,4 +1,4 @@
-package codedraw.textformat;
+package codedraw.drawing;
 
 /**
  * Draws a line below the drawn text.
