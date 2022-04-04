@@ -1,6 +1,7 @@
 package codedraw.drawing;
 
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.util.*;
 
 /**
@@ -146,6 +147,28 @@ public final class TextFormat {
 		this.isStrikethrough = isStrikethrough;
 	}
 
+	Font toFont() {
+		return Font.getFont(new HashMap<TextAttribute, Object>() {{
+			put(TextAttribute.FAMILY, getFontName());
+			put(TextAttribute.SIZE, getFontSize());
+			put(TextAttribute.POSTURE, isItalic() ? 0.2f : 0);
+			put(TextAttribute.UNDERLINE, underlineEnumToTextAttributeUnderlineNumber(getUnderline()));
+			put(TextAttribute.WEIGHT, isBold() ? 2.0f : 1.0f);
+			put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
+			put(TextAttribute.STRIKETHROUGH, isStrikethrough());
+		}});
+	}
+
+	private static int underlineEnumToTextAttributeUnderlineNumber(Underline underline) {
+		switch (underline) {
+			case NONE: return -1;
+			case SOLID: return TextAttribute.UNDERLINE_ON;
+			case DASHED: return TextAttribute.UNDERLINE_LOW_DASHED;
+			case DOTTED: return TextAttribute.UNDERLINE_LOW_DOTTED;
+			case WAVY: return TextAttribute.UNDERLINE_LOW_GRAY;
+			default: throw new RuntimeException("Unknown underline type");
+		}
+	}
 
 	@Override
 	public boolean equals(Object o) {

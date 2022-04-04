@@ -395,7 +395,7 @@ public class Canvas {
 		this.g.setTransform(transformation.toAffineTransform());
 	}
 
-	public void setTransformationDefault() {
+	public void setTransformationIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
 	}
 
@@ -413,7 +413,7 @@ public class Canvas {
 		if (text == null) throw createParameterNullException("text");
 
 		beforeDrawing();
-		g.setFont(TextRendering.createFont(textFormat));
+		g.setFont(textFormat.toFont());
 		TextRendering.drawText(g, x, y, text, textFormat);
 		afterDrawing();
 	}

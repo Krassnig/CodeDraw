@@ -1,8 +1,6 @@
 package codedraw.drawing;
 
 import java.awt.*;
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
 
 class TextRendering {
 	private TextRendering() { }
@@ -22,6 +20,7 @@ class TextRendering {
 	private static double calculateVerticalOffset(TextOrigin verticalAlign, FontMetrics fontMetrics, int lineCount) {
 		double capHeight = fontMetrics.getAscent() - fontMetrics.getDescent();
 		double leadings = fontMetrics.getHeight() * (lineCount - 1);
+
 		switch (verticalAlign) {
 			case TOP_LEFT:
 			case TOP_CENTER:
@@ -56,31 +55,6 @@ class TextRendering {
 				return -fontMetrics.stringWidth(text);
 			default:
 				throw new RuntimeException("Unknown horizontal alignment option.");
-		}
-	}
-
-
-
-	public static Font createFont(TextFormat format) {
-		return Font.getFont(new HashMap<TextAttribute, Object>() {{
-				put(TextAttribute.FAMILY, format.getFontName());
-				put(TextAttribute.SIZE, format.getFontSize());
-				put(TextAttribute.POSTURE, format.isItalic() ? 0.2f : 0);
-				put(TextAttribute.UNDERLINE, underlineEnumToTextAttributeUnderlineNumber(format.getUnderline()));
-				put(TextAttribute.WEIGHT, format.isBold() ? 2.0f : 1.0f);
-				put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
-				put(TextAttribute.STRIKETHROUGH, format.isStrikethrough());
-		}});
-	}
-
-	private static int underlineEnumToTextAttributeUnderlineNumber(Underline underline) {
-		switch (underline) {
-			case NONE: return -1;
-			case SOLID: return TextAttribute.UNDERLINE_ON;
-			case DASHED: return TextAttribute.UNDERLINE_LOW_DASHED;
-			case DOTTED: return TextAttribute.UNDERLINE_LOW_DOTTED;
-			case WAVY: return TextAttribute.UNDERLINE_LOW_GRAY;
-			default: throw new RuntimeException("Unknown underline type");
 		}
 	}
 }
