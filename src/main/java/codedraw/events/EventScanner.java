@@ -63,13 +63,10 @@ public class EventScanner {
 	}
 
 	private final ConcurrentQueue<Object> queue;
-	private boolean isClosed = false;
 
 	/**
-	 * Doesn't wait until the next event is available,
-	 * but instead returns immediately.
-	 * If there is currently an event available returns true
-	 * otherwise false.
+	 * Doesn't wait until the next event is available, but instead returns immediately.
+	 * If there is currently an event available returns true otherwise false.
 	 * @return whether there are currently events available
 	 */
 	public boolean hasEventNow() {
@@ -341,7 +338,7 @@ public class EventScanner {
 		if (EndOfEvent.class.isAssignableFrom(actual))
 			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
 		if (WindowCloseEvent.class.isAssignableFrom(actual))
-			close();
+			queue.push(EndOfEvent.INSTANCE);
 		if (!expected.isAssignableFrom(actual)) {
 			String expectedName = getEventName(expected);
 			String actualName = getEventName(actual);
@@ -352,22 +349,6 @@ public class EventScanner {
 		}
 
 		return expected.cast(queue.pop());
-	}
-
-	private void close() {
-		if (!isClosed) {
-			queue.push(EndOfEvent.INSTANCE);
-			isClosed = true;
-		}
-	}
-
-	/**
-	 * Checks whether this EventScanner is closed.
-	 * The EventScanner automatically closes when the CodeDraw window is closed.
-	 * @return whether the EventScanner still received new events.
-	 */
-	public boolean isClosed() {
-		return isClosed;
 	}
 
 	private static <T> String getEventName(Class<T> eventType) {

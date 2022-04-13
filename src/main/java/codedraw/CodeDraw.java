@@ -84,7 +84,8 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 
 	private final Frame frame;
 	private final JFrameCorrector jFrameCorrector;
-	private boolean isInstantDraw;
+	private boolean isInstantDraw = false;
+	private boolean isClosed = false;
 
 	/**
 	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
@@ -93,6 +94,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return whether InstantDraw is enabled.
 	 */
 	public boolean isInstantDraw() {
+		checkIsClosed();
 		return isInstantDraw;
 	}
 
@@ -103,6 +105,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param isInstantDraw defines whether InstantDraw is enabled.
 	 */
 	public void setInstantDraw(boolean isInstantDraw) {
+		checkIsClosed();
 		this.isInstantDraw = isInstantDraw;
 	}
 
@@ -110,6 +113,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return whether the CodeDraw window is always displayed on top of other windows.
 	 */
 	public boolean isAlwaysOnTop() {
+		checkIsClosed();
 		return frame.isAlwaysOnTop();
 	}
 
@@ -119,6 +123,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param isAlwaysOnTop defines whether this CodeDraw window is displayed on top of other windows.
 	 */
 	public void setAlwaysOnTop(boolean isAlwaysOnTop) {
+		checkIsClosed();
 		frame.setAlwaysOnTop(isAlwaysOnTop);
 	}
 
@@ -128,6 +133,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public int getWindowPositionX() {
+		checkIsClosed();
 		return frame.getEventHandler().getWindowPosition().x;
 	}
 
@@ -137,6 +143,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public int getWindowPositionY() {
+		checkIsClosed();
 		return frame.getEventHandler().getWindowPosition().y;
 	}
 
@@ -146,6 +153,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
 	 */
 	public void setWindowPositionX(int x) {
+		checkIsClosed();
 		frame.getEventHandler().setWindowPosition(new Point(x, getWindowPositionY()));
 	}
 
@@ -155,6 +163,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
 	 */
 	public void setWindowPositionY(int y) {
+		checkIsClosed();
 		frame.getEventHandler().setWindowPosition(new Point(getWindowPositionX(), y));
 	}
 
@@ -165,6 +174,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionX() {
+		checkIsClosed();
 		return frame.getEventHandler().getCanvasPosition().x;
 	}
 
@@ -175,6 +185,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionY() {
+		checkIsClosed();
 		return frame.getEventHandler().getCanvasPosition().y;
 	}
 
@@ -185,6 +196,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionX(int x) {
+		checkIsClosed();
 		frame.getEventHandler().setCanvasPosition(new Point(x, getCanvasPositionY()));
 	}
 
@@ -195,6 +207,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionY(int y) {
+		checkIsClosed();
 		frame.getEventHandler().setCanvasPosition(new Point(getCanvasPositionX(), y));
 	}
 
@@ -204,6 +217,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
+		checkIsClosed();
 		return frame.getCursorStyle();
 	}
 
@@ -213,6 +227,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
+		checkIsClosed();
 		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
 		frame.setCursorStyle(cursorStyle);
@@ -223,6 +238,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @return the text of the title.
 	 */
 	public String getTitle() {
+		checkIsClosed();
 		return frame.getTitle();
 	}
 
@@ -231,6 +247,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param title Sets the text of the title.
 	 */
 	public void setTitle(String title)  {
+		checkIsClosed();
 		if (title == null) throw createParameterNullException("title");
 
 		frame.setTitle(title);
@@ -262,6 +279,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(long waitMilliseconds) {
+		checkIsClosed();
 		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
 
 		frame.getPanel().render(this, waitMilliseconds, isInstantDraw);
@@ -281,8 +299,20 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void close(boolean terminateProcess) {
-		jFrameCorrector.stop();
-		frame.dispose(terminateProcess);
+		if (!isClosed) {
+			isClosed = true;
+			jFrameCorrector.stop();
+			frame.dispose(terminateProcess);
+		}
+	}
+
+	/**
+	 * Checks whether this CodeDraw window is closed.
+	 * This instance closes when the user closes this instances window.
+	 * @return whether this CodeDraw window is closed.
+	 */
+	public boolean isClosed() {
+		return isClosed;
 	}
 
 	@Override
@@ -293,6 +323,10 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	@Override
 	protected void afterDrawing() {
 		if (isInstantDraw) show();
+	}
+
+	private void checkIsClosed() {
+		if (isClosed) throw new RuntimeException("This CodeDraw window has already been closed. Its methods cannot be used anymore.");
 	}
 
 	private static IllegalArgumentException createParameterNullException(String parameterName) {

@@ -16,7 +16,7 @@ public class GameOfLife {
 		boolean isMouseDown = false;
 		boolean setValue = false;
 
-		for (int i = 0; !es.isClosed(); i++) {
+		for (int i = 0; !cd.isClosed(); i++) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseDownEvent()) {
 					MouseDownEvent a = es.nextMouseDownEvent();
