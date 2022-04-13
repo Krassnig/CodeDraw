@@ -395,7 +395,7 @@ public class Canvas {
 		this.g.setTransform(transformation.toAffineTransform());
 	}
 
-	public void setTransformationIdentity() {
+	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
 	}
 
