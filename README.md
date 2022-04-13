@@ -117,21 +117,21 @@ public class Main {
 
 		cd.setColor(Palette.RED);
 
-		// Creates an endless loop (until you close the window)
+		// creates an endless loop (until you close the window)
 		while (!es.isClosed()) {
-			// Creates a loop that consumes all the currently available events
+			// creates a loop that consumes all the currently available events
 			while (es.hasEventNow()) {
-				// If the next event is a mouse move event a red square will be drawn at its location
+				// if the next event is a mouse move event a red square will be drawn at its location
 				if (es.hasMouseMoveEvent()) {
 					MouseMoveEventArgs a = es.nextMouseMoveEvent();
 					cd.fillSquare(a.getX() - 5, a.getY() - 5, 10);
 				} else {
-					// Removes the event from the EventScanner since it is not a MouseMoveEvent
+					// removes the event from the EventScanner since it is not a MouseMoveEvent
 					es.nextEvent();
 				}
 			}
 
-			// Shows the red squares that have been drawn until now
+			// shows the red squares that have been drawn until now
 			cd.show(16);
 		}
 	}
