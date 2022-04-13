@@ -207,7 +207,6 @@ public class Canvas {
 
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
-		g.scale(xScale, yScale);
 
 		setRenderingHint(RHAlphaInterpolation.QUALITY);
 		setRenderingHint(RHColorRendering.QUALITY);
@@ -239,7 +238,7 @@ public class Canvas {
 	private Corner corner = Corner.SHARP;
 	private boolean isAntiAliased = true;
 	private TextFormat textFormat = new TextFormat();
-	private Matrix2D transformation;
+	private Matrix2D transformation = Matrix2D.IDENTITY;
 
 	/**
 	 * This value cannot be changed once set via the constructor.
@@ -392,7 +391,7 @@ public class Canvas {
 
 	public void setTransformation(Matrix2D transformation) {
 		this.transformation = transformation;
-		this.g.setTransform(transformation.toAffineTransform());
+		this.g.setTransform(Matrix2D.IDENTITY.scale(xScale, yScale).multiply(transformation).toAffineTransform());
 	}
 
 	public void setTransformationToIdentity() {
