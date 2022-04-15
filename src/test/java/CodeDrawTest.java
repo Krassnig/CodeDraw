@@ -49,7 +49,7 @@ public class CodeDrawTest {
 				new CursorStyle(getCodeDrawIcon())
 		};
 
-		cd.getTextFormat().setTextOrigin(TextOrigin.TOP_CENTER);
+		cd.getTextFormat().setTextOrigin(TextOrigin.TOP_MIDDLE);
 		cd.drawText(300, 200, "Move mouse over here.");
 
 		for (CursorStyle cursorStyle : cursors) {

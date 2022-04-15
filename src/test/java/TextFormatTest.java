@@ -134,13 +134,13 @@ public class TextFormatTest {
 		confirm.setConfirmationDialogue("The text should be differently aligned for each quadrant.");
 
 		drawAlignment(100, 100, TextOrigin.TOP_LEFT);
-		drawAlignment(300, 100, TextOrigin.TOP_CENTER);
+		drawAlignment(300, 100, TextOrigin.TOP_MIDDLE);
 		drawAlignment(500, 100, TextOrigin.TOP_RIGHT);
 		drawAlignment(100, 300, TextOrigin.CENTER_LEFT);
 		drawAlignment(300, 300, TextOrigin.CENTER);
 		drawAlignment(500, 300, TextOrigin.CENTER_RIGHT);
 		drawAlignment(100, 500, TextOrigin.BOTTOM_LEFT);
-		drawAlignment(300, 500, TextOrigin.BOTTOM_CENTER);
+		drawAlignment(300, 500, TextOrigin.BOTTOM_MIDDLE);
 		drawAlignment(500, 500, TextOrigin.BOTTOM_RIGHT);
 
 		cd.show();

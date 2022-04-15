@@ -23,7 +23,7 @@ class TextRendering {
 
 		switch (verticalAlign) {
 			case TOP_LEFT:
-			case TOP_CENTER:
+			case TOP_MIDDLE:
 			case TOP_RIGHT:
 				return capHeight;
 			case CENTER_LEFT:
@@ -31,7 +31,7 @@ class TextRendering {
 			case CENTER_RIGHT:
 				return (capHeight - leadings) / 2;
 			case BOTTOM_LEFT:
-			case BOTTOM_CENTER:
+			case BOTTOM_MIDDLE:
 			case BOTTOM_RIGHT:
 				return -leadings;
 			default:
@@ -45,9 +45,9 @@ class TextRendering {
 			case CENTER_LEFT:
 			case BOTTOM_LEFT:
 				return 0;
-			case TOP_CENTER:
+			case TOP_MIDDLE:
 			case CENTER:
-			case BOTTOM_CENTER:
+			case BOTTOM_MIDDLE:
 				return -fontMetrics.stringWidth(text) / 2D;
 			case TOP_RIGHT:
 			case CENTER_RIGHT:

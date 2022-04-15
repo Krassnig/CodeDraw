@@ -24,7 +24,7 @@ public enum TextOrigin {
 	 *          Text goes here
 	 * }</pre>
 	 */
-	TOP_CENTER,
+	TOP_MIDDLE,
 	/**
 	 * The origin will be to the top right of the text.
 	 * The text will be drawn to the left below the (x, y) coordinate.
@@ -84,7 +84,7 @@ public enum TextOrigin {
 	 *                |
 	 * }</pre>
 	 */
-	BOTTOM_CENTER,
+	BOTTOM_MIDDLE,
 	/**
 	 * The origin will be to the bottom right of the text.
 	 * The text will be drawn to the left above the (x, y) coordinate.
