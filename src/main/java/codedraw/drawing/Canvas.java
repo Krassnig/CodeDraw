@@ -938,9 +938,12 @@ public class Canvas {
 		beforeDrawing();
 
 		Color c = getColor();
+		Matrix2D m = getTransformation();
+		setTransformationToIdentity();
 		setColor(color);
 		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
 		setColor(c);
+		setTransformation(m);
 
 		afterDrawing();
 	}
