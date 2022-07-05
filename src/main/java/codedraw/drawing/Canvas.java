@@ -351,6 +351,8 @@ public class Canvas {
 		else {
 			setRenderingHint(RHAntiAliasing.OFF);
 			setRenderingHint(RHTextAntiAliasing.OFF);
+			/* Pure strokes look better but certain vertical lines can disappear when anti-aliasing is off.
+			   With normalize there is no difference between non-anti-aliased lines. */
 			setRenderingHint(RHStrokeControl.NORMALIZE);
 		}
 	}
