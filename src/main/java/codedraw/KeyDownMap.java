@@ -29,7 +29,7 @@ class KeyDownMap {
 	}
 
 	private void checkForCopyCanvas(KeyDownEvent a) {
-		if (a.getKey() == Key.C && a.isShiftDown()) {
+		if (a.getKey() == Key.C && a.isControlDown()) {
 			panel.copyCanvasToClipboard();
 		}
 	}
