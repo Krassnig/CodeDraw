@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.drawing.Canvas;
+import codedraw.drawing.Image;
 import codedraw.events.EventScanner;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Press Alt + F4 to close.
  */
-public class FullScreen extends Canvas implements AutoCloseable {
+public class FullScreen extends Image implements AutoCloseable {
 	public static String[] getAllScreenIds() {
 		GraphicsDevice[] ge = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 		String[] result = new String[ge.length];
@@ -28,7 +28,7 @@ public class FullScreen extends Canvas implements AutoCloseable {
 	}
 
 	private FullScreen(GraphicsDevice graphicsDevice) {
-		super(Canvas.fromDPIAwareSize(
+		super(Image.fromDPIAwareSize(
 			graphicsDevice.getDisplayMode().getWidth(),
 			graphicsDevice.getDisplayMode().getHeight()
 		));
@@ -56,6 +56,7 @@ public class FullScreen extends Canvas implements AutoCloseable {
 	private final Frame frame;
 	private final GraphicsDevice graphicsDevice;
 	private boolean isInstantDraw = false;
+	private boolean isClosed = false;
 
 	public boolean isInstantDraw() {
 		return isInstantDraw;
@@ -152,6 +153,10 @@ public class FullScreen extends Canvas implements AutoCloseable {
 	@Override
 	public String toString() {
 		return "FullScreen " + getWidth() + "x" + getHeight();
+	}
+
+	private void checkIsClosed() {
+		if (isClosed) throw new RuntimeException("This CodeDraw window has already been closed. Its methods cannot be used anymore.");
 	}
 
 	private static GraphicsDevice getByScreenId(String screenId) {

@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.drawing.Canvas;
+import codedraw.drawing.Image;
 import codedraw.events.*;
 
 import javax.swing.*;
@@ -48,7 +48,7 @@ import java.awt.*;
  * <b>Fun Fact</b>: You can copy the currently displayed canvas to your clipboard by pressing <b>Ctrl + C</b>
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
-public class CodeDraw extends Canvas implements AutoCloseable {
+public class CodeDraw extends Image implements AutoCloseable {
 	/**
 	 * Creates a canvas with size 600x600 pixels. The frame surrounding the canvas will be slightly bigger.
 	 * The size remains fixed after calling this constructor.
@@ -64,7 +64,7 @@ public class CodeDraw extends Canvas implements AutoCloseable {
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
-		super(Canvas.fromDPIAwareSize(canvasWidth, canvasHeight));
+		super(Image.fromDPIAwareSize(canvasWidth, canvasHeight));
 
 		frame = new Frame(canvasWidth, canvasHeight);
 		frame.setLayout(null);

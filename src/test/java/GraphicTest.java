@@ -269,7 +269,7 @@ public class GraphicTest {
 	public void transparencyTest() {
 		confirm.setConfirmationDialogue("");
 
-		Canvas bear = Canvas.fromFile("./src/test/java/player.png");
+		Image bear = Image.fromFile("./src/test/java/player.png");
 
 		cd.setColor(Palette.RED);
 		cd.fillSquare(0, 0, 100);
@@ -293,8 +293,8 @@ public class GraphicTest {
 	public void transparencyTest2() {
 		confirm.setConfirmationDialogue("");
 
-		Canvas backgroundImage = Canvas.fromFile("./src/test/java/test.jpg");
-		Canvas transparentImage = new Canvas(200, 200, Palette.RED);
+		Image backgroundImage = Image.fromFile("./src/test/java/test.jpg");
+		Image transparentImage = new Image(200, 200, Palette.RED);
 
 		transparentImage.setAlphaComposition(AlphaComposition.SET_VALUE);
 		transparentImage.setColor(Palette.TRANSPARENT);

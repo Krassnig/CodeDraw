@@ -5,9 +5,9 @@ import java.util.Arrays;
 import codedraw.CodeDraw;
 
 /**
- * This class is used to transform the input coordinates given to {@link CodeDraw} and {@link Canvas}.
+ * This class is used to transform the input coordinates given to {@link CodeDraw} and {@link Image}.
  * You can pass matrices with different transformations to {@link CodeDraw#setTransformation(Matrix2D)} and
- * {@link Canvas#setTransformation(Matrix2D)}.
+ * {@link Image#setTransformation(Matrix2D)}.
  * All methods except for the {@link #multiply(Matrix2D)} method apply their operations left-to-right.
  * {@link #multiply(Matrix2D)} works like normal matrix-matrix multiplication right-to-left.
  */

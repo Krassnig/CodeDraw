@@ -28,7 +28,7 @@ public class TransformationTest {
 		cd.getTextFormat().setTextOrigin(TextOrigin.CENTER_LEFT);
 
 
-		cd.drawImage(0, 0, 200, 200, Canvas.fromFile("./src/test/java/test.jpg"));
+		cd.drawImage(0, 0, 200, 200, Image.fromFile("./src/test/java/test.jpg"));
 		cd.setColor(Palette.BLACK);
 		cd.fillRectangle(0, 50, 100, 50);
 		cd.setColor(Palette.WHITE);
@@ -36,7 +36,7 @@ public class TransformationTest {
 
 		cd.setTransformation(Matrix2D.IDENTITY.shearAt(200, 200, 0.5, 0.5).rotateAt(200, 200, -Math.PI / 4));
 
-		cd.drawImage(200, 200, 200, 200, Canvas.fromFile("./src/test/java/test.jpg"));
+		cd.drawImage(200, 200, 200, 200, Image.fromFile("./src/test/java/test.jpg"));
 		cd.setColor(Palette.BLACK);
 		cd.fillRectangle(200, 250, 100, 50);
 		cd.setColor(Palette.WHITE);
@@ -95,22 +95,22 @@ public class TransformationTest {
 		cd.getTextFormat().setTextOrigin(TextOrigin.BOTTOM_LEFT);
 		cd.setColor(Palette.RED);
 
-		Canvas image = Canvas.fromFile("./src/test/java/test.jpg");
+		Image image = Image.fromFile("./src/test/java/test.jpg");
 		cd.drawImage(0, 0, image);
 
 		cd.setColor(Palette.WHITE);
 		cd.fillSquare(100, 100, 100);
 		cd.setColor(Palette.RED);
 		cd.drawText(100, 100, "moved to right by 100px");
-		Canvas crop = Canvas.crop(image, 100, 100, 100, 100);
+		Image crop = Image.crop(image, 100, 100, 100, 100);
 		cd.drawImage(200, 100, crop);
 
 		cd.drawText(100, 200, "rotated clockwise");
-		Canvas rotate = Canvas.rotateClockwise(Canvas.crop(image, 100, 200, 100, 100));
+		Image rotate = Image.rotateClockwise(Image.crop(image, 100, 200, 100, 100));
 		cd.drawImage(100, 200, rotate);
 
 		cd.drawText(300, 200, "mirrored vertically");
-		Canvas mirror = Canvas.mirrorVertically(Canvas.crop(image, 300, 200, 100, 100));
+		Image mirror = Image.mirrorVertically(Image.crop(image, 300, 200, 100, 100));
 		cd.drawImage(300, 200, mirror);
 
 		cd.show();

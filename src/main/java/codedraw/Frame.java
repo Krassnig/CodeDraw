@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.drawing.Canvas;
+import codedraw.drawing.Image;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -52,7 +52,7 @@ class Frame extends JFrame {
 	}
 
 	private static BufferedImage getCodeDrawIcon() {
-		return Canvas.fromBase64String(
+		return Image.fromBase64String(
 			"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xh" +
 				"BQAAAA9QTFRF/59o/0RHY2Np/8iZAAAAQFvSagAAAAlwSFlzAAAOwgAADsIBFShK" +
 				"gAAAADtJREFUGNNtyMENACAMQlF0AruBMoKM4P47eaAeTPovkIe/9k4Mb4/w4TJ1" +

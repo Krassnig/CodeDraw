@@ -23,7 +23,7 @@ import java.util.Base64;
  * CodeDrawImage image = CodeDrawImage.fromFile("/directory/filename.png");
  * }</pre>
  */
-public class Canvas {
+public class Image {
 	/**
 	 * Loads an image from the file system.
 	 * Supported image formats:
@@ -33,11 +33,11 @@ public class Canvas {
 	 * @param pathToImage A string that points to an image file.
 	 * @return An image.
 	 */
-	public static Canvas fromFile(String pathToImage) {
+	public static Image fromFile(String pathToImage) {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
 		try {
-			return new Canvas(ImageIO.read(new File(pathToImage)));
+			return new Image(ImageIO.read(new File(pathToImage)));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -57,11 +57,11 @@ public class Canvas {
 	 * @param url Link to the image file.
 	 * @return An image.
 	 */
-	public static Canvas fromUrl(String url) {
+	public static Image fromUrl(String url) {
 		if (url == null) throw createParameterNullException("url");
 
 		try {
-			return new Canvas(ImageIO.read(new URL(url)));
+			return new Image(ImageIO.read(new URL(url)));
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
@@ -81,7 +81,7 @@ public class Canvas {
 	 * @param resourceName Path to the resource from the root of the resource folder.
 	 * @return An image.
 	 */
-	public static Canvas fromResource(String resourceName) {
+	public static Image fromResource(String resourceName) {
 		if (resourceName == null) throw createParameterNullException("resourceName");
 
 		URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
@@ -90,7 +90,7 @@ public class Canvas {
 		}
 		if (url == null) throw new RuntimeException();
 		try {
-			return new Canvas(ImageIO.read(url));
+			return new Image(ImageIO.read(url));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -105,11 +105,11 @@ public class Canvas {
 	 * @param base64 a Base64 string
 	 * @return a CodeDrawImage
 	 */
-	public static Canvas fromBase64String(String base64) {
+	public static Image fromBase64String(String base64) {
 		if (base64 == null) throw createParameterNullException("base64");
 
 		try {
-			return new Canvas(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
+			return new Image(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -124,12 +124,12 @@ public class Canvas {
 	 * @param height The height of the CodeDrawImage.
 	 * @return a CodeDrawImage
 	 */
-	public static Canvas fromDPIAwareSize(int width, int height) {
+	public static Image fromDPIAwareSize(int width, int height) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Palette.WHITE);
+		return new Image(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Palette.WHITE);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class Canvas {
 	 * @param format The format the image should be saved in.
 	 *               As a default, choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
 	 */
-	public static void save(Canvas image, String pathToImage, ImageFormat format) {
+	public static void save(Image image, String pathToImage, ImageFormat format) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (format == null) throw createParameterNullException("format");
@@ -170,14 +170,14 @@ public class Canvas {
 	 * @param height The height of the cutout.
 	 * @return A new image cutout from the specified section.
 	 */
-	public static Canvas crop(Canvas source, int x, int y, int width, int height) {
+	public static Image crop(Image source, int x, int y, int width, int height) {
 		if (source == null) throw createParameterNullException("source");
 		if (x < 0 && source.width <= x) throw new RuntimeException("");
 		if (y < 0 && source.height <= y) throw new RuntimeException("");
 		if (x + width > source.width) throw new RuntimeException();
 		if (y + height > source.height) throw new RuntimeException();
 
-		Canvas result = new Canvas(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
+		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
 		result.drawImage(-x, -y, source);
 		return result;
 	}
@@ -188,7 +188,7 @@ public class Canvas {
 	 * @param scale
 	 * @return
 	 */
-	public static Canvas scale(Canvas source, double scale) {
+	public static Image scale(Image source, double scale) {
 		if (source == null) throw createParameterNullException("source");
 		if (scale <= 0) throw new RuntimeException();
 
@@ -202,7 +202,7 @@ public class Canvas {
 	 * @param interpolation
 	 * @return
 	 */
-	public static Canvas scale(Canvas source, double scale, Interpolation interpolation) {
+	public static Image scale(Image source, double scale, Interpolation interpolation) {
 		if (source == null) throw createParameterNullException("source");
 		if (scale <= 0) throw new RuntimeException();
 		if (interpolation == null) throw createParameterNullException("interpolation");
@@ -213,7 +213,7 @@ public class Canvas {
 		if (width == 0) throw new RuntimeException("The scale is too small and would create an image with a width of 0px.");
 		if (height == 0) throw new RuntimeException("The scale is too small and would create an image with a height of 0px.");
 
-		Canvas result = new Canvas(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
+		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
 		result.drawImage(0, 0, width, height, source, interpolation);
 		return result;
 	}
@@ -223,7 +223,7 @@ public class Canvas {
 	 * @param image The image to rotate.
 	 * @return A copy of the image that is rotated 90° clockwise.
 	 */
-	public static Canvas rotateClockwise(Canvas image) {
+	public static Image rotateClockwise(Image image) {
 		if (image == null) throw createParameterNullException("image");
 
 		return rotate(image, Matrix2D.IDENTITY.rotate(Math.PI / 2).translate(image.width, 0));
@@ -234,14 +234,14 @@ public class Canvas {
 	 * @param image The image to rotate.
 	 * @return A copy of the image that is rotated 90° counter-clockwise.
 	 */
-	public static Canvas rotateCounterClockwise(Canvas image) {
+	public static Image rotateCounterClockwise(Image image) {
 		if (image == null) throw createParameterNullException("image");
 
 		return rotate(image, Matrix2D.IDENTITY.rotate(-Math.PI / 2).translate(0, image.height));
 	}
 
-	private static Canvas rotate(Canvas image, Matrix2D transformation) {
-		Canvas result = new Canvas(image.height, image.width, image.yScale, image.xScale, Palette.TRANSPARENT);
+	private static Image rotate(Image image, Matrix2D transformation) {
+		Image result = new Image(image.height, image.width, image.yScale, image.xScale, Palette.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -255,7 +255,7 @@ public class Canvas {
 	 * @param image The image to mirror.
 	 * @return A copy of the image that is mirrored along the horizontal axis.
 	 */
-	public static Canvas mirrorHorizontally(Canvas image) {
+	public static Image mirrorHorizontally(Image image) {
 		if (image == null) throw createParameterNullException("image");
 
 		return mirror(image, Matrix2D.IDENTITY.scale(1, -1).translate(0, image.height));
@@ -266,14 +266,14 @@ public class Canvas {
 	 * @param image The image to mirror.
 	 * @return A copy of the image that is mirrored along the vertical axis.
 	 */
-	public static Canvas mirrorVertically(Canvas image) {
+	public static Image mirrorVertically(Image image) {
 		if (image == null) throw createParameterNullException("image");
 
 		return mirror(image, Matrix2D.IDENTITY.scale(-1, 1).translate(image.width, 0));
 	}
 
-	private static Canvas mirror(Canvas image, Matrix2D transformation) {
-		Canvas result = new Canvas(image.width, image.height, image.xScale, image.yScale, Palette.TRANSPARENT);
+	private static Image mirror(Image image, Matrix2D transformation) {
+		Image result = new Image(image.width, image.height, image.xScale, image.yScale, Palette.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -289,7 +289,7 @@ public class Canvas {
 	 * DPI aware scaling will also be ignored.
 	 * @param image Image that is to be copied.
 	 */
-	public Canvas(Canvas image) {
+	public Image(Image image) {
 		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Palette.TRANSPARENT);
 		drawImage(0, 0, image);
 	}
@@ -299,7 +299,7 @@ public class Canvas {
 	 * The contents of the supplied image will be copied to create this new CodeDrawImage instance.
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
-	public Canvas(Image image) {
+	public Image(java.awt.Image image) {
 		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1, Palette.TRANSPARENT);
 		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
 	}
@@ -309,15 +309,15 @@ public class Canvas {
 	 * @param width The width of the CodeDrawImage.
 	 * @param height The height of the CodeDrawImage.
 	 */
-	public Canvas(int width, int height) {
+	public Image(int width, int height) {
 		this(width, height, Palette.WHITE);
 	}
 
-	public Canvas(int width, int height, Color backgroundColor) {
+	public Image(int width, int height, Color backgroundColor) {
 		this(width, height, 1, 1, backgroundColor);
 	}
 
-	private Canvas(int width, int height, int xScale, int yScale, Color backgroundColor) {
+	private Image(int width, int height, int xScale, int yScale, Color backgroundColor) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
@@ -996,9 +996,13 @@ public class Canvas {
 		afterDrawing();
 	}
 
-	private void drawImageInternal(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+	private void drawImageInternal(double x, double y, double width, double height, java.awt.Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
+	}
+
+	private void drawImageInternal(double x, double y, double width, double height, Image image, Interpolation interpolation) {
+		drawImageInternal(x, y, width, height, image, interpolation);
 	}
 
 	/**
@@ -1008,11 +1012,11 @@ public class Canvas {
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the image.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, Canvas image) {
+	public void drawImage(double x, double y, Image image) {
 		if (image == null) throw createParameterNullException("image");
 
 		beforeDrawing();
-		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image.image, Interpolation.NEAREST_NEIGHBOR);
+		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image, Interpolation.NEAREST_NEIGHBOR);
 		afterDrawing();
 	}
 
@@ -1025,13 +1029,13 @@ public class Canvas {
 	 * @param height The height of the image on the canvas.
 	 * @param image Any image.
 	 */
-	public void drawImage(double x, double y, double width, double height, Canvas image) {
+	public void drawImage(double x, double y, double width, double height, Image image) {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
 
 		beforeDrawing();
-		drawImageInternal(x, y, width, height, image.image, Interpolation.BICUBIC);
+		drawImageInternal(x, y, width, height, image, Interpolation.BICUBIC);
 		afterDrawing();
 	}
 
@@ -1045,13 +1049,13 @@ public class Canvas {
 	 * @param image Any image.
 	 * @param interpolation Defines the way the images is interpolated when scaled. See {@link Interpolation}.
 	 */
-	public void drawImage(double x, double y, double width, double height, Canvas image, Interpolation interpolation) {
+	public void drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation) {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
 
 		beforeDrawing();
-		drawImageInternal(x, y, width, height, image.image, interpolation);
+		drawImageInternal(x, y, width, height, image, interpolation);
 		afterDrawing();
 	}
 

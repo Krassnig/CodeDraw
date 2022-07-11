@@ -1,6 +1,6 @@
 package codedraw;
 
-import codedraw.drawing.Canvas;
+import codedraw.drawing.Image;
 
 import java.awt.*;
 import java.util.Objects;
@@ -29,7 +29,7 @@ public class CursorStyle {
 	 * The top left corner of the image will be the click position.
 	 * @param image any image
 	 */
-	public CursorStyle(Canvas image) {
+	public CursorStyle(Image image) {
 		this(checkParameterNull(image, "image"), 0, 0);
 	}
 
@@ -39,7 +39,7 @@ public class CursorStyle {
 	 * @param x The click position relative to the top of the image.
 	 * @param y The click position relative to the left of the image.
 	 */
-	public CursorStyle(Canvas image, int x, int y) {
+	public CursorStyle(Image image, int x, int y) {
 		this.cursor = Toolkit.getDefaultToolkit().createCustomCursor(
 				checkParameterNull(image, "image").toBufferedImage(),
 				new Point(x, y),
