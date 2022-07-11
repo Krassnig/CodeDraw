@@ -1,7 +1,5 @@
 import codedraw.*;
-import codedraw.drawing.Corner;
-import codedraw.drawing.TextFormat;
-import codedraw.drawing.TextOrigin;
+import codedraw.drawing.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -262,6 +260,51 @@ public class GraphicTest {
 
 		cd.setCorner(Corner.BEVEL);
 		cd.clear(Palette.BLACK);
+		cd.show();
+
+		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void transparencyTest() {
+		confirm.setConfirmationDialogue("");
+
+		Canvas bear = Canvas.fromFile("./src/test/java/player.png");
+
+		cd.setColor(Palette.RED);
+		cd.fillSquare(0, 0, 100);
+		cd.drawImage(0, 0, 100, 100, bear);
+		cd.setColor(Palette.GREEN);
+		cd.fillSquare(0, 100, 100);
+		cd.drawImage(0, 100, 100, 100, bear);
+		cd.setColor(Palette.BLUE);
+		cd.fillSquare(100, 0, 100);
+		cd.drawImage(100, 0, 100, 100, bear);
+		cd.setColor(Palette.BLACK);
+		cd.fillSquare(100, 100, 100);
+		cd.drawImage(100, 100, 100, 100, bear);
+
+		cd.show();
+
+		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void transparencyTest2() {
+		confirm.setConfirmationDialogue("");
+
+		Canvas backgroundImage = Canvas.fromFile("./src/test/java/test.jpg");
+		Canvas transparentImage = new Canvas(200, 200, Palette.RED);
+
+		transparentImage.setAlphaComposition(AlphaComposition.SET_VALUE);
+		transparentImage.setColor(Palette.TRANSPARENT);
+		transparentImage.fillSquare(50, 50, 100);
+		transparentImage.setColor(Palette.fromBaseColor(Palette.BLACK, 128));
+		transparentImage.fillTriangle(50, 50, 50, 150, 150, 50);
+
+		cd.drawImage(0, 0, backgroundImage);
+		cd.drawImage(100, 100, transparentImage);
+
 		cd.show();
 
 		confirm.assertConfirmation();

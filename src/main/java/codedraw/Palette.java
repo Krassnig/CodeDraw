@@ -144,6 +144,7 @@ public final class Palette {
 		return new Color(red, green, blue, alpha);
 	}
 
+	public static final Color TRANSPARENT = fromRGBA(0, 0, 0, 0);
 	public static final Color BLACK = new Color(0x000000);
 	public static final Color NAVY = new Color(0x000080);
 	public static final Color DARK_BLUE = new Color(0x00008B);

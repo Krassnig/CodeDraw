@@ -129,7 +129,7 @@ public class Canvas {
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Palette.WHITE);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Canvas {
 		if (x + width > source.width) throw new RuntimeException();
 		if (y + height > source.height) throw new RuntimeException();
 
-		Canvas result = new Canvas(width, height, source.xScale, source.yScale);
+		Canvas result = new Canvas(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
 		result.drawImage(-x, -y, source);
 		return result;
 	}
@@ -205,7 +205,7 @@ public class Canvas {
 	}
 
 	private static Canvas rotate(Canvas image, Matrix2D transformation) {
-		Canvas result = new Canvas(image.height, image.width, image.yScale, image.xScale);
+		Canvas result = new Canvas(image.height, image.width, image.yScale, image.xScale, Palette.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -237,7 +237,7 @@ public class Canvas {
 	}
 
 	private static Canvas mirror(Canvas image, Matrix2D transformation) {
-		Canvas result = new Canvas(image.width, image.height, image.xScale, image.yScale);
+		Canvas result = new Canvas(image.width, image.height, image.xScale, image.yScale, Palette.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -254,7 +254,7 @@ public class Canvas {
 	 * @param image Image that is to be copied.
 	 */
 	public Canvas(Canvas image) {
-		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale);
+		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Palette.TRANSPARENT);
 		drawImage(0, 0, image);
 	}
 
@@ -264,7 +264,7 @@ public class Canvas {
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
 	public Canvas(Image image) {
-		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1);
+		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1, Palette.TRANSPARENT);
 		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
 	}
 
@@ -274,10 +274,14 @@ public class Canvas {
 	 * @param height The height of the CodeDrawImage.
 	 */
 	public Canvas(int width, int height) {
-		this(width, height, 1, 1);
+		this(width, height, Palette.WHITE);
 	}
 
-	private Canvas(int width, int height, int xScale, int yScale) {
+	public Canvas(int width, int height, Color backgroundColor) {
+		this(width, height, 1, 1, backgroundColor);
+	}
+
+	private Canvas(int width, int height, int xScale, int yScale, Color backgroundColor) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
@@ -302,7 +306,9 @@ public class Canvas {
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
 		setTransformationToIdentity();
-		clear();
+		setAlphaComposition(AlphaComposition.SET_VALUE);
+		clear(backgroundColor);
+		setAlphaComposition(AlphaComposition.DRAW_OVER);
 	}
 
 	private BufferedImage image;
@@ -317,6 +323,7 @@ public class Canvas {
 	private boolean isAntiAliased = true;
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
+	private AlphaComposition alphaComposition = AlphaComposition.DRAW_OVER;
 
 	/**
 	 * This value cannot be changed once set via the constructor.
@@ -476,6 +483,15 @@ public class Canvas {
 
 	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
+	}
+
+	public AlphaComposition getAlphaComposition() {
+		return alphaComposition;
+	}
+
+	public void setAlphaComposition(AlphaComposition alphaComposition) {
+		this.alphaComposition = alphaComposition;
+		g.setComposite(alphaComposition == AlphaComposition.DRAW_OVER ? AlphaComposite.SrcOver : AlphaComposite.Src);
 	}
 
 	/**
