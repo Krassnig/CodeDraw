@@ -183,6 +183,42 @@ public class Canvas {
 	}
 
 	/**
+	 *
+	 * @param source
+	 * @param scale
+	 * @return
+	 */
+	public static Canvas scale(Canvas source, double scale) {
+		if (source == null) throw createParameterNullException("source");
+		if (scale <= 0) throw new RuntimeException();
+
+		return scale(source, scale, Interpolation.BICUBIC);
+	}
+
+	/**
+	 *
+	 * @param source
+	 * @param scale
+	 * @param interpolation
+	 * @return
+	 */
+	public static Canvas scale(Canvas source, double scale, Interpolation interpolation) {
+		if (source == null) throw createParameterNullException("source");
+		if (scale <= 0) throw new RuntimeException();
+		if (interpolation == null) throw createParameterNullException("interpolation");
+
+		int width = (int)(source.width * scale);
+		int height = (int)(source.height * scale);
+
+		if (width == 0) throw new RuntimeException("The scale is too small and would create an image with a width of 0px.");
+		if (height == 0) throw new RuntimeException("The scale is too small and would create an image with a height of 0px.");
+
+		Canvas result = new Canvas(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
+		result.drawImage(0, 0, width, height, source, interpolation);
+		return result;
+	}
+
+	/**
 	 * Rotates the image clockwise.
 	 * @param image The image to rotate.
 	 * @return A copy of the image that is rotated 90° clockwise.
@@ -286,6 +322,7 @@ public class Canvas {
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
 		if (yScale < 1) throw createParameterMustBeGreaterThanZeroException("yScale");
+		if (backgroundColor == null) throw createParameterNullException("backgroundColor");
 		this.width = width;
 		this.height = height;
 		this.xScale = xScale;
@@ -436,8 +473,9 @@ public class Canvas {
 		else {
 			setRenderingHint(RHAntiAliasing.OFF);
 			setRenderingHint(RHTextAntiAliasing.OFF);
-			/* Pure strokes look better but certain vertical lines can disappear when anti-aliasing is off.
-			   With normalize there is no difference between non-anti-aliased lines. */
+			/* Pure strokes look better when anti-aliasing is on
+			   but certain vertical lines can disappear when anti-aliasing is off.
+			   With normalize non-anti-aliased lines don't change. */
 			setRenderingHint(RHStrokeControl.NORMALIZE);
 		}
 	}
