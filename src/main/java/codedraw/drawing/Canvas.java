@@ -129,7 +129,7 @@ public class Canvas {
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new Canvas(null, width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
+		return new Canvas(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()));
 	}
 
 	/**
@@ -141,29 +141,109 @@ public class Canvas {
 	 * @param image a CodeDrawImage
 	 * @param pathToImage The location where the image should be saved.
 	 * @param format The format the image should be saved in.
-	 *               As a default choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
+	 *               As a default, choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
 	 */
 	public static void save(Canvas image, String pathToImage, ImageFormat format) {
 		if (image == null) throw createParameterNullException("image");
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 		if (format == null) throw createParameterNullException("format");
 
-		BufferedImage drawThis = image.image;
-		if (!format.supportsTransparency()) {
-			BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = tmp.createGraphics();
-			g.drawImage(drawThis, 0, 0, image.getWidth(), image.getHeight(), Palette.WHITE, null);
-			g.dispose();
-			drawThis = tmp;
-		}
-
 		try {
-			boolean result = ImageIO.write(drawThis, format.getFormatName(), new File(pathToImage));
+			boolean result = ImageIO.write(
+					image.toBufferedImage(format.supportsTransparency() ? BufferedImageType.INT_ARGB : BufferedImageType.INT_RGB),
+					format.getFormatName(),
+					new File(pathToImage)
+			);
 			if (!result) throw new RuntimeException("Could not save image, because no appropriate writer has been found in ImageIO.");
 		}
 		catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	/**
+	 * Creates a new image from the given image that only contains the specified section.
+	 * @param source The image from which a new smaller image should be created from.
+	 * @param x The start point of the cutout.
+	 * @param y The start point of the cutout.
+	 * @param width The width of the cutout.
+	 * @param height The height of the cutout.
+	 * @return A new image cutout from the specified section.
+	 */
+	public static Canvas crop(Canvas source, int x, int y, int width, int height) {
+		if (source == null) throw createParameterNullException("source");
+		if (x < 0 && source.width <= x) throw new RuntimeException("");
+		if (y < 0 && source.height <= y) throw new RuntimeException("");
+		if (x + width > source.width) throw new RuntimeException();
+		if (y + height > source.height) throw new RuntimeException();
+
+		Canvas result = new Canvas(width, height, source.xScale, source.yScale);
+		result.drawImage(-x, -y, source);
+		return result;
+	}
+
+	/**
+	 * Rotates the image clockwise.
+	 * @param image The image to rotate.
+	 * @return A copy of the image that is rotated 90° clockwise.
+	 */
+	public static Canvas rotateClockwise(Canvas image) {
+		if (image == null) throw createParameterNullException("image");
+
+		return rotate(image, Matrix2D.IDENTITY.rotate(Math.PI / 2).translate(image.width, 0));
+	}
+
+	/**
+	 * Rotates the image counter-clockwise.
+	 * @param image The image to rotate.
+	 * @return A copy of the image that is rotated 90° counter-clockwise.
+	 */
+	public static Canvas rotateCounterClockwise(Canvas image) {
+		if (image == null) throw createParameterNullException("image");
+
+		return rotate(image, Matrix2D.IDENTITY.rotate(-Math.PI / 2).translate(0, image.height));
+	}
+
+	private static Canvas rotate(Canvas image, Matrix2D transformation) {
+		Canvas result = new Canvas(image.height, image.width, image.yScale, image.xScale);
+
+		result.setTransformation(transformation);
+		result.drawImage(0, 0, image);
+		result.setTransformationToIdentity();
+
+		return result;
+	}
+
+	/**
+	 * Mirrors the image horizontally.
+	 * @param image The image to mirror.
+	 * @return A copy of the image that is mirrored along the horizontal axis.
+	 */
+	public static Canvas mirrorHorizontally(Canvas image) {
+		if (image == null) throw createParameterNullException("image");
+
+		return mirror(image, Matrix2D.IDENTITY.scale(1, -1).translate(0, image.height));
+	}
+
+	/**
+	 * Mirrors the image vertically.
+	 * @param image The image to mirror.
+	 * @return A copy of the image that is mirrored along the vertical axis.
+	 */
+	public static Canvas mirrorVertically(Canvas image) {
+		if (image == null) throw createParameterNullException("image");
+
+		return mirror(image, Matrix2D.IDENTITY.scale(-1, 1).translate(image.width, 0));
+	}
+
+	private static Canvas mirror(Canvas image, Matrix2D transformation) {
+		Canvas result = new Canvas(image.width, image.height, image.xScale, image.yScale);
+
+		result.setTransformation(transformation);
+		result.drawImage(0, 0, image);
+		result.setTransformationToIdentity();
+
+		return result;
 	}
 
 	/**
@@ -174,7 +254,8 @@ public class Canvas {
 	 * @param image Image that is to be copied.
 	 */
 	public Canvas(Canvas image) {
-		this(checkParameterNull(image, "image").image, image.getWidth(), image.getHeight(), image.xScale, image.yScale);
+		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale);
+		drawImage(0, 0, image);
 	}
 
 	/**
@@ -183,7 +264,8 @@ public class Canvas {
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
 	public Canvas(Image image) {
-		this(image, image.getWidth(null), image.getHeight(null), 1, 1);
+		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1);
+		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
 	}
 
 	/**
@@ -192,10 +274,10 @@ public class Canvas {
 	 * @param height The height of the CodeDrawImage.
 	 */
 	public Canvas(int width, int height) {
-		this(null, width, height, 1, 1);
+		this(width, height, 1, 1);
 	}
 
-	private Canvas(Image source, int width, int height, int xScale, int yScale) {
+	private Canvas(int width, int height, int xScale, int yScale) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 		if (xScale < 1) throw createParameterMustBeGreaterThanZeroException("xScale");
@@ -219,12 +301,8 @@ public class Canvas {
 		setLineWidth(1);
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
-		setTransformation(Matrix2D.IDENTITY);
+		setTransformationToIdentity();
 		clear();
-
-		if (source != null) {
-			drawImageInternal(0, 0, width, height, source, Interpolation.BICUBIC);
-		}
 	}
 
 	private BufferedImage image;
@@ -973,12 +1051,24 @@ public class Canvas {
 
 	/**
 	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
+	 * @param type Defines the way the image is encoded in memory.
+	 * @return a BufferedImage.
+	 */
+	public BufferedImage toBufferedImage(BufferedImageType type) {
+		BufferedImage result = new BufferedImage(width, height, type.getType());
+		Graphics2D g = result.createGraphics();
+		g.drawImage(image, 0, 0, width, height, Palette.WHITE, null);
+		g.dispose();
+		return result;
+	}
+
+	/**
+	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
+	 * The BufferedImage type INT_ARGB is chosen as a default.
 	 * @return a BufferedImage.
 	 */
 	public BufferedImage toBufferedImage() {
-		Canvas result = new Canvas(this);
-		result.g.dispose();
-		return result.image;
+		return toBufferedImage(BufferedImageType.INT_ARGB);
 	}
 
 	protected void beforeDrawing() { }

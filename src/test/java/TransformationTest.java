@@ -1,8 +1,6 @@
 import codedraw.CodeDraw;
 import codedraw.Palette;
-import codedraw.drawing.Canvas;
-import codedraw.drawing.Matrix2D;
-import codedraw.drawing.TextOrigin;
+import codedraw.drawing.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,6 +81,39 @@ public class TransformationTest {
 			cd.show(16);
 		}
 
+		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void operationTest() {
+		confirm.setConfirmationDialogue(
+				"The face of the chicken should be moved to the right,\n" +
+				" the lower part rotated clockwise.\n" +
+				"The face of the kitten should be mirrored in place."
+		);
+
+		cd.getTextFormat().setTextOrigin(TextOrigin.BOTTOM_LEFT);
+		cd.setColor(Palette.RED);
+
+		Canvas image = Canvas.fromFile("./src/test/java/test.jpg");
+		cd.drawImage(0, 0, image);
+
+		cd.setColor(Palette.WHITE);
+		cd.fillSquare(100, 100, 100);
+		cd.setColor(Palette.RED);
+		cd.drawText(100, 100, "moved to right by 100px");
+		Canvas crop = Canvas.crop(image, 100, 100, 100, 100);
+		cd.drawImage(200, 100, crop);
+
+		cd.drawText(100, 200, "rotated clockwise");
+		Canvas rotate = Canvas.rotateClockwise(Canvas.crop(image, 100, 200, 100, 100));
+		cd.drawImage(100, 200, rotate);
+
+		cd.drawText(300, 200, "mirrored vertically");
+		Canvas mirror = Canvas.mirrorVertically(Canvas.crop(image, 300, 200, 100, 100));
+		cd.drawImage(300, 200, mirror);
+
+		cd.show();
 		confirm.assertConfirmation();
 	}
 }
