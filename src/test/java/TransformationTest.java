@@ -1,6 +1,6 @@
-import codedraw.CodeDraw;
-import codedraw.Palette;
+import codedraw.*;
 import codedraw.drawing.*;
+import codedraw.events.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,5 +115,95 @@ public class TransformationTest {
 
 		cd.show();
 		confirm.assertConfirmation();
+	}
+
+	@Test
+	public void testPath() {
+		confirm.setConfirmationDialogue("");
+
+		EventScanner es = cd.getEventScanner();
+		int mouseX = 300;
+		int mouseY = 300;
+
+		while (!cd.isClosed()) {
+			while (es.hasEventNow()) {
+				if (es.hasMouseMoveEvent()) {
+					MouseMoveEvent e = es.nextMouseMoveEvent();
+					mouseX = e.getX();
+					mouseY = e.getY();
+				}
+				else {
+					es.nextEvent();
+				}
+			}
+
+			double control1X = mouseX;
+			double control1Y = mouseY;
+			double control2X = 100;
+			double control2Y = 50;
+
+			cd.clear();
+
+			cd.fillPathStartingAt(300, 300).bezierTo(control1X, control1Y, control2X, control2Y, 0, 0).complete();
+			cd.fillCircle(control1X, control1Y, 5);
+			cd.fillCircle(control2X, control2Y, 5);
+
+			cd.show(16);
+		}
+	}
+
+	@Test
+	public void testPath2() {
+		confirm.setConfirmationDialogue("");
+
+		EventScanner es = cd.getEventScanner();
+		int mouseX = 300;
+		int mouseY = 300;
+		double wheel = 5;
+
+		while (!cd.isClosed()) {
+			while (es.hasEventNow()) {
+				if (es.hasMouseMoveEvent()) {
+					MouseMoveEvent e = es.nextMouseMoveEvent();
+					mouseX = e.getX();
+					mouseY = e.getY();
+				}
+				else if (es.hasMouseWheelEvent()) {
+					MouseWheelEvent e = es.nextMouseWheelEvent();
+					wheel += e.getWheelRotation();
+				}
+				else {
+					es.nextEvent();
+				}
+			}
+
+			double sweep = Math.PI / 16 * wheel;
+
+			double startX = 300;
+			double startY = 300;
+			double centerX = mouseX;
+			double centerY = mouseY;
+			Point2D end = Matrix2D.IDENTITY.rotateAt(centerX, centerY, sweep).multiply(startX, startY);
+			double endX = end.getX();
+			double endY = end.getY();
+
+			cd.clear();
+
+			cd.setColor(Palette.BLACK);
+			cd.fillPathStartingAt(startX, startY).arcTo(centerX, centerY, sweep).complete();
+
+			cd.setColor(Palette.GREEN);
+			cd.fillCircle(startX, startY, 5);
+			cd.fillCircle(centerX, centerY, 5);
+			cd.fillCircle(endX, endY, 5);
+
+			double xDif = centerX - endX;
+			double yDif = centerY - endY;
+			double radius = Math.sqrt(xDif * xDif + yDif * yDif);
+			cd.setColor(Palette.RED);
+			cd.drawCircle(centerX, centerY, radius + 2);
+
+			cd.show(16);
+		}
 	}
 }

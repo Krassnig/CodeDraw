@@ -996,13 +996,22 @@ public class Image {
 		afterDrawing();
 	}
 
+
+	public Path fillPathStartingAt(double x, double y) {
+		return new Path(g, x, y, true);
+	}
+
+	public Path drawPathStartingAt(double x, double y) {
+		return new Path(g, x, y, false);
+	}
+
 	private void drawImageInternal(double x, double y, double width, double height, java.awt.Image image, Interpolation interpolation) {
 		setRenderingHint(interpolation);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
 	private void drawImageInternal(double x, double y, double width, double height, Image image, Interpolation interpolation) {
-		drawImageInternal(x, y, width, height, image, interpolation);
+		drawImageInternal(x, y, width, height, image.image, interpolation);
 	}
 
 	/**

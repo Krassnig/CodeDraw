@@ -258,6 +258,10 @@ public class Matrix2D {
 		return multiply(point.getX(), point.getY());
 	}
 
+	public Point2D multiply(java.awt.geom.Point2D point) {
+		return multiply(point.getX(), point.getY());
+	}
+
 	/**
 	 * Transforms the point given as a coordinate according to this matrix.
 	 * @param x the x coordinate of the point
