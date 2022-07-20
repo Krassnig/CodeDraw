@@ -77,4 +77,10 @@ public class Path {
 
 		bezierTo(x2, y2, x3, y3, x4, y4);
 	}
+
+	@Override
+	public String toString() {
+		java.awt.geom.Point2D currentPosition = path.getCurrentPoint();
+		return String.format("pos:[%.2f,%.2f]", currentPosition.getX(), currentPosition.getY());
+	}
 }
