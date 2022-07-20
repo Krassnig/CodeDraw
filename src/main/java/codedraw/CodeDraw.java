@@ -5,6 +5,7 @@ import codedraw.events.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
@@ -49,6 +50,60 @@ import java.awt.*;
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw extends Image implements AutoCloseable {
+	public static void run(Animation animation, int width, int height, int framesPerSecond) {
+		CodeDraw cd = new CodeDraw(width, height);
+		EventScanner es = cd.getEventScanner();
+		int pauseTime = 1000 / framesPerSecond;
+
+		while (!cd.isClosed()) {
+			dispatchEvents(es, animation);
+			cd.clear();
+			animation.render(cd);
+			cd.show(pauseTime);
+		}
+	}
+
+	private static void dispatchEvents(EventScanner es, Animation animation) {
+		while (es.hasEventNow()) {
+			if (es.hasMouseClickEvent()) {
+				animation.onMouseClick(es.nextMouseClickEvent());
+			}
+			else if (es.hasMouseMoveEvent()) {
+				animation.onMouseMove(es.nextMouseMoveEvent());
+			}
+			else if (es.hasMouseDownEvent()) {
+				animation.onMouseDown(es.nextMouseDownEvent());
+			}
+			else if (es.hasMouseUpEvent()) {
+				animation.onMouseUp(es.nextMouseUpEvent());
+			}
+			else if (es.hasMouseEnterEvent()) {
+				animation.onMouseEnter(es.nextMouseEnterEvent());
+			}
+			else if (es.hasMouseLeaveEvent()) {
+				animation.onMouseLeave(es.nextMouseLeaveEvent());
+			}
+			else if (es.hasMouseWheelEvent()) {
+				animation.onMouseWheel(es.nextMouseWheelEvent());
+			}
+			else if (es.hasKeyDownEvent()) {
+				animation.onKeyDown(es.nextKeyDownEvent());
+			}
+			else if (es.hasKeyUpEvent()) {
+				animation.onKeyUp(es.nextKeyUpEvent());
+			}
+			else if (es.hasKeyPressEvent()) {
+				animation.onKeyPress(es.nextKeyPressEvent());
+			}
+			else if (es.hasWindowMoveEvent()) {
+				animation.onWindowMove(es.nextWindowMoveEvent());
+			}
+			else if (es.hasWindowCloseEvent()) {
+				animation.onWindowClose(es.nextWindowCloseEvent());
+			}
+		}
+	}
+
 	/**
 	 * Creates a canvas with size 600x600 pixels. The frame surrounding the canvas will be slightly bigger.
 	 * The size remains fixed after calling this constructor.
