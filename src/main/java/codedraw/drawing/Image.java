@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Base64;
 
 /**
- * CodeDrawImage represents an image that can be used within the CodeDraw library.
+ * Image represents an image that can be used within the CodeDraw library.
  * Empty images can be created via the constructor.
  * <pre>{@code
  * CodeDrawImage image = new CodeDrawImage(400, 600);

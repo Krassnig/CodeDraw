@@ -273,13 +273,13 @@ public class GraphicTest {
 
 		cd.setColor(Palette.RED);
 		cd.fillSquare(0, 0, 100);
-		cd.drawImage(0, 0, 100, 100, bear);
+		cd.drawImage(0, 0, 100, 100, bear, Interpolation.NEAREST_NEIGHBOR);
 		cd.setColor(Palette.GREEN);
 		cd.fillSquare(0, 100, 100);
-		cd.drawImage(0, 100, 100, 100, bear);
+		cd.drawImage(0, 100, 100, 100, bear, Interpolation.BILINEAR);
 		cd.setColor(Palette.BLUE);
 		cd.fillSquare(100, 0, 100);
-		cd.drawImage(100, 0, 100, 100, bear);
+		cd.drawImage(100, 0, 100, 100, bear, Interpolation.BICUBIC);
 		cd.setColor(Palette.BLACK);
 		cd.fillSquare(100, 100, 100);
 		cd.drawImage(100, 100, 100, 100, bear);

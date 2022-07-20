@@ -258,7 +258,7 @@ public class Matrix2D {
 		return multiply(point.getX(), point.getY());
 	}
 
-	public Point2D multiply(java.awt.geom.Point2D point) {
+	Point2D multiply(java.awt.geom.Point2D point) {
 		return multiply(point.getX(), point.getY());
 	}
 

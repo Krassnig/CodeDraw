@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 class EventHandler {
 	private static final Semaphore windowCloseLock = new Semaphore(1);
 	private static int windowCount = 0;
-	private boolean terminateOnLastClose = true;
 
 	public EventHandler(Frame frame) {
 		windowCloseLock.acquire();
@@ -29,6 +28,7 @@ class EventHandler {
 	private final PositionExtension position;
 	private final EventScanner eventScanner;
 
+	private boolean terminateOnLastClose = true;
 	private Consumer<Object> queue;
 
 	private MouseListener mouseListener;
@@ -92,7 +92,7 @@ class EventHandler {
 		frame.getPanel().removeMouseWheelListener(mouseWheelListener);
 		frame.removeKeyListener(keyListener);
 		frame.removeComponentListener(componentListener);
-		frame.removeWindowListener(windowListener);
+		//frame.removeWindowListener(windowListener);
 	}
 
 	private MouseListener createMouseListener(MouseClickMap clickMap) {

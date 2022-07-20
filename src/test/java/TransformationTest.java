@@ -190,7 +190,7 @@ public class TransformationTest {
 			cd.clear();
 
 			cd.setColor(Palette.BLACK);
-			cd.fillPathStartingAt(startX, startY).arcTo(centerX, centerY, sweep).complete();
+			cd.fillPathStartingAt(startX, startY).arcTo(centerX, centerY, sweep).lineTo(100, 100).lineTo(400, 100).complete();
 
 			cd.setColor(Palette.GREEN);
 			cd.fillCircle(startX, startY, 5);
