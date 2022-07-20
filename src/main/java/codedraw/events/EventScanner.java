@@ -70,7 +70,7 @@ public class EventScanner {
 	 * @return whether there are currently events available
 	 */
 	public boolean hasEventNow() {
-		return !queue.isEmpty() && hasEvent();
+		return hasNow(Object.class);
 	}
 
 	/**
@@ -323,6 +323,10 @@ public class EventScanner {
 	 * @return a window close event.
 	 */
 	public WindowCloseEvent nextWindowCloseEvent() { return next(WindowCloseEvent.class); }
+
+	private boolean hasNow(Class<?> type) {
+		return !queue.isEmpty() && has(type);
+	}
 
 	private boolean has(Class<?> type) {
 		return type.isAssignableFrom(peekType());
