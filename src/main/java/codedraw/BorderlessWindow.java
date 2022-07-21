@@ -3,35 +3,31 @@ package codedraw;
 import codedraw.drawing.Image;
 import codedraw.events.EventScanner;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
- * The Fullscreen class lets you create fullscreen application and draw on it.
+ * The BorderlessWindow class lets you create a borderless instance of a CodeDraw window and draw on it.
  * It works very similarly to the {@link CodeDraw} class.
- * The fullscreen window can be closed by pressing Alt + F4.
+ * The borderless window can be closed by pressing Alt + F4;
  */
-public class FullScreen extends Image implements AutoCloseable {
+public class BorderlessWindow extends Image implements AutoCloseable {
 	/**
-	 * Creates a full screen CodeDraw window on your default screen.
-	 * The fullscreen window can be closed by pressing Alt + F4.
+	 * Creates a borderless window of size 600x600.
+	 * The borderless window can be closed by pressing Alt + F4;
 	 */
-	public FullScreen() {
-		this(Screen.getDefaultScreen());
+	public BorderlessWindow() {
+		this(600, 600);
 	}
 
 	/**
-	 * Creates a full screen CodeDraw window on the specified screen.
-	 * You can pick any screen from {@link Screen#getAllScreens()}.
-	 * The fullscreen window can be closed by pressing Alt + F4.
-	 * @param screen A screen on your computer.
+	 * Creates a borderless window of the specified size.
+	 * The borderless window can be closed by pressing Alt + F4;
+	 * @param width must be at least 1 pixel
+	 * @param height must be at least 1 pixel
 	 */
-	public FullScreen(Screen screen) {
-		super(Image.fromDPIAwareSize(screen.getWidth(), screen.getHeight()));
-		if (screen == null) throw createParameterNullException("screen");
-		if (!screen.canAttachGUI()) throw Screen.createWindowAlreadyAttachedException(screen);
-
-		gui = CodeDrawGUI.createFullscreen(screen);
+	public BorderlessWindow(int width, int height) {
+		super(Image.fromDPIAwareSize(width, height));
+		gui = CodeDrawGUI.createBorderlessWindow(width, height);
 		show();
 	}
 
@@ -83,21 +79,39 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the fullscreen window.
-	 * The fullscreen window position cannot be changed.
-	 * @return The distance in pixel from the left side of the default screen to the left of the fullscreen window.
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the borderless window.
+	 * The window position is the same as the canvas position on a borderless window.
+	 * @return The distance in pixel from the left side of the default screen to the left of the CodeDraw window.
 	 */
 	public int getWindowPositionX() {
 		return gui.getWindowPosition().x;
 	}
 
 	/**
-	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the fullscreen window.
-	 * The fullscreen window position cannot be changed.
-	 * @return The distance in pixel from the top side of the default screen to the top of the fullscreen window.
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the borderless window.
+	 * The window position is the same as the canvas position on a borderless window.
+	 * @return The distance in pixel from the top side of the default screen to the top of the CodeDraw window.
 	 */
 	public int getWindowPositionY() {
 		return gui.getWindowPosition().y;
+	}
+
+	/**
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the borderless window.
+	 * The window position is the same as the canvas position on a borderless window.
+	 * @param x The distance in pixel from the left side of the default screen to the left of the CodeDraw window.
+	 */
+	public void setWindowPositionX(int x) {
+		gui.setWindowPosition(new Point(x, getWindowPositionY()));
+	}
+
+	/**
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the borderless window.
+	 * The window position is the same as the canvas position on a borderless window.
+	 * @param y The distance in pixel from the top side of the default screen to the top of the CodeDraw window.
+	 */
+	public void setWindowPositionY(int y) {
+		gui.setWindowPosition(new Point(getWindowPositionX(), y));
 	}
 
 	/**
@@ -112,7 +126,7 @@ public class FullScreen extends Image implements AutoCloseable {
 	 * The title is the description displayed in many places on your operating system.
 	 * @param title Sets the text of the title.
 	 */
-	public void setTitle(String title) {
+	public void setTitle(String title)  {
 		if (title == null) throw createParameterNullException("title");
 
 		gui.setTitle(title);
@@ -179,7 +193,7 @@ public class FullScreen extends Image implements AutoCloseable {
 	 */
 	@Override
 	public void close() {
-		close(false);
+		gui.close();
 	}
 
 	/**
@@ -193,7 +207,7 @@ public class FullScreen extends Image implements AutoCloseable {
 
 	@Override
 	public String toString() {
-		return "FullScreen CodeDraw " + getWidth() + "x" + getHeight();
+		return "Borderless CodeDraw " + getWidth() + "x" + getHeight();
 	}
 
 	@Override

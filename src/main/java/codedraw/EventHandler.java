@@ -3,6 +3,7 @@ package codedraw;
 import codedraw.events.*;
 import codedraw.events.MouseWheelEvent;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.function.Consumer;
@@ -11,20 +12,22 @@ class EventHandler {
 	private static final Semaphore windowCloseLock = new Semaphore(1);
 	private static int windowCount = 0;
 
-	public EventHandler(Frame frame) {
+	public EventHandler(JFrame frame, CanvasPanel panel) {
 		windowCloseLock.acquire();
 		windowCount++;
 		windowCloseLock.release();
 
 		this.frame = frame;
-		this.position = new PositionExtension(frame);
+		this.panel = panel;
+		this.position = new PositionExtension(frame, panel);
 		eventScanner = new EventScanner(s -> queue = s);
 
 		createEvents();
 		bindEvents();
 	}
 
-	private final Frame frame;
+	private final JFrame frame;
+	private final CanvasPanel panel;
 	private final PositionExtension position;
 	private final EventScanner eventScanner;
 
@@ -78,18 +81,18 @@ class EventHandler {
 	}
 
 	private void bindEvents() {
-		frame.getPanel().addMouseListener(mouseListener);
-		frame.getPanel().addMouseMotionListener(mouseMotionListener);
-		frame.getPanel().addMouseWheelListener(mouseWheelListener);
+		panel.addMouseListener(mouseListener);
+		panel.addMouseMotionListener(mouseMotionListener);
+		panel.addMouseWheelListener(mouseWheelListener);
 		frame.addKeyListener(keyListener);
 		frame.addComponentListener(componentListener);
 		frame.addWindowListener(windowListener);
 	}
 
 	private void unbindEvents() {
-		frame.getPanel().removeMouseListener(mouseListener);
-		frame.getPanel().removeMouseMotionListener(mouseMotionListener);
-		frame.getPanel().removeMouseWheelListener(mouseWheelListener);
+		panel.removeMouseListener(mouseListener);
+		panel.removeMouseMotionListener(mouseMotionListener);
+		panel.removeMouseWheelListener(mouseWheelListener);
 		frame.removeKeyListener(keyListener);
 		frame.removeComponentListener(componentListener);
 		//frame.removeWindowListener(windowListener);
@@ -143,7 +146,7 @@ class EventHandler {
 
 	private KeyListener createKeyListener() {
 		return new KeyAdapter() {
-			private final KeyDownMap keyDownMap = new KeyDownMap(queue, frame.getPanel());
+			private final KeyDownMap keyDownMap = new KeyDownMap(queue, panel);
 
 			@Override
 			public void keyPressed(KeyEvent e) {

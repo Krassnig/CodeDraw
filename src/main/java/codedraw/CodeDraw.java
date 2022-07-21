@@ -3,9 +3,7 @@ package codedraw;
 import codedraw.drawing.Image;
 import codedraw.events.*;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
@@ -105,7 +103,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Creates a canvas with size 600x600 pixels. The frame surrounding the canvas will be slightly bigger.
+	 * Creates a canvas with size 600x600 pixels. The window surrounding the canvas will be slightly bigger.
 	 * The size remains fixed after calling this constructor.
 	 */
 	public CodeDraw() {
@@ -113,34 +111,27 @@ public class CodeDraw extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Creates a canvas with the specified size. The frame surrounding the canvas will be slightly bigger.
+	 * Creates a canvas with the specified size. The window surrounding the canvas will be slightly bigger.
 	 * Once the size is set via this constructor it remains fixed.
 	 * @param canvasWidth must be at least 1 pixel
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
 		super(Image.fromDPIAwareSize(canvasWidth, canvasHeight));
-
-		frame = new Frame(canvasWidth, canvasHeight);
-		frame.setLayout(null);
-		frame.pack();
-
-		jFrameCorrector = new JFrameCorrector(frame, frame.getPreferredSize());
-
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.setLocationByPlatform(true);
-		frame.setVisible(true);
-		frame.toFront();
-
-		setTitle("CodeDraw");
+		gui = CodeDrawGUI.createWindow(canvasWidth, canvasHeight);
 		show();
 	}
 
-	private final Frame frame;
-	private final JFrameCorrector jFrameCorrector;
-	private boolean isInstantDraw = false;
-	private boolean isClosed = false;
+	private CodeDrawGUI gui;
+
+	/**
+	 * Gets the EventScanner of this CodeDraw window.
+	 * See the {@link EventScanner} for more details on how to use it.
+	 * @return an EventScanner.
+	 */
+	public EventScanner getEventScanner() {
+		return gui.getEventScanner();
+	}
 
 	/**
 	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
@@ -149,8 +140,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * @return whether InstantDraw is enabled.
 	 */
 	public boolean isInstantDraw() {
-		checkIsClosed();
-		return isInstantDraw;
+		return gui.isInstantDraw();
 	}
 
 	/**
@@ -160,16 +150,14 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * @param isInstantDraw defines whether InstantDraw is enabled.
 	 */
 	public void setInstantDraw(boolean isInstantDraw) {
-		checkIsClosed();
-		this.isInstantDraw = isInstantDraw;
+		gui.setInstantDraw(isInstantDraw);
 	}
 
 	/**
 	 * @return whether the CodeDraw window is always displayed on top of other windows.
 	 */
 	public boolean isAlwaysOnTop() {
-		checkIsClosed();
-		return frame.isAlwaysOnTop();
+		return gui.isAlwaysOnTop();
 	}
 
 	/**
@@ -178,138 +166,123 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * @param isAlwaysOnTop defines whether this CodeDraw window is displayed on top of other windows.
 	 */
 	public void setAlwaysOnTop(boolean isAlwaysOnTop) {
-		checkIsClosed();
-		frame.setAlwaysOnTop(isAlwaysOnTop);
+		gui.setAlwaysOnTop(isAlwaysOnTop);
 	}
 
 	/**
-	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
-	 * Changing the window position also changes the canvas position.
-	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
-	 */
-	public int getWindowPositionX() {
-		checkIsClosed();
-		return frame.getEventHandler().getWindowPosition().x;
-	}
-
-	/**
-	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
-	 * Changing the window position also changes the canvas position.
-	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
-	 */
-	public int getWindowPositionY() {
-		checkIsClosed();
-		return frame.getEventHandler().getWindowPosition().y;
-	}
-
-	/**
-	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
-	 * Changing the window position also changes the canvas position.
-	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw window.
-	 */
-	public void setWindowPositionX(int x) {
-		checkIsClosed();
-		frame.getEventHandler().setWindowPosition(new Point(x, getWindowPositionY()));
-	}
-
-	/**
-	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw window.
-	 * Changing the window position also changes the canvas position.
-	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw window.
-	 */
-	public void setWindowPositionY(int y) {
-		checkIsClosed();
-		frame.getEventHandler().setWindowPosition(new Point(getWindowPositionX(), y));
-	}
-
-	/**
-	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
-	 * @return The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
+	 * @return The distance in pixel from the left side of the default screen to the left of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionX() {
-		checkIsClosed();
-		return frame.getEventHandler().getCanvasPosition().x;
+		return gui.getCanvasPosition().x;
 	}
 
 	/**
-	 * Gets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
-	 * @return The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
+	 * @return The distance in pixel from the top side of the default screen to the top of the CodeDraw canvas.
 	 */
 	public int getCanvasPositionY() {
-		checkIsClosed();
-		return frame.getEventHandler().getCanvasPosition().y;
+		return gui.getCanvasPosition().y;
 	}
 
 	/**
-	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
-	 * @param x The distance in pixel from the left side of the main screen to the left of the CodeDraw canvas.
+	 * @param x The distance in pixel from the left side of the default screen to the left of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionX(int x) {
-		checkIsClosed();
-		frame.getEventHandler().setCanvasPosition(new Point(x, getCanvasPositionY()));
+		gui.setCanvasPosition(new Point(x, getCanvasPositionY()));
 	}
 
 	/**
-	 * Sets the distance in pixel from the top left corner of the screen to the top left corner of CodeDraw canvas.
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw canvas.
 	 * The top left corner of the canvas is the origin point for all drawn objects.
 	 * Changing the canvas position also changes the window position.
-	 * @param y The distance in pixel from the top side of the main screen to the top of the CodeDraw canvas.
+	 * @param y The distance in pixel from the top side of the default screen to the top of the CodeDraw canvas.
 	 */
 	public void setCanvasPositionY(int y) {
-		checkIsClosed();
-		frame.getEventHandler().setCanvasPosition(new Point(getCanvasPositionX(), y));
+		gui.setCanvasPosition(new Point(getCanvasPositionX(), y));
 	}
 
 	/**
-	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw window.
+	 * Changing the window position also changes the canvas position.
+	 * @return The distance in pixel from the left side of the default screen to the left of the CodeDraw window.
+	 */
+	public int getWindowPositionX() {
+		return gui.getWindowPosition().x;
+	}
+
+	/**
+	 * Gets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw window.
+	 * Changing the window position also changes the canvas position.
+	 * @return The distance in pixel from the top side of the default screen to the top of the CodeDraw window.
+	 */
+	public int getWindowPositionY() {
+		return gui.getWindowPosition().y;
+	}
+
+	/**
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw window.
+	 * Changing the window position also changes the canvas position.
+	 * @param x The distance in pixel from the left side of the default screen to the left of the CodeDraw window.
+	 */
+	public void setWindowPositionX(int x) {
+		gui.setWindowPosition(new Point(x, getWindowPositionY()));
+	}
+
+	/**
+	 * Sets the distance in pixel from the top left corner of the default screen to the top left corner of the CodeDraw window.
+	 * Changing the window position also changes the canvas position.
+	 * @param y The distance in pixel from the top side of the default screen to the top of the CodeDraw window.
+	 */
+	public void setWindowPositionY(int y) {
+		gui.setWindowPosition(new Point(getWindowPositionX(), y));
+	}
+
+	/**
+	 * The title is the text displayed in the top left corner of the CodeDraw window.
+	 * It is also the description displayed in many places on your operating system.
+	 * @return the text of the title.
+	 */
+	public String getTitle() {
+		return gui.getTitle();
+	}
+
+	/**
+	 * The title is the text displayed in the top left corner of the CodeDraw window.
+	 * It is also the description displayed in many places on your operating system.
+	 * @param title Sets the text of the title.
+	 */
+	public void setTitle(String title)  {
+		if (title == null) throw createParameterNullException("title");
+
+		gui.setTitle(title);
+	}
+
+	/**
+	 * Defines the style of the cursor while hovering over the CodeDraw canvas.
 	 * See also {@link CursorStyle}.
 	 * @return the cursor style of this CodeDraw canvas.
 	 */
 	public CursorStyle getCursorStyle() {
-		checkIsClosed();
-		return frame.getCursorStyle();
+		return gui.getCursorStyle();
 	}
 
 	/**
-	 * Defines the style of the cursor while hovering of the CodeDraw canvas.
+	 * Defines the style of the cursor while hovering over the CodeDraw canvas.
 	 * See also {@link CursorStyle}.
 	 * @param cursorStyle Sets the cursor style of this CodeDraw canvas.
 	 */
 	public void setCursorStyle(CursorStyle cursorStyle) {
-		checkIsClosed();
 		if (cursorStyle == null) throw createParameterNullException("cursorStyle");
 
-		frame.setCursorStyle(cursorStyle);
-	}
-
-	/**
-	 * The title is the text displayed in the top left corner of the CodeDraw window.
-	 * @return the text of the title.
-	 */
-	public String getTitle() {
-		checkIsClosed();
-		return frame.getTitle();
-	}
-
-	/**
-	 * The title is the text displayed in the top left corner of the CodeDraw window.
-	 * @param title Sets the text of the title.
-	 */
-	public void setTitle(String title)  {
-		checkIsClosed();
-		if (title == null) throw createParameterNullException("title");
-
-		frame.setTitle(title);
-	}
-
-	public EventScanner getEventScanner() {
-		return frame.getEventHandler().getEventScanner();
+		gui.setCursorStyle(cursorStyle);
 	}
 
 	/**
@@ -324,8 +297,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	/**
 	 * Displays all the drawn and filled shapes that have been drawn until now
 	 * and then waits for the given amount of milliseconds.
-	 * Since showing the drawn elements in the CodeDraw window is slow,
-	 * CodeDraw will subtract the time it takes to show from waitMilliseconds.
+	 * CodeDraw might take longer to return from show if you specify only a small amount of milliseconds.
 	 * The amount of milliseconds this method must be called with to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>
@@ -334,18 +306,27 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * @param waitMilliseconds Minimum time it takes this function to return.
 	 */
 	public void show(long waitMilliseconds) {
-		checkIsClosed();
-		if (waitMilliseconds < 0) throw createParameterMustBeGreaterOrEqualToZeroException("waitMilliseconds");
+		if (waitMilliseconds < 0) throw createParameterZeroOrGreaterException("waitMilliseconds");
 
-		frame.getPanel().render(this, waitMilliseconds, isInstantDraw);
+		gui.show(this, waitMilliseconds);
+	}
+
+	/**
+	 * Checks whether this CodeDraw window is already closed.
+	 * The window can close if the user closes the window or when the {@link #close()} method is called.
+	 * @return whether this CodeDraw window is closed.
+	 */
+	public boolean isClosed() {
+		return gui.isClosed();
 	}
 
 	/**
 	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
+	 * Any methods associated with the graphical user interface can no longer be used then.
 	 */
 	@Override
 	public void close() {
-		close(false);
+		gui.close();
 	}
 
 	/**
@@ -354,20 +335,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */
 	public void close(boolean terminateProcess) {
-		if (!isClosed) {
-			isClosed = true;
-			jFrameCorrector.stop();
-			frame.dispose(terminateProcess);
-		}
-	}
-
-	/**
-	 * Checks whether this CodeDraw window is closed.
-	 * This instance closes when the user closes this instances window.
-	 * @return whether this CodeDraw window is closed.
-	 */
-	public boolean isClosed() {
-		return isClosed;
+		gui.close(terminateProcess);
 	}
 
 	@Override
@@ -377,18 +345,14 @@ public class CodeDraw extends Image implements AutoCloseable {
 
 	@Override
 	protected void afterDrawing() {
-		if (isInstantDraw) show();
-	}
-
-	private void checkIsClosed() {
-		if (isClosed) throw new RuntimeException("This CodeDraw window has already been closed. Its methods cannot be used anymore.");
+		if (gui.isInstantDraw()) show();
 	}
 
 	private static IllegalArgumentException createParameterNullException(String parameterName) {
-		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+		return new IllegalArgumentException("The parameter '" + parameterName + "' cannot be null.");
 	}
 
-	private static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
-		return new IllegalArgumentException("The parameter " + parameterName + " must be equal or greater than zero.");
+	private static IllegalArgumentException createParameterZeroOrGreaterException(String parameterName) {
+		return new IllegalArgumentException("The parameter '" + parameterName + "' must be equal to or greater than zero.");
 	}
 }

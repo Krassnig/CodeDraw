@@ -1,13 +1,16 @@
 package codedraw;
 
+import javax.swing.*;
 import java.awt.*;
 
 class PositionExtension {
-	public PositionExtension(Frame frame) {
+	public PositionExtension(JFrame frame, CanvasPanel panel) {
 		this.frame = frame;
+		this.panel = panel;
 	}
 
-	private final Frame frame;
+	private final JFrame frame;
+	private final CanvasPanel panel;
 	private final Semaphore positionLock = new Semaphore(1);
 
 	private Point windowPosition;
@@ -50,7 +53,7 @@ class PositionExtension {
 	public void updateWindowAndCanvasPosition() {
 		positionLock.acquire();
 		this.windowPosition = frame.getLocationOnScreen().getLocation();
-		distanceFromWindowToCanvas = minus(frame.getPanel().getLocationOnScreen(), windowPosition);
+		distanceFromWindowToCanvas = minus(panel.getLocationOnScreen(), windowPosition);
 		positionLock.release();
 	}
 

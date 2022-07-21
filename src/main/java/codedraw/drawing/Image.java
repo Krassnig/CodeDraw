@@ -291,7 +291,7 @@ public class Image {
 	 */
 	public Image(Image image) {
 		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Palette.TRANSPARENT);
-		drawImage(0, 0, image);
+		drawImageInternal(0, 0, image.getWidth(), image.getHeight(), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public class Image {
 		setCorner(Corner.SHARP);
 		setTransformationToIdentity();
 		setAlphaComposition(AlphaComposition.SET_VALUE);
-		clear(backgroundColor);
+		clearInternal(backgroundColor);
 		setAlphaComposition(AlphaComposition.DRAW_OVER);
 	}
 
@@ -1084,6 +1084,12 @@ public class Image {
 
 		beforeDrawing();
 
+		clearInternal(color);
+
+		afterDrawing();
+	}
+
+	private void clearInternal(Color color) {
 		Color c = getColor();
 		Matrix2D m = getTransformation();
 		setTransformationToIdentity();
@@ -1091,8 +1097,6 @@ public class Image {
 		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
 		setColor(c);
 		setTransformation(m);
-
-		afterDrawing();
 	}
 
 	/**
