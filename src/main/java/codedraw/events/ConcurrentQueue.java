@@ -60,7 +60,10 @@ class ConcurrentQueue<T> {
 	}
 
 	private T popInternal() {
-		T result = list[offset++ % capacity()];
+		int index = offset % capacity();
+		T result = list[index];
+		list[index] = null; // explicitly set removed elements to null, easier to debug and maybe the garbage collector has an easier time
+		offset++;
 		length--;
 		if (offsetIsMultipleOfCapacity() || isEmpty()) offset = 0;
 		return result;

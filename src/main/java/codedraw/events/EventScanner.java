@@ -79,7 +79,7 @@ public class EventScanner {
 	 * @return whether there are more events available
 	 */
 	public boolean hasEvent() {
-		return !hasEndOfEvent();
+		return has(Object.class);
 	}
 
 	/**
@@ -177,8 +177,6 @@ public class EventScanner {
 	 * @return whether the next event is a window close event.
 	 */
 	public boolean hasWindowCloseEvent() { return has(WindowCloseEvent.class); }
-
-	private boolean hasEndOfEvent() { return has(EndOfEvent.class); }
 
 	/**
 	 * Waits for the next event and then returns it.
@@ -328,8 +326,9 @@ public class EventScanner {
 		return !queue.isEmpty() && has(type);
 	}
 
-	private boolean has(Class<?> type) {
-		return type.isAssignableFrom(peekType());
+	private boolean has(Class<?> expected) {
+		Class<?> actual = peekType();
+		return !actual.isAssignableFrom(EndOfEvent.class) && expected.isAssignableFrom(actual);
 	}
 
 	private Class<?> peekType() {
