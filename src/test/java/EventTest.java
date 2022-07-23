@@ -1,4 +1,5 @@
 import codedraw.*;
+import codedraw.Color;
 import codedraw.events.*;
 import org.junit.After;
 import org.junit.Before;
@@ -36,7 +37,7 @@ public class EventTest {
 
 		cd.clear();
 		cd.drawText(50, 50, "Click here, then I will turn blue, then green!");
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.fillSquare(100, 100, 100);
 		cd.show(100);
 
@@ -45,13 +46,13 @@ public class EventTest {
 		}
 
 		cd.clear();
-		cd.setColor(Palette.BLUE);
+		cd.setColor(Color.BLUE);
 		cd.drawText(50, 50, "I'm blue da ba dee!");
 		cd.fillSquare(100, 100, 100);
 		cd.show(3000);
 
 		cd.clear();
-		cd.setColor(Palette.GREEN);
+		cd.setColor(Color.GREEN);
 		cd.drawText(50, 50, "Now I'm green.");
 		cd.fillSquare(100, 100, 100);
 		cd.show(1000);
@@ -86,7 +87,7 @@ public class EventTest {
 		int y = cd.getCanvasPositionY();
 		System.out.println(x + " " + y);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.drawSquare(300, 300, 100);
 		cd.show();
 
@@ -116,7 +117,7 @@ public class EventTest {
 		confirm.setConfirmationDialogue("New characters should appear exactly once when a key is pressed down.");
 
 		String text = "";
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (esc.hasKeyDownEvent()) {
@@ -138,7 +139,7 @@ public class EventTest {
 		confirm.setConfirmationDialogue("New characters should appear exactly once when a key is released.");
 
 		String text = "";
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (esc.hasKeyUpEvent()) {
@@ -160,7 +161,7 @@ public class EventTest {
 		confirm.setConfirmationDialogue("New characters should appear when a key is pressed,\nmultiple when the key is held down.");
 
 		String text = "";
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (esc.hasKeyPressEvent()) {
@@ -182,7 +183,7 @@ public class EventTest {
 		confirm.setConfirmationDialogue("The triangle should point up or down depending on the scroll direction.");
 
 		double l = 0;
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (esc.hasMouseWheelEvent()) {
@@ -274,7 +275,7 @@ public class EventTest {
 	private void mouseTests(String confirmationDialogue, Supplier<Boolean> hasEvent, Supplier<Point> nextEvent) {
 		confirm.setConfirmationDialogue(confirmationDialogue);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		while (!confirm.hasConfirmationBeenPressed()) {
 			while (esc.hasEventNow()) {
 				if (hasEvent.get()) {
@@ -316,12 +317,12 @@ public class EventTest {
 			cd.clear();
 
 			if (unsubscribeProgress % 2 == 0) {
-				cd.setColor(Palette.RED);
+				cd.setColor(Color.RED);
 				cd.drawText(200, 100, "Press a button on your mouse.");
 				cd.drawSquare(200, 200, 200);
 			}
 			else {
-				cd.setColor(Palette.BLUE);
+				cd.setColor(Color.BLUE);
 				cd.drawText(200, 100, "Press a key on your keyboard.");
 				cd.drawTriangle(200, 200, 400, 200, 300, 400);
 			}

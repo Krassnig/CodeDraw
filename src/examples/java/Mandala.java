@@ -8,8 +8,8 @@ public class Mandala {
 		double r = (size / 2D) * 0.95;
 		double c = size / 2D;
 
-		cd.clear(Palette.BLACK);
-		cd.setColor(Palette.WHITE);
+		cd.clear(Color.BLACK);
+		cd.setColor(Color.WHITE);
 
 		cd.drawCircle(c, c, r);
 

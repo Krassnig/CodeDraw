@@ -1,6 +1,6 @@
 package codedraw.drawing;
 
-import codedraw.*;
+import codedraw.Color;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -129,7 +129,7 @@ public class Image {
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
 
 		AffineTransform max = getMaximumDPIFromAllScreens();
-		return new Image(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Palette.WHITE);
+		return new Image(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Color.WHITE);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Image {
 		if (x + width > source.width) throw new RuntimeException();
 		if (y + height > source.height) throw new RuntimeException();
 
-		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
+		Image result = new Image(width, height, source.xScale, source.yScale, Color.TRANSPARENT);
 		result.drawImage(-x, -y, source);
 		return result;
 	}
@@ -213,7 +213,7 @@ public class Image {
 		if (width == 0) throw new RuntimeException("The scale is too small and would create an image with a width of 0px.");
 		if (height == 0) throw new RuntimeException("The scale is too small and would create an image with a height of 0px.");
 
-		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
+		Image result = new Image(width, height, source.xScale, source.yScale, Color.TRANSPARENT);
 		result.drawImage(0, 0, width, height, source, interpolation);
 		return result;
 	}
@@ -241,7 +241,7 @@ public class Image {
 	}
 
 	private static Image rotate(Image image, Matrix2D transformation) {
-		Image result = new Image(image.height, image.width, image.yScale, image.xScale, Palette.TRANSPARENT);
+		Image result = new Image(image.height, image.width, image.yScale, image.xScale, Color.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -273,7 +273,7 @@ public class Image {
 	}
 
 	private static Image mirror(Image image, Matrix2D transformation) {
-		Image result = new Image(image.width, image.height, image.xScale, image.yScale, Palette.TRANSPARENT);
+		Image result = new Image(image.width, image.height, image.xScale, image.yScale, Color.TRANSPARENT);
 
 		result.setTransformation(transformation);
 		result.drawImage(0, 0, image);
@@ -290,7 +290,7 @@ public class Image {
 	 * @param image Image that is to be copied.
 	 */
 	public Image(Image image) {
-		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Palette.TRANSPARENT);
+		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Color.TRANSPARENT);
 		drawImageInternal(0, 0, image.getWidth(), image.getHeight(), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
@@ -300,8 +300,8 @@ public class Image {
 	 * @param image Image that is to be converted to a CodeDrawImage.
 	 */
 	public Image(java.awt.Image image) {
-		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1, Palette.TRANSPARENT);
-		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.BICUBIC);
+		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1, Color.TRANSPARENT);
+		drawImageInternal(0, 0, image.getWidth(null), image.getHeight(null), image, Interpolation.NEAREST_NEIGHBOR);
 	}
 
 	/**
@@ -310,7 +310,7 @@ public class Image {
 	 * @param height The height of the CodeDrawImage.
 	 */
 	public Image(int width, int height) {
-		this(width, height, Palette.WHITE);
+		this(width, height, Color.WHITE);
 	}
 
 	public Image(int width, int height, Color backgroundColor) {
@@ -338,7 +338,7 @@ public class Image {
 		setRenderingHint(RHFractionalMetrics.ON); // tested
 		setRenderingHint(RHResolutionVariant.DEFAULT); // unknown
 
-		setColor(Palette.BLACK);
+		setColor(Color.BLACK);
 		setLineWidth(1);
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
@@ -379,18 +379,18 @@ public class Image {
 	 * @return the drawing color of this CodeDraw window.
 	 */
 	public Color getColor() {
-		return g.getColor();
+		return new Color(g.getColor());
 	}
 
 	/**
 	 * Defines the color that is used for drawing all shapes.
-	 * Use {@link Palette} for a large selection of colors.
+	 * Use {@link Color} for a large selection of colors.
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
 		if (color == null) throw createParameterNullException("color");
 
-		g.setColor(color);
+		g.setColor(color.toAWTColor());
 	}
 
 	/**
@@ -1072,7 +1072,7 @@ public class Image {
 	 * Colors the whole canvas in white.
 	 */
 	public void clear() {
-		clear(Palette.WHITE);
+		clear(Color.WHITE);
 	}
 
 	/**
@@ -1113,10 +1113,8 @@ public class Image {
 			RenderingHintValue.applyHint((Graphics2D) target, interpolation);
 		}
 
-		Color c = target.getColor();
-		target.setColor(Palette.WHITE);
-		target.drawRect(0, 0, getWidth(), getHeight());
-		target.drawImage(image, 0, 0, getWidth(), getHeight(), Palette.WHITE, null);
+		java.awt.Color c = target.getColor();
+		target.drawImage(image, 0, 0, getWidth(), getHeight(), Color.WHITE.toAWTColor(), null);
 		target.setColor(c);
 	}
 
@@ -1128,7 +1126,7 @@ public class Image {
 	public BufferedImage toBufferedImage(BufferedImageType type) {
 		BufferedImage result = new BufferedImage(width, height, type.getType());
 		Graphics2D g = result.createGraphics();
-		g.drawImage(image, 0, 0, width, height, Palette.WHITE, null);
+		g.drawImage(image, 0, 0, width, height, null);
 		g.dispose();
 		return result;
 	}

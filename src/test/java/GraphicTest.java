@@ -36,7 +36,7 @@ public class GraphicTest {
 		double sweepAngle = 2;
 		double sweepAngle2 = Math.PI * 3 / 2;
 
-		cd.setColor(Palette.BLUE_VIOLET);
+		cd.setColor(Color.BLUE_VIOLET);
 		cd.fillPie(200, 100, 50, 50, startAngle, sweepAngle);
 		cd.fillPie(400, 100, 50, 50, startAngle2, sweepAngle2);
 
@@ -52,7 +52,7 @@ public class GraphicTest {
 		cd.drawLine(400, 550, Math.cos(startAngle2) * 50 + 400, Math.sin(startAngle2) * 50 + 550);
 		cd.drawLine(400, 550, Math.cos(startAngle2 + sweepAngle2) * 50 + 400, Math.sin(startAngle2 + sweepAngle2) * 50 + 550);
 
-		cd.setColor(Palette.ORANGE);
+		cd.setColor(Color.ORANGE);
 		cd.drawSquare(150, 50, 100);
 		cd.drawSquare(350, 50, 100);
 
@@ -65,7 +65,7 @@ public class GraphicTest {
 		cd.drawSquare(150, 500, 100);
 		cd.drawSquare(350, 500, 100);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.setLineWidth(5);
 		cd.drawPoint(200, 100);
 		cd.drawPoint(400, 100);
@@ -91,7 +91,7 @@ public class GraphicTest {
 				"should be displayed and a line for the draw polygon."
 		);
 
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.fillPolygon(
 				50, 100,
 				240, 200,
@@ -102,14 +102,14 @@ public class GraphicTest {
 
 		cd.fillPolygon(400, 100, 500, 200);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.drawCircle(50, 100, 5);
 		cd.drawCircle(240, 200, 5);
 		cd.drawCircle(140, 36, 5);
 		cd.drawCircle(150, 200, 5);
 		cd.drawCircle(55, 60, 5);
 
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.drawPolygon(
 				50, 300,
 				240, 400,
@@ -131,7 +131,7 @@ public class GraphicTest {
 		cd.drawTriangle(100, 100, 200, 300, 50, 220);
 		cd.fillTriangle(400, 100, 500, 300, 350, 220);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.drawCircle(100, 100, 5);
 		cd.drawCircle(200, 300, 5);
 		cd.drawCircle(50, 220, 5);
@@ -207,7 +207,7 @@ public class GraphicTest {
 		format.setTextOrigin(TextOrigin.BOTTOM_LEFT);
 
 		cd.setAntiAliased(true);
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.drawText(100, 50, "Anti Aliased");
 
 		capAndJoin(cd, Corner.SHARP, 100, 100);
@@ -215,7 +215,7 @@ public class GraphicTest {
 		capAndJoin(cd, Corner.BEVEL, 100, 500);
 
 		cd.setAntiAliased(false);
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.drawText(400, 50, "Not Anti Aliased");
 
 		capAndJoin(cd, Corner.SHARP, 400, 100);
@@ -230,7 +230,7 @@ public class GraphicTest {
 		cd.setCorner(corner);
 
 		cd.setLineWidth(12);
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.drawText(x, y - 15, "Corner = " + corner.toString());
 
 		cd.drawLine(x, y, x + 50, y + 50);
@@ -242,7 +242,7 @@ public class GraphicTest {
 		cd.fillTriangle(x + 200, y, x + 200, y + 50, x + 250, y + 50);
 		cd.drawTriangle(x + 200, y + 100, x + 200, y + 150, x + 250, y + 150);
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.setLineWidth(2);
 		cd.drawRectangle(x - 12, y - 12, 290, 170);
 
@@ -259,7 +259,7 @@ public class GraphicTest {
 		confirm.setConfirmationDialogue("The entire canvas should be black.");
 
 		cd.setCorner(Corner.BEVEL);
-		cd.clear(Palette.BLACK);
+		cd.clear(Color.BLACK);
 		cd.show();
 
 		confirm.assertConfirmation();
@@ -271,16 +271,16 @@ public class GraphicTest {
 
 		Image bear = Image.fromFile("./src/test/java/player.png");
 
-		cd.setColor(Palette.RED);
+		cd.setColor(Color.RED);
 		cd.fillSquare(0, 0, 100);
 		cd.drawImage(0, 0, 100, 100, bear, Interpolation.NEAREST_NEIGHBOR);
-		cd.setColor(Palette.GREEN);
+		cd.setColor(Color.GREEN);
 		cd.fillSquare(0, 100, 100);
 		cd.drawImage(0, 100, 100, 100, bear, Interpolation.BILINEAR);
-		cd.setColor(Palette.BLUE);
+		cd.setColor(Color.BLUE);
 		cd.fillSquare(100, 0, 100);
 		cd.drawImage(100, 0, 100, 100, bear, Interpolation.BICUBIC);
-		cd.setColor(Palette.BLACK);
+		cd.setColor(Color.BLACK);
 		cd.fillSquare(100, 100, 100);
 		cd.drawImage(100, 100, 100, 100, bear);
 
@@ -294,12 +294,12 @@ public class GraphicTest {
 		confirm.setConfirmationDialogue("");
 
 		Image backgroundImage = Image.fromFile("./src/test/java/test.jpg");
-		Image transparentImage = new Image(200, 200, Palette.RED);
+		Image transparentImage = new Image(200, 200, Color.RED);
 
 		transparentImage.setAlphaComposition(AlphaComposition.SET_VALUE);
-		transparentImage.setColor(Palette.TRANSPARENT);
+		transparentImage.setColor(Color.TRANSPARENT);
 		transparentImage.fillSquare(50, 50, 100);
-		transparentImage.setColor(Palette.fromBaseColor(Palette.BLACK, 128));
+		transparentImage.setColor(Color.fromBaseColor(Color.BLACK, 128));
 		transparentImage.fillTriangle(50, 50, 50, 150, 150, 50);
 
 		cd.drawImage(0, 0, backgroundImage);
