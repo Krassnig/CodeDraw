@@ -53,7 +53,7 @@ class CanvasPanel extends JPanel {
 	public void copyCanvasToClipboard() {
 		clipboardCopyLock.acquire();
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clipboard.setContents(new TransferableImage(buffer.toBufferedImage()), null);
+		clipboard.setContents(new TransferableImage(buffer), null);
 		clipboardCopyLock.release();
 	}
 

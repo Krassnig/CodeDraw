@@ -1,20 +1,17 @@
 package codedraw;
 
+import codedraw.drawing.BufferedImageType;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.image.BufferedImage;
 
 class TransferableImage implements Transferable {
 	private static final DataFlavor flavor = DataFlavor.imageFlavor;
 
-	public TransferableImage(BufferedImage image) {
-		BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = tmp.createGraphics();
-		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), Palette.WHITE, null);
-		g.dispose();
-		this.image = tmp;
+	public TransferableImage(codedraw.drawing.Image image) {
+		this.image = image.toBufferedImage(BufferedImageType.INT_RGB);
 	}
 
 	private final Image image;
