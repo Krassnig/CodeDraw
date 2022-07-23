@@ -564,12 +564,12 @@ public class Image {
 
 	/**
 	 * Draws a point which changes size depending on the {@link #getLineWidth()}
-	 * @param x The distance in pixel from the left side of the canvas to the center of the point.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the point.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the point.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the point.
 	 */
-	public void drawPoint(double x, double y) {
+	public void drawPoint(double centerX, double centerY) {
 		beforeDrawing();
-		g.fill(createEllipse(x, y, getLineWidth(), getLineWidth()));
+		g.fill(createEllipse(centerX, centerY, getLineWidth(), getLineWidth()));
 		afterDrawing();
 	}
 
@@ -696,72 +696,72 @@ public class Image {
 
 	/**
 	 * Draws the outline of a circle.
-	 * The center of the circle will be at the specified (x, y) coordinate.
+	 * The center of the circle will be at the specified (centerX, centerY) coordinate.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the circle.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the circle.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the circle.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the circle.
 	 * @param radius The radius of the circle in pixel.
 	 */
-	public void drawCircle(double x, double y, double radius) {
+	public void drawCircle(double centerX, double centerY, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		beforeDrawing();
-		g.draw(createEllipse(x, y, radius, radius));
+		g.draw(createEllipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
 	/**
 	 * Draws a filled circle.
-	 * The center of the circle will be at the specified (x, y) coordinate.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the circle.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the circle.
+	 * The center of the circle will be at the specified (centerX, centerY) coordinate.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the circle.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the circle.
 	 * @param radius The radius of the circle in pixel.
 	 */
-	public void fillCircle(double x, double y, double radius) {
+	public void fillCircle(double centerX, double centerY, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		beforeDrawing();
-		g.fill(createEllipse(x, y, radius, radius));
+		g.fill(createEllipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
 	/**
 	 * Draws the outline of an ellipse.
-	 * The center of the ellipse will be at the specified (x, y) coordinate.
+	 * The center of the ellipse will be at the specified (centerX, centerY) coordinate.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the ellipse.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the ellipse.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the ellipse.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the ellipse.
 	 * @param horizontalRadius The horizontal radius of the ellipse in pixel. The width of the ellipse is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
-	public void drawEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+	public void drawEllipse(double centerX, double centerY, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		beforeDrawing();
-		g.draw(createEllipse(x, y, horizontalRadius, verticalRadius));
+		g.draw(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
 	/**
 	 * Draws a filled ellipse.
-	 * The center of the ellipse will be at the specified (x, y) coordinate.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the ellipse.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the ellipse.
+	 * The center of the ellipse will be at the specified (centerX, centerY) coordinate.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the ellipse.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the ellipse.
 	 * @param horizontalRadius The horizontal radius of the ellipse in pixel. The width of the ellipse is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the ellipse in pixel. The height of the ellipse is 2 * verticalRadius.
 	 */
-	public void fillEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
+	public void fillEllipse(double centerX, double centerY, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		beforeDrawing();
-		g.fill(createEllipse(x, y, horizontalRadius, verticalRadius));
+		g.fill(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws the outline of an arc with the center being the (x, y) coordinates.
+	 * Draws the outline of an arc with the center being the (centerX, centerY) coordinates.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
 	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
@@ -771,22 +771,22 @@ public class Image {
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the arc.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param radius The radius of the arc in pixel.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
-	public void drawArc(double x, double y, double radius, double startRadians, double sweepRadians) {
+	public void drawArc(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		beforeDrawing();
-		g.draw(createArc(x, y, radius, radius, startRadians, sweepRadians));
+		g.draw(createArc(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws the outline of an arc with the center being the (x, y) coordinates.
+	 * Draws the outline of an arc with the center being the (centerX, centerY) coordinates.
 	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
@@ -797,24 +797,24 @@ public class Image {
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the arc.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the arc.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the arc.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param horizontalRadius The horizontal radius of the arc in pixel. The width of the arc is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the arc in pixel. The height of the arc is 2 * verticalRadius.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the arc in radians from the start angle in a clockwise direction.
 	 */
-	public void drawArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+	public void drawArc(double centerX, double centerY, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		beforeDrawing();
-		g.draw(createArc(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(createArc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws the outline of a pie with the center being the (x, y) coordinates.
+	 * Draws the outline of a pie with the center being the (centerX, centerY) coordinates.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
 	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
@@ -824,22 +824,22 @@ public class Image {
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the pie.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
-	public void drawPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+	public void drawPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		beforeDrawing();
-		g.draw(createPie(x, y, radius, radius, startRadians, sweepRadians));
+		g.draw(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws the outline of a pie with the center being the (x, y) coordinates.
+	 * Draws the outline of a pie with the center being the (centerX, centerY) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.
@@ -850,46 +850,46 @@ public class Image {
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the pie.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the pie in pixel. The height of the pie is 2 * verticalRadius.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
-	public void drawPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+	public void drawPie(double centerX, double centerY, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		beforeDrawing();
-		g.draw(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws a filled pie with the center being the (x, y) coordinates.
+	 * Draws a filled pie with the center being the (centerX, centerY) coordinates.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.<br>
 	 * You can use {@link Math#toRadians(double)} to specify the angle in degrees.
 	 * <pre>{@code
 	 * cd.fillPie(200, 200, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
-	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the pie.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param radius The radius of the pie in pixel.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
-	public void fillPie(double x, double y, double radius, double startRadians, double sweepRadians) {
+	public void fillPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
 		beforeDrawing();
-		g.fill(createPie(x, y, radius, radius, startRadians, sweepRadians));
+		g.fill(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
-	 * Draws a filled pie with the center being the (x, y) coordinates.
+	 * Draws a filled pie with the center being the (centerX, centerY) coordinates.
 	 * The width is 2 * horizontalRadius and the height is the 2 * verticalRadius.
 	 * The pie starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the pie is defined by the sweepRadians parameter.<br>
@@ -897,19 +897,19 @@ public class Image {
 	 * <pre>{@code
 	 * cd.fillPie(200, 200, 50, 50, Math.toRadians(90), Math.toRadians(180));
 	 * }</pre>
-	 * @param x The distance in pixel from the left side of the canvas to the center of the pie.
-	 * @param y The distance in pixel from the top side of the canvas to the center of the pie.
+	 * @param centerX The distance in pixel from the left side of the canvas to the center of the pie.
+	 * @param centerY The distance in pixel from the top side of the canvas to the center of the pie.
 	 * @param horizontalRadius The horizontal radius of the pie in pixel. The width of the pie is 2 * horizontalRadius.
 	 * @param verticalRadius The vertical radius of the pie in pixel. The height of the pie is 2 * verticalRadius.
 	 * @param startRadians The starting angle in radians. A 0 radians angle would be interpreted as starting at 3 o'clock going clockwise.
 	 * @param sweepRadians The length of the pie in radians from the start angle in a clockwise direction.
 	 */
-	public void fillPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
+	public void fillPie(double centerX, double centerY, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
 		beforeDrawing();
-		g.fill(createPie(x, y, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.fill(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
