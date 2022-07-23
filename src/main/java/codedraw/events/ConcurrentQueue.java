@@ -77,10 +77,6 @@ class ConcurrentQueue<T> {
 		return list.length;
 	}
 
-	private boolean isEmptyInternal() {
-		return length == 0;
-	}
-
 	private boolean isFull() {
 		return length == capacity();
 	}
@@ -90,7 +86,7 @@ class ConcurrentQueue<T> {
 
 		int firstPartCount = capacity() - offset;
 		arrayCopy(list, offset, newList, 0, firstPartCount);
-		arrayCopy(list, 0, newList, firstPartCount, offset);
+		arrayCopy(list, 0, newList, firstPartCount, length - firstPartCount);
 		list = newList;
 		offset = 0;
 	}
