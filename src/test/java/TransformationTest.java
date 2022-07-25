@@ -29,17 +29,17 @@ public class TransformationTest {
 
 
 		cd.drawImage(0, 0, 200, 200, Image.fromFile("./src/test/java/test.jpg"));
-		cd.setColor(Color.BLACK);
+		cd.setColor(Palette.BLACK);
 		cd.fillRectangle(0, 50, 100, 50);
-		cd.setColor(Color.WHITE);
+		cd.setColor(Palette.WHITE);
 		cd.drawText(0, 75, "Hello World!");
 
 		cd.setTransformation(Matrix2D.IDENTITY.shearAt(200, 200, 0.5, 0.5).rotateAt(200, 200, -Math.PI / 4));
 
 		cd.drawImage(200, 200, 200, 200, Image.fromFile("./src/test/java/test.jpg"));
-		cd.setColor(Color.BLACK);
+		cd.setColor(Palette.BLACK);
 		cd.fillRectangle(200, 250, 100, 50);
-		cd.setColor(Color.WHITE);
+		cd.setColor(Palette.WHITE);
 		cd.drawText(200, 275, "Hello World!");
 
 		cd.show();
@@ -61,20 +61,20 @@ public class TransformationTest {
 			cd.clear();
 			cd.setTransformationToIdentity();
 
-			cd.setColor(Color.RED);
+			cd.setColor(Palette.RED);
 			cd.fillCircle(400, 400, 100);
-			cd.setColor(Color.BLACK);
+			cd.setColor(Palette.BLACK);
 			cd.drawSquare(300, 300, 200);
 			cd.drawLine(0, 300, 600, 300);
 
-			cd.setColor(Color.BLUE);
+			cd.setColor(Palette.BLUE);
 			cd.drawLine(300 + Math.cos(angle) * 600, 300 + Math.sin(angle) * 600, 300 - Math.cos(angle) * 600, 300 - Math.sin(angle) * 600);
 
 			cd.setTransformation(Matrix2D.IDENTITY.mirrorAt(300, 300, angle));
 
-			cd.setColor(Color.ORANGE);
+			cd.setColor(Palette.ORANGE);
 			cd.fillCircle(400, 400, 100);
-			cd.setColor(Color.DARK_GRAY);
+			cd.setColor(Palette.DARK_GRAY);
 			cd.drawSquare(300, 300, 200);
 			cd.drawLine(0, 300, 600, 300);
 
@@ -93,14 +93,14 @@ public class TransformationTest {
 		);
 
 		cd.getTextFormat().setTextOrigin(TextOrigin.BOTTOM_LEFT);
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 
 		Image image = Image.fromFile("./src/test/java/test.jpg");
 		cd.drawImage(0, 0, image);
 
-		cd.setColor(Color.WHITE);
+		cd.setColor(Palette.WHITE);
 		cd.fillSquare(100, 100, 100);
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		cd.drawText(100, 100, "moved to right by 100px");
 		Image crop = Image.crop(image, 100, 100, 100, 100);
 		cd.drawImage(200, 100, crop);
@@ -189,10 +189,10 @@ public class TransformationTest {
 
 			cd.clear();
 
-			cd.setColor(Color.BLACK);
+			cd.setColor(Palette.BLACK);
 			cd.fillPathStartingAt(startX, startY).arcTo(centerX, centerY, sweep).lineTo(100, 100).lineTo(400, 100).complete();
 
-			cd.setColor(Color.GREEN);
+			cd.setColor(Palette.GREEN);
 			cd.fillCircle(startX, startY, 5);
 			cd.fillCircle(centerX, centerY, 5);
 			cd.fillCircle(endX, endY, 5);
@@ -200,7 +200,7 @@ public class TransformationTest {
 			double xDif = centerX - endX;
 			double yDif = centerY - endY;
 			double radius = Math.sqrt(xDif * xDif + yDif * yDif);
-			cd.setColor(Color.RED);
+			cd.setColor(Palette.RED);
 			cd.drawCircle(centerX, centerY, radius + 2);
 
 			cd.show(16);

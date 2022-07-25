@@ -26,10 +26,10 @@ public class AnimationTest {
 
 		for (int i = 0; i < 56; i++) {
 			int d = i * 10;
-			cd.setColor(Color.fromBaseColor(Color.BLUE, 25));
+			cd.setColor(Palette.fromBaseColor(Palette.BLUE, 25));
 			cd.fillSquare(d, d, 50);
 
-			cd.setColor(Color.fromBaseColor(Color.RED, 25));
+			cd.setColor(Palette.fromBaseColor(Palette.RED, 25));
 			cd.fillSquare(d, cd.getHeight() - d - 50, 50);
 
 			cd.show(100);

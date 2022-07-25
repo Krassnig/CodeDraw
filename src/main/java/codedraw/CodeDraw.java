@@ -1,7 +1,6 @@
 package codedraw;
 
 import codedraw.drawing.Image;
-import codedraw.drawing.TextOrigin;
 import codedraw.events.*;
 
 import java.awt.*;
@@ -49,46 +48,16 @@ import java.awt.*;
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw extends Image implements AutoCloseable {
-	public static void run(Animation animation, int width, int height, int framesPerSecond, boolean displayFPS) {
+	public static void run(Animation animation, int width, int height, int framesPerSecond) {
 		CodeDraw cd = new CodeDraw(width, height);
 		EventScanner es = cd.getEventScanner();
-		FPSCounter fpsCounter = new FPSCounter();
-
-		long startTime = System.currentTimeMillis();
-		long totalFrameCount = 0;
+		int pauseTime = 1000 / framesPerSecond;
 
 		while (!cd.isClosed()) {
 			dispatchEvents(es, animation);
 			cd.clear();
 			animation.render(cd);
-			displayFPS(cd, displayFPS, fpsCounter.getFPS());
-			cd.show();
-			fpsCounter.countFrame();
-			totalFrameCount++;
-			long timeSinceStart = System.currentTimeMillis() - startTime;
-			double shouldFrameCount = timeSinceStart * framesPerSecond / 1000.0;
-			if (totalFrameCount >= shouldFrameCount) {
-				sleep(1000 / framesPerSecond);
-			}
-		}
-	}
-
-	private static void sleep(long waitMilliseconds) {
-		try {
-			Thread.sleep(waitMilliseconds);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static void displayFPS(CodeDraw cd, boolean displayFPS, int fps) {
-		if (displayFPS) {
-			cd.setColor(Color.BLACK);
-			cd.fillRectangle(0, 0, 80, 30);
-
-			cd.setColor(Color.ORANGE);
-			cd.getTextFormat().setTextOrigin(TextOrigin.CENTER_LEFT);
-			cd.drawText(5, 15, "FPS " + fps);
+			cd.show(pauseTime);
 		}
 	}
 

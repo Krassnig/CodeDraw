@@ -1,5 +1,4 @@
 import codedraw.*;
-import codedraw.Color;
 import codedraw.drawing.TextFormat;
 import codedraw.drawing.TextOrigin;
 import codedraw.drawing.Underline;
@@ -33,11 +32,11 @@ public class TextFormatTest {
 		cd.drawLine(200, 100, 200, 300);
 		cd.drawLine(100, 200, 300, 200);
 
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		cd.setLineWidth(4);
 		cd.drawPoint(200, 200);
 
-		cd.setColor(Color.BLACK);
+		cd.setColor(Palette.BLACK);
 		cd.drawText(200, 200, "Hello World!");
 
 		cd.show();
@@ -152,10 +151,10 @@ public class TextFormatTest {
 		TextFormat format = cd.getTextFormat();
 		format.setTextOrigin(textOrigin);
 
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		cd.drawLine(x - 80, y, x + 80, y);
 		cd.drawLine(x, y - 80, x, y + 80);
-		cd.setColor(Color.BLACK);
+		cd.setColor(Palette.BLACK);
 		cd.drawText(x, y, String.join("\n", textOrigin.name().split("_", -1)).toLowerCase() + "\nTest");
 	}
 

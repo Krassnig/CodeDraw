@@ -133,7 +133,7 @@ public class CodeDrawTest {
 		cd.close();
 		cd = new CodeDraw(150, 1);
 		confirm.placeCodeDrawTestingInstance(cd);
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 
 		for (int i = 0; i < 150; i++) {
 			cd.drawPixel(i, 0);
@@ -148,7 +148,7 @@ public class CodeDrawTest {
 		confirm.setConfirmationDialogue("There should be an out.png in your test folder.");
 
 		cd.drawText(100, 100, Instant.now().toString());
-		cd.setColor(Color.BLUE_VIOLET);
+		cd.setColor(Palette.BLUE_VIOLET);
 
 		cd.drawArc(200, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
 		cd.fillPie(200, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
@@ -156,10 +156,10 @@ public class CodeDrawTest {
 		cd.drawArc(400, 200, 50, 50, -Math.PI / 2, Math.PI / 2);
 		cd.fillPie(400, 400, 50, 50, -Math.PI / 2, Math.PI * 3 / 2);
 
-		cd.setColor(Color.ORANGE);
+		cd.setColor(Palette.ORANGE);
 		cd.drawRectangle(150, 150, 100, 100);
 
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		cd.fillCircle(200, 200, 10);
 
 		Image.save(cd, "./src/test/java/out.png", ImageFormat.PNG);
@@ -198,7 +198,7 @@ public class CodeDrawTest {
 
 		int size = 1;
 
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		cd.fillRectangle(0, 0, size, size);
 		cd.fillRectangle(0, cd.getHeight() - size, size, size);
 		cd.fillRectangle(cd.getWidth() - size, 0, size, size);

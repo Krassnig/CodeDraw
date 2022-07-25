@@ -14,7 +14,7 @@ public class Clock {
 			OffsetDateTime time = OffsetDateTime.now();
 
 			cd.clear();
-			cd.setColor(Color.BLACK);
+			cd.setColor(Palette.BLACK);
 
 			// hour dots
 			for (double j = 0; j < tau; j += tau / 12) {

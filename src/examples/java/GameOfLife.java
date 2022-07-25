@@ -95,7 +95,7 @@ public class GameOfLife {
 	public static void render(CodeDraw cd, boolean[][] field) {
 		for (int x = 0; x < field.length; x++) {
 			for (int y = 0; y < field[x].length; y++) {
-				cd.setColor(field[x][y] ? Color.BLACK : Color.WHITE);
+				cd.setColor(field[x][y] ? Palette.BLACK : Palette.WHITE);
 				cd.fillSquare(FIELD_SIZE * x, FIELD_SIZE * y, FIELD_SIZE);
 			}
 		}

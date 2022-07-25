@@ -41,38 +41,38 @@ import codedraw.*;
 // Without this CodeDraw cannot be used in your program.
 
 public class MyProgram {
-  public static void main(String[] args) {
-    // Instantiates a new CodeDraw window with the size of 600x600 pixel
-    CodeDraw cd = new CodeDraw();
-    // The created window can now be accessed through the cd variable.
-    // By calling the method *setColor* the rectangle
-    // and the square will be drawn in the color red.
-    cd.setColor(Color.RED);
-    // When setColor is called all shapes that are drawn after
-    // will have the given color, until *setColor* is called again
-    // with a different color.
-    cd.drawRectangle(100, 100, 200, 100);
-    // drawRectangle draws the outline of a rectangle,
-    // offset by 100 pixel from the top left corner.
-    // The Rectangle will have a width of 200 pixel
-    // and a height of 100 pixel.
-    cd.fillSquare(180, 150, 80);
-    // The filled square will be offset to the left by 180 pixel
-    // and 150 pixel to the top. Its size will be 80x80 pixel.
-
-    // The next line changes the color to light blue.
-    cd.setColor(Color.LIGHT_BLUE);
-    // fillCircle draws a filled circle where its center is
-    // offset by 300 pixel to the left and 200 pixel to the top.
-    // The radius of the circle will have a size of 50 pixel.
-    cd.fillCircle(300, 200, 50);
-    // Shapes that are drawn later will be drawn over
-    // the shapes that are drawn earlier.
-
-    cd.show();
-    // Finally, the method show must be called
-    // to display the drawn shapes in the CodeDraw window.
-  }
+    public static void main(String[] args) {
+        // Instantiates a new CodeDraw window with the size of 600x600 pixel
+        CodeDraw cd = new CodeDraw();
+        // The created window can now be accessed through the cd variable.
+        // By calling the method *setColor* the rectangle
+        // and the square will be drawn in the color red.
+        cd.setColor(Palette.RED);
+        // When setColor is called all shapes that are drawn after
+        // will have the given color, until *setColor* is called again
+        // with a different color.
+        cd.drawRectangle(100, 100, 200, 100);
+        // drawRectangle draws the outline of a rectangle,
+        // offset by 100 pixel from the top left corner.
+        // The Rectangle will have a width of 200 pixel
+        // and a height of 100 pixel.
+        cd.fillSquare(180, 150, 80);
+        // The filled square will be offset to the left by 180 pixel
+        // and 150 pixel to the top. Its size will be 80x80 pixel.
+        
+        // The next line changes the color to light blue.
+        cd.setColor(Palette.LIGHT_BLUE);
+        // fillCircle draws a filled circle where its center is
+        // offset by 300 pixel to the left and 200 pixel to the top.
+        // The radius of the circle will have a size of 50 pixel.
+        cd.fillCircle(300, 200, 50);
+        // Shapes that are drawn later will be drawn over
+        // the shapes that are drawn earlier.
+        
+        cd.show();
+        // Finally, the method show must be called
+        // to display the drawn shapes in the CodeDraw window.
+    }
 }
 ```
 
@@ -109,17 +109,17 @@ and the thickness of the outlines of shapes.
 import codedraw.*;
 
 public class Main {
-  public static void main(String[] args) {
-    CodeDraw cd = new CodeDraw(400, 400);
-
-    cd.setColor(Color.GREEN);
-    cd.setCorner(Corner.ROUND);
-    cd.setLineWidth(5);
-
-    cd.drawRectangle(100, 100, 200, 100);
-
-    cd.show();
-  }
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+        
+        cd.setColor(Palette.GREEN);
+        cd.setCorner(Corner.ROUND);
+        cd.setLineWidth(5);
+        
+        cd.drawRectangle(100, 100, 200, 100);
+        
+        cd.show();
+    }
 }
 ```
 
@@ -148,21 +148,21 @@ import codedraw.*;
 import codedraw.textformat.*;
 
 public class Main {
-  public static void main(String[] args) {
-    CodeDraw cd = new CodeDraw(400, 400);
-    TextFormat format = cd.getTextFormat();
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+        TextFormat format = cd.getTextFormat();
 
-    format.setFontSize(20);
-    format.setHorizontalAlign(HorizontalAlign.CENTER);
-    format.setItalic(true);
+        format.setFontSize(20);
+        format.setHorizontalAlign(HorizontalAlign.CENTER);
+        format.setItalic(true);
 
-    cd.drawText(200, 100, "Hello World!\nMulti lines!");
+        cd.drawText(200, 100, "Hello World!\nMulti lines!");
 
-    cd.setColor(Color.RED);
-    cd.fillCircle(200, 100, 5);
+        cd.setColor(Palette.RED);
+        cd.fillCircle(200, 100, 5);
 
-    cd.show();
-  }
+        cd.show();
+    }
 }
 ```
 

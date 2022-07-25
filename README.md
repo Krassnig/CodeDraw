@@ -45,14 +45,14 @@ public class Main {
 		CodeDraw cd = new CodeDraw(400, 400);
 
 		// Sets the drawing color to red
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 		// Draws the outline of a rectangle
 		cd.drawRectangle(100, 100, 200, 100);
 		// Draws a filled Square
 		cd.fillSquare(180, 150, 80);
 
 		// Changes the color to light blue
-		cd.setColor(Color.LIGHT_BLUE);
+		cd.setColor(Palette.LIGHT_BLUE);
 		cd.fillCircle(300, 200, 50);
 
 		// Finally, the method show must be called
@@ -115,7 +115,7 @@ public class Main {
 		cd.drawText(200, 200, "Move your mouse over here.");
 		cd.show();
 
-		cd.setColor(Color.RED);
+		cd.setColor(Palette.RED);
 
 		// creates an endless loop (until you close the window)
 		while (!es.isClosed()) {
