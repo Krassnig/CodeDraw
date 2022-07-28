@@ -116,15 +116,15 @@ public final class Palette {
 	}
 
 	/**
-	 * Creates a new Color based of the baseColor but with a different alpha value.
-	 * @param baseColor Any color. It's alpha value will be ignored when creating the new color.
-	 * @param alpha The value can range from 0 to 255
+	 * Creates a new Color based of the baseColor but with a different transparency value.
+	 * @param baseColor Any color. It's transparency value will be ignored when creating the new color.
+	 * @param transparency The value can range from 0 to 255
 	 */
-	public static Color fromBaseColor(Color baseColor, int alpha) {
+	public static Color fromBaseColor(Color baseColor, int transparency) {
 		if (baseColor == null) throw createParameterNullException("baseColor");
-		checkRange(alpha, "alpha", 0, 256);
+		checkRange(transparency, "transparency", 0, 256);
 
-		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
+		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), transparency);
 	}
 
 	/**
@@ -133,15 +133,15 @@ public final class Palette {
 	 * @param red The value can range from 0 to 255.
 	 * @param green The value can range from 0 to 255.
 	 * @param blue The value can range from 0 to 255.
-	 * @param alpha The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
+	 * @param transparency The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
 	 */
-	public static Color fromRGBA(int red, int green, int blue, int alpha) {
+	public static Color fromRGBA(int red, int green, int blue, int transparency) {
 		checkRange(red, "red", 0, 256);
 		checkRange(green, "green", 0, 256);
 		checkRange(blue, "blue", 0, 256);
-		checkRange(alpha, "alpha", 0, 256);
+		checkRange(transparency, "transparency", 0, 256);
 
-		return new Color(red, green, blue, alpha);
+		return new Color(red, green, blue, transparency);
 	}
 
 	public static final Color TRANSPARENT = fromRGBA(0, 0, 0, 0);
