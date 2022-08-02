@@ -11,6 +11,13 @@ import java.awt.*;
  * The borderless window can be closed by pressing Alt + F4;
  */
 public class BorderlessWindow extends Image implements AutoCloseable {
+	public static BorderlessWindow show(Image image) {
+		BorderlessWindow bw = new BorderlessWindow(image.getWidth(), image.getHeight());
+		bw.drawImage(0, 0, image);
+		bw.show();
+		return bw;
+	}
+
 	/**
 	 * Creates a borderless window of size 600x600.
 	 * The borderless window can be closed by pressing Alt + F4;

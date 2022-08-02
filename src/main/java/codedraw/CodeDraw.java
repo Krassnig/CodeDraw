@@ -48,6 +48,13 @@ import java.awt.*;
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw extends Image implements AutoCloseable {
+	public static CodeDraw show(Image image) {
+		CodeDraw cd = new CodeDraw(image.getWidth(), image.getHeight());
+		cd.drawImage(0, 0, image);
+		cd.show();
+		return cd;
+	}
+
 	public static void run(Animation animation, int width, int height, int framesPerSecond) {
 		CodeDraw cd = new CodeDraw(width, height);
 		EventScanner es = cd.getEventScanner();
