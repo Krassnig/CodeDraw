@@ -189,11 +189,11 @@ public final class TextFormat {
 				+ "fontName: " + fontName
 				+ ", fontSize: " + fontSize
 				+ ", textOrigin: " + textOrigin
-				+ ", underline: " + underline
-				+ ", isBold: " + isBold
-				+ ", isItalic: " + isItalic
-				+ ", isStrikethrough: " + isStrikethrough +
-				"}";
+				+ (underline == Underline.NONE ? "" : ", underline: " + underline)
+				+ (isBold ? ", bold" : "")
+				+ (isItalic ? ", italic" : "")
+				+ (isStrikethrough ? ", strikethrough" : "")
+				+ "}";
 	}
 
 
