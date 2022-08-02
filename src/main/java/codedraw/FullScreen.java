@@ -38,6 +38,14 @@ public class FullScreen extends Image implements AutoCloseable {
 	private CodeDrawGUI gui;
 
 	/**
+	 * Gets the screen the full screen window is currently displayed on.
+	 * @return A screen.
+	 */
+	public Screen getScreen() {
+		return gui.getScreen();
+	}
+
+	/**
 	 * Gets the EventScanner of this CodeDraw window.
 	 * See the {@link EventScanner} for more details on how to use it.
 	 * @return an EventScanner.
