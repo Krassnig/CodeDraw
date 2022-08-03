@@ -17,18 +17,26 @@ public class Path {
 	private Path2D path;
 	private boolean fill;
 
+	public double getCurrentX() {
+		return path.getCurrentPoint().getX();
+	}
+
+	public double getCurrentY() {
+		return path.getCurrentPoint().getY();
+	}
+
 	public Path lineTo(double x, double y) {
 		path.lineTo(x, y);
 		return this;
 	}
 
-	public Path bezierTo(double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		path.curveTo(control1X, control1Y, control2X, control2Y, endX, endY);
+	public Path curveTo(double controlX, double controlY, double endX, double endY) {
+		path.quadTo(controlX, controlY, endX, endY);
 		return this;
 	}
 
-	public Path curveTo(double controlX, double controlY, double endX, double endY) {
-		path.quadTo(controlX, controlY, endX, endY);
+	public Path bezierTo(double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
+		path.curveTo(control1X, control1Y, control2X, control2Y, endX, endY);
 		return this;
 	}
 
