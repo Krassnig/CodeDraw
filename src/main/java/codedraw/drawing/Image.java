@@ -172,8 +172,8 @@ public class Image {
 	 */
 	public static Image crop(Image source, int x, int y, int width, int height) {
 		if (source == null) throw createParameterNullException("source");
-		if (x < 0 && source.width <= x) throw new RuntimeException("");
-		if (y < 0 && source.height <= y) throw new RuntimeException("");
+		if (x < 0 || source.width <= x) throw new RuntimeException("");
+		if (y < 0 || source.height <= y) throw new RuntimeException("");
 		if (x + width > source.width) throw new RuntimeException();
 		if (y + height > source.height) throw new RuntimeException();
 
