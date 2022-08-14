@@ -32,8 +32,9 @@ public final class TextFormat {
 	 * See {@link TextOrigin} for a more detailed explanation.
 	 * @param textOrigin Sets the text origin.
 	 */
-	public void setTextOrigin(TextOrigin textOrigin) {
+	public TextFormat setTextOrigin(TextOrigin textOrigin) {
 		this.textOrigin = textOrigin;
+		return this;
 	}
 
 	private int fontSize = 16;
@@ -50,9 +51,10 @@ public final class TextFormat {
 	 * The default is 16.
 	 * @param fontSize Sets the font size.
 	 */
-	public void setFontSize(int fontSize) {
+	public TextFormat setFontSize(int fontSize) {
 		if (fontSize < 1) throw createParameterMustBeGreaterThanZeroException("fontSize");
 		this.fontSize = fontSize;
+		return this;
 	}
 
 	private String fontName = "Arial";
@@ -69,11 +71,12 @@ public final class TextFormat {
 	 * The default font is Arial.
 	 * @param fontName Sets the font name. Only accepts valid fonts installed on the system running this application.
 	 */
-	public void setFontName(String fontName) {
+	public TextFormat setFontName(String fontName) {
 		if (fontName == null) throw createParameterNullException("fontName");
 		if (!availableFonts.contains(fontName))
 			throw new IllegalArgumentException("The font " + fontName + " is not available on your device.");
 		this.fontName = fontName;
+		return this;
 	}
 
 	private boolean isBold = false;
@@ -90,8 +93,9 @@ public final class TextFormat {
 	 * The default is false (not bold).
 	 * @param isBold Sets whether the drawn text is bold.
 	 */
-	public void setBold(boolean isBold) {
+	public TextFormat setBold(boolean isBold) {
 		this.isBold = isBold;
+		return this;
 	}
 
 	private boolean isItalic = false;
@@ -108,7 +112,10 @@ public final class TextFormat {
 	 * The default is false (not italic).
 	 * @param isItalic Sets whether the drawn text is italic.
 	 */
-	public void setItalic(boolean isItalic) { this.isItalic = isItalic; }
+	public TextFormat setItalic(boolean isItalic) {
+		this.isItalic = isItalic;
+		return this;
+	}
 
 	private Underline underline = Underline.NONE;
 
@@ -124,9 +131,10 @@ public final class TextFormat {
 	 * The default is Underline.NONE.
 	 * @param underline Sets the underline styling.
 	 */
-	public void setUnderlined(Underline underline) {
+	public TextFormat setUnderlined(Underline underline) {
 		if (underline == null) throw createParameterNullException("underline");
 		this.underline = underline;
+		return this;
 	}
 
 	private boolean isStrikethrough = false;
@@ -143,8 +151,9 @@ public final class TextFormat {
 	 * The default is false (no strikethrough).
 	 * @param isStrikethrough Sets whether the drawn text is strikethrough.
 	 */
-	public void setStrikethrough(boolean isStrikethrough) {
+	public TextFormat setStrikethrough(boolean isStrikethrough) {
 		this.isStrikethrough = isStrikethrough;
+		return this;
 	}
 
 	Font toFont() {
