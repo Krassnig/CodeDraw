@@ -17,9 +17,11 @@ class CanvasPanel extends JPanel {
 
 	private final Image buffer;
 
-	private final Semaphore clipboardCopyLock = new Semaphore(1);
-	private final Semaphore renderCopyLock = new Semaphore(1);
-	private final Semaphore waitRender = new Semaphore(0);
+	private final Semaphore copyToClipboardLock = new Semaphore(1);
+	private final Semaphore renderLock = new Semaphore(1);
+	private final Semaphore waitUntilPreviousRenderFinished = new Semaphore(1);
+	private final Semaphore waitUntilRenderFinished = new Semaphore(0);
+
 
 	public void render(Image image, long waitMilliseconds, boolean waitForDisplay) {
 		long start = System.currentTimeMillis();
@@ -29,43 +31,48 @@ class CanvasPanel extends JPanel {
 		long executionTime = System.currentTimeMillis() - start;
 		long remainingMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
 
-		if (remainingMilliseconds != 0) {
+		if (remainingMilliseconds > 0) {
 			sleep(remainingMilliseconds);
 		}
 	}
 
 	private void render(Image image, boolean waitForDisplay) {
-		clipboardCopyLock.acquire();
-		renderCopyLock.acquire();
+		waitUntilPreviousRenderFinished.acquire();
+		waitUntilRenderFinished.emptySemaphore();
+
+		copyToClipboardLock.acquire();
+		renderLock.acquire();
 
 		buffer.drawImage(0, 0, image);
 
-		renderCopyLock.release();
-		clipboardCopyLock.release();
+		renderLock.release();
+		copyToClipboardLock.release();
 
-		waitRender.acquireAll();
+		repaint(10);
 
-		repaint();
-
-		if (waitForDisplay) waitRender.acquire();
+		if (waitForDisplay) {
+			waitUntilRenderFinished.acquire();
+		}
 	}
 
 	public void copyCanvasToClipboard() {
-		clipboardCopyLock.acquire();
+		copyToClipboardLock.acquire();
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(new TransferableImage(buffer), null);
-		clipboardCopyLock.release();
+		copyToClipboardLock.release();
 	}
 
 	@Override
 	protected void paintComponent(Graphics componentGraphics) {
-		super.paintComponent(componentGraphics);
+		super.paintComponent(componentGraphics);;
 
-		renderCopyLock.acquire();
+		renderLock.acquire();
 		buffer.copyTo(componentGraphics, Interpolation.BICUBIC);
-		renderCopyLock.release();
+		renderLock.release();
 
-		waitRender.release();
+		waitUntilRenderFinished.release();
+		waitUntilPreviousRenderFinished.emptySemaphore();
+		waitUntilPreviousRenderFinished.release();
 	}
 
 	private static void sleep(long waitMilliseconds) {

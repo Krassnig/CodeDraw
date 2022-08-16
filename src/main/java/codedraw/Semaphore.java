@@ -16,13 +16,15 @@ class Semaphore {
 	}
 
 	public boolean canAcquire() {
-		boolean result = s.tryAcquire();
-		if (result) s.release();
-		return result;
+		return s.availablePermits() > 0;
 	}
 
-	public void acquireAll() {
-		while (s.tryAcquire());
+	public void emptySemaphore() {
+		s.drainPermits();
+	}
+
+	public boolean tryAcquire() {
+		return s.tryAcquire();
 	}
 
 	public void release() {
