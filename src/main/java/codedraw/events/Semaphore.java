@@ -16,13 +16,7 @@ class Semaphore {
 	}
 
 	public boolean canAcquire() {
-		boolean result = s.tryAcquire();
-		if (result) s.release();
-		return result;
-	}
-
-	public void acquireAll() {
-		while (s.tryAcquire());
+		return s.availablePermits() > 0;
 	}
 
 	public void release() {
