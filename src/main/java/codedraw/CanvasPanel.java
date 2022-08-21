@@ -19,9 +19,7 @@ class CanvasPanel extends JPanel {
 
 	private final Semaphore copyToClipboardLock = new Semaphore(1);
 	private final Semaphore renderLock = new Semaphore(1);
-	private final Semaphore waitUntilPreviousRenderFinished = new Semaphore(1);
-	private final Semaphore waitUntilRenderFinished = new Semaphore(0);
-
+	private final Semaphore waitForRender = new Semaphore(1);
 
 	public void render(Image image, long waitMilliseconds, boolean waitForDisplay) {
 		long start = System.currentTimeMillis();
@@ -37,8 +35,8 @@ class CanvasPanel extends JPanel {
 	}
 
 	private void render(Image image, boolean waitForDisplay) {
-		waitUntilPreviousRenderFinished.acquire();
-		waitUntilRenderFinished.emptySemaphore();
+		waitForRender.acquire();
+		waitForRender.emptySemaphore();
 
 		copyToClipboardLock.acquire();
 		renderLock.acquire();
@@ -51,7 +49,8 @@ class CanvasPanel extends JPanel {
 		repaint(10);
 
 		if (waitForDisplay) {
-			waitUntilRenderFinished.acquire();
+			waitForRender.acquire();
+			waitForRender.release();
 		}
 	}
 
@@ -70,9 +69,7 @@ class CanvasPanel extends JPanel {
 		buffer.copyTo(componentGraphics, Interpolation.BICUBIC);
 		renderLock.release();
 
-		waitUntilRenderFinished.release();
-		waitUntilPreviousRenderFinished.emptySemaphore();
-		waitUntilPreviousRenderFinished.release();
+		waitForRender.release();
 	}
 
 	private static void sleep(long waitMilliseconds) {
