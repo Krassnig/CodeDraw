@@ -76,7 +76,6 @@ public final class Palette {
 	/**
 	 * Creates a rgba color with the alpha implicitly being 255. The 8 most significant bits are ignored.
 	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
-	 *
 	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
 	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
 	 */
@@ -107,7 +106,6 @@ public final class Palette {
 	 * The following 8 bits represent green.
 	 * The next 8 bits represent blue .
 	 * The 8 least significant bits represent the alpha value.
-	 *
 	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
 	 * @param rgba any valid integer value.
 	 */

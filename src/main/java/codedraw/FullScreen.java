@@ -3,9 +3,6 @@ package codedraw;
 import codedraw.drawing.Image;
 import codedraw.events.EventScanner;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * The Fullscreen class lets you create fullscreen application and draw on it.
  * It works very similarly to the {@link CodeDraw} class.
