@@ -566,7 +566,7 @@ public class Image {
 	}
 
 	/**
-	 * Draws a point which changes size depending on the {@link #getLineWidth()}
+	 * Draws a point. The size of the point can be changed by changing the {@link #getLineWidth()}.
 	 * @param centerX The distance in pixel from the left side of the canvas to the center of the point.
 	 * @param centerY The distance in pixel from the top side of the canvas to the center of the point.
 	 */
