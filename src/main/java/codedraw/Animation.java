@@ -4,7 +4,9 @@ import codedraw.drawing.Image;
 import codedraw.events.*;
 
 public interface Animation {
-	void render(Image canvas);
+	void draw(Image canvas);
+
+	default void simulate() { }
 
 	default void onMouseClick(MouseClickEvent event) { }
 	default void onMouseMove(MouseMoveEvent event) { }

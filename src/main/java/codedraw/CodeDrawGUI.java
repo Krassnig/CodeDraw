@@ -1,7 +1,7 @@
 package codedraw;
 
 import codedraw.drawing.Image;
-import codedraw.events.EventScanner;
+import codedraw.events.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -179,6 +179,81 @@ class CodeDrawGUI implements AutoCloseable {
 	@Override
 	public void close() {
 		close(false);
+	}
+
+	public static void run(Animation animation, CodeDrawGUI gui, Image image, int framesPerSecond, int simulationsPerSecond) {
+		EventScanner es = gui.getEventScanner();
+		Scheduler frames = new Scheduler(1000 / framesPerSecond, true);
+		Scheduler simulations = new Scheduler( 1000 / simulationsPerSecond, false);
+
+		while (!gui.isClosed()) {
+			while (simulations.shouldDoTask()) {
+				dispatchEvents(es, animation);
+				animation.simulate();
+			}
+
+			if (frames.shouldDoTask()) {
+				animation.draw(image);
+				gui.show(image, 0);
+			}
+
+			long sleepTime = Math.min(simulations.timeUntilNextTask(), frames.timeUntilNextTask());
+			sleep(Math.max(sleepTime, 0));
+		}
+	}
+
+	private static void dispatchEvents(EventScanner es, Animation animation) {
+		while (es.hasEventNow()) {
+			Object event = es.nextEvent();
+
+			if (event instanceof MouseClickEvent) {
+				animation.onMouseClick((MouseClickEvent) event);
+			}
+			else if (event instanceof MouseMoveEvent) {
+				animation.onMouseMove((MouseMoveEvent) event);
+			}
+			else if (event instanceof MouseDownEvent) {
+				animation.onMouseDown((MouseDownEvent) event);
+			}
+			else if (event instanceof MouseUpEvent) {
+				animation.onMouseUp((MouseUpEvent) event);
+			}
+			else if (event instanceof MouseEnterEvent) {
+				animation.onMouseEnter((MouseEnterEvent) event);
+			}
+			else if (event instanceof MouseLeaveEvent) {
+				animation.onMouseLeave((MouseLeaveEvent) event);
+			}
+			else if (event instanceof MouseWheelEvent) {
+				animation.onMouseWheel((MouseWheelEvent) event);
+			}
+			else if (event instanceof KeyDownEvent) {
+				animation.onKeyDown((KeyDownEvent) event);
+			}
+			else if (event instanceof KeyUpEvent) {
+				animation.onKeyUp((KeyUpEvent) event);
+			}
+			else if (event instanceof KeyPressEvent) {
+				animation.onKeyPress((KeyPressEvent) event);
+			}
+			else if (event instanceof WindowMoveEvent) {
+				animation.onWindowMove((WindowMoveEvent) event);
+			}
+			else if (event instanceof WindowCloseEvent) {
+				animation.onWindowClose((WindowCloseEvent) event);
+			}
+			else {
+				throw new RuntimeException("unhandled event occurred.");
+			}
+		}
+	}
+
+	private static void sleep(long waitMilliseconds) {
+		try {
+			Thread.sleep(waitMilliseconds);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void checkIsClosed() {
