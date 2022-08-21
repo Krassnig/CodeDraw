@@ -547,7 +547,7 @@ public class Image {
 
 		beforeDrawing();
 		g.setFont(textFormat.toFont());
-		TextRendering.drawText(g, x, y, text, textFormat);
+		TextFormat.drawText(g, x, y, text, textFormat);
 		afterDrawing();
 	}
 
