@@ -545,6 +545,9 @@ public class Image {
 	public void drawText(double x, double y, String text) {
 		if (text == null) throw createParameterNullException("text");
 
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
 		beforeDrawing();
 		g.setFont(textFormat.toFont());
 		TextFormat.drawText(g, x, y, text, textFormat);
@@ -558,6 +561,9 @@ public class Image {
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
 	public void drawPixel(double x, double y) {
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
 		beforeDrawing();
 		if (0 <= x && x < image.getWidth() && 0 <= y && y < image.getHeight()) {
 			image.setRGB((int) (x * xScale), (int) (y * yScale), getColor().getRGB());
@@ -571,6 +577,9 @@ public class Image {
 	 * @param centerY The distance in pixel from the top side of the canvas to the center of the point.
 	 */
 	public void drawPoint(double centerX, double centerY) {
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+
 		beforeDrawing();
 		g.fill(createEllipse(centerX, centerY, getLineWidth(), getLineWidth()));
 		afterDrawing();
@@ -586,6 +595,11 @@ public class Image {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the line.
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY) {
+		checkNaNAndInfinity(startX, "startX");
+		checkNaNAndInfinity(startY, "startY");
+		checkNaNAndInfinity(endX, "endX");
+		checkNaNAndInfinity(endY, "endY");
+
 		beforeDrawing();
 		g.draw(createLine(startX, startY, endX, endY));
 		afterDrawing();
@@ -605,6 +619,13 @@ public class Image {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
+		checkNaNAndInfinity(startX, "startX");
+		checkNaNAndInfinity(startY, "startY");
+		checkNaNAndInfinity(controlX, "controlX");
+		checkNaNAndInfinity(controlY, "controlY");
+		checkNaNAndInfinity(endX, "endX");
+		checkNaNAndInfinity(endY, "endY");
+
 		beforeDrawing();
 		g.draw(createCurve(startX, startY, controlX, controlY, endX, endY));
 		afterDrawing();
@@ -626,6 +647,15 @@ public class Image {
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the curve.
 	 */
 	public void drawBezier(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
+		checkNaNAndInfinity(startX, "startX");
+		checkNaNAndInfinity(startY, "startY");
+		checkNaNAndInfinity(control1X, "control1X");
+		checkNaNAndInfinity(control1Y, "control1Y");
+		checkNaNAndInfinity(control2X, "control2X");
+		checkNaNAndInfinity(control2Y, "control2Y");
+		checkNaNAndInfinity(endX, "endX");
+		checkNaNAndInfinity(endY, "endY");
+
 		beforeDrawing();
 		g.draw(createBezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
 		afterDrawing();
@@ -642,6 +672,10 @@ public class Image {
 	public void drawSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
 
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(sideLength, "sideLength");
+
 		beforeDrawing();
 		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
 		afterDrawing();
@@ -656,6 +690,10 @@ public class Image {
 	 */
 	public void fillSquare(double x, double y, double sideLength) {
 		if (sideLength < 0) throw createParameterMustBeGreaterOrEqualToZeroException("sideLength");
+
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
 		g.fill(createFillRectangle(x, y, sideLength, sideLength));
@@ -675,6 +713,11 @@ public class Image {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(width, "width");
+		checkNaNAndInfinity(height, "height");
+
 		beforeDrawing();
 		g.draw(createDrawRectangle(x, y, width, height));
 		afterDrawing();
@@ -692,6 +735,11 @@ public class Image {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(width, "width");
+		checkNaNAndInfinity(height, "height");
+
 		beforeDrawing();
 		g.fill(createFillRectangle(x, y, width, height));
 		afterDrawing();
@@ -708,6 +756,10 @@ public class Image {
 	public void drawCircle(double centerX, double centerY, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
 
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(radius, "radius");
+
 		beforeDrawing();
 		g.draw(createEllipse(centerX, centerY, radius, radius));
 		afterDrawing();
@@ -722,6 +774,10 @@ public class Image {
 	 */
 	public void fillCircle(double centerX, double centerY, double radius) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(radius, "radius");
 
 		beforeDrawing();
 		g.fill(createEllipse(centerX, centerY, radius, radius));
@@ -741,6 +797,11 @@ public class Image {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(horizontalRadius, "horizontalRadius");
+		checkNaNAndInfinity(verticalRadius, "verticalRadius");
+
 		beforeDrawing();
 		g.draw(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
@@ -757,6 +818,11 @@ public class Image {
 	public void fillEllipse(double centerX, double centerY, double horizontalRadius, double verticalRadius) {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
+
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(horizontalRadius, "horizontalRadius");
+		checkNaNAndInfinity(verticalRadius, "verticalRadius");
 
 		beforeDrawing();
 		g.fill(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
@@ -782,6 +848,12 @@ public class Image {
 	 */
 	public void drawArc(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(radius, "radius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
 		g.draw(createArc(centerX, centerY, radius, radius, startRadians, sweepRadians));
@@ -811,6 +883,13 @@ public class Image {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(horizontalRadius, "horizontalRadius");
+		checkNaNAndInfinity(verticalRadius, "verticalRadius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
+
 		beforeDrawing();
 		g.draw(createArc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
@@ -835,6 +914,12 @@ public class Image {
 	 */
 	public void drawPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(radius, "radius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
 		g.draw(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
@@ -864,6 +949,13 @@ public class Image {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(horizontalRadius, "horizontalRadius");
+		checkNaNAndInfinity(verticalRadius, "verticalRadius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
+
 		beforeDrawing();
 		g.draw(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
@@ -885,6 +977,12 @@ public class Image {
 	 */
 	public void fillPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians) {
 		if (radius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("radius");
+
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(radius, "radius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
 		g.fill(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
@@ -911,6 +1009,13 @@ public class Image {
 		if (horizontalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("horizontalRadius");
 		if (verticalRadius < 0) throw createParameterMustBeGreaterOrEqualToZeroException("verticalRadius");
 
+		checkNaNAndInfinity(centerX, "centerX");
+		checkNaNAndInfinity(centerY, "centerY");
+		checkNaNAndInfinity(horizontalRadius, "horizontalRadius");
+		checkNaNAndInfinity(verticalRadius, "verticalRadius");
+		checkNaNAndInfinity(startRadians, "startRadians");
+		checkNaNAndInfinity(sweepRadians, "sweepRadians");
+
 		beforeDrawing();
 		g.fill(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
@@ -928,6 +1033,13 @@ public class Image {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
+		checkNaNAndInfinity(x3, "x3");
+		checkNaNAndInfinity(y3, "y3");
+
 		beforeDrawing();
 		g.draw(createTriangle(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
@@ -943,6 +1055,13 @@ public class Image {
 	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
+		checkNaNAndInfinity(x3, "x3");
+		checkNaNAndInfinity(y3, "y3");
+
 		beforeDrawing();
 		g.fill(createTriangle(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
@@ -968,6 +1087,7 @@ public class Image {
 	 */
 	public void drawPolygon(double... points) {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
+		checkNaNAndInfinity(points, "points");
 
 		beforeDrawing();
 		g.draw(createPolygon(points));
@@ -993,6 +1113,7 @@ public class Image {
 	 */
 	public void fillPolygon(double... points) {
 		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
+		checkNaNAndInfinity(points, "points");
 
 		beforeDrawing();
 		g.fill(createPolygon(points));
@@ -1001,10 +1122,16 @@ public class Image {
 
 
 	public Path fillPathStartingAt(double x, double y) {
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
 		return new Path(g, x, y, true);
 	}
 
 	public Path drawPathStartingAt(double x, double y) {
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
 		return new Path(g, x, y, false);
 	}
 
@@ -1026,6 +1153,8 @@ public class Image {
 	 */
 	public void drawImage(double x, double y, Image image) {
 		if (image == null) throw createParameterNullException("image");
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
 
 		beforeDrawing();
 		drawImageInternal(x, y, image.getWidth(), image.getHeight(), image, Interpolation.NEAREST_NEIGHBOR);
@@ -1045,6 +1174,10 @@ public class Image {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(width, "width");
+		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
 		drawImageInternal(x, y, width, height, image, Interpolation.BICUBIC);
@@ -1065,6 +1198,10 @@ public class Image {
 		if (width < 0) throw createParameterMustBeGreaterOrEqualToZeroException("width");
 		if (height < 0) throw createParameterMustBeGreaterOrEqualToZeroException("height");
 		if (image == null) throw createParameterNullException("image");
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+		checkNaNAndInfinity(width, "width");
+		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
 		drawImageInternal(x, y, width, height, image, interpolation);
@@ -1335,5 +1472,26 @@ public class Image {
 			throw new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 		else
 			return parameter;
+	}
+
+	private static void checkNaNAndInfinity(double parameter, String parameterName) {
+		if (Double.isNaN(parameter)) {
+			throw new RuntimeException("The parameter '" + parameterName + "' is NaN (not a number).");
+		}
+		if (Double.isInfinite(parameter)) {
+			throw new RuntimeException("The parameter '" + parameterName + "' is infinite.");
+		}
+	}
+
+	private static void checkNaNAndInfinity(double[] parameters, String parameterName) {
+		for (int i = 0; i < parameters.length; i++) {
+			double parameter = parameters[i];
+			if (Double.isNaN(parameter)) {
+				throw new RuntimeException("The parameter list '" + parameterName + "' contains a NaN (not a number) value at position " + i + ".");
+			}
+			if (Double.isInfinite(parameter)) {
+				throw new RuntimeException("The parameter list '" + parameterName + "' contains an infinite value at position " + i + ".");
+			}
+		}
 	}
 }
