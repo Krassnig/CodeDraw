@@ -368,9 +368,9 @@ public class Image {
 		setAntiAliased(true);
 		setCorner(Corner.SHARP);
 		setTransformationToIdentity();
-		setAlphaComposition(AlphaComposition.SET_VALUE);
+		setDrawOver(false);
 		clearInternal(backgroundColor);
-		setAlphaComposition(AlphaComposition.DRAW_OVER);
+		setDrawOver(true);
 	}
 
 	private BufferedImage image;
@@ -385,7 +385,7 @@ public class Image {
 	private boolean isAntiAliased = true;
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
-	private AlphaComposition alphaComposition = AlphaComposition.DRAW_OVER;
+	private boolean drawOver = true;
 
 	/**
 	 * This value cannot be changed once set via the constructor.
@@ -548,13 +548,13 @@ public class Image {
 		setTransformation(Matrix2D.IDENTITY);
 	}
 
-	public AlphaComposition getAlphaComposition() {
-		return alphaComposition;
+	public boolean drawOver() {
+		return drawOver;
 	}
 
-	public void setAlphaComposition(AlphaComposition alphaComposition) {
-		this.alphaComposition = alphaComposition;
-		g.setComposite(alphaComposition == AlphaComposition.DRAW_OVER ? AlphaComposite.SrcOver : AlphaComposite.Src);
+	public void setDrawOver(boolean drawOver) {
+		this.drawOver = drawOver;
+		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
 	}
 
 	/**

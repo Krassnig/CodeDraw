@@ -296,7 +296,7 @@ public class GraphicTest {
 		Image backgroundImage = Image.fromFile("./src/test/java/test.jpg");
 		Image transparentImage = new Image(200, 200, Palette.RED);
 
-		transparentImage.setAlphaComposition(AlphaComposition.SET_VALUE);
+		transparentImage.setDrawOver(false);
 		transparentImage.setColor(Palette.TRANSPARENT);
 		transparentImage.fillSquare(50, 50, 100);
 		transparentImage.setColor(Palette.fromBaseColor(Palette.BLACK, 128));
