@@ -132,6 +132,31 @@ public class Image {
 		return new Image(width, height, upscale(max.getScaleX()), upscale(max.getScaleY()), Palette.WHITE);
 	}
 
+	private static int upscale(double scale) {
+		return Math.max(1, (int)Math.ceil(scale));
+	}
+
+	private static AffineTransform getMaximumDPIFromAllScreens() {
+		AffineTransform max = new AffineTransform();
+
+		for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+			for (GraphicsConfiguration configuration : device.getConfigurations()) {
+				max = maxAffineTransformScale(max, configuration.getDefaultTransform());
+			}
+		}
+
+		return max;
+	}
+
+	private static AffineTransform maxAffineTransformScale(AffineTransform a, AffineTransform b) {
+		AffineTransform result = new AffineTransform();
+		result.setToScale(
+			Math.max(a.getScaleX(), b.getScaleX()),
+			Math.max(a.getScaleY(), b.getScaleY())
+		);
+		return result;
+	}
+
 	/**
 	 * Saves the image to the specified location using the specified image format.
 	 * Supported formats are all values in {@link ImageFormat}.
@@ -475,7 +500,7 @@ public class Image {
 			setRenderingHint(RHTextAntiAliasing.OFF);
 			/* Pure strokes look better when anti-aliasing is on
 			   but certain vertical lines can disappear when anti-aliasing is off.
-			   With normalize non-anti-aliased lines don't change. */
+			   With normalize, non-anti-aliased lines don't change. */
 			setRenderingHint(RHStrokeControl.NORMALIZE);
 		}
 	}
@@ -1266,6 +1291,8 @@ public class Image {
 	 * @return a BufferedImage.
 	 */
 	public BufferedImage toBufferedImage(BufferedImageType type) {
+		if (type == null) throw createParameterNullException("type");
+
 		BufferedImage result = new BufferedImage(width, height, type.getType());
 		Graphics2D g = result.createGraphics();
 		g.drawImage(image, 0, 0, width, height, Palette.WHITE, null);
@@ -1414,31 +1441,6 @@ public class Image {
 		return Math.toDegrees(-sweepRadians);
 	}
 
-	private static int upscale(double scale) {
-		return Math.max(1, (int)Math.ceil(scale));
-	}
-
-	private static AffineTransform getMaximumDPIFromAllScreens() {
-		AffineTransform max = new AffineTransform();
-
-		for (GraphicsDevice device : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
-			for (GraphicsConfiguration configuration : device.getConfigurations()) {
-				max = maxAffineTransformScale(max, configuration.getDefaultTransform());
-			}
-		}
-
-		return max;
-	}
-
-	private static AffineTransform maxAffineTransformScale(AffineTransform a, AffineTransform b) {
-		AffineTransform result = new AffineTransform();
-		result.setToScale(
-				Math.max(a.getScaleX(), b.getScaleX()),
-				Math.max(a.getScaleY(), b.getScaleY())
-		);
-		return result;
-	}
-
 	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
@@ -1460,7 +1462,7 @@ public class Image {
 			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
 		}
 		else if ((polygonParameter.length & 1) == 1) {
-			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of on point of the polygon.");
+			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of one point of the polygon.");
 		}
 		else {
 			throw new RuntimeException();
