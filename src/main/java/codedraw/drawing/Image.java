@@ -553,12 +553,15 @@ public class Image {
 
 	/**
 	 * Draws a point which is exactly 1x1 pixel in size.
+	 * Ignores any transformation set with {@link #setTransformation(Matrix2D)}.
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
 	public void drawPixel(double x, double y) {
 		beforeDrawing();
-		g.fill(createSharpRectangle(x, y, 1, 1));
+		if (0 <= x && x < image.getWidth() && 0 <= y && y < image.getHeight()) {
+			image.setRGB((int) (x * xScale), (int) (y * yScale), getColor().getRGB());
+		}
 		afterDrawing();
 	}
 
