@@ -12,6 +12,24 @@ import java.awt.*;
  * The fullscreen window can be closed by pressing Alt + F4.
  */
 public class FullScreen extends Image implements AutoCloseable {
+	public static void run(Animation animation) {
+		run(animation, Screen.getDefaultScreen(), 60, 60);
+	}
+
+	public static void run(Animation animation, Screen screen) {
+		run(animation, screen, 60, 60);
+	}
+
+	public static void run(Animation animation, Screen screen, int framesPerSecond) {
+		run(animation, screen, framesPerSecond, framesPerSecond);
+	}
+
+	public static void run(Animation animation, Screen screen, int framesPerSecond, int simulationsPerSecond) {
+		FullScreen fs = new FullScreen(screen);
+		CodeDrawGUI.run(animation, fs.gui, fs, framesPerSecond, simulationsPerSecond);
+		fs.close();
+	}
+
 	/**
 	 * Creates a full screen CodeDraw window on your default screen.
 	 * The fullscreen window can be closed by pressing Alt + F4.
@@ -152,7 +170,7 @@ public class FullScreen extends Image implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		show(0);
+		gui.show(this);
 	}
 
 	/**

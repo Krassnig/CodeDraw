@@ -18,6 +18,25 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 		return bw;
 	}
 
+	public static void run(Animation animation) {
+		run(animation, 600, 600, 60, 60);
+	}
+
+	public static void run(Animation animation, int width, int height) {
+		run(animation, width, height, 60, 60);
+	}
+
+	public static void run(Animation animation, int width, int height, int framesPerSecond) {
+		run(animation, width, height, framesPerSecond, framesPerSecond);
+	}
+
+	public static void run(Animation animation, int width, int height, int framesPerSecond, int simulationsPerSecond) {
+		BorderlessWindow bw = new BorderlessWindow(width, height);
+		CodeDrawGUI.run(animation, bw.gui, bw, framesPerSecond, simulationsPerSecond);
+		bw.close();
+	}
+
+
 	/**
 	 * Creates a borderless window of size 600x600.
 	 * The borderless window can be closed by pressing Alt + F4;
@@ -165,7 +184,7 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		show(0);
+		gui.show(this);
 	}
 
 	/**

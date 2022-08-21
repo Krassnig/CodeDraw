@@ -262,7 +262,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * Calling show frequently will slow down your program.
 	 */
 	public void show() {
-		show(0);
+		gui.show(this);
 	}
 
 	/**
