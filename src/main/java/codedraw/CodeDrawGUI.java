@@ -159,7 +159,19 @@ class CodeDrawGUI implements AutoCloseable {
 
 	public void show(Image image, long waitMilliseconds) {
 		checkIsClosed();
-		panel.render(image, waitMilliseconds, isInstantDraw);
+
+		long start = System.currentTimeMillis();
+
+		show(image);
+
+		long executionTime = System.currentTimeMillis() - start;
+		long remainingMilliseconds = waitMilliseconds - executionTime;
+
+		sleepIfPositive(remainingMilliseconds);
+	}
+
+	public void show(Image image) {
+		panel.render(image, isInstantDraw);
 	}
 
 	public boolean isClosed() {
@@ -194,11 +206,11 @@ class CodeDrawGUI implements AutoCloseable {
 
 			if (frames.shouldDoTask()) {
 				animation.draw(image);
-				gui.show(image, 0);
+				gui.show(image);
 			}
 
 			long sleepTime = Math.min(simulations.timeUntilNextTask(), frames.timeUntilNextTask());
-			sleep(Math.max(sleepTime, 0));
+			sleepIfPositive(sleepTime);
 		}
 	}
 
@@ -248,7 +260,11 @@ class CodeDrawGUI implements AutoCloseable {
 		}
 	}
 
-	private static void sleep(long waitMilliseconds) {
+	private static void sleepIfPositive(long waitMilliseconds) {
+		if (waitMilliseconds <= 0) {
+			return;
+		}
+
 		try {
 			Thread.sleep(waitMilliseconds);
 		} catch (InterruptedException e) {

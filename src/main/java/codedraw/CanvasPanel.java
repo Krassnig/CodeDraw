@@ -21,20 +21,7 @@ class CanvasPanel extends JPanel {
 	private final Semaphore renderLock = new Semaphore(1);
 	private final Semaphore waitForRender = new Semaphore(1);
 
-	public void render(Image image, long waitMilliseconds, boolean waitForDisplay) {
-		long start = System.currentTimeMillis();
-
-		render(image, waitForDisplay);
-
-		long executionTime = System.currentTimeMillis() - start;
-		long remainingMilliseconds = Math.max(waitMilliseconds - executionTime, 0);
-
-		if (remainingMilliseconds > 0) {
-			sleep(remainingMilliseconds);
-		}
-	}
-
-	private void render(Image image, boolean waitForDisplay) {
+	public void render(Image image, boolean waitForDisplay) {
 		waitForRender.acquire();
 		waitForRender.emptySemaphore();
 
@@ -70,13 +57,5 @@ class CanvasPanel extends JPanel {
 		renderLock.release();
 
 		waitForRender.release();
-	}
-
-	private static void sleep(long waitMilliseconds) {
-		try {
-			Thread.sleep(waitMilliseconds);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }
