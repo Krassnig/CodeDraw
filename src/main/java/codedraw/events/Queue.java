@@ -34,14 +34,6 @@ class Queue<T> {
 		return result;
 	}
 
-	public void moveTo(Queue<T> target, int count) {
-		Queue.queueCopy(this, target, count);
-	}
-
-	private int emptyCapacity() {
-		return capacity() - length;
-	}
-
 	private int capacity() {
 		return list.length;
 	}
@@ -62,20 +54,6 @@ class Queue<T> {
 		arrayCopy(list, 0, newList, firstPartCount, length - firstPartCount);
 		list = newList;
 		offset = 0;
-	}
-
-	private static int id = 0;
-
-	private static <T> void queueCopy(Queue<T> source, Queue<T> target, int count) {
-		while (target.emptyCapacity() < count) {
-			target.doubleCapacity();
-		}
-
-		for (int i = 0; i < count; i++) {
-			target.push(source.pop());
-		}
-
-		System.out.println("Copy queue content " + id++);
 	}
 
 	private static <T> void arrayCopy(T[] source, int sourceOffset, T[] target, int targetOffset, int length) {
