@@ -171,6 +171,8 @@ class CodeDrawGUI implements AutoCloseable {
 	}
 
 	public void show(Image image) {
+		checkIsClosed();
+
 		panel.show(image);
 
 		if (isInstantDraw) {
