@@ -72,8 +72,8 @@ class CodeDrawGUI implements AutoCloseable {
 	private EventHandler eventHandler;
 	private CursorStyle cursorStyle;
 
-	private JFrameCorrector jFrameCorrector;
-	private Screen screen;
+	private JFrameCorrector jFrameCorrector = null;
+	private Screen screen = null;
 
 	private boolean isInstantDraw = false;
 	private boolean isClosed = false;
@@ -171,7 +171,11 @@ class CodeDrawGUI implements AutoCloseable {
 	}
 
 	public void show(Image image) {
-		panel.render(image, isInstantDraw);
+		panel.show(image);
+
+		if (isInstantDraw) {
+			panel.waitForDisplay();
+		}
 	}
 
 	public boolean isClosed() {
