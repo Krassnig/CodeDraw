@@ -354,11 +354,11 @@ public class Image {
 	}
 
 	/**
-	 * Creates a copy of the CodeDrawImage supplied as a parameter.
-	 * The configuration of the CodeDrawImage will not be copied.
+	 * Creates a copy of the image supplied as a parameter.
+	 * The configuration of the image will not be copied.
 	 * All parameters of the result will be set to their default value.
-	 * DPI aware scaling will also be ignored.
-	 * @param image Image that is to be copied.
+	 * DPI aware scaling will be retained.
+	 * @param image to create a copy of.
 	 */
 	public Image(Image image) {
 		this(checkParameterNull(image, "image").getWidth(), image.getHeight(), image.xScale, image.yScale, Palette.TRANSPARENT);
@@ -366,9 +366,9 @@ public class Image {
 	}
 
 	/**
-	 * Creates a CodeDrawImage from the Image supplied as a parameter.
-	 * The contents of the supplied image will be copied to create this new CodeDrawImage instance.
-	 * @param image Image that is to be converted to a CodeDrawImage.
+	 * Creates an image from the {@link java.awt.Image} supplied as a parameter.
+	 * The contents of the supplied image will be copied to create this new Image instance.
+	 * @param image Image that is to be converted to a CodeDraw Image.
 	 */
 	public Image(java.awt.Image image) {
 		this(checkParameterNull(image, "image").getWidth(null), image.getHeight(null), 1, 1, Palette.TRANSPARENT);
@@ -376,14 +376,20 @@ public class Image {
 	}
 
 	/**
-	 * Creates a white CodeDrawImage of the specified size.
-	 * @param width The width of the CodeDrawImage.
-	 * @param height The height of the CodeDrawImage.
+	 * Creates a white image of the specified size.
+	 * @param width The width of the image.
+	 * @param height The height of the image.
 	 */
 	public Image(int width, int height) {
 		this(width, height, Palette.WHITE);
 	}
 
+	/**
+	 * Creates an image of the specified size.
+	 * @param width The width of the image.
+	 * @param height The height of the image.
+	 * @param backgroundColor the background color of the whole image.
+	 */
 	public Image(int width, int height, Color backgroundColor) {
 		this(width, height, 1, 1, backgroundColor);
 	}
@@ -581,23 +587,55 @@ public class Image {
 		}
 	}
 
+	/**
+	 * Gets the currently applied transformation of this image.
+	 * See {@link Matrix2D} for details on linear transformations.
+	 * @return a {@link Matrix2D}.
+	 */
 	public Matrix2D getTransformation() {
 		return transformation;
 	}
 
+	/**
+	 * A transformation can be used to apply a linear transformations before shapes are drawn to the image.
+	 * For example text can be rotated by setting the transformation to a rotational matrix.
+	 * <pre>{@code
+	 * cd.setTransformation(Matrix2D.IDENTITY.rotateAt(300, 300, Math.PI / 4);
+	 * cd.drawText(300, 300, "Hello World!");
+	 * }</pre>
+	 * See {@link Matrix2D} for details on linear transformations.
+	 * @param transformation a 2d matrix with a specific transformation.
+	 */
 	public void setTransformation(Matrix2D transformation) {
 		this.transformation = transformation;
 		this.g.setTransform(transformation.scale(xScale, yScale).toAffineTransform());
 	}
 
+	/**
+	 * Resets the current transformation to the default value where no transformation is applied.
+	 * See {@link #setTransformation(Matrix2D)} and {@link Matrix2D} on how to transform this image.
+	 */
 	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
 	}
 
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * @return whether draw over is on or off.
+	 */
 	public boolean drawOver() {
 		return drawOver;
 	}
 
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * If you want to make a section of an image transparent set draw over to false.
+	 * @param drawOver whether shapes are drawn over or replace existing pixels.
+	 */
 	public void setDrawOver(boolean drawOver) {
 		this.drawOver = drawOver;
 		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
@@ -1311,7 +1349,7 @@ public class Image {
 	}
 
 	/**
-	 * Copies this CodeDrawImage onto the graphics object.
+	 * Copies this image onto the graphics object.
 	 * Also applies an interpolation rendering hint if the graphics target is an instance of Graphics2D.
 	 * @param target a graphics object.
 	 * @param interpolation Defines the way the images is interpolated when drawn onto the graphics object. See {@link Interpolation}.
@@ -1332,7 +1370,7 @@ public class Image {
 	}
 
 	/**
-	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
+	 * Creates a copy of this image in the form of a BufferedImage.
 	 * @param type Defines the way the image is encoded in memory.
 	 * @return a BufferedImage.
 	 */
@@ -1347,7 +1385,7 @@ public class Image {
 	}
 
 	/**
-	 * Creates a copy of this CodeDrawImage in the form of a BufferedImage.
+	 * Creates a copy of this image in the form of a BufferedImage.
 	 * The BufferedImage type INT_ARGB is chosen as a default.
 	 * @return a BufferedImage.
 	 */
@@ -1524,10 +1562,10 @@ public class Image {
 
 	private static void checkNaNAndInfinity(double parameter, String parameterName) {
 		if (Double.isNaN(parameter)) {
-			throw new RuntimeException("The parameter '" + parameterName + "' is NaN (not a number).");
+			throw new IllegalArgumentException("The parameter '" + parameterName + "' is NaN (not a number).");
 		}
 		if (Double.isInfinite(parameter)) {
-			throw new RuntimeException("The parameter '" + parameterName + "' is infinite.");
+			throw new IllegalArgumentException("The parameter '" + parameterName + "' is infinite.");
 		}
 	}
 
