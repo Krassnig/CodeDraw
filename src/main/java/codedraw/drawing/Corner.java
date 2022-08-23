@@ -1,7 +1,7 @@
 package codedraw.drawing;
 
 /**
- * Defines how the corners of drawn shapes should look.
+ * Defines how the corners of drawn shapes should look like.
  * The size of the corners scales with the lineWidth.
  * Round shapes (e.g. circles) will not be affected.
  */
