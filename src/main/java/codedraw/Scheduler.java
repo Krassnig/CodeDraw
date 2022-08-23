@@ -1,6 +1,6 @@
 package codedraw;
 
-public class Scheduler {
+class Scheduler {
 	public Scheduler(long timeIntervalBetweenTasksInMilliseconds, boolean dropTasks) {
 		this.timeIntervalMilliseconds = timeIntervalBetweenTasksInMilliseconds;
 		this.dropTasks = dropTasks;
