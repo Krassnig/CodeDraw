@@ -13,14 +13,13 @@ import java.net.URL;
 import java.util.Base64;
 
 /**
- * Image represents an image that can be used within the CodeDraw library.
- * Empty images can be created via the constructor.
+ * This class represents an image that can be used within the CodeDraw library.
+ * Empty images can be created via the constructor {@link Image#Image(int, int)}.
+ * Optionally a background color can be specified {@link Image#Image(int, int, Color)}.
+ * Images can be loaded from external source via static constructors such as
+ * {@link Image#fromFile(String)} and {@link Image#fromUrl(String)}.
  * <pre>{@code
- * CodeDrawImage image = new CodeDrawImage(400, 600);
- * }</pre>
- * External images can be loaded via static methods.
- * <pre>{@code
- * CodeDrawImage image = CodeDrawImage.fromFile("/directory/filename.png");
+ * Image image = Image.fromFile("/directory/filename.png");
  * }</pre>
  */
 public class Image {
@@ -29,6 +28,9 @@ public class Image {
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
+	 * <pre>{@code
+	 * Image image = Image.fromFile("/directory/filename.png");
+	 * }</pre>
 	 * {@link ImageIO#read(File)} is used to read images from the file system.
 	 * @param pathToImage A string that points to an image file.
 	 * @return An image.
@@ -36,8 +38,16 @@ public class Image {
 	public static Image fromFile(String pathToImage) {
 		if (pathToImage == null) throw createParameterNullException("pathToImage");
 
+		File file = new File(pathToImage);
+
+		if (!file.exists()) throw new RuntimeException("The file '" + pathToImage + "' can not be found.");
+		if (!file.canRead())
+			throw new RuntimeException(
+				"The file '" + pathToImage + "' can not be read. Check if the file is open in another program."
+			);
+
 		try {
-			return new Image(ImageIO.read(new File(pathToImage)));
+			return new Image(checkNullAndThenThrowFormatException(ImageIO.read(file)));
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -48,7 +58,7 @@ public class Image {
 	 * This function might be very slow depending on speed of the network connection
 	 * or the availability of the server.
 	 * <pre>{@code
-	 * CodeDrawImage image = CodeDrawImage.fromUrl("https://exmaple.com/example-image.png");
+	 * Image image = Image.fromUrl("https://exmaple.com/example-image.png");
 	 * }</pre>
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
@@ -61,18 +71,26 @@ public class Image {
 		if (url == null) throw createParameterNullException("url");
 
 		try {
-			return new Image(ImageIO.read(new URL(url)));
+			return new Image(checkNullAndThenThrowFormatException(ImageIO.read(new URL(url))));
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(
+				"The url specified '" + url + "' has an invalid format. " +
+				"It should look something like this 'https://website.com/file/picture.png'. " + e.getMessage(),
+				e
+			);
 		} catch (IOException e) {
-			throw new UncheckedIOException(e);
+			throw new UncheckedIOException(
+				"Could not load the file from '" + url + "'. " +
+				"Check your internet connection and if the file is available on the webserver. " + e.getMessage(),
+				e
+			);
 		}
 	}
 
 	/**
-	 * Loads CodeDrawImages from the resource folder.
+	 * Loads images from the resource folder.
 	 * <pre>{@code
-	 * CodeDrawImage image = CodeDrawImage.fromResource("./my_image.png");
+	 * Image image = Image.fromResource("./my_image.png");
 	 * }</pre>
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
@@ -84,45 +102,66 @@ public class Image {
 	public static Image fromResource(String resourceName) {
 		if (resourceName == null) throw createParameterNullException("resourceName");
 
-		URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
-		if (url == null) {
-			//url = CodeDrawImage.class.getClassLoader().getResource(resourceName);
-		}
-		if (url == null) throw new RuntimeException();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader == null) throw new RuntimeException("Could not get class loader.");
+		URL url = classLoader.getResource(resourceName);
+		if (url == null)
+			throw new RuntimeException(
+				"The resource could not be found, " +
+				"a URL could not be constructed to locate the resource, " +
+				"the resource is in a package that is not opened unconditionally, " +
+				"or access to the resource is denied by the security manager."
+			);
+
 		try {
-			return new Image(ImageIO.read(url));
+			return new Image(checkNullAndThenThrowFormatException(ImageIO.read(url)));
 		} catch (IOException e) {
-			throw new UncheckedIOException(e);
+			throw new UncheckedIOException("" + e.getMessage(), e);
 		}
 	}
 
 	/**
-	 * Converts a Base64 string into a CodeDrawImage.
+	 * Converts a Base64 string to an image.
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
 	 *      .png (Portable Network Graphic) and .wbmp (Wireless Application Protocol Bitmap Format).
 	 * {@link ImageIO#read(InputStream)} and {@link Base64.Decoder#decode(String)} are used to convert the image.
-	 * @param base64 a Base64 string
-	 * @return a CodeDrawImage
+	 * @param base64 a Base64 string.
+	 * @return an image.
 	 */
 	public static Image fromBase64String(String base64) {
 		if (base64 == null) throw createParameterNullException("base64");
 
 		try {
-			return new Image(ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
-		} catch (IOException e) {
+			return new Image(checkNullAndThenThrowFormatException(
+				ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(base64)))
+			));
+		}
+		catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("The string given as an argument is not a base64 string. " + e.getMessage(), e);
+		}
+		catch (IOException e) {
 			throw new UncheckedIOException(e);
+		}
+	}
+
+	private static java.awt.Image checkNullAndThenThrowFormatException(java.awt.Image image) {
+		if (image == null) {
+			throw new RuntimeException("The image is in an unrecognized format, corrupted or not an image at all.");
+		}
+		else {
+			return image;
 		}
 	}
 
 	/**
 	 * Creates a CodeDraw image with an up-scaled resolution.
-	 * The upscaling factor depends on the highest resolution of all monitors on the current machine.
-	 * The pixel grid coordinates will be the same as a regular CodeDrawImage
-	 * but round edges and fractional coordinates will be more precisely drawn.
-	 * @param width The width of the CodeDrawImage.
-	 * @param height The height of the CodeDrawImage.
-	 * @return a CodeDrawImage
+	 * The upscaling factor depends on the highest resolution of all monitors of the computer executing this program.
+	 * The pixel grid coordinates will be the same as a regular image
+	 * but round edges and fractional coordinates will be drawn more precisely.
+	 * @param width The width of the image.
+	 * @param height The height of the image.
+	 * @return an up-scaled image.
 	 */
 	public static Image fromDPIAwareSize(int width, int height) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
@@ -163,7 +202,7 @@ public class Image {
 	 * The formats {@link ImageFormat#JPG}, {@link ImageFormat#JPEG} and {@link ImageFormat#BMP} do not support transparency.
 	 * {@link ImageIO#write(RenderedImage, String, File)} and {@link File#File(String)} are used to read the image from the file system.
 	 * Read their documentation for more details.
-	 * @param image a CodeDrawImage
+	 * @param image any image.
 	 * @param pathToImage The location where the image should be saved.
 	 * @param format The format the image should be saved in.
 	 *               As a default, choose {@link ImageFormat#PNG} and make sure that the file ends with ".png".
@@ -182,7 +221,7 @@ public class Image {
 			if (!result) throw new RuntimeException("Could not save image, because no appropriate writer has been found in ImageIO.");
 		}
 		catch (IOException e) {
-			throw new UncheckedIOException(e);
+			throw new UncheckedIOException("The image could not be saved. " + e.getMessage(), e);
 		}
 	}
 
