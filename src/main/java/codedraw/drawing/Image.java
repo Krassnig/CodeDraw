@@ -1410,8 +1410,16 @@ public class Image {
 		return toBufferedImage(BufferedImageType.INT_ARGB);
 	}
 
+	/**
+	 * This method is called each time right before a shape is drawn.
+	 * You can override this method to implement custom behavior when drawing in the inheriting class.
+	 */
 	protected void beforeDrawing() { }
 
+	/**
+	 * This method is called each time right after a shape is drawn.
+	 * You can override this method to implement custom behavior when drawing in the inheriting class.
+	 */
 	protected void afterDrawing() { }
 
 	private static Line2D createLine(double startX, double startY, double endX, double endY) {

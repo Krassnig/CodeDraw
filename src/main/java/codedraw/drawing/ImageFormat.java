@@ -2,6 +2,8 @@ package codedraw.drawing;
 
 /**
  * Defines possible image formats.
+ * This enum is used to specify the image format in which images are saved.
+ * See {@link Image#save(Image, String, ImageFormat)} for details.
  */
 public enum ImageFormat {
 	PNG,
