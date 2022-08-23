@@ -247,24 +247,28 @@ public class Image {
 	}
 
 	/**
-	 *
-	 * @param source
-	 * @param scale
-	 * @return
+	 * Increases or decrease the size of the image given as a parameter.
+	 * For example a scale of 0.5 would half the image and a size of 2 would double its size.
+	 * If the resulting image resolution is too small this function will throw an exception.
+	 * @param source The source image to create the larger or smaller image.
+	 * @param scale The increase or decrease in image size.
+	 * @return the scaled image.
 	 */
 	public static Image scale(Image source, double scale) {
 		if (source == null) throw createParameterNullException("source");
-		if (scale <= 0) throw new RuntimeException();
+		if (scale <= 0) throw createParameterMustBeGreaterThanZeroException("scale");
 
 		return scale(source, scale, Interpolation.BICUBIC);
 	}
 
 	/**
-	 *
-	 * @param source
-	 * @param scale
-	 * @param interpolation
-	 * @return
+	 * Increases or decrease the size of the image given as a parameter.
+	 * For example a scale of 0.5 would half the image and a size of 2 would double its size.
+	 * If the resulting image resolution is too small this function will throw an exception.
+	 * @param source The source image to create the larger or smaller image.
+	 * @param scale The increase or decrease in image size.
+	 * @param interpolation What technique is used to upscale the image. See {@link Interpolation}.
+	 * @return the scaled image.
 	 */
 	public static Image scale(Image source, double scale, Interpolation interpolation) {
 		if (source == null) throw createParameterNullException("source");
@@ -274,12 +278,15 @@ public class Image {
 		int width = (int)(source.width * scale);
 		int height = (int)(source.height * scale);
 
-		if (width == 0) throw new RuntimeException("The scale is too small and would create an image with a width of 0px.");
-		if (height == 0) throw new RuntimeException("The scale is too small and would create an image with a height of 0px.");
+		if (width == 0 || height == 0) throw createNewImageDownScaleTooSmall();
 
 		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
 		result.drawImage(0, 0, width, height, source, interpolation);
 		return result;
+	}
+
+	private static IllegalArgumentException createNewImageDownScaleTooSmall() {
+		return new IllegalArgumentException("The scale is too small and would create an image width the width or height being 0px. Specify a larger scale.");
 	}
 
 	/**
