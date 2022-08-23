@@ -3,7 +3,15 @@ package codedraw;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * Represents the monitors attached to the computer.
+ * This class is used to select which monitor a {@link FullScreen} instance of CodeDraw will be attached to.
+ */
 public class Screen {
+	/**
+	 * Creates a list of all attached screens to this computer.
+	 * @return the list as an array of Screens.
+	 */
 	public static Screen[] getAllScreens() {
 		GraphicsDevice[] gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 		Screen[] screens = new Screen[gd.length];
@@ -13,6 +21,10 @@ public class Screen {
 		return screens;
 	}
 
+	/**
+	 * Returns the default screen of this computer.
+	 * @return the default screen.
+	 */
 	public static Screen getDefaultScreen() {
 		return new Screen(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
 	}
@@ -29,18 +41,34 @@ public class Screen {
 	private int width;
 	private int height;
 
+	/**
+	 * The name of this monitor.
+	 * @return the name of the monitor.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * The width in pixels of this monitor.
+	 * @return the width of the monitor.
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * The height in pixels of this monitor.
+	 * @return the height of the monitor.
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Tells whether this monitor is the default monitor of the computer.
+	 * @return true if this is the default monitor.
+	 */
 	public boolean isDefaultScreen() {
 		return this.equals(getDefaultScreen());
 	}
