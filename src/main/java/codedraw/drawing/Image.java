@@ -1229,19 +1229,36 @@ public class Image {
 		afterDrawing();
 	}
 
-
+	/**
+	 * Starts a path from the starting position specified in this method.
+	 * Then method chaining is used to specify the section of the path.
+	 * At the end complete has to be called to actually draw the shape.
+	 * See the class description of the {@link Path} class for an example.
+	 * @param x the starting point of the path relative to the top left corner of the canvas.
+	 * @param y the starting point of the path relative to the top left corner of the canvas.
+	 * @return a path object with which more complicated shapes can be constructed.
+	 */
 	public Path fillPathStartingAt(double x, double y) {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
-		return new Path(g, x, y, true);
+		return new Path(this, g, x, y, true);
 	}
 
+	/**
+	 * Starts a path from the starting position specified in this method.
+	 * Then method chaining is used to specify the section of the path.
+	 * At the end complete has to be called to actually draw the shape.
+	 * See the class description of the {@link Path} class for an example.
+	 * @param x the starting point of the path relative to the top left corner of the canvas.
+	 * @param y the starting point of the path relative to the top left corner of the canvas.
+	 * @return a path object with which more complicated shapes can be constructed.
+	 */
 	public Path drawPathStartingAt(double x, double y) {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
-		return new Path(g, x, y, false);
+		return new Path(this, g, x, y, false);
 	}
 
 	private void drawImageInternal(double x, double y, double width, double height, java.awt.Image image, Interpolation interpolation) {
