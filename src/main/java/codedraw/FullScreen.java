@@ -9,22 +9,57 @@ import codedraw.events.EventScanner;
  * The fullscreen window can be closed by pressing Alt + F4.
  */
 public class FullScreen extends Image implements AutoCloseable {
+	/**
+	 * Runs the {@link Animation} interface using a fullscreen window.
+	 * This function returns when the fullscreen window is closed by the user.
+	 * The fullscreen animation will appear on the default screen
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 */
 	public static void run(Animation animation) {
 		run(animation, Screen.getDefaultScreen(), 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a fullscreen window.
+	 * This function returns when the fullscreen window is closed by the user.
+	 * The animation will run at 60 frames per second and 60 simulations per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param screen the screen which the animation should be displayed on.
+	 */
 	public static void run(Animation animation, Screen screen) {
 		run(animation, screen, 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a fullscreen window.
+	 * This function returns when the fullscreen window is closed by the user.
+	 * The animation will run at 60 simulations per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param screen the screen which the animation should be displayed on.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 */
 	public static void run(Animation animation, Screen screen, int framesPerSecond) {
 		run(animation, screen, framesPerSecond, framesPerSecond);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a fullscreen window.
+	 * This function returns when the fullscreen window is closed by the user.
+	 * @param animation any class implementing the animation interface.
+	 * @param screen the screen which the animation should be displayed on.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 * @param simulationsPerSecond the rate at which the {@link Animation#simulate()} method should be called.
+	 */
 	public static void run(Animation animation, Screen screen, int framesPerSecond, int simulationsPerSecond) {
+		if (animation == null) throw createParameterNullException("animation");
+		if (screen == null) throw createParameterNullException("screen");
+		if (framesPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("framesPerSecond");
+		if (simulationsPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("simulationsPerSecond");
+
 		FullScreen fs = new FullScreen(screen);
 		CodeDrawGUI.run(animation, fs.gui, fs, framesPerSecond, simulationsPerSecond);
-		fs.close();
+		fs.close(false);
 	}
 
 	/**
@@ -230,5 +265,9 @@ public class FullScreen extends Image implements AutoCloseable {
 
 	private static IllegalArgumentException createParameterZeroOrGreaterException(String parameterName) {
 		return new IllegalArgumentException("The parameter '" + parameterName + "' must be equal to or greater than zero.");
+	}
+
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 }

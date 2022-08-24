@@ -11,6 +11,11 @@ import java.awt.*;
  * The borderless window can be closed by pressing Alt + F4;
  */
 public class BorderlessWindow extends Image implements AutoCloseable {
+	/**
+	 * Shows the specified image in a borderless window fitting the size of the image.
+	 * @param image any image that should be displayed.
+	 * @return the BorderlessWindow object that displays the image.
+	 */
 	public static BorderlessWindow show(Image image) {
 		BorderlessWindow bw = new BorderlessWindow(image.getWidth(), image.getHeight());
 		bw.drawImage(0, 0, image);
@@ -18,22 +23,61 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 		return bw;
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a borderless window.
+	 * This function returns when the borderless window is closed by the user.
+	 * The borderless animation will appear with a size of 600 by 600 pixel
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 */
 	public static void run(Animation animation) {
 		run(animation, 600, 600, 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a borderless window.
+	 * This function returns when the borderless window is closed by the user.
+	 * The borderless animation will run at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the borderless window.
+	 * @param height the height of the borderless window.
+	 */
 	public static void run(Animation animation, int width, int height) {
 		run(animation, width, height, 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a borderless window.
+	 * This function returns when the borderless window is closed by the user.
+	 * The borderless animation will run at 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the borderless window.
+	 * @param height the height of the borderless window.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 */
 	public static void run(Animation animation, int width, int height, int framesPerSecond) {
 		run(animation, width, height, framesPerSecond, framesPerSecond);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a borderless window.
+	 * This function returns when the borderless window is closed by the user.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the borderless window.
+	 * @param height the height of the borderless window.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 * @param simulationsPerSecond the rate at which the {@link Animation#simulate()} method should be called.
+	 */
 	public static void run(Animation animation, int width, int height, int framesPerSecond, int simulationsPerSecond) {
+		if (animation == null) throw createParameterNullException("animation");
+		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
+		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
+		if (framesPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("framesPerSecond");
+		if (simulationsPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("simulationsPerSecond");
+
 		BorderlessWindow bw = new BorderlessWindow(width, height);
 		CodeDrawGUI.run(animation, bw.gui, bw, framesPerSecond, simulationsPerSecond);
-		bw.close();
+		bw.close(false);
 	}
 
 
@@ -247,5 +291,9 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 
 	private static IllegalArgumentException createParameterZeroOrGreaterException(String parameterName) {
 		return new IllegalArgumentException("The parameter '" + parameterName + "' must be equal to or greater than zero.");
+	}
+
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 }

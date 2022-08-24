@@ -48,6 +48,11 @@ import java.awt.*;
  * @author Niklas Krassnig, Nikolaus Kasyan
  */
 public class CodeDraw extends Image implements AutoCloseable {
+	/**
+	 * Shows the specified image in a CodeDraw window fitting the size of the image.
+	 * @param image any image that should be displayed.
+	 * @return the CodeDraw object that displays the image.
+	 */
 	public static CodeDraw show(Image image) {
 		CodeDraw cd = new CodeDraw(image.getWidth(), image.getHeight());
 		cd.drawImage(0, 0, image);
@@ -55,22 +60,65 @@ public class CodeDraw extends Image implements AutoCloseable {
 		return cd;
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a CodeDraw window.
+	 * This function returns when the CodeDraw window is closed by the user.
+	 * The animation will appear with a size of 600 by 600 pixel
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 */
 	public static void run(Animation animation) {
 		run(animation, 600, 600, 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a CodeDraw window.
+	 * This function returns when the CodeDraw window is closed by the user.
+	 * The animation will appear with a size of 600 by 600 pixel
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the CodeDraw window.
+	 * @param height the height of the CodeDraw window.
+	 */
 	public static void run(Animation animation, int width, int height) {
 		run(animation, width, height, 60, 60);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a CodeDraw window.
+	 * This function returns when the CodeDraw window is closed by the user.
+	 * The animation will appear with a size of 600 by 600 pixel
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the CodeDraw window.
+	 * @param height the height of the CodeDraw window.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 */
 	public static void run(Animation animation, int width, int height, int framesPerSecond) {
 		run(animation, width, height, framesPerSecond, framesPerSecond);
 	}
 
+	/**
+	 * Runs the {@link Animation} interface using a CodeDraw window.
+	 * This function returns when the CodeDraw window is closed by the user.
+	 * The animation will appear with a size of 600 by 600 pixel
+	 * running at 60 frames per second and 60 simulation per second.
+	 * @param animation any class implementing the animation interface.
+	 * @param width the width of the CodeDraw window.
+	 * @param height the height of the CodeDraw window.
+	 * @param framesPerSecond the rate at which the {@link Animation#draw(Image)} method should be called.
+	 * @param simulationsPerSecond the rate at which the {@link Animation#simulate()} method should be called.
+	 */
 	public static void run(Animation animation, int width, int height, int framesPerSecond, int simulationsPerSecond) {
+		if (animation == null) throw createParameterNullException("animation");
+		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
+		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
+		if (framesPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("framesPerSecond");
+		if (simulationsPerSecond < 1) throw createParameterMustBeGreaterThanZeroException("simulationsPerSecond");
+
 		CodeDraw cd = new CodeDraw(width, height);
 		CodeDrawGUI.run(animation, cd.gui, cd, framesPerSecond, simulationsPerSecond);
-		cd.close();
+		cd.close(false);
 	}
 
 	/**
@@ -325,5 +373,9 @@ public class CodeDraw extends Image implements AutoCloseable {
 
 	private static IllegalArgumentException createParameterZeroOrGreaterException(String parameterName) {
 		return new IllegalArgumentException("The parameter '" + parameterName + "' must be equal to or greater than zero.");
+	}
+
+	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
 	}
 }
