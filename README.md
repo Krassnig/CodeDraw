@@ -54,18 +54,17 @@ To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
 ### Gradle
 To use CodeDraw as a Gradle dependency add the following lines to your `build.gradle`.
 ```groovy
-	allprojects {
-		repositories {
-			// ...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 ```groovy
-	dependencies {
-		implementation 'com.github.Krassnig:CodeDraw:2.1.0'
-	}
+dependencies {
+	implementation 'com.github.Krassnig:CodeDraw:2.1.0'
+}
 ```
 ## Examples
 
