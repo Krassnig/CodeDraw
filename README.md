@@ -30,6 +30,41 @@ Go to the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
 
 
+### Maven
+To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
+```xml
+<repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+
+```xml
+<dependency>
+	<groupId>com.github.Krassnig</groupId>
+	<artifactId>CodeDraw</artifactId>
+	<version>2.1.0</version>
+</dependency>
+```
+
+### Gradle
+To use CodeDraw as a Gradle dependency add the following lines to your `build.gradle`.
+```groovy
+	allprojects {
+		repositories {
+			// ...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+```groovy
+	dependencies {
+		implementation 'com.github.Krassnig:CodeDraw:2.1.0'
+	}
+```
 ## Examples
 
 ### Static Images
