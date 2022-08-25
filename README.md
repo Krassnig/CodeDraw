@@ -37,8 +37,8 @@ To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
 ```xml
 <repositories>
 	<repository>
-	    <id>jitpack.io</id>
-	    <url>https://jitpack.io</url>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
 	</repository>
 </repositories>
 ```
