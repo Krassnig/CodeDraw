@@ -16,7 +16,7 @@ import java.awt.event.*;
 		this.frame = frame;
 		this.panel = panel;
 		this.position = new PositionExtension(frame, panel);
-		eventScanner = new EventScanner(queue = new ConcurrentQueue<>(128));
+		eventScanner = new EventScanner();
 
 		createEvents();
 		bindEvents();
@@ -28,7 +28,6 @@ import java.awt.event.*;
 	private final EventScanner eventScanner;
 
 	private boolean terminateOnLastClose = true;
-	private ConcurrentQueue<Object> queue;
 
 	private MouseListener mouseListener;
 	private MouseMotionListener mouseMotionListener;
@@ -66,7 +65,7 @@ import java.awt.event.*;
 	}
 
 	private void createEvents() {
-		MouseClickMap clickMap = new MouseClickMap(queue);
+		MouseClickMap clickMap = new MouseClickMap(eventScanner);
 
 		mouseListener = createMouseListener(clickMap);
 		mouseMotionListener = createMouseMotionListener(clickMap);
@@ -99,23 +98,23 @@ import java.awt.event.*;
 			@Override
 			public void mousePressed(MouseEvent e) {
 				clickMap.mousePressed(e);
-				queue.push(new MouseDownEvent(e));
+				eventScanner.push(new MouseDownEvent(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				clickMap.mouseReleased(e);
-				queue.push(new MouseUpEvent(e));
+				eventScanner.push(new MouseUpEvent(e));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				queue.push(new MouseEnterEvent(e));
+				eventScanner.push(new MouseEnterEvent(e));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				queue.push(new MouseLeaveEvent(e));
+				eventScanner.push(new MouseLeaveEvent(e));
 			}
 		};
 	}
@@ -125,35 +124,35 @@ import java.awt.event.*;
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				clickMap.mouseMoved(e);
-				queue.push(new MouseMoveEvent(e));
+				eventScanner.push(new MouseMoveEvent(e));
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				clickMap.mouseMoved(e);
-				queue.push(new MouseMoveEvent(e));
+				eventScanner.push(new MouseMoveEvent(e));
 			}
 		};
 	}
 
 	private MouseWheelListener createMouseWheelListener() {
-		return a -> queue.push(new MouseWheelEvent(a));
+		return a -> eventScanner.push(new MouseWheelEvent(a));
 	}
 
 	private KeyListener createKeyListener() {
 		return new KeyAdapter() {
-			private final KeyDownMap keyDownMap = new KeyDownMap(queue, panel);
+			private final KeyDownMap keyDownMap = new KeyDownMap(eventScanner, panel);
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				keyDownMap.keyPress(e);
-				queue.push(new KeyPressEvent(e));
+				eventScanner.push(new KeyPressEvent(e));
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				keyDownMap.keyRelease(e);
-				queue.push(new KeyUpEvent(e));
+				eventScanner.push(new KeyUpEvent(e));
 			}
 		};
 	}
@@ -163,7 +162,7 @@ import java.awt.event.*;
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				position.updateWindowAndCanvasPosition();
-				queue.push(new WindowMoveEvent(position.getCanvasPosition(), position.getWindowPosition()));
+				eventScanner.push(new WindowMoveEvent(position.getCanvasPosition(), position.getWindowPosition()));
 			}
 		};
 	}
@@ -172,7 +171,7 @@ import java.awt.event.*;
 		return new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				queue.push(new WindowCloseEvent());
+				eventScanner.push(new WindowCloseEvent());
 				windowCloseLock.acquire();
 				windowCount--;
 				if (windowCount == 0 && terminateOnLastClose) {

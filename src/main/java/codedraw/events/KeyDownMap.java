@@ -4,13 +4,13 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 class KeyDownMap {
-	public KeyDownMap(ConcurrentQueue<Object> queue, CanvasPanel panel) {
-		this.queue = queue;
+	public KeyDownMap(EventScanner eventScanner, CanvasPanel panel) {
+		this.eventScanner = eventScanner;
 		this.panel = panel;
 	}
 
 	private final CanvasPanel panel;
-	private final ConcurrentQueue<Object> queue;
+	private final EventScanner eventScanner;
 	private final HashMap<Integer, Boolean> map = new HashMap<>();
 
 	public void keyPress(KeyEvent keyEvent) {
@@ -20,7 +20,7 @@ class KeyDownMap {
 			map.put(keyCode, true);
 			KeyDownEvent a = new KeyDownEvent(keyEvent);
 			checkForCopyCanvas(a);
-			queue.push(a);
+			eventScanner.push(a);
 		}
 	}
 

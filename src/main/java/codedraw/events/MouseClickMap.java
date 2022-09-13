@@ -3,11 +3,11 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 class MouseClickMap {
-	public MouseClickMap(ConcurrentQueue<Object> queue) {
-		this.queue = queue;
+	public MouseClickMap(EventScanner eventScanner) {
+		this.eventScanner = eventScanner;
 	}
 
-	private final ConcurrentQueue<Object> queue;
+	private final EventScanner eventScanner;
 	private MouseEvent lastMouseDown;
 
 	public void mousePressed(MouseEvent mouseEvent) {
@@ -23,7 +23,7 @@ class MouseClickMap {
 	public void mouseReleased(MouseEvent mouseEvent) {
 		if (lastMouseDown != null) {
 			if (calculateDelta(lastMouseDown, mouseEvent) < 38 * 38) {
-				queue.push(new MouseClickEvent(mouseEvent));
+				eventScanner.push(new MouseClickEvent(mouseEvent));
 			}
 		}
 	}

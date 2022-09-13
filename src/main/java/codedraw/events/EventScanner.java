@@ -53,11 +53,15 @@ import java.util.function.Consumer;
  * but no new events will appear.
  */
 public class EventScanner {
-	EventScanner(ConcurrentQueue<Object> queue) {
-		this.queue = queue;
+	EventScanner() {
+		this.queue = new ConcurrentQueue<>(128);
 	}
 
 	private final ConcurrentQueue<Object> queue;
+
+	void push(Object event) {
+		queue.push(event);
+	}
 
 	/**
 	 * Doesn't wait until the next event is available, but instead returns immediately.
