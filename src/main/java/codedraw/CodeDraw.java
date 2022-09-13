@@ -13,7 +13,7 @@ import java.awt.*;
  * <br>
  * The source code can be found in the <a href="https://github.com/Krassnig/CodeDraw">CodeDraw repository</a>.
  * <br>
- * If you are unfamiliar with graphical output and/or want more details you can read the
+ * If you are unfamiliar with graphical output and want more details you can read the
  * <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">Introduction to CodeDraw</a>.
  * <br>
  * For the JavaDoc visit <a href="https://krassnig.github.io/CodeDrawJavaDoc/">CodeDrawJavaDoc</a>.

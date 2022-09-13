@@ -4,16 +4,16 @@ import java.awt.*;
 
 /**
  * Palette provides a wide variety of colors and makes it easier to create colors.
- * Alternatively you can just use awt {@link Color}.
+ * Alternatively you can just use AWT {@link Color}.
  * Palette takes all the colors from the CSS colors but switches GRAY and DARK_GRAY,
  * so that DARK_GRAY is darker than GRAY.
- * If the Palette color does not match the awt color or CSS colors there is a note in the documentation.
+ * If the Palette color does not match the AWT color or CSS color there is a note in the documentation.
  */
 public final class Palette {
 	private Palette() { }
 
 	/**
-	 * Generates a random color. The color will not be transparent.
+	 * Generates a random color that is not transparent.
 	 * @return a random color.
 	 */
 	public static Color randomColor() {
@@ -74,7 +74,7 @@ public final class Palette {
 	}
 
 	/**
-	 * Creates a rgba color with the alpha implicitly being 255. The 8 most significant bits are ignored.
+	 * Creates an RGBA color with the alpha implicitly being 255. The 8 most significant bits are ignored.
 	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
 	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
 	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
@@ -87,7 +87,7 @@ public final class Palette {
 
 	/**
 	 * Creates a rgba color with the alpha implicitly being 255.
-	 * 0 is no color. 255 is maximum color.
+	 * 0 is no color or black, 255 is maximum color.
 	 * @param red The value can range from 0 to 255.
 	 * @param green The value can range from 0 to 255.
 	 * @param blue The value can range from 0 to 255.
@@ -127,7 +127,7 @@ public final class Palette {
 
 	/**
 	 * Creates a rgba color.
-	 * 0 is no color. 255 is maximum color.
+	 * 0 is no color or black. 255 is maximum color.
 	 * @param red The value can range from 0 to 255.
 	 * @param green The value can range from 0 to 255.
 	 * @param blue The value can range from 0 to 255.

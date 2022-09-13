@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Screen {
 	/**
 	 * Creates a list of all attached screens to this computer.
-	 * @return the list as an array of Screens.
+	 * @return the list as an array of screens.
 	 */
 	public static Screen[] getAllScreens() {
 		GraphicsDevice[] gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
