@@ -5,13 +5,13 @@ It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
 Read the [introduction to CodeDraw](https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md)
-for a beginners guide to CodeDraw.
+for a beginners guide to CodeDraw. It also gives an overview of the features available in CodeDraw.
 
 The JavaDoc for CodeDraw can be found [here](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 For a C# version of CodeDraw go to the [CodeDrawProject repository](https://github.com/Krassnig/CodeDrawProject).
 
-## How to install
+## How to Install
 
 ### Intellij
 
@@ -66,11 +66,10 @@ dependencies {
 	implementation 'com.github.Krassnig:CodeDraw:2.1.0'
 }
 ```
-## Examples
 
-### Static Images
+## Static Images
 
-Here is a quick illustration on how CodeDraw works.
+Here is a quick illustration on how to create a static image with CodeDraw.
 
 ```java
 import codedraw.*;
@@ -101,9 +100,9 @@ public class Main {
 
 ![static_image](https://user-images.githubusercontent.com/24553082/153450298-403d3adc-87f9-476e-82a4-48aeac21ec90.png)
 
-### Animations
+## Animations
 
-Animation can be created by repeatedly rendering different images and waiting after renders.
+Animation can be created by repeatedly rendering different images and waiting after through the `show(1000)` method.
 
 ```java
 import codedraw.*;
@@ -132,16 +131,15 @@ public class Main {
 
 https://user-images.githubusercontent.com/24553082/153450395-71f69b67-9b86-4f16-b0b6-e88c85650391.mp4
 
-### User Interaction
+## Interactive Programs
 
-User interaction can be created with the EventScanner.
-Events created by user interaction can be read from the EventScanner
-with the has****() methods and next****() methods.
-The EventScanner works similarly to the Scanner in Java.
+Interactive programs can be created by reading events from the EventScanner.
+For each event the type of event has to be checked through a `has****()` methods and
+if the desired event is found the event can be extracted by using the corresponding `next****()` method.
+The EventScanner works very similarly to the `java.util.Scanner` in Java.
 
 ```java
 import codedraw.*;
-import codedraw.events.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -175,3 +173,32 @@ public class Main {
 ```
 
 https://user-images.githubusercontent.com/24553082/153450427-b9091fb7-3b1e-413b-b01e-6b89bf50d447.mp4
+
+## Inversion of Control
+
+All examples can also be created using the `Animation` interface. An instance of the `Animation` interface
+can be passed to CodeDraw where CodeDraw calls the methods you implement. 
+
+```Java
+import codedraw.*;
+
+public class InversionOfControl implements Animation {
+	public static void main(String[] args) {
+		CodeDraw.run(new InversionOfControl());
+	}
+
+	private int x = 50;
+	private int y = 50;
+
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+		x = event.getX();
+		y = event.getY();
+	}
+
+	@Override
+	public void draw(Image canvas) {
+		canvas.fillCircle(x, y, 10);
+	}
+}
+```
