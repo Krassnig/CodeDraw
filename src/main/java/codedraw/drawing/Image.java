@@ -664,8 +664,38 @@ public class Image {
 	}
 
 	/**
+	 * Returns the pixel color at the specified location.
+	 * @param x The distance in pixel from the left side of the canvas.
+	 * @param y The distance in pixel from the top side of the canvas.
+	 */
+	public Color getPixel(double x, double y) {
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
+		return Palette.fromRGB(image.getRGB((int) (x * xScale), (int) (y * yScale)));
+	}
+
+	/**
 	 * Draws a point which is exactly 1x1 pixel in size.
 	 * Ignores any transformation set with {@link #setTransformation(Matrix2D)}.
+	 * @param x The distance in pixel from the left side of the canvas.
+	 * @param y The distance in pixel from the top side of the canvas.
+	 */
+	public void setPixel(double x, double y, Color color) {
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
+		beforeDrawing();
+		if (0 <= x && x < image.getWidth() && 0 <= y && y < image.getHeight()) {
+			image.setRGB((int) (x * xScale), (int) (y * yScale), color.getRGB());
+		}
+		afterDrawing();
+	}
+
+	/**
+	 * Draws a point which is exactly 1x1 pixel in size.
+	 * Ignores any transformation set with {@link #setTransformation(Matrix2D)}.
+	 * The color is determined by the {@link #getColor()} of the image.
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
@@ -673,11 +703,7 @@ public class Image {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
-		beforeDrawing();
-		if (0 <= x && x < image.getWidth() && 0 <= y && y < image.getHeight()) {
-			image.setRGB((int) (x * xScale), (int) (y * yScale), getColor().getRGB());
-		}
-		afterDrawing();
+		setPixel(x, y, getColor());
 	}
 
 	/**
