@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.events;
 
 import codedraw.drawing.*;
 import codedraw.drawing.Image;
@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 
-class CanvasPanel extends JPanel {
+/*INTERNAL*/ public class CanvasPanel extends JPanel {
 	public CanvasPanel(int width, int height) {
 		buffer = Image.fromDPIAwareSize(width, height);
 
@@ -28,6 +28,7 @@ class CanvasPanel extends JPanel {
 		copyToClipboardLock.acquire();
 		renderLock.acquire();
 
+		buffer.clear();
 		buffer.drawImage(0, 0, image);
 
 		renderLock.release();

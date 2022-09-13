@@ -6,4 +6,5 @@ package codedraw.events;
  * that is why this class is empty.
  */
 public class WindowCloseEvent {
+	WindowCloseEvent() { }
 }

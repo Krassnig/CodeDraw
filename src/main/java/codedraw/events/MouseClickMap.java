@@ -1,16 +1,13 @@
-package codedraw;
-
-import codedraw.events.MouseClickEvent;
+package codedraw.events;
 
 import java.awt.event.MouseEvent;
-import java.util.function.Consumer;
 
 class MouseClickMap {
-	public MouseClickMap(Consumer<Object> queue) {
+	public MouseClickMap(ConcurrentQueue<Object> queue) {
 		this.queue = queue;
 	}
 
-	private final Consumer<Object> queue;
+	private final ConcurrentQueue<Object> queue;
 	private MouseEvent lastMouseDown;
 
 	public void mousePressed(MouseEvent mouseEvent) {
@@ -26,7 +23,7 @@ class MouseClickMap {
 	public void mouseReleased(MouseEvent mouseEvent) {
 		if (lastMouseDown != null) {
 			if (calculateDelta(lastMouseDown, mouseEvent) < 38 * 38) {
-				queue.accept(new MouseClickEvent(mouseEvent));
+				queue.push(new MouseClickEvent(mouseEvent));
 			}
 		}
 	}

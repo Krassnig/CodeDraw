@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.events;
 
 import codedraw.drawing.BufferedImageType;
 

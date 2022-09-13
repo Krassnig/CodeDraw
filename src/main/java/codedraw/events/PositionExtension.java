@@ -1,4 +1,4 @@
-package codedraw;
+package codedraw.events;
 
 import javax.swing.*;
 import java.awt.*;

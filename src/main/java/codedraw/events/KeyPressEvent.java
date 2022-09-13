@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
  * This argument is given continuously while a key is being held down.
  */
 public class KeyPressEvent {
-	public KeyPressEvent(KeyEvent e) {
+	KeyPressEvent(KeyEvent e) {
 		this.e = e;
 		key = Key.getKeyFromKeyCode(e.getKeyCode());
 	}

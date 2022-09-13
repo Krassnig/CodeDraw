@@ -6,7 +6,7 @@ import java.awt.*;
  * This argument is given every time the CodeDraw window is moved.
  */
 public class WindowMoveEvent {
-	public WindowMoveEvent(Point canvasPosition, Point windowPosition) {
+	WindowMoveEvent(Point canvasPosition, Point windowPosition) {
 		this.canvasPosition = canvasPosition.getLocation();
 		this.windowPosition = windowPosition.getLocation();
 	}

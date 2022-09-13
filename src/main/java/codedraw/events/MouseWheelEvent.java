@@ -4,7 +4,7 @@ package codedraw.events;
  * This argument is given each time the mouse wheel is turned.
  */
 public class MouseWheelEvent {
-	public MouseWheelEvent(java.awt.event.MouseWheelEvent e) {
+	MouseWheelEvent(java.awt.event.MouseWheelEvent e) {
 		this.e = e;
 	}
 

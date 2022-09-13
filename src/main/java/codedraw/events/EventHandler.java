@@ -1,14 +1,10 @@
-package codedraw;
-
-import codedraw.events.*;
-import codedraw.events.MouseWheelEvent;
+package codedraw.events;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.function.Consumer;
 
-class EventHandler {
+/*INTERNAL*/ public class EventHandler {
 	private static final Semaphore windowCloseLock = new Semaphore(1);
 	private static int windowCount = 0;
 
@@ -20,7 +16,7 @@ class EventHandler {
 		this.frame = frame;
 		this.panel = panel;
 		this.position = new PositionExtension(frame, panel);
-		eventScanner = new EventScanner(s -> queue = s);
+		eventScanner = new EventScanner(queue = new ConcurrentQueue<>(128));
 
 		createEvents();
 		bindEvents();
@@ -32,7 +28,7 @@ class EventHandler {
 	private final EventScanner eventScanner;
 
 	private boolean terminateOnLastClose = true;
-	private Consumer<Object> queue;
+	private ConcurrentQueue<Object> queue;
 
 	private MouseListener mouseListener;
 	private MouseMotionListener mouseMotionListener;
@@ -103,23 +99,23 @@ class EventHandler {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				clickMap.mousePressed(e);
-				queue.accept(new MouseDownEvent(e));
+				queue.push(new MouseDownEvent(e));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				clickMap.mouseReleased(e);
-				queue.accept(new MouseUpEvent(e));
+				queue.push(new MouseUpEvent(e));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				queue.accept(new MouseEnterEvent(e));
+				queue.push(new MouseEnterEvent(e));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				queue.accept(new MouseLeaveEvent(e));
+				queue.push(new MouseLeaveEvent(e));
 			}
 		};
 	}
@@ -129,19 +125,19 @@ class EventHandler {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				clickMap.mouseMoved(e);
-				queue.accept(new MouseMoveEvent(e));
+				queue.push(new MouseMoveEvent(e));
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				clickMap.mouseMoved(e);
-				queue.accept(new MouseMoveEvent(e));
+				queue.push(new MouseMoveEvent(e));
 			}
 		};
 	}
 
 	private MouseWheelListener createMouseWheelListener() {
-		return a -> queue.accept(new MouseWheelEvent(a));
+		return a -> queue.push(new MouseWheelEvent(a));
 	}
 
 	private KeyListener createKeyListener() {
@@ -151,13 +147,13 @@ class EventHandler {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				keyDownMap.keyPress(e);
-				queue.accept(new KeyPressEvent(e));
+				queue.push(new KeyPressEvent(e));
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				keyDownMap.keyRelease(e);
-				queue.accept(new KeyUpEvent(e));
+				queue.push(new KeyUpEvent(e));
 			}
 		};
 	}
@@ -167,7 +163,7 @@ class EventHandler {
 			@Override
 			public void componentMoved(ComponentEvent e) {
 				position.updateWindowAndCanvasPosition();
-				queue.accept(new WindowMoveEvent(position.getCanvasPosition(), position.getWindowPosition()));
+				queue.push(new WindowMoveEvent(position.getCanvasPosition(), position.getWindowPosition()));
 			}
 		};
 	}
@@ -176,7 +172,7 @@ class EventHandler {
 		return new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				queue.accept(new WindowCloseEvent());
+				queue.push(new WindowCloseEvent());
 				windowCloseLock.acquire();
 				windowCount--;
 				if (windowCount == 0 && terminateOnLastClose) {

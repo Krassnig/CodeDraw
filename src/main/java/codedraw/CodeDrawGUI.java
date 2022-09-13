@@ -79,6 +79,7 @@ class CodeDrawGUI implements AutoCloseable {
 	private boolean isClosed = false;
 
 	public Screen getScreen() {
+		checkIsClosed();
 		if (screen == null) {
 			throw new RuntimeException(
 				"This CodeDraw GUI is not attached to any screen. " +

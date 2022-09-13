@@ -53,13 +53,8 @@ import java.util.function.Consumer;
  * but no new events will appear.
  */
 public class EventScanner {
-	/**
-	 * Creates a new EventScanner. Read the class documentation for a detailed explanation.
-	 * @param arg the source of the events.
-	 */
-	public EventScanner(Consumer<Consumer<Object>> arg) {
-		this.queue = new ConcurrentQueue<>(128);
-		arg.accept(queue::push);
+	EventScanner(ConcurrentQueue<Object> queue) {
+		this.queue = queue;
 	}
 
 	private final ConcurrentQueue<Object> queue;
