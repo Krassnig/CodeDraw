@@ -119,18 +119,25 @@ public class TransformationTest {
 
 	@Test
 	public void testPath() {
-		confirm.setConfirmationDialogue("");
+		confirm.setConfirmationDialogue(
+			"Should fill out a custom shape with a movable curve.\n" +
+			"Press a mouse button to complete the test."
+		);
 
 		EventScanner es = cd.getEventScanner();
 		int mouseX = 300;
 		int mouseY = 300;
 
-		while (!cd.isClosed()) {
+		testComplete: while (!cd.isClosed()) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseMoveEvent()) {
 					MouseMoveEvent e = es.nextMouseMoveEvent();
 					mouseX = e.getX();
 					mouseY = e.getY();
+				}
+				else if (es.hasMouseUpEvent()) {
+					es.nextEvent();
+					break testComplete;
 				}
 				else {
 					es.nextEvent();
@@ -150,18 +157,24 @@ public class TransformationTest {
 
 			cd.show(16);
 		}
+
+		confirm.assertConfirmation();
 	}
 
 	@Test
 	public void testPath2() {
-		confirm.setConfirmationDialogue("");
+		confirm.setConfirmationDialogue(
+			"Should draw a filled shape with an arc.\n" +
+			"The length of the arc can be modified with the mouse wheel.\n" +
+			"Click q mouse button to complete the test."
+		);
 
 		EventScanner es = cd.getEventScanner();
 		int mouseX = 300;
 		int mouseY = 300;
 		double wheel = 5;
 
-		while (!cd.isClosed()) {
+		testComplete: while (!cd.isClosed()) {
 			while (es.hasEventNow()) {
 				if (es.hasMouseMoveEvent()) {
 					MouseMoveEvent e = es.nextMouseMoveEvent();
@@ -171,6 +184,10 @@ public class TransformationTest {
 				else if (es.hasMouseWheelEvent()) {
 					MouseWheelEvent e = es.nextMouseWheelEvent();
 					wheel += e.getWheelRotation();
+				}
+				else if (es.hasMouseUpEvent()) {
+					es.nextEvent();
+					break testComplete;
 				}
 				else {
 					es.nextEvent();
@@ -205,5 +222,7 @@ public class TransformationTest {
 
 			cd.show(16);
 		}
+
+		confirm.assertConfirmation();
 	}
 }

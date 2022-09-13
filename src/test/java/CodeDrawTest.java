@@ -29,7 +29,10 @@ public class CodeDrawTest {
 
 	@Test
 	public void cursorTest() {
-		confirm.setConfirmationDialogue("Hover over the CodeDraw window, the cursor should change.");
+		confirm.setConfirmationDialogue(
+			"Hover over the CodeDraw window, the cursor should change between several options.\n" +
+			"The last cursor should be the CodeDraw icon."
+		);
 
 		CursorStyle[] cursors = {
 				DEFAULT,
@@ -194,7 +197,7 @@ public class CodeDrawTest {
 
 	@Test
 	public void cornerTest() {
-		confirm.setConfirmationDialogue("In each corner there should be a red pixel.");
+		confirm.setConfirmationDialogue("In each corner there should be a red pixel. (hard to see)");
 
 		int size = 1;
 

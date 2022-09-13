@@ -267,7 +267,10 @@ public class GraphicTest {
 
 	@Test
 	public void transparencyTest() {
-		confirm.setConfirmationDialogue("");
+		confirm.setConfirmationDialogue(
+			"A bear should appear with different colored backgrounds,\n" +
+			"each time the bear should have a different interpolation"
+		);
 
 		Image bear = Image.fromFile("./src/test/java/player.png");
 
@@ -291,7 +294,10 @@ public class GraphicTest {
 
 	@Test
 	public void transparencyTest2() {
-		confirm.setConfirmationDialogue("");
+		confirm.setConfirmationDialogue(
+			"A red square with a transparent and semi-transparent\n" +
+			"section should be drawn over the image"
+		);
 
 		Image backgroundImage = Image.fromFile("./src/test/java/test.jpg");
 		Image transparentImage = new Image(200, 200, Palette.RED);
