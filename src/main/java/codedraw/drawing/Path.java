@@ -141,7 +141,7 @@ public class Path {
 	}
 
 	/*
-	 * How to best approximate a geometrical arc with a Bezier curve?
+	 * How to best approximate a geometrical arc with a Bézier curve?
 	 * https://stackoverflow.com/a/44829356/7207255
 	 */
 	private void drawBezierFromArc(double x1, double y1, double xc, double yc, double x4, double y4) {
@@ -151,7 +151,8 @@ public class Path {
 		double by = y4 - yc;
 		double q1 = ax * ax + ay * ay;
 		double q2 = q1 + ax * bx + ay * by;
-		double k2 = (4D/3) * (Math.sqrt(2 * q1 * q2) - q2) / (ax * by - ay * bx);
+		double k1 = 3 * ax * by - 3 * ay * bx;
+		double k2 = k1 == 0 ? 0 : (4 * Math.sqrt(2 * q1 * q2) - 4 * q2) / k1;
 
 		double x2 = xc + ax - k2 * ay;
 		double y2 = yc + ay + k2 * ax;
