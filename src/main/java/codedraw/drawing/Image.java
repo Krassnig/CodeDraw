@@ -668,42 +668,73 @@ public class Image {
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
 	 */
-	public Color getPixel(double x, double y) {
+	public Color getPixel(int x, int y) {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
-		return Palette.fromRGB(image.getRGB((int) (x * xScale), (int) (y * yScale)));
+		if (xScale == 1 && yScale == 1) {
+			return Palette.fromRGBA(convertARGBToRGBA(image.getRGB(x, y)));
+		}
+		else {
+			int[] pixel = new int[xScale * yScale];
+
+			int xStart = x * xScale;
+			int yStart = y * yScale;
+
+			for (int xi = xStart; xi < xStart + xScale; xi++) {
+				for (int yi = yStart; yi < yStart + yScale; yi++) {
+					pixel[xi * xScale + yi] = convertARGBToRGBA(image.getRGB(xi, yi));
+				}
+			}
+
+			return Palette.fromRGBA(
+				averageColor(pixel, 0),
+				averageColor(pixel, 1),
+				averageColor(pixel, 2),
+				averageColor(pixel, 3)
+			);
+		}
+	}
+
+	private static int convertARGBToRGBA(int argb) {
+		return ((argb << 8) & 0xFFFFFF00) + ((argb >> 24) & 0xFF);
+	}
+
+	private static int averageColor(int[] colors, int colorComponentIndex) {
+		if (colorComponentIndex < 0 || 3 < colorComponentIndex) throw new RuntimeException("Invalid color component index. This is an error of the CodeDraw library.");
+
+		int sum = 0;
+
+		for (int i = 0; i < colors.length; i++) {
+			sum += (colors[i] >> (8 * colorComponentIndex)) & 0xFF;
+		}
+
+		return sum / colors.length;
 	}
 
 	/**
-	 * Draws a point which is exactly 1x1 pixel in size.
+	 * Draws a point which is the size of one pixel.
 	 * Ignores any transformation set with {@link #setTransformation(Matrix2D)}.
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
+	 * @param color the color of the pixel.
 	 */
 	public void setPixel(double x, double y, Color color) {
+		if (color == null) throw createParameterNullException("color");
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
 		beforeDrawing();
-		if (0 <= x && x < image.getWidth() && 0 <= y && y < image.getHeight()) {
-			image.setRGB((int) (x * xScale), (int) (y * yScale), color.getRGB());
+		int rgb = color.getRGB();
+		int xStart = (int)(x * xScale);
+		int yStart = (int)(y * yScale);
+
+		for (int xi = xStart; xi < xStart + xScale; xi++) {
+			for (int yi = yStart; yi < yStart + yScale; yi++) {
+				image.setRGB(xi, yi, rgb);
+			}
 		}
 		afterDrawing();
-	}
-
-	/**
-	 * Draws a point which is exactly 1x1 pixel in size.
-	 * Ignores any transformation set with {@link #setTransformation(Matrix2D)}.
-	 * The color is determined by the {@link #getColor()} of the image.
-	 * @param x The distance in pixel from the left side of the canvas.
-	 * @param y The distance in pixel from the top side of the canvas.
-	 */
-	public void drawPixel(double x, double y) {
-		checkNaNAndInfinity(x, "x");
-		checkNaNAndInfinity(y, "y");
-
-		setPixel(x, y, getColor());
 	}
 
 	/**
