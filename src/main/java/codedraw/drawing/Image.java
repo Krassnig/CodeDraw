@@ -236,10 +236,10 @@ public class Image {
 	 */
 	public static Image crop(Image source, int x, int y, int width, int height) {
 		if (source == null) throw createParameterNullException("source");
-		if (x < 0 || source.width <= x) throw new RuntimeException("");
-		if (y < 0 || source.height <= y) throw new RuntimeException("");
-		if (x + width > source.width) throw new RuntimeException();
-		if (y + height > source.height) throw new RuntimeException();
+		if (x < 0 || source.getWidth() <= x) throw createParameterNotInRangeException("x", 0, source.getWidth());
+		if (y < 0 || source.getHeight() <= y) throw createParameterNotInRangeException("y", 0, source.getHeight());
+		if (x + width > source.getWidth()) throw new IllegalArgumentException("The parameters x + width must be less than the width of the source image.");
+		if (y + height > source.getHeight()) throw new IllegalArgumentException("The parameters y + height must be less than the height of the source image.");
 
 		Image result = new Image(width, height, source.xScale, source.yScale, Palette.TRANSPARENT);
 		result.drawImage(-x, -y, source);
@@ -272,7 +272,7 @@ public class Image {
 	 */
 	public static Image scale(Image source, double scale, Interpolation interpolation) {
 		if (source == null) throw createParameterNullException("source");
-		if (scale <= 0) throw new RuntimeException();
+		if (scale <= 0) throw createParameterMustBeGreaterThanZeroException("scale");
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
 		int width = (int)(source.width * scale);
@@ -1617,6 +1617,10 @@ public class Image {
 
 	private static IllegalArgumentException createParameterMustBeGreaterOrEqualToZeroException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " must be equal or greater than zero.");
+	}
+
+	private static IllegalArgumentException createParameterNotInRangeException(String parameterName, int minInclusive, int maxExclusive) {
+		return new IllegalArgumentException("The parameter " + parameterName + " must be greater or equal to " + minInclusive + " and smaller than " + maxExclusive);
 	}
 
 	private static boolean isInvalidPolygonCount(double[] polygonParameter) {
