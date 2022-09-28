@@ -251,7 +251,7 @@ public class FullScreen extends Image implements AutoCloseable {
 
 	@Override
 	public String toString() {
-		return "FullScreen CodeDraw " + getWidth() + "x" + getHeight();
+		return "FullScreen " + getWidth() + "x" + getHeight();
 	}
 
 	@Override

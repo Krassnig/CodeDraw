@@ -277,7 +277,7 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 
 	@Override
 	public String toString() {
-		return "Borderless CodeDraw " + getWidth() + "x" + getHeight();
+		return "BorderlessWindow " + getWidth() + "x" + getHeight();
 	}
 
 	@Override
