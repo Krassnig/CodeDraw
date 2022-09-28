@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 /**
  * This argument is given exactly once when a key is pressed down.
  */
-public class KeyDownEvent {
+public class KeyDownEvent extends Event {
 	KeyDownEvent(KeyEvent e) {
 		this.e = e;
 		key = Key.getKeyFromKeyCode(e.getKeyCode());

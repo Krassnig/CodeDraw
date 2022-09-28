@@ -5,6 +5,6 @@ package codedraw.events;
  * No information except the fact that it was triggered is supplied,
  * that is why this class is empty.
  */
-public class WindowCloseEvent {
+public class WindowCloseEvent extends Event {
 	WindowCloseEvent() { }
 }

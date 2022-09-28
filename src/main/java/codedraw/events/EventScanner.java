@@ -2,7 +2,9 @@ package codedraw.events;
 
 import codedraw.CodeDraw;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
@@ -52,14 +54,14 @@ import java.util.function.Consumer;
  * The remaining events can still be consumed when the EventScanner is closed,
  * but no new events will appear.
  */
-public class EventScanner {
+public class EventScanner implements Iterable<Event> {
 	EventScanner() {
 		this.queue = new ConcurrentQueue<>(128);
 	}
 
-	private final ConcurrentQueue<Object> queue;
+	private final ConcurrentQueue<Event> queue;
 
-	void push(Object event) {
+	void push(Event event) {
 		queue.push(event);
 	}
 
@@ -69,7 +71,7 @@ public class EventScanner {
 	 * @return whether there are currently events available
 	 */
 	public boolean hasEventNow() {
-		return hasNow(Object.class);
+		return hasNow(Event.class);
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class EventScanner {
 	 * @return whether there are more events available
 	 */
 	public boolean hasEvent() {
-		return has(Object.class);
+		return has(Event.class);
 	}
 
 	/**
@@ -199,7 +201,7 @@ public class EventScanner {
 	 * @throws NoSuchElementException if there are no more events.
 	 * @return The event args as an object.
 	 */
-	public Object nextEvent() { return next(Object.class); }
+	public Event nextEvent() { return next(Event.class); }
 
 	/**
 	 * Waits for the next mouse click event and then consumes the event.
@@ -321,21 +323,32 @@ public class EventScanner {
 	 */
 	public WindowCloseEvent nextWindowCloseEvent() { return next(WindowCloseEvent.class); }
 
-	private boolean hasNow(Class<?> type) {
+	@Override
+	public Iterator<Event> iterator() {
+		ArrayList<Event> result = new ArrayList<>();
+
+		while (hasEventNow()) {
+			result.add(nextEvent());
+		}
+
+		return result.iterator();
+	}
+
+	private boolean hasNow(Class<? extends Event> type) {
 		return !queue.isEmpty() && has(type);
 	}
 
-	private boolean has(Class<?> expected) {
-		Class<?> actual = peekType();
+	private boolean has(Class<? extends Event> expected) {
+		Class<? extends Event> actual = peekType();
 		return !actual.isAssignableFrom(EndOfEvent.class) && expected.isAssignableFrom(actual);
 	}
 
-	private Class<?> peekType() {
+	private Class<? extends Event> peekType() {
 		return queue.peek().getClass();
 	}
 
-	private <T> T next(Class<T> expected) {
-		Class<?> actual = peekType();
+	private <T extends Event> T next(Class<T> expected) {
+		Class<? extends Event> actual = peekType();
 
 		if (EndOfEvent.class.isAssignableFrom(actual))
 			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
@@ -353,8 +366,8 @@ public class EventScanner {
 		return expected.cast(queue.pop());
 	}
 
-	private static <T> String getEventName(Class<T> eventType) {
-		if (Object.class.isAssignableFrom(eventType)) {
+	private static <T extends Event> String getEventName(Class<T> eventType) {
+		if (Event.class.isAssignableFrom(eventType)) {
 			return "Event";
 		}
 		else {
@@ -362,7 +375,7 @@ public class EventScanner {
 		}
 	}
 
-	private static class EndOfEvent {
+	private static class EndOfEvent extends Event {
 		private EndOfEvent() { }
 
 		public static final EndOfEvent INSTANCE = new EndOfEvent();

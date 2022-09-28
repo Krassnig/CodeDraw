@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given when the mouse leaves the canvas.
  */
-public class MouseLeaveEvent {
+public class MouseLeaveEvent extends Event {
 	MouseLeaveEvent(MouseEvent e) {
 		this.e = e;
 	}

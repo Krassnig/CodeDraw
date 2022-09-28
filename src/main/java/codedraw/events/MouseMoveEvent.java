@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given continuously while the mouse is being moved.
  */
-public class MouseMoveEvent {
+public class MouseMoveEvent extends Event {
 	MouseMoveEvent(MouseEvent e) {
 		this.e = e;
 	}

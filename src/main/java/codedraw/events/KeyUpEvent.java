@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 /**
  * This argument is given exactly once when a key is released.
  */
-public class KeyUpEvent {
+public class KeyUpEvent extends Event {
 	KeyUpEvent(KeyEvent e) {
 		this.e = e;
 		key = Key.getKeyFromKeyCode(e.getKeyCode());

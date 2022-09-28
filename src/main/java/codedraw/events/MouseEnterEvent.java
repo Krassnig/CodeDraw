@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given when the mouse enters the canvas.
  */
-public class MouseEnterEvent {
+public class MouseEnterEvent extends Event {
 	MouseEnterEvent(MouseEvent e) {
 		this.e = e;
 	}

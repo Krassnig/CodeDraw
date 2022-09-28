@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given once when a mouse button is pressed down and quickly released again.
  */
-public class MouseClickEvent {
+public class MouseClickEvent extends Event {
 	MouseClickEvent(MouseEvent e) {
 		this.e = e;
 	}

@@ -3,7 +3,7 @@ package codedraw.events;
 /**
  * This argument is given each time the mouse wheel is turned.
  */
-public class MouseWheelEvent {
+public class MouseWheelEvent extends Event {
 	MouseWheelEvent(java.awt.event.MouseWheelEvent e) {
 		this.e = e;
 	}

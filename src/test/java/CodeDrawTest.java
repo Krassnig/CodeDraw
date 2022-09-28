@@ -136,10 +136,9 @@ public class CodeDrawTest {
 		cd.close();
 		cd = new CodeDraw(150, 1);
 		confirm.placeCodeDrawTestingInstance(cd);
-		cd.setColor(Palette.RED);
 
 		for (int i = 0; i < 150; i++) {
-			cd.drawPixel(i, 0);
+			cd.setPixel(i, 0, Palette.RED);
 			cd.show(10);
 		}
 

@@ -22,6 +22,22 @@ public class GraphicTest {
 	}
 
 	@Test
+	public void customShapeTest() {
+		confirm.setConfirmationDialogue("Should draw a section of a dartboard on screen.");
+
+		double angle = Math.PI / 4; // 45°
+		cd.fillPathStartingAt(200, 300)
+			.arcTo(300, 300, angle)
+			.lineTo(300 - Math.cos(angle) * 200, 300 - Math.sin(angle) * 200)
+			.arcTo(300, 300, -angle)
+			.complete();
+
+		cd.show();
+
+		confirm.assertConfirmation();
+	}
+
+	@Test
 	public void arcPieTest() {
 		confirm.setConfirmationDialogue(
 				"Should draw a pie, the outline of a pie, arc and just lines.\n" +

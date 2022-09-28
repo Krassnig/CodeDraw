@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 /**
  * This argument is given exactly once when a mouse button is released.
  */
-public class MouseUpEvent {
+public class MouseUpEvent extends Event {
 	MouseUpEvent(MouseEvent e) {
 		this.e = e;
 	}
