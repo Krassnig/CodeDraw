@@ -1237,8 +1237,8 @@ public class Image {
 	 * Draws the outline of a polygon.
 	 * This function must be called with an even number of parameters.
 	 * Each parameter pair (x, y) represents a corner of the polygon.
-	 * Must be called with at least two points as parameter.
-	 * Each point passed to drawPolygon will be connected to the following points and
+	 * Must be called with at least two vertices as parameter.
+	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last point will be connected to the first point.
 	 * <pre>{@code
 	 * cd.drawPolygon(
@@ -1249,14 +1249,14 @@ public class Image {
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
 	 */
-	public void drawPolygon(double... points) {
-		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "drawPolygon");
-		checkNaNAndInfinity(points, "points");
+	public void drawPolygon(double... vertices) {
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "drawPolygon");
+		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.draw(createPolygon(points));
+		g.draw(createPolygon(vertices));
 		afterDrawing();
 	}
 
@@ -1264,8 +1264,8 @@ public class Image {
 	 * Draws a filled polygon.
 	 * This function must be called with an even number of parameters.
 	 * Each parameter pair (x, y) represents a corner of the polygon.
-	 * Must be called with at least two points as parameter.
-	 * Each point passed to drawPolygon will be connected to the following points and
+	 * Must be called with at least two vertices as parameter.
+	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last point will be connected to the first point.
 	 * If you pass only two arguments to fillPolygon nothing will be drawn.
 	 * <pre>{@code
@@ -1275,14 +1275,14 @@ public class Image {
 	 *     300, 200
 	 * );
 	 * }</pre>
-	 * @param points An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
 	 */
-	public void fillPolygon(double... points) {
-		if (isInvalidPolygonCount(points)) throw createPolygonCountException(points, "fillPolygon");
-		checkNaNAndInfinity(points, "points");
+	public void fillPolygon(double... vertices) {
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "fillPolygon");
+		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.fill(createPolygon(points));
+		g.fill(createPolygon(vertices));
 		afterDrawing();
 	}
 
@@ -1453,6 +1453,7 @@ public class Image {
 
 		BufferedImage result = new BufferedImage(width, height, type.getType());
 		Graphics2D g = result.createGraphics();
+		RenderingHintValue.applyHint(g, RHInterpolation.BICUBIC);
 		g.drawImage(image, 0, 0, width, height, Palette.WHITE, null);
 		g.dispose();
 		return result;
