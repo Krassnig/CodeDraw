@@ -11,7 +11,7 @@ The source code is available in the [CodeDraw repository](https://github.com/Kra
 The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
 or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
-## Table of contents
+## Table of Contents
 - [Introduction to CodeDraw](#introduction-to-codedraw)
     * [What is CodeDraw](#what-is-codedraw)
     * [Table of contents](#table-of-contents)
@@ -28,16 +28,16 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
     * [Events](#events)
         + [Events without EventScanner](#events-without-eventscanner)
 
-## Getting started
+## Getting Started
 
-Instruction on how to install CodeDraw can be found
-in the [How to install section in the CodeDraw repository](https://github.com/Krassnig/CodeDraw#how-to-install).
-Install CodeDraw and then create an empty Java file with the name 'MyProgram' and
+Instruction on how to install CodeDraw can be found in the [How to Install](https://github.com/Krassnig/CodeDraw#how-to-install)
+section in the README of the CodeDraw repository.
+Install CodeDraw and then create an empty Java file with the name `MyProgram` and
 then copy the following code into your file:
 
 ```java
 import codedraw.*;
-// Imports CodeDraw and all it's classes.
+// Imports CodeDraw and all its classes.
 // Without this CodeDraw cannot be used in your program.
 
 public class MyProgram {
@@ -57,219 +57,94 @@ public class MyProgram {
         // The Rectangle will have a width of 200 pixel
         // and a height of 100 pixel.
         cd.fillSquare(180, 150, 80);
-        // The filled square will be offset to the left by 180 pixel
-        // and 150 pixel to the top. Its size will be 80x80 pixel.
-        
+        // The filled square will be offset from the left by 180 pixel
+        // and 150 pixel from the top. Its size will be 80x80 pixel.
+
         // The next line changes the color to light blue.
         cd.setColor(Palette.LIGHT_BLUE);
-        // fillCircle draws a filled circle where its center is
-        // offset by 300 pixel to the left and 200 pixel to the top.
-        // The radius of the circle will have a size of 50 pixel.
+        // fillCircle draws a filled circle with its center at
+        // the (300, 200) coordinate, around which the circle
+        // will be drawn with a radius of 50 pixel.
         cd.fillCircle(300, 200, 50);
         // Shapes that are drawn later will be drawn over
         // the shapes that are drawn earlier.
-        
+
         cd.show();
-        // Finally, the method show must be called
+        // Finally, the method show() must be called
         // to display the drawn shapes in the CodeDraw window.
     }
 }
 ```
 
 When you execute this program, you should see window with the outlines of a red rectangle,
-another filled rectangle and a filled light blue circle.
+another filled rectangle and a filled light blue circle as shown in the image below.
 
 ![01 Gettings started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
 
-## The coordinate system
+## The Coordinate System
 
-In mathematics the origin coordinate (0, 0) is usually in the **bottom-left** corner.
-This is different in computer graphics.
-In computer graphics the **top-left** corner is used as the origin coordinate.
-For Example: *cd.fillSquare(180, 150, 50);* will start at the **top-left** corner,
-go 180 pixel to the right, 150 pixel down and start drawing a 50 by 50 pixel square
-to the bottom-right of that point.
+In mathematics the origin coordinate (0, 0) is usually placed in the **bottom-left** corner.
+This is different in computer graphics, where coordinate system usually start in the **top-left** corner.
+For Example: `cd.fillSquare(180, 150, 50);` will start in the **top-left** corner of the canvas,
+go 180 pixel to the right, 150 pixel down and start drawing a 50 by 50 pixel square towards the bottom-right.
 The pixel coordinate (180, 150) is part of that rectangle.
-Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
-Circular Shapes have their starting point in their center.
+
+Note that rectangular and circular shapes have different origins as described in the next section.
 
 ![02 The coordinate system](https://user-images.githubusercontent.com/24553082/153450673-0b3470cc-7548-4b92-b597-05b4dd13bc1d.png)
 
-## Modifying the way things are drawn
 
-CodeDraw has a number of properties that change the way shapes are drawn.
-You can access these properties through their getter and setter.
-For example: You can read the currently used color by calling the *getColor* method
-and change the color by calling the *setColor* method.
-*setCorner* changes the way corners of lines and shapes are drawn.
-*setLineWidth* can be used to change the thickness of lines,
-and the thickness of the outlines of shapes.
+## Outline and filled shapes
 
-```java
-import codedraw.*;
+CodeDraw has two general kinds of drawing methods, `fill`-methods and `draw`-methods.
+A `fill`-method always completely fills its shape and a `draw`-method only draws its outline.
+All drawing methods that do not fit into this categorization also use the `draw` prefix.
+For example, the method to draw a line `drawLine` and the method to draw an image `drawImage`
+also use the `draw` prefix.
 
-public class Main {
-    public static void main(String[] args) {
-        CodeDraw cd = new CodeDraw(400, 400);
-        
-        cd.setColor(Palette.GREEN);
-        cd.setCorner(Corner.ROUND);
-        cd.setLineWidth(5);
-        
-        cd.drawRectangle(100, 100, 200, 100);
-        
-        cd.show();
-    }
-}
-```
+CodeDraw has two general kinds of shapes, rectangular and circular.
+A rectangular shape like the square has its starting point in its top left corner.
+A circular shape has its starting point at its center.
 
-![03 Modifying the way things are drawn](https://user-images.githubusercontent.com/24553082/153450719-418eab8a-80ab-481d-9ac2-ca90dc4b2370.png)
+Partial circular shapes can be drawn with the `drawArc`, `drawPie`, `fillPie` methods.
+Pies and arcs start at the 3 o'clock position offset by the `startRadians` parameter.
+The shape is then continued in a clockwise direction for a total length of `sweepRadians` radians.
 
-For example, this program will create a green rectangle with round corners.
-The outline of the rectangle will be 10 pixels wide. 
+Outlined Shapes:
+- `drawSquare(double x, double y, double sideLength)`
+- `drawRectangle(double x, double y, double width, double height)`
+- `drawCircle(double centerX, double centerY, double radius)`
+- `drawEllipse(double centerX, double centerY, double horizontalRadius, double verticalRadius)`
+- `drawPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians)`
+- `drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3)`
+- `drawPolygon(double... vertices)`
 
-List of drawing properties:
- - getColor/setColor
- - getLineWidth/setLineWidth
- - getCorner/setCorner
- - isAntiAliased/setAntiAliased
+Filled Shapes:
+- `fillSquare(double x, double y, double sideLength)`
+- `fillRectangle(double x, double y, double width, double height)`
+- `fillCircle(double centerX, double centerY, double radius)`
+- `fillEllipse(double centerX, double centerY, double horizontalRadius, double verticalRadius)`
+- `fillPie(double centerX, double centerY, double radius, double startRadians, double sweepRadians)`
+- `fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3)`
+- `fillPolygon(double... vertices)`
 
-## Drawing text
 
-Text is drawn with the *drawText* method.
-The way the text is drawn can be defined through the TextFormat object.
-To modify font properties such a text size, font type and font weight CodeDraw has a textFormat property.
-The textFormat property can be accessed through *getTextFormat* and *setTextFormat*.
-Inside the textFormat property are all the properties regarding text formatting.
-TextFormat must be imported separately.
+## Points, Lines and Curves
 
-```java
-import codedraw.*;
-import codedraw.textformat.*;
+A point can be drawn by calling the `drawPoint(double x, double y)` method.
+Its radius is determined by the set `lineWidth`.
 
-public class Main {
-    public static void main(String[] args) {
-        CodeDraw cd = new CodeDraw(400, 400);
-        TextFormat format = cd.getTextFormat();
+A line can drawn with the `drawLine()` method. The styling of the ends are determined by the `corner` property.
+If corners are set to `cd.setCorner(Corner.SHARP)` the line will be drawn pointy around the endpoint.
+However, if `cd.setCorner(Corner.BEVEL)` is set the line will stop at exactly the endpoint.
+Additionally, `cd.setCorner(Corner.ROUND)` can also be set to get round endpoints.
 
-        format.setFontSize(20);
-        format.setHorizontalAlign(HorizontalAlign.CENTER);
-        format.setItalic(true);
-
-        cd.drawText(200, 100, "Hello World!\nMulti lines!");
-
-        cd.setColor(Palette.RED);
-        cd.fillCircle(200, 100, 5);
-
-        cd.show();
-    }
-}
-```
-
-![04 Drawing text](https://user-images.githubusercontent.com/24553082/153450747-27066c3f-a831-4961-91ec-295f40a26813.png)
-
-This example draws the text horizontally centered below the origin point.
-The origin point is indicated by the red dot.
-Per default text is drawn to the bottom right of the origin point.
-By setting the font size the size of the font can be increased.
-By setting HorizontalAlign to center the text is horizontally centered.
-By setting italic to true the text is tilted.
-Text can also be draw over multiple lines by including a newline character.
-
-List of text format options:
- - getHorizontalAlign/setHorizontalAlign
- - getVerticalAlign/setVerticalAlign
- - getFontSize/setFontSize
- - getFontName/setFontName
- - isBold/setBold
- - isItalic/setItalic
- - getUnderline/setUnderline
- - isStrikethrough/setStrikethrough
-
-## Canvas and window
-
-The canvas is the rectangle on the screen that is used for drawing.
-The width and the height of the canvas cannot be changed once a CodeDraw window has been created.
-They can only be set when you create a CodeDraw window by passing the desired size to the constructor.
-For example: The following code creates a CodeDraw window with a canvas of the size 300x300 pixel.
-```java
-import codedraw.*;
-
-public class Main {
-    public static void main(String[] args) {
-        CodeDraw cd = new CodeDraw(300, 100);
-        cd.setTitle("Hello World!");
-    }
-}
-```
-
-![05 Canvas and window](https://user-images.githubusercontent.com/24553082/153450766-60aac8f5-ea8b-4701-b7c2-6b064fd373ca.png)
-
-The width and height can be accessed through the *getWidth* and *getHeight* methods.
-The window is the frame surrounding the canvas.
-It contains the closing and minimize button, the title and the CodeDraw icon.
-The window is larger than the size given to the constructor of CodeDraw, since it surrounds the canvas.
-The position of the canvas and window can both be changed. Changing one also changes the other.
-The title can also be changed with *setTitle*.
-If you want the CodeDraw window to always be displayed on top of other windows you can call *codeDraw.setAlwaysOnTop(true);*. 
-ImmediateDraw will be covered in the next section.
-
-Methods about the CodeDraw window:
- - getWidth
- - getHeight
- - getTitle/setTitle
- - isAlwaysOnTop/setAlwaysOnTop
- - enableImmediateDraw/disableImmediateDraw
- - getWindowPositionX/setWindowPositionX
- - getWindowPositionY/setWindowPositionY
- - getCanvasPositionX/setCanvasPositionX
- - getCanvasPositionY/getCanvasPositionY
-
-## Debugging CodeDraw and drawing instantly
-
-When debugging CodeDraw in Intellij, Intellij stops the entire Program including the CodeDraw window and your Code.
-To make Intellij only stop your Code and not make the CodeDraw window freeze when debugging, follow these 4 steps:
-
-1. Set a breakpoint anywhere in your Code by left-clicking next to the line number.
-2. Right-click on the breakpoint.
-3. Select the *Thread* options (instead of *All*).
-4. Click on *Make Default*.
-
-![06 Debugging CodeDraw and ImmediateDraw](https://user-images.githubusercontent.com/24553082/156898569-6dbc7bb0-b5f2-43d7-a423-078d82d37767.png)
-
-When InstantDraw is enabled CodeDraw will instantly draw all shapes to the canvas.
-This can be used to better understand what is happening in your application
-but also slows down drawing objects because CodeDraw has to render each time.
-
-Additionally, you can setAlwaysOnTop to true so that CodeDraw doesn't disappear behind your IDE.
-
-```java
-import codedraw.*;
-
-public class Main {
-    public static void main(String[] args) {
-        CodeDraw cd = new CodeDraw();
-        cd.setInstantDraw(true);
-        cd.setAlwaysOnTop(true);
-
-        cd.drawCircle(300, 300, 100);
-
-        // The circle is displayed without calling
-        // cd.show();
-    }
-}
-```
-
-## Points, lines and curves
-
-A pixel can be drawn with *drawPixel*.
-A point can be drawn with *drawPoint*, points change their size based on the *lineWidth* property.
-A line can be drawn with *drawLine*.
-A curve can be drawn with *drawCurve*.
-It has one controlX/Y parameter that specifies in what way the curve will be bent.
-The draw method for a curve with two control parameters is called *drawBezier*.
-To draw a curve like you would do with a compass use *drawArc*.
-The ends of style of the ending of lines can be changed with *setCorner*.
+The same applies to the `drawCurve()`, `drawBezier()` and `drawArc()` method.
+The `drawCurve()` method has **one** control point which can be used to bend the curve in a desired direction.
+The `drawBezier()` method has **two** control points.
+The `drawArc()` methods draws an arc around a central point.
+The `startRadians` parameter defines the offset of the arc in a clockwise direction and
+the `sweepRadians` parameter defines the length of the arc.
 
 ```java
 import codedraw.*;
@@ -295,59 +170,201 @@ public class Main {
 ![06 Points, lines and curves](https://user-images.githubusercontent.com/24553082/153450804-cc0835d2-e5d4-4ac2-9e49-0d4da78a60fe.png)
 
 Points, Lines and Curves:
- - drawPixel
- - drawPoint
- - drawLine
- - drawCurve
- - drawBezier
- - drawArc
+- `drawPoint(double x, double y)`
+- `drawLine(double startX, double startY, double endX, double endY)`
+- `drawCurve(double startX, double startY, double controlX, double controlY, double endX, double endY)`
+- `drawBezier(double startX, double startY, double controlX1, double controlY1, double controlX2, double controlY2, double endX, double endY)`
+- `drawArc(double centerX, double centerY, double radius, double startRadians, double sweepRadians)`
 
-## Outline and filled shapes
+## Modifying the Way Things are Drawn
 
-In general CodeDraw has two kinds of drawing methods. *Fill*-methods and *draw*-methods.
-Fill methods always completely fill a shape and draw only draws their outline.
-Rectangular Shapes like the Square have their starting point in the top left corner of their shape.
-Circular Shapes have their starting point in their center.
-
-Partial circular shapes can be drawn with *drawArc*, *drawPie*, *fillPie*.
-Pie and arc start at the 3 o'clock position offset by the startRadians parameter.
-The total length of the pie and arc is defined by the sweepRadians parameter and goes clockwise.
-
-Outlined Shapes:
- - drawSquare
- - drawRectangle
- - drawCircle
- - drawEllipse
- - drawPie
- - drawTriangle
- - drawPolygon
-
-Filled Shapes:
- - fillSquare
- - fillRectangle
- - fillCircle
- - fillEllipse
- - fillPie
- - fillTriangle
- - fillPolygon
-
-## Images in CodeDraw
-
-Images in CodeDraw can be handled with the CodeDrawImage class.
-CodeDrawImages work very similarly to the CodeDraw class, they just don't have a window attached to them.
-
-To draw images to the CodeDraw window you must first load the image into your program.
-This can be done with the *CodeDrawImage.fromFile* function.
+CodeDraw has a number of properties that change the way shapes are drawn.
+You can access these properties through getters and setters.
+Getters and Setter are methods that always start with the word `get` and `set` respectively.
+For example, you can read the currently used color by calling the `getColor()` method
+and change the color by calling the `setColor(Color newColor)` method.
+`setCorner(Corner newCorner)` changes the way corners of lines and shapes are drawn.
+`setLineWidth(double newLineWidth)` can be used to change the thickness of lines,
+and the thickness of the outlines of shapes.
 
 ```java
 import codedraw.*;
-import codedraw.images.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+
+        cd.setColor(Palette.GREEN);
+        cd.setCorner(Corner.ROUND);
+        cd.setLineWidth(5);
+
+        cd.drawRectangle(100, 100, 200, 100);
+
+        cd.show();
+    }
+}
+```
+
+![03 Modifying the way things are drawn](https://user-images.githubusercontent.com/24553082/153450719-418eab8a-80ab-481d-9ac2-ca90dc4b2370.png)
+
+The program above will create a green rectangle with round corners and
+the outline of the rectangle will be 10 pixels wide.
+
+List of drawing properties:
+- `getColor`/`setColor`
+- `getLineWidth`/`setLineWidth`
+- `getCorner`/`setCorner`
+- `isAntiAliased`/`setAntiAliased`
+- `getTransformation`/`setTransformation`
+- `drawOver`/`setDrawOver`
+
+## Drawing text
+
+Text is drawn with the `drawText(double x, double y, String text)` method.
+The way the text is drawn can be defined through the `TextFormat` object.
+First the `TextFormat` object has to be get through the `getTextFormat()` method,
+then the `TextFormat` variable can be used to change a variety of font properties like
+text size `setFontSize(int)`, font family `setFontName(String)` and boldness `setBold(boolean)`.
+Additionally, styling such as strikethrough `setStrikethrough(boolean)`, italics `setItalic(boolean)`
+and underline `setUnterline(Underline)` can be set.
+`TextFormat` also has an option where, relative to the position specified in `drawText(...)` the
+text should be placed.
+
+```java
+import codedraw.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(400, 400);
+        TextFormat format = cd.getTextFormat();
+
+        format.setTextOrigin(TextOrigin.TOP_MIDDLE);
+        format.setFontSize(20);
+        format.setItalic(true);
+
+        cd.drawText(200, 100, "Hello World!\nMulti lines!");
+
+        cd.setColor(Palette.RED);
+        cd.fillCircle(200, 100, 5);
+
+        cd.show();
+    }
+}
+```
+
+![04 Drawing text](https://user-images.githubusercontent.com/24553082/153450747-27066c3f-a831-4961-91ec-295f40a26813.png)
+
+This example draws the text in the middle below the origin point  in red, which is defined by the x and y variable,
+in `drawText(double x, double y, String text)`.
+The size of the text is changed and the text is styled italic.
+Text that contains newlines is displayed in separate lines.
+
+List of text format options:
+- `getTextOrigin()`/`setTextOrigin(TextOrigin textOrigin)`
+- `getFontSize()`/`setFontSize(int fontSize)`
+- `getFontName()`/`setFontName(String fontName)`
+- `isBold()`/`setBold(boolean isBold)`
+- `isItalic()`/`setItalic(boolean isItalic)`
+- `getUnderline()`/`setUnderline(Underline underline)`
+- `isStrikethrough()`/`setStrikethrough(boolean isStrikethrough)`
+
+## Canvas and Window
+
+The canvas is the section of the CodeDraw window on which you can draw.
+The size of the canvas can be specified in the CodeDraw constructor `new CodeDraw(int width, int height)`,
+but once it is set it cannot be changed anymore.
+For example, the following code creates a CodeDraw window with a canvas of the size 300x100 pixel
+and sets the title displayed on the CodeDraw window to *Hello World!*.
+
+```java
+import codedraw.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw(300, 100);
+        cd.setTitle("Hello World!");
+    }
+}
+```
+
+![05 Canvas and window](https://user-images.githubusercontent.com/24553082/153450766-60aac8f5-ea8b-4701-b7c2-6b064fd373ca.png)
+
+The width and height can be accessed through the *getWidth* and *getHeight* methods.
+The window is the frame surrounding the canvas.
+It contains the closing and minimize button, the title and the CodeDraw icon.
+The window is larger than the size given to the constructor of CodeDraw, since it surrounds the canvas.
+The position of the canvas and window can both be changed. Changing one also changes the other.
+The title can also be changed with *setTitle*.
+If you want the CodeDraw window to always be displayed on top of other windows you can call *codeDraw.setAlwaysOnTop(true);*.
+ImmediateDraw will be covered in the next section.
+
+Methods about the CodeDraw window:
+- `getWidth()`
+- `getHeight()`
+- `getTitle()`/`setTitle(String title)`
+- `isAlwaysOnTop()`/`setAlwaysOnTop(boolean isAlwaysOnTop)`
+- `isInstantDraw()`/`setInstantDraw(boolean isInstantDraw)`
+- `getWindowPositionX()`/`setWindowPositionX(int windowPositionX)`
+- `getWindowPositionY()`/`setWindowPositionY(int windowPositionY)`
+- `getCanvasPositionX()`/`setCanvasPositionX(int canvasPositionX)`
+- `getCanvasPositionY()`/`getCanvasPositionY(int canvasPositionY)`
+
+## Debugging CodeDraw and InstantDraw
+
+When debugging CodeDraw in Intellij, Intellij stops the entire program including the CodeDraw window, which then freezes.
+To stop the debugger from stopping all threads, only the main thread should be stopped.
+This can be done by:
+
+1. Set a breakpoint anywhere in your code by left-clicking next to the line number.
+2. Right-click on the breakpoint.
+3. Select the *Thread* options (instead of *All*).
+4. Click on *Make Default* and *Done*.
+
+![06 Debugging CodeDraw and ImmediateDraw](https://user-images.githubusercontent.com/24553082/156898569-6dbc7bb0-b5f2-43d7-a423-078d82d37767.png)
+
+After setting this, your code should behave as it did before but the CodeDraw window should no longer freeze.
+
+To make the debugging experience even better CodeDraw has a build in InstantDraw mode,
+which immediately draws all shapes to the canvas.
+This can be used to better understand what is happening in your application
+but also slows down drawing because CodeDraw has to display the changes each time a draw method is called.
+
+Another useful tool is `setAlwaysOnTop(boolean)`, when `true` the CodeDraw window will always be placed on top
+of all other windows. This should make it easier when switching between the IDE and the CodeDraw window.
+
+```java
+import codedraw.*;
+
+public class Main {
+    public static void main(String[] args) {
+        CodeDraw cd = new CodeDraw();
+        cd.setInstantDraw(true);
+        cd.setAlwaysOnTop(true);
+
+        cd.drawCircle(300, 300, 100);
+
+        // The circle is displayed without calling
+        // cd.show();
+    }
+}
+```
+
+## Drawing Images
+
+Images can be handled through CodeDraw's custom `Image` class.
+Images work very similarly to the CodeDraw class, they just don't have a window attached to them.
+
+To draw images to the CodeDraw window you must first load the image into your program.
+This can be done with the `CodeDrawImage.fromFile(path)` function.
+
+```java
+import codedraw.*;
 
 public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw();
 
-        CodeDrawImage image = CodeDrawImage.fromFile("./path_to/image.png");
+        Image image = Image.fromFile("./path_to/image.png");
 
         cd.drawImage(50, 50, image);
 
@@ -357,32 +374,42 @@ public class Main {
 
         cd.show();
 
-        CodeDrawImage.saveAs(cd.copyCanvas(), "./path_to/new_image.png", ImageFormat.PNG);
+        Image.saveAs(cd, "./path_to/new_image.png", ImageFormat.PNG);
     }
 }
 ```
 
 ![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/155164429-43e1273a-ed01-4a42-b87f-7e448537ffda.png)
 
-The first *drawImage* method takes the width and height of the given image to draw the image.
-The second *drawImage* rescales the image to fit inside the 200x200 bounds.
-The third *drawImage* also rescales the image but also specifies how pixels are supposed to be interpolated.
+The first `drawImage()` method takes the width and height of the given image to draw the image.
+The second `drawImage()` rescales the image to fit inside the 200x200 bounds.
+The third `drawImage()` also rescales the image but also specifies how pixels are supposed to be interpolated.
 Read the documentation or read the Wikipedia article on
-[Bicubic Interpolation](https://en.wikipedia.org/wiki/Bicubic_interpolation) and 
+[Bicubic Interpolation](https://en.wikipedia.org/wiki/Bicubic_interpolation) and
 [Image Scaling](https://en.wikipedia.org/wiki/Image_scaling).
 
-To extract the current canvas from a CodeDraw object you can call *copyCanvas*.
-The *CodeDrawImage.saveAs* method saves the image to the file system. 
+To save the `CodeDraw` canvas or an `Image` the `Image.save(Image image, String pathToImage, ImageFormat format)`
+method can be called.
 
-## Animations
+Image creation methods:
+- `Image.fromFile(String pathToImage)`
+- `Image.fromUrl(String url)`
+- `Image.fromResource(String resourceName)`
+- `Image.fromBase64String(String base64)`
+- `new Image(int width, int height)`
+- `new Image(int width, int height, Color backgroundColor)`
 
-Animation are created by drawing a "frame" and then waiting a certain period of time,
-then drawing another frame and so on.
-Before each frame is drawn the *clear*-method is called to clear the entire canvas. 
-The example below draws a clock, and every time the loop goes for another iteration,
-it adds another 1/60th to the process of the clock.
-By giving show a number as an argument you can instruct CodeDraw to wait before continuing
-with the execution of you program.
+## Creating Animations
+
+Animations are created by drawing multiple frames and then pausing in between those frames.
+In CodeDraw this is achieved by creating a loop, in which each iteration draws one frame
+and then waits a certain amount of time.
+
+The animation below increases the `sec` variable by 1/60th (one second) of a circle each iteration.
+Before drawing the entire canvas is cleared by calling the `clear()` method.
+Then the clock's second hand is drawn and the twelve dots that display the hour.
+Finally, the `show(long waitMilliseconds)` method must be called to display the frame and wait for 1 second.
+The pause duration is specified in milliseconds, so 1000 milliseconds = 1 second.
 
 ```java
 import codedraw.*;
@@ -399,7 +426,7 @@ public class Main {
 
             // draws the twelve dots
             for (double j = 0; j < Math.PI * 2; j += Math.PI / 6) {
-            	cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
+                cd.fillCircle(Math.cos(j) * 100 + 200, Math.sin(j) * 100 + 200, 4);
             }
 
             // displays the drawn objects and waits 1 second
@@ -411,22 +438,29 @@ public class Main {
 
 https://user-images.githubusercontent.com/24553082/153450896-51e4de7b-d741-4832-b850-c77adb96d01b.mp4
 
-## Events
+## Handling Events
 
-An event is something that occurs based on user input like the user pressing a button or moving the mouse.
-There are 12 events in CodeDraw:
- - MouseClickEvent
- - MouseMoveEvent
- - MouseDownEvent
- - MouseUpEvent
- - MouseEnterEvent
- - MouseLeaveEvent
- - MouseWheelEvent
- - KeyDownEvent
- - KeyUpEvent
- - KeyPressEvent
- - WindowMoveEvent
- - WindowCloseEvent
+An event is something that occurs when a user interacts with your application
+like the user pressing a button or moving the mouse.
+There are 12 different events in CodeDraw:
+
+- MouseClickEvent: Happens once when a mouse button is pressed down and quickly released again.
+- MouseMoveEvent: Happens continuously while the mouse is being moved.
+- MouseDownEvent: Happens exactly once when a mouse button is pressed down.
+- MouseUpEvent: Happens exactly once when a mouse button is released.
+- MouseEnterEvent: Happens when the mouse enters the canvas.
+- MouseLeaveEvent: Happens when the mouse leaves the canvas.
+- MouseWheelEvent: Happens each time the mouse wheel is turned.
+- KeyDownEvent: Happens exactly once when a key is pressed down.
+- KeyUpEvent: Happens exactly once when a key is released.
+- KeyPressEvent: Happens continuously while a key is being held down.
+- WindowMoveEvent: Happens every time the CodeDraw window is moved.
+- WindowCloseEvent: Happens exactly once when the user closes the window or `cd.close()` is called.
+
+The EventScanner lets you handle events in two ways.
+The first way is the more modern approach using a `foreach` and `enhanced switch statements`.
+The second way works with older Java versions, but it is easier to make mistakes.
+
 
 The easiest way to use events is to create an EventScanner.
 The EventScanner is very similar to Scanner in Java.
@@ -453,29 +487,24 @@ After processing the events display the new data based on *x*, *y* and *clickCou
 
 ```java
 import codedraw.*;
-import codedraw.events.*;
 
 public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw();
-        EventScanner es = new EventScanner(cd);
 
         int x = 0;
         int y = 0;
         int clickCount = 0;
 
         while (!es.isClosed()) {
-            while (es.hasEventNow()) {
-                if (es.hasMouseMoveEvent()) {
-                    MouseMoveEvent a = es.nextMouseMoveEvent();
-                    x = a.getX();
-                    y = a.getY();
-                }
-                if (es.hasMouseClickEvent()) {
-                    clickCount++;
-                    es.nextEvent();
-                } else {
-                    es.nextEvent();
+            for (var e : cd.getEventScanner()) {
+                switch (e) {
+                    case MouseMoveEvent a -> {
+                        x = a.getX();
+                        y = a.getY();
+                    }
+                    case MouseClickEvent a -> clickCount++;
+                    default -> { }
                 }
             }
 
@@ -491,58 +520,40 @@ https://user-images.githubusercontent.com/24553082/153450933-a957c3e9-6f60-4896-
 
 For a more complicated and interesting examples look at a simple implementation of [Conway's Game of Life](https://github.com/Krassnig/CodeDraw/blob/cc2ed6eabc03c43c8538a6e95d5c85f43358cff2/src/examples/java/GameOfLife.java).
 
-### Events without EventScanner
-
-You can also subscribe to an event by passing a method reference or lambda to CodeDraw.
-All events start with the 'on' keyword (e.g. *onKeyPress* or *onMouseMove*).
-Given a method reference or lambda to an event will return a Subscription which can be used to unsubscribe from the event.
-
 ```java
 import codedraw.*;
 
 public class Main {
-    private static int x = 0;
-    private static int y = 0;
-    
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw();
+        EventScanner es = cd.getEventScanner();
 
-        cd.onMouseMove(a -> {
-            x = a.getX();
-            y = a.getY();
-        });
-        
-        while (true) {
+        int x = 0;
+        int y = 0;
+        int clickCount = 0;
+
+        while (!es.isClosed()) {
+            while (es.hasEventNow()) {
+                if (es.hasMouseMoveEvent()) {
+                    MouseMoveEvent a = es.nextMouseMoveEvent();
+                    x = a.getX();
+                    y = a.getY();
+                }
+                else if (es.hasMouseClickEvent()) {
+                    es.nextMouseClickEvent();
+                    clickCount++;
+                }
+                else {
+                    es.nextEvent();
+                }
+            }
+
             cd.clear();
-            cd.drawText(x, y, "The text will follow your mouse.");
+            cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
             cd.show(16);
         }
     }
 }
 ```
 
-https://user-images.githubusercontent.com/24553082/153450985-499f540b-aec9-4578-b8ff-79da6a42ab84.mp4
-
-Note! You are not allowed to call most methods of the CodeDraw class inside a CodeDraw event.
-Something like the following would crash your program:
-
-```java
-import codedraw.*;
-
-public class Main {
-    public static void main(String[] args) {
-        CodeDraw cd = new CodeDraw();
-        cd.onMouseMove(a -> {
-            cd.drawSquare(a.getX() - 5, a.getY() - 5, 10);
-            cd.show();
-        });
-    }
-}
-```
-
-The only methods you can call inside an event are
-*cd.getWidth()*, *cd.getHeight()* and all *cd.on___Event()* methods.
-You should instead use the *on*-methods to change the state of you application.
-The *on*-methods are executed on their own thread which can lead to concurrency issues when used incorrectly.
-Blocking inside of events will also block all other events from being processed.
-Be careful when using events directly.
+## The Animation Interface

@@ -177,7 +177,7 @@ https://user-images.githubusercontent.com/24553082/153450427-b9091fb7-3b1e-413b-
 ## Inversion of Control
 
 All examples can also be created using the `Animation` interface. An instance of the `Animation` interface
-can be passed to CodeDraw where CodeDraw calls the methods you implement. 
+can be passed to CodeDraw where CodeDraw then calls the methods you implement. 
 
 ```Java
 import codedraw.*;
