@@ -421,7 +421,7 @@ public class Image {
 		setCorner(Corner.SHARP);
 		setTransformationToIdentity();
 		setDrawOver(false);
-		clearInternal(backgroundColor);
+		clearInternal(backgroundColor); // If a transparent background color is set the resulting image should also be transparent.
 		setDrawOver(true);
 	}
 
