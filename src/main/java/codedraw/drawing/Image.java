@@ -412,8 +412,8 @@ public class Image {
 		setRenderingHint(RHColorRendering.QUALITY);
 		setRenderingHint(RHRendering.QUALITY);
 		setRenderingHint(RHDithering.ENABLE);
-		setRenderingHint(RHFractionalMetrics.ON); // tested
-		setRenderingHint(RHResolutionVariant.DEFAULT); // unknown
+		setRenderingHint(RHFractionalMetrics.ON);
+		setRenderingHint(RHResolutionVariant.BASE);
 
 		setColor(Palette.BLACK);
 		setLineWidth(1);
