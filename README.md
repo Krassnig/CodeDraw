@@ -186,33 +186,33 @@ import codedraw.*;
 import codedraw.events.KeyDownEvent;
 
 public class InversionOfControl implements Animation {
-	public static void main(String[] args) {
-		CodeDraw.run(new InversionOfControl());
-	}
+    public static void main(String[] args) {
+        CodeDraw.run(new InversionOfControl());
+    }
 
-	private int x = 50;
-	private int y = 50;
+    private int x = 50;
+    private int y = 50;
 
-	@Override
-	public void onKeyDown(KeyDownEvent event) {
-		if (event.getKey() == Key.W) {
-			y -= 10;
-		}
-		else if (event.getKey() == KEY.A) {
-			x -= 10;
-		}
-		else if (event.getKey() == KEY.S) {
-			y += 10;
-		}
-		else if (event.getKey() == KEY.D) {
-			x += 10;
-		}
-	}
+    @Override
+    public void onKeyDown(KeyDownEvent event) {
+        if (event.getKey() == Key.W) {
+            y -= 10;
+        }
+        else if (event.getKey() == KEY.A) {
+            x -= 10;
+        }
+        else if (event.getKey() == KEY.S) {
+            y += 10;
+        }
+        else if (event.getKey() == KEY.D) {
+            x += 10;
+        }
+    }
 
-	@Override
-	public void draw(Image canvas) {
-		canvas.clear();
-		canvas.fillCircle(x, y, 10);
-	}
+    @Override
+    public void draw(Image canvas) {
+        canvas.clear();
+        canvas.fillCircle(x, y, 10);
+    }
 }
 ```
