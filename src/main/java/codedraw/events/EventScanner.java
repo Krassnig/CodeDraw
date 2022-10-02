@@ -9,33 +9,31 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 /**
- * The EventScanner works in the same way as a {@link java.util.Scanner}.
- * The source of the events is specified as an argument to the constructor of the EventScanner.
- * If multi EventScanner listen to the same CodeDraw instance/window,
- * then the event will appear in both EventScanner.
+ * The EventScanner can be used to handle events that are produced in CodeDraw.
+ * There is two ways to consume events from the EventScanner, either through the {@link Iterable<Event>} interface or
+ * through the {@link java.util.Scanner} like structure by calling <i>has</i>- and <i>next</i>-methods.
  * <br><br>
- * The following example shows the current position of the mouse and the number of clicks:
+ * The example below displays the current mouse position and the amount the mouse has been pressed.
+ * Before each frame is drawn all events that happened between the previous frame and now are processed
+ * by a foreach loop. Each event inside that foreach loop is then processed based on the type of the event.
+ * If it is a MouseMoveEvent then the position gets saved. if it is a MouseClickEvent then the clickCount is
+ * increased. Otherwise, the Event is discarded in the default branch.
  * <pre>{@code
  * CodeDraw cd = new CodeDraw();
- * EventScanner es = cd.getEventScanner();
  *
- * int x = 0;
- * int y = 0;
+ * int mouseX = 0;
+ * int mouseY = 0;
  * int clickCount = 0;
  *
  * while (!es.isClosed()) {
- *     while (es.hasEventNow()) {
- *         if (es.hasMouseMoveEvent()) {
- *             MouseMoveEventArgs a = es.nextMouseMoveEvent();
- *             x = a.getX();
- *             y = a.getY();
- *         }
- *         if (es.hasMouseClickEvent()) {
- *             clickCount++;
- *             es.nextEvent();
- *         }
- *         else {
- *             es.nextEvent();
+ *     for (var e : cd.getEventScanner()) {
+ *         switch (e) {
+ *             case MouseMoveEvent a -> {
+ *                 mouseX = a.getX();
+ *                 mouseY = a.getY();
+ *             }
+ *             case MouseClickEvent a -> clickCount++;
+ *             default -> { }
  *         }
  *     }
  *
@@ -44,14 +42,58 @@ import java.util.function.Consumer;
  *     cd.show();
  * }
  * }</pre>
- * This example first check if there are events available.
- * If there are, they get processed until there are no more events available.
- * Events that are not moves or clicks are ignored.
- * Once the events are processed the x/y position and clickCount are shown.
- * This continues in a loop until the user closes the window.
  * <br><br>
- * The EventScanner automatically closes when the CodeDraw window is closed.
- * The remaining events can still be consumed when the EventScanner is closed,
+ * If you use an older version of Java you can utilize the {@link java.util.Scanner} like properties of the EventScanner.
+ * The inner while loop in the example below processes all currently available events.
+ * In each iteration a new event will be at the head of the queue and the inner while loop will only stop once all
+ * currently available events are consumed.
+ * Inside the inner loop depending on which type of event is at the head of the queue one branch of the if/else will be
+ * selected.
+ * If the head of the queue is a MouseMoveEvent event the hasMouseMoveEvent() method will return true and then the
+ * nextMouseMoveEvent() method will be called which returns the MouseMoveEvent from the head of the queue.
+ * All other events inside the queue will then shift forward and there will be a new event at the head of the queue.
+ * Do not forget to call the next method because otherwise the program will enter an endless loop because
+ * the same event will always be at the head of the queue.
+ * After the MouseMoveEvent has been returned from the nextMouseMoveEvent() method the event can be used to update
+ * the state of the program. In this case it just updates the current mouse position.
+ * After all currently available events are processed the changes are displayed by clearing the canvas and
+ * then calling the drawText method.
+ * <pre>{@code
+ * CodeDraw cd = new CodeDraw();
+ * EventScanner es = cd.getEventScanner();
+ * int mouseX = 0;
+ * int mouseY = 0;
+ * int clickCount = 0;
+ *
+ * while (!es.isClosed()) {
+ *     while (es.hasEventNow()) {
+ *         if (es.hasMouseMoveEvent()) {
+ *             MouseMoveEvent a = es.nextMouseMoveEvent();
+ *             mouseX = a.getX();
+ *             mouseY = a.getY();
+ *         }
+ *         else if (es.hasMouseClickEvent()) {
+ *             es.nextEvent();
+ *             clickCount++;
+ *         }
+ *         else {
+ *             es.nextEvent();
+ *         }
+ *     }
+ *
+ *     cd.clear();
+ *     cd.drawText(100, 100, "Position: " + mouseX + " " + mouseY + "\nClick: " + clickCount);
+ *     cd.show();
+ * }
+ * }</pre>
+ * <br><br>
+ * Common mistakes when using the EventScanner:
+ * <ul>
+ *     <li>The next method is not called within an if branch.</li>
+ *     <li>When consuming more than two events ifs are used instead of elseif.</li>
+ *     <li>The last else branch is forgotten and the remaining events are not discarded.</li>
+ * </ul>
+ * When a CodeDraw window is closed all remaining events can still be consumed from the EventScanner
  * but no new events will appear.
  */
 public class EventScanner implements Iterable<Event> {
@@ -66,7 +108,7 @@ public class EventScanner implements Iterable<Event> {
 	}
 
 	/**
-	 * Doesn't wait until the next event is available, but instead returns immediately.
+	 * Compared to {@link #hasEvent} this method does not wait until the next event is available, but instead returns immediately.
 	 * If there is currently an event available returns true otherwise false.
 	 * @return whether there are currently events available
 	 */
@@ -76,7 +118,7 @@ public class EventScanner implements Iterable<Event> {
 
 	/**
 	 * Waits until the next event is available.
-	 * Returns false if there are no more events.
+	 * Returns false if there are no more events, true otherwise.
 	 * @return whether there are more events available
 	 */
 	public boolean hasEvent() {
@@ -183,10 +225,9 @@ public class EventScanner implements Iterable<Event> {
 	 * Waits for the next event and then returns it.
 	 * Check {@link #hasEvent()} or {@link #hasEventNow()} before calling this function.
 	 * <br><br>
-	 * In the newer java version 17+ you can use switch pattern matching to handle events.
+	 * You can use this method to either discard events or use the switch type matching feature of Java.
 	 * <pre>{@code
-	 * EventScanner es = new EventScanner(codeDraw);
-	 * while (es.hasEvent()) {
+	 * while (es.hasEventNow()) {
 	 *     switch (es.nextEvent()) {
 	 *         case MouseDownEventArgs a:
 	 *             System.out.println("The mouse has been pressed at x=" + a.getX() + " y=" + a.getY() + ".");
@@ -195,11 +236,12 @@ public class EventScanner implements Iterable<Event> {
 	 *             System.out.println("The " + a.getKey() + " has been pressed.");
 	 *             break;
 	 *         default:
+	 *             break;
 	 *     }
 	 * }
 	 * }</pre>
 	 * @throws NoSuchElementException if there are no more events.
-	 * @return The event args as an object.
+	 * @return The next available event.
 	 */
 	public Event nextEvent() { return next(Event.class); }
 
@@ -359,7 +401,7 @@ public class EventScanner implements Iterable<Event> {
 		if (EndOfEvent.class.isAssignableFrom(actual))
 			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
 		if (WindowCloseEvent.class.isAssignableFrom(actual))
-			queue.push(EndOfEvent.INSTANCE);
+			push(EndOfEvent.INSTANCE);
 		if (!expected.isAssignableFrom(actual)) {
 			String expectedName = getEventName(expected);
 			String actualName = getEventName(actual);
