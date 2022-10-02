@@ -323,6 +323,12 @@ public class EventScanner implements Iterable<Event> {
 	 */
 	public WindowCloseEvent nextWindowCloseEvent() { return next(WindowCloseEvent.class); }
 
+	/**
+	 * Creates an iterator for all the currently available events.
+	 * By calling this method all events in the EventScanner are consumed
+	 * and the EventScanner will be empty until new events are generated.
+	 * @return An event iterator.
+	 */
 	@Override
 	public Iterator<Event> iterator() {
 		ArrayList<Event> result = new ArrayList<>();
