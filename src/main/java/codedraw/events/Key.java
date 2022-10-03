@@ -3,7 +3,7 @@ package codedraw.events;
 import static java.awt.event.KeyEvent.*;
 
 /**
- * Represents various Keys. The number keys have the prefix N.
+ * Represents various keys on the keyboard. The number keys have the prefix N.
  * The numpad keys have the NUMPAD prefix.
  * If the key is not found or unknown the key value {@link Key#UNDEFINED} will be used.
  */
