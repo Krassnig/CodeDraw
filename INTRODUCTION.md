@@ -8,7 +8,7 @@ and makes it very simple to draw and animate various shapes and images to a canv
 
 The source code is available in the [CodeDraw repository](https://github.com/Krassnig/CodeDraw).
 
-The full documentation can be found in the sources included in the [CodeDraw.jar](/releases)
+The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
 or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Table of Contents
@@ -32,7 +32,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Getting Started
 
-Instruction on how to install CodeDraw can be found in the [How to Install](/#how-to-install)
+Instruction on how to install CodeDraw can be found in the [How to Install](README.md#how-to-install)
 section in the README of the CodeDraw repository.
 Install CodeDraw and then create an empty Java file with the name `MyProgram` and
 then copy the following code into your file:

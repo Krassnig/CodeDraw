@@ -15,7 +15,7 @@ For a C# version of CodeDraw go to the [CodeDrawProject repository](https://gith
 
 ### Intellij
 
-Go to [releases](releases) and download the newest CodeDraw.jar.
+Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
 
 Open Intellij with the project where you would like to add CodeDraw. Click on **File > Project Structure...**.
 Under **Project Settings** select **Libraries**.
@@ -25,7 +25,7 @@ Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Jav
 
 ### Eclipse
 
-Go to [releases](releases) and download the newest CodeDraw.jar.
+Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
 
 Open Eclipse with the project where you would like to add CodeDraw. Right-click on your Project > **Properties > Java Build Path > Add External JARs...**
 Go to the downloaded CodeDraw.jar and select it and then press **OK**.
