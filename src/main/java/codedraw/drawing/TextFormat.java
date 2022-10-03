@@ -219,7 +219,7 @@ public final class TextFormat {
 
 	private static double calculateVerticalOffset(TextOrigin verticalAlign, FontMetrics fontMetrics, int lineCount) {
 		double capHeight = fontMetrics.getAscent() - fontMetrics.getDescent();
-		double leadings = fontMetrics.getHeight() * (lineCount - 1);
+		double leading = fontMetrics.getHeight() * (lineCount - 1);
 
 		switch (verticalAlign) {
 			case TOP_LEFT:
@@ -229,11 +229,11 @@ public final class TextFormat {
 			case CENTER_LEFT:
 			case CENTER:
 			case CENTER_RIGHT:
-				return (capHeight - leadings) / 2;
+				return (capHeight - leading) / 2;
 			case BOTTOM_LEFT:
 			case BOTTOM_MIDDLE:
 			case BOTTOM_RIGHT:
-				return -leadings;
+				return -leading;
 			default:
 				throw new RuntimeException("Unknown vertical alignment option.");
 		}

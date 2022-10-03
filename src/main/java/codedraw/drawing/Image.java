@@ -425,12 +425,12 @@ public class Image {
 		setDrawOver(true);
 	}
 
-	private BufferedImage image;
-	private Graphics2D g;
-	private int width;
-	private int height;
-	private int xScale;
-	private int yScale;
+	private final BufferedImage image;
+	private final Graphics2D g;
+	private final int width;
+	private final int height;
+	private final int xScale;
+	private final int yScale;
 
 	private double lineWidth = 1;
 	private Corner corner = Corner.SHARP;
@@ -708,8 +708,8 @@ public class Image {
 
 		int sum = 0;
 
-		for (int i = 0; i < colors.length; i++) {
-			sum += (colors[i] >> (8 * colorComponentIndex)) & 0xFF;
+		for (int color : colors) {
+			sum += (color >> (8 * colorComponentIndex)) & 0xFF;
 		}
 
 		return sum / colors.length;

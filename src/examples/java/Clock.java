@@ -10,7 +10,7 @@ public class Clock {
 		cd.setCorner(Corner.ROUND);
 		double tau = Math.PI * 2;
 
-		while (true) {
+		while (!cd.isClosed()) {
 			OffsetDateTime time = OffsetDateTime.now();
 
 			cd.clear();

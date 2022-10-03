@@ -77,15 +77,14 @@ public class FullScreen extends Image implements AutoCloseable {
 	 * @param screen A screen on your computer.
 	 */
 	public FullScreen(Screen screen) {
-		super(Image.fromDPIAwareSize(screen.getWidth(), screen.getHeight()));
-		if (screen == null) throw createParameterNullException("screen");
+		super(Image.fromDPIAwareSize(checkParameterNull(screen, "screen").getWidth(), screen.getHeight()));
 		if (!screen.canAttachGUI()) throw Screen.createWindowAlreadyAttachedException(screen);
 
 		gui = CodeDrawGUI.createFullscreen(screen);
 		show();
 	}
 
-	private CodeDrawGUI gui;
+	private final CodeDrawGUI gui;
 
 	/**
 	 * Gets the screen the full screen window is currently displayed on.
@@ -269,5 +268,12 @@ public class FullScreen extends Image implements AutoCloseable {
 
 	private static IllegalArgumentException createParameterMustBeGreaterThanZeroException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " must be greater than zero.");
+	}
+
+	private static <T> T checkParameterNull(T parameter, String parameterName) {
+		if (parameter == null)
+			throw new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
+		else
+			return parameter;
 	}
 }

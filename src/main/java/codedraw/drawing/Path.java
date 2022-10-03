@@ -28,10 +28,10 @@ public class Path {
 		this.fill = fill;
 	}
 
-	private Image image;
-	private Graphics2D g;
-	private Path2D path;
-	private boolean fill;
+	private final Image image;
+	private final Graphics2D g;
+	private final Path2D path;
+	private final boolean fill;
 
 	/**
 	 * Gets the current position of the path.

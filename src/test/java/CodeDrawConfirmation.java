@@ -22,7 +22,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 
 	private void setState(State state) {
 		this.state = state;
-		rerender();
+		reRender();
 	}
 
 	public void placeCodeDrawTestingInstance(CodeDraw testingInstance) {
@@ -32,7 +32,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 
 	public void setConfirmationDialogue(String text) {
 		confirmationDialogue = text;
-		rerender();
+		reRender();
 	}
 
 	public void assertConfirmation() {
@@ -102,7 +102,7 @@ public class CodeDrawConfirmation implements AutoCloseable {
 		cd.close();
 	}
 
-	private void rerender() {
+	private void reRender() {
 		TextFormat format = cd.getTextFormat();
 		format.setTextOrigin(TextOrigin.CENTER);
 

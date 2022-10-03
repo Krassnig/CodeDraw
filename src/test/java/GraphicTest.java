@@ -211,7 +211,7 @@ public class GraphicTest {
 	@Test
 	public void cornerTest() {
 		confirm.setConfirmationDialogue(
-				"Sharp corners should go around the red dot rectangularly.\n" +
+				"Sharp corners should of the red dot should be rectangular.\n" +
 				"Round corners should form a radius around the red dot.\n" +
 				"Bevel corners should cut of at the red dot."
 		);

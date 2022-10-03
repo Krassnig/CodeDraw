@@ -101,7 +101,7 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 		show();
 	}
 
-	private CodeDrawGUI gui;
+	private final CodeDrawGUI gui;
 
 	/**
 	 * Gets the EventScanner of this CodeDraw window.

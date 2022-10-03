@@ -18,8 +18,8 @@ public class Point2D {
 		this.y = y;
 	}
 
-	private double x;
-	private double y;
+	private final double x;
+	private final double y;
 
 	/**
 	 * The x component of the point.

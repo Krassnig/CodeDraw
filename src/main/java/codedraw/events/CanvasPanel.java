@@ -51,7 +51,7 @@ import java.awt.datatransfer.Clipboard;
 
 	@Override
 	protected void paintComponent(Graphics componentGraphics) {
-		super.paintComponent(componentGraphics);;
+		super.paintComponent(componentGraphics);
 
 		renderLock.acquire();
 		buffer.copyTo(componentGraphics, Interpolation.BICUBIC);

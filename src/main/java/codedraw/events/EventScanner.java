@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 
 /**
  * The EventScanner can be used to handle events that are produced in CodeDraw.

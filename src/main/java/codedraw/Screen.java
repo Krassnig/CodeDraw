@@ -36,10 +36,10 @@ public class Screen {
 		this.height = graphicsDevice.getDisplayMode().getHeight();
 	}
 
-	private GraphicsDevice graphicsDevice;
-	private String name;
-	private int width;
-	private int height;
+	private final GraphicsDevice graphicsDevice;
+	private final String name;
+	private final int width;
+	private final int height;
 
 	/**
 	 * The name of this monitor.

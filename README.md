@@ -113,7 +113,7 @@ public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw(400, 400);
 
-        for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
+        for (double sec = -Math.PI / 2; !cd.isClosed(); sec += Math.PI / 30) {
             // clears the entire canvas
             cd.clear();
             // draws the second hand

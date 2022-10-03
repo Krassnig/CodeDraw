@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.awt.*;
 import java.util.function.Supplier;
 
-import static org.junit.Assert.assertNotNull;
-
 public class EventTest {
 	private CodeDrawConfirmation confirm;
 	private CodeDraw cd;
