@@ -8,7 +8,7 @@ and makes it very simple to draw and animate various shapes and images to a canv
 
 The source code is available in the [CodeDraw repository](https://github.com/Krassnig/CodeDraw).
 
-The full documentation can be found in the sources included in the [CodeDraw.jar](https://github.com/Krassnig/CodeDraw/releases)
+The full documentation can be found in the sources included in the [CodeDraw.jar](/releases)
 or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Table of Contents
@@ -213,12 +213,12 @@ The program above will create a green rectangle with round corners and
 the outline of the rectangle will be 10 pixels wide.
 
 List of drawing properties:
-- `getColor`/`setColor`
-- `getLineWidth`/`setLineWidth`
-- `getCorner`/`setCorner`
-- `isAntiAliased`/`setAntiAliased`
-- `getTransformation`/`setTransformation`
-- `drawOver`/`setDrawOver`
+- `getColor()`/`setColor(Color newColor)`
+- `getLineWidth()`/`setLineWidth(double newLineWidth)`
+- `getCorner()`/`setCorner(Corner newCorner)`
+- `isAntiAliased()`/`setAntiAliased(boolean isAntiAliased)`
+- `getTransformation()`/`setTransformation(Matrix2D newTransformation)`
+- `drawOver()`/`setDrawOver(boolean drawOver)`
 
 ## Drawing text
 
@@ -476,18 +476,18 @@ An event is something that occurs when a user interacts with your application
 like the user pressing a key or moving the mouse.
 There are 12 different events in CodeDraw:
 
-- MouseClickEvent: Happens once when a mouse button is pressed down and quickly released again.
-- MouseMoveEvent: Happens continuously while the mouse is being moved.
-- MouseDownEvent: Happens exactly once when a mouse button is pressed down.
-- MouseUpEvent: Happens exactly once when a mouse button is released.
-- MouseEnterEvent: Happens when the mouse enters the canvas.
-- MouseLeaveEvent: Happens when the mouse leaves the canvas.
-- MouseWheelEvent: Happens each time the mouse wheel is turned.
-- KeyDownEvent: Happens exactly once when a key is pressed down.
-- KeyUpEvent: Happens exactly once when a key is released.
-- KeyPressEvent: Happens continuously while a key is being held down.
-- WindowMoveEvent: Happens every time the CodeDraw window is moved.
-- WindowCloseEvent: Happens exactly once when the user closes the window or `cd.close()` is called.
+- `MouseClickEvent` happens once when a mouse button is pressed down and quickly released again.
+- `MouseMoveEvent` happens continuously while the mouse is being moved.
+- `MouseDownEvent` happens exactly once when a mouse button is pressed down.
+- `MouseUpEvent` happens exactly once when a mouse button is released.
+- `MouseEnterEvent` happens when the mouse enters the canvas.
+- `MouseLeaveEvent` happens when the mouse leaves the canvas.
+- `MouseWheelEvent` happens each time the mouse wheel is turned.
+- `KeyDownEvent` happens exactly once when a key is pressed down.
+- `KeyUpEvent` happens exactly once when a key is released.
+- `KeyPressEvent` happens continuously while a key is being held down.
+- `WindowMoveEvent` happens every time the CodeDraw window is moved.
+- `WindowCloseEvent` happens exactly once when the user closes the window or `cd.close()` is called.
 
 ### Enhanced EventScanner
 

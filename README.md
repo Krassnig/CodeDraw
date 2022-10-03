@@ -4,7 +4,7 @@ CodeDraw is an easy-to-use drawing library where you use code to create pictures
 It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
-Read the [introduction to CodeDraw](https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md)
+Read the [Introduction to CodeDraw](INTRODUCTION.md)
 for a beginners guide to CodeDraw. It also gives an overview of the features available in CodeDraw.
 
 The JavaDoc for CodeDraw can be found [here](https://krassnig.github.io/CodeDrawJavaDoc/).
@@ -15,7 +15,7 @@ For a C# version of CodeDraw go to the [CodeDrawProject repository](https://gith
 
 ### Intellij
 
-Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
+Go to [releases](releases) and download the newest CodeDraw.jar.
 
 Open Intellij with the project where you would like to add CodeDraw. Click on **File > Project Structure...**.
 Under **Project Settings** select **Libraries**.
@@ -25,7 +25,7 @@ Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Jav
 
 ### Eclipse
 
-Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
+Go to [releases](releases) and download the newest CodeDraw.jar.
 
 Open Eclipse with the project where you would like to add CodeDraw. Right-click on your Project > **Properties > Java Build Path > Add External JARs...**
 Go to the downloaded CodeDraw.jar and select it and then press **OK**.
