@@ -7,7 +7,7 @@ package codedraw.drawing;
  */
 public enum Interpolation {
 	/**
-	 * When increasing the size of an image the nearest neighbor is picked to color a pixel.
+	 * When increasing or decreasing the size of an image the nearest neighbor is picked to color a pixel.
 	 * Sharpness of edges is preserved but images can look very jagged.
 	 */
 	NEAREST_NEIGHBOR,

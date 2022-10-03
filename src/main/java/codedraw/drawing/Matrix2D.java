@@ -284,7 +284,7 @@ public class Matrix2D {
 	}
 
 	/**
-	 * Compares both this matrix and the other matrix.
+	 * Compares this matrix to the matrix given as a parameter.
 	 * The error allows for some difference between their values.
 	 * For example if the first value of this matrix is 1 and the first values of the other matrix is 0.999998
 	 * and an error of 0.0001 is given then this function will return true.

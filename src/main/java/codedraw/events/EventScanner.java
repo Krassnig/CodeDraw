@@ -116,7 +116,7 @@ public class EventScanner implements Iterable<Event> {
 	}
 
 	/**
-	 * Waits until the next event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns false if there are no more events, true otherwise.
 	 * @return whether there are more events available
 	 */
@@ -125,7 +125,7 @@ public class EventScanner implements Iterable<Event> {
 	}
 
 	/**
-	 * Waits until the next mouse click event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse click event, otherwise false.
 	 * The mouse click event is triggered once when a mouse button is pressed down and quickly released again.
 	 * @return whether the next event is a mouse click event.
@@ -133,7 +133,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseClickEvent() { return has(MouseClickEvent.class); }
 
 	/**
-	 * Waits until the next mouse move event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse move event, otherwise false.
 	 * The mouse move event is triggered continuously while the mouse is being moved.
 	 * @return whether the next event is a mouse move event.
@@ -141,7 +141,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseMoveEvent() { return has(MouseMoveEvent.class); }
 
 	/**
-	 * Waits until the next mouse down event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse down event, otherwise false.
 	 * The mouse down event is triggered exactly once when a mouse button is pressed down.
 	 * @return whether the next event is a mouse down event.
@@ -149,7 +149,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseDownEvent() { return has(MouseDownEvent.class); }
 
 	/**
-	 * Waits until the next mouse up event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse up event, otherwise false.
 	 * The mouse up event is triggered when a mouse button is released.
 	 * @return whether the next event is a mouse up event.
@@ -157,7 +157,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseUpEvent() { return has(MouseUpEvent.class); }
 
 	/**
-	 * Waits until the next mouse enter event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse enter event, otherwise false.
 	 * The mouse enter event is triggered when the mouse enters the canvas.
 	 * @return whether the next event is a mouse enter event.
@@ -165,7 +165,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseEnterEvent() { return has(MouseEnterEvent.class); }
 
 	/**
-	 * Waits until the next mouse leave event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse leave event, otherwise false.
 	 * The mouse leave event is triggered when the mouse leaves the canvas.
 	 * @return whether the next event is a mouse leave event.
@@ -173,7 +173,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseLeaveEvent() { return has(MouseLeaveEvent.class); }
 
 	/**
-	 * Waits until the next mouse wheel event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a mouse wheel event, otherwise false.
 	 * The mouse wheel event is triggered each time the mouse wheel is turned.
 	 * @return whether the next event is a mouse wheel event.
@@ -181,7 +181,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasMouseWheelEvent() { return has(MouseWheelEvent.class); }
 
 	/**
-	 * Waits until the next key down event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a key down event, otherwise false.
 	 * The key down event is triggered exactly once when a key is pressed down.
 	 * @return whether the next event is a key down event.
@@ -189,7 +189,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasKeyDownEvent() { return has(KeyDownEvent.class); }
 
 	/**
-	 * Waits until the next key up event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a key up event, otherwise false.
 	 * The key up event is triggered exactly once when a key is released.
 	 * @return whether the next event is a key up event.
@@ -197,7 +197,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasKeyUpEvent() { return has(KeyUpEvent.class); }
 
 	/**
-	 * Waits until the next key press event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a key press event, otherwise false.
 	 * The key press event is triggered continuously while a key is being held down.
 	 * @return whether the next event is a key press event.
@@ -205,7 +205,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasKeyPressEvent() { return has(KeyPressEvent.class); }
 
 	/**
-	 * Waits until the next window move event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a window move event, otherwise false.
 	 * The window move event is triggered every time the CodeDraw window is moved.
 	 * @return whether the next event is a window move event.
@@ -213,7 +213,7 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasWindowMoveEvent() { return has(WindowMoveEvent.class); }
 
 	/**
-	 * Waits until the next window close event is available.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
 	 * Returns true if the next event is a window close event, otherwise false.
 	 * The window close event is triggered exactly once when the user closes the window or {@link CodeDraw#close()} is called.
 	 * @return whether the next event is a window close event.
@@ -221,7 +221,8 @@ public class EventScanner implements Iterable<Event> {
 	public boolean hasWindowCloseEvent() { return has(WindowCloseEvent.class); }
 
 	/**
-	 * Waits for the next event and then returns it.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * The event is returned as a generic Event object which is one of the twelve event subtypes.
 	 * Check {@link #hasEvent()} or {@link #hasEventNow()} before calling this function.
 	 * <br><br>
 	 * You can use this method to either discard events or use the switch type matching feature of Java.
@@ -245,7 +246,8 @@ public class EventScanner implements Iterable<Event> {
 	public Event nextEvent() { return next(Event.class); }
 
 	/**
-	 * Waits for the next mouse click event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse click event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse click event is triggered once when a mouse button is pressed down and quickly released again.
 	 * Check {@link #hasMouseClickEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse click event.
@@ -255,7 +257,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseClickEvent nextMouseClickEvent() { return next(MouseClickEvent.class); }
 
 	/**
-	 * Waits for the next mouse move event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse move event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse move event is triggered continuously while the mouse is being moved.
 	 * Check {@link #hasMouseMoveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse move event.
@@ -265,7 +268,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseMoveEvent nextMouseMoveEvent() { return next(MouseMoveEvent.class); }
 
 	/**
-	 * Waits for the next mouse down event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse down event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse down event is triggered exactly once when a mouse button is pressed down.
 	 * Check {@link #hasMouseDownEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse down event.
@@ -275,7 +279,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseDownEvent nextMouseDownEvent() { return next(MouseDownEvent.class); }
 
 	/**
-	 * Waits for the next mouse up event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse up event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse up event is triggered when a mouse button is released.
 	 * Check {@link #hasMouseUpEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse up event.
@@ -285,7 +290,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseUpEvent nextMouseUpEvent() { return next(MouseUpEvent.class); }
 
 	/**
-	 * Waits for the next mouse enter event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse enter event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse enter event is triggered when the mouse enters the canvas.
 	 * Check {@link #hasMouseEnterEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse enter event.
@@ -295,7 +301,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseEnterEvent nextMouseEnterEvent() { return next(MouseEnterEvent.class); }
 
 	/**
-	 * Waits for the next mouse leave event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse leave event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse leave event is triggered when the mouse leaves the canvas.
 	 * Check {@link #hasMouseLeaveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse leave event.
@@ -305,7 +312,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseLeaveEvent nextMouseLeaveEvent() { return next(MouseLeaveEvent.class); }
 
 	/**
-	 * Waits for the next mouse wheel event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a mouse wheel event the event is returned otherwise an InputMismatchException is thrown.
 	 * The mouse wheel event is triggered each time the mouse wheel is turned.
 	 * Check {@link #hasMouseWheelEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a mouse wheel event.
@@ -315,7 +323,8 @@ public class EventScanner implements Iterable<Event> {
 	public MouseWheelEvent nextMouseWheelEvent() { return next(MouseWheelEvent.class); }
 
 	/**
-	 * Waits for the next key down event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a key down event the event is returned otherwise an InputMismatchException is thrown.
 	 * The key down event is triggered exactly once when a key is pressed down.
 	 * Check {@link #hasKeyDownEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key down event.
@@ -325,7 +334,8 @@ public class EventScanner implements Iterable<Event> {
 	public KeyDownEvent nextKeyDownEvent() { return next(KeyDownEvent.class); }
 
 	/**
-	 * Waits for the next key up event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a key up event the event is returned otherwise an InputMismatchException is thrown.
 	 * The key up event is triggered exactly once when a key is released.
 	 * Check {@link #hasKeyUpEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key up event.
@@ -335,7 +345,8 @@ public class EventScanner implements Iterable<Event> {
 	public KeyUpEvent nextKeyUpEvent() { return next(KeyUpEvent.class); }
 
 	/**
-	 * Waits for the next key press event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a key press event the event is returned otherwise an InputMismatchException is thrown.
 	 * The key press event is triggered continuously while a key is being held down.
 	 * Check {@link #hasKeyPressEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a key press event.
@@ -345,7 +356,8 @@ public class EventScanner implements Iterable<Event> {
 	public KeyPressEvent nextKeyPressEvent() { return next(KeyPressEvent.class); }
 
 	/**
-	 * Waits for the next window move event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a window move event the event is returned otherwise an InputMismatchException is thrown.
 	 * The window move event is triggered every time the CodeDraw window is moved.
 	 * Check {@link #hasWindowMoveEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a window move event.
@@ -355,7 +367,8 @@ public class EventScanner implements Iterable<Event> {
 	public WindowMoveEvent nextWindowMoveEvent() { return next(WindowMoveEvent.class); }
 
 	/**
-	 * Waits for the next window close event and then consumes the event.
+	 * Waits until the next event is available or returns immediately if there is an event in the EventScanner already.
+	 * If the event is a window close event the event is returned otherwise an InputMismatchException is thrown.
 	 * The window close event is triggered exactly once when the user closes the window or {@link CodeDraw#close()} is called.
 	 * Check {@link #hasWindowCloseEvent()} before calling this function.
 	 * @throws InputMismatchException if the next event is not a window close event.

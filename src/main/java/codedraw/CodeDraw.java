@@ -173,6 +173,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	}
 
 	/**
+	 * Always on top defines whether this window is placed on top of all other windows.
 	 * @return whether the CodeDraw window is always displayed on top of other windows.
 	 */
 	public boolean isAlwaysOnTop() {

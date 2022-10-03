@@ -17,7 +17,8 @@ public final class TextFormat {
 	private TextOrigin textOrigin = TextOrigin.TOP_LEFT;
 
 	/**
-	 * Defines the origin of the drawn text.
+	 * Defines the origin of the drawn text relative to the position
+	 * specified in the {@link Image#drawText(double, double, String)} method.
 	 * The default is {@link TextOrigin#TOP_LEFT}.
 	 * See {@link TextOrigin} for a more detailed explanation.
 	 * @return the text origin
@@ -27,7 +28,8 @@ public final class TextFormat {
 	}
 
 	/**
-	 * Defines the origin of the drawn text.
+	 * Defines the origin of the drawn text relative to the position
+	 * specified in the {@link Image#drawText(double, double, String)} method.
 	 * The default is {@link TextOrigin#TOP_LEFT}.
 	 * See {@link TextOrigin} for a more detailed explanation.
 	 * @param textOrigin Sets the text origin.

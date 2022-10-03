@@ -13,11 +13,60 @@ public final class Palette {
 	private Palette() { }
 
 	/**
-	 * Generates a random color that is not transparent.
-	 * @return a random color.
+	 * Creates an RGBA color.
+	 * 0 is no color or black. 255 is maximum color.
+	 * @param red The value can range from 0 to 255.
+	 * @param green The value can range from 0 to 255.
+	 * @param blue The value can range from 0 to 255.
+	 * @param transparency The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
 	 */
-	public static Color randomColor() {
-		return fromRGB((int)(Math.random() * (1 << 24)));
+	public static Color fromRGBA(int red, int green, int blue, int transparency) {
+		checkRange(red, "red", 0, 256);
+		checkRange(green, "green", 0, 256);
+		checkRange(blue, "blue", 0, 256);
+		checkRange(transparency, "transparency", 0, 256);
+
+		return new Color(red, green, blue, transparency);
+	}
+
+	/**
+	 * Creates an RGBA color.
+	 * The 8 most significant bits represent red.
+	 * The following 8 bits represent green.
+	 * The next 8 bits represent blue .
+	 * The 8 least significant bits represent the alpha value.
+	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
+	 * @param rgba any valid integer value.
+	 */
+	public static Color fromRGBA(int rgba) {
+		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
+	}
+
+	/**
+	 * Creates an RGBA color with the alpha implicitly being 255.
+	 * 0 is no color or black, 255 is maximum color.
+	 * @param red The value can range from 0 to 255.
+	 * @param green The value can range from 0 to 255.
+	 * @param blue The value can range from 0 to 255.
+	 */
+	public static Color fromRGB(int red, int green, int blue) {
+		checkRange(red, "red", 0, 256);
+		checkRange(green, "green", 0, 256);
+		checkRange(blue, "blue", 0, 256);
+
+		return fromRGBA(red, green, blue, 0xFF);
+	}
+
+	/**
+	 * Creates an RGBA color with the alpha implicitly being 255. The 8 most significant bits are ignored.
+	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
+	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
+	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
+	 */
+	public static Color fromRGB(int rgb) {
+		checkRange(rgb, "rgb", 0, (1 << 24) + 1);
+
+		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
 	}
 
 	/**
@@ -29,6 +78,26 @@ public final class Palette {
 		checkRange(gray, "gray", 0, 256);
 
 		return fromRGB(gray, gray, gray);
+	}
+
+	/**
+	 * Creates a new Color based of the baseColor but with a different transparency value.
+	 * @param baseColor Any color. It's transparency value will be ignored when creating the new color.
+	 * @param transparency The value can range from 0 to 255
+	 */
+	public static Color fromBaseColor(Color baseColor, int transparency) {
+		if (baseColor == null) throw createParameterNullException("baseColor");
+		checkRange(transparency, "transparency", 0, 256);
+
+		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), transparency);
+	}
+
+	/**
+	 * Generates a random color that is not transparent.
+	 * @return a random color.
+	 */
+	public static Color randomColor() {
+		return fromRGB((int)(Math.random() * (1 << 24)));
 	}
 
 	/**
@@ -71,75 +140,6 @@ public final class Palette {
 
 	private static int toColorByte(int x) {
 		return x * 255 / (300 * 300 * 60);
-	}
-
-	/**
-	 * Creates an RGBA color with the alpha implicitly being 255. The 8 most significant bits are ignored.
-	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
-	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
-	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
-	 */
-	public static Color fromRGB(int rgb) {
-		checkRange(rgb, "rgb", 0, (1 << 24) + 1);
-
-		return fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
-	}
-
-	/**
-	 * Creates a rgba color with the alpha implicitly being 255.
-	 * 0 is no color or black, 255 is maximum color.
-	 * @param red The value can range from 0 to 255.
-	 * @param green The value can range from 0 to 255.
-	 * @param blue The value can range from 0 to 255.
-	 */
-	public static Color fromRGB(int red, int green, int blue) {
-		checkRange(red, "red", 0, 256);
-		checkRange(green, "green", 0, 256);
-		checkRange(blue, "blue", 0, 256);
-
-		return fromRGBA(red, green, blue, 0xFF);
-	}
-
-	/**
-	 * Creates a rgba color.
-	 * The 8 most significant bits represent red.
-	 * The following 8 bits represent green.
-	 * The next 8 bits represent blue .
-	 * The 8 least significant bits represent the alpha value.
-	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
-	 * @param rgba any valid integer value.
-	 */
-	public static Color fromRGBA(int rgba) {
-		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
-	}
-
-	/**
-	 * Creates a new Color based of the baseColor but with a different transparency value.
-	 * @param baseColor Any color. It's transparency value will be ignored when creating the new color.
-	 * @param transparency The value can range from 0 to 255
-	 */
-	public static Color fromBaseColor(Color baseColor, int transparency) {
-		if (baseColor == null) throw createParameterNullException("baseColor");
-		checkRange(transparency, "transparency", 0, 256);
-
-		return fromRGBA(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), transparency);
-	}
-
-	/**
-	 * Creates a rgba color.
-	 * 0 is no color or black. 255 is maximum color.
-	 * @param red The value can range from 0 to 255.
-	 * @param green The value can range from 0 to 255.
-	 * @param blue The value can range from 0 to 255.
-	 * @param transparency The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
-	 */
-	public static Color fromRGBA(int red, int green, int blue, int transparency) {
-		checkRange(red, "red", 0, 256);
-		checkRange(green, "green", 0, 256);
-		checkRange(blue, "blue", 0, 256);
-		checkRange(transparency, "transparency", 0, 256);
-
-		return new Color(red, green, blue, transparency);
 	}
 
 	public static final Color TRANSPARENT = fromRGBA(0, 0, 0, 0);

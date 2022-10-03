@@ -1001,7 +1001,7 @@ public class Image {
 	}
 
 	/**
-	 * Draws the outline of an arc with the center being the (centerX, centerY) coordinates.
+	 * Draws an arc with the center being the (centerX, centerY) coordinates.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.
 	 * The line width can be changed with {@link #setLineWidth(double)}.<br>
@@ -1032,7 +1032,7 @@ public class Image {
 	}
 
 	/**
-	 * Draws the outline of an arc with the center being the (centerX, centerY) coordinates.
+	 * Draws an arc with the center being the (centerX, centerY) coordinates.
 	 * The width is 2 * horizontalRadius and the height is 2 * verticalRadius.
 	 * The arc starts at the 3 o'clock position offset by the startRadians parameter.
 	 * The total length of the arc is defined by the sweepRadians parameter.

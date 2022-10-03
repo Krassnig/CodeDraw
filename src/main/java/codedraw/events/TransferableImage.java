@@ -1,20 +1,21 @@
 package codedraw.events;
 
+import codedraw.drawing.Image;
 import codedraw.drawing.BufferedImageType;
 
-import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.BufferedImage;
 
 class TransferableImage implements Transferable {
 	private static final DataFlavor flavor = DataFlavor.imageFlavor;
 
-	public TransferableImage(codedraw.drawing.Image image) {
+	public TransferableImage(Image image) {
 		this.image = image.toBufferedImage(BufferedImageType.INT_RGB);
 	}
 
-	private final Image image;
+	private final BufferedImage image;
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {

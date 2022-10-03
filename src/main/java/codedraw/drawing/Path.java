@@ -113,7 +113,7 @@ public class Path {
 	}
 
 	/**
-	 * Draws the outline of an arc with the center being the (centerX, centerY) coordinates.
+	 * Draws an arc with the center being the (centerX, centerY) coordinates.
 	 * The total length of the arc is defined by the sweepRadians parameter.
 	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)} and {@link Image#setCorner(Corner)}.
 	 * @param centerX The distance in pixel from the left side of the canvas to the center of the arc.
