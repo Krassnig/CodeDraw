@@ -718,25 +718,26 @@ public class Image {
 	/**
 	 * Draws a point which is the size of one pixel.
 	 * Ignores any transformation set by {@link #setTransformation(Matrix2D)}.
+	 * No exception is thrown if x or y are outside the bounds of this image.
 	 * @param x The distance in pixel from the left side of the canvas.
 	 * @param y The distance in pixel from the top side of the canvas.
 	 * @param color the color of the pixel.
 	 */
 	public void setPixel(int x, int y, Color color) {
-		if (x < 0 || getWidth() <= x) throw createParameterNotInRangeException("x", 0, getWidth());
-		if (y < 0 || getHeight() <= y) throw createParameterNotInRangeException("y", 0, getHeight());
 		if (color == null) throw createParameterNullException("color");
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
 		beforeDrawing();
-		int rgb = color.getRGB();
-		int xStart = x * xScale;
-		int yStart = y * yScale;
+		if (0 <= x && x < getWidth() && 0 <= y && y < getHeight()) {
+			int rgb = color.getRGB();
+			int xStart = x * xScale;
+			int yStart = y * yScale;
 
-		for (int xi = xStart; xi < xStart + xScale; xi++) {
-			for (int yi = yStart; yi < yStart + yScale; yi++) {
-				image.setRGB(xi, yi, rgb);
+			for (int xi = xStart; xi < xStart + xScale; xi++) {
+				for (int yi = yStart; yi < yStart + yScale; yi++) {
+					image.setRGB(xi, yi, rgb);
+				}
 			}
 		}
 		afterDrawing();
