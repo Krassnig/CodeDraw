@@ -13,24 +13,26 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Table of Contents
 - [Introduction to CodeDraw](#introduction-to-codedraw)
-    * [What is CodeDraw](#what-is-codedraw)
-    * [Table of contents](#table-of-contents)
-    * [Getting started](#getting-started)
-    * [The coordinate system](#the-coordinate-system)
-    * [Modifying the way things are drawn](#modifying-the-way-things-are-drawn)
-    * [Drawing text](#drawing-text)
-    * [Canvas and window](#canvas-and-window)
-    * [Debugging CodeDraw and drawing instantly](#debugging-codedraw-and-drawing-instantly)
-    * [Points, lines and curves](#points-lines-and-curves)
-    * [Outline and filled shapes](#outline-and-filled-shapes)
-    * [Images in CodeDraw](#images-in-codedraw)
-    * [Animations](#animations)
-    * [Events](#events)
-        + [Events without EventScanner](#events-without-eventscanner)
+  * [What is CodeDraw](#what-is-codedraw)
+  * [Table of Contents](#table-of-contents)
+  * [Getting Started](#getting-started)
+  * [The Coordinate System](#the-coordinate-system)
+  * [Outlined and Filled Shapes](#outlined-and-filled-shapes)
+  * [Points, Lines and Curves](#points-lines-and-curves)
+  * [Modifying the Way Things are Drawn](#modifying-the-way-things-are-drawn)
+  * [Drawing text](#drawing-text)
+  * [Canvas and Window](#canvas-and-window)
+  * [Debugging CodeDraw and InstantDraw](#debugging-codedraw-and-instantdraw)
+  * [Images](#images)
+  * [Creating Animations](#creating-animations)
+  * [Handling Events](#handling-events)
+    + [Enhanced EventScanner](#enhanced-eventscanner)
+    + [Normal EventScanner](#normal-eventscanner)
+  * [The Animation Interface](#the-animation-interface)
 
 ## Getting Started
 
-Instruction on how to install CodeDraw can be found in the [How to Install](https://github.com/Krassnig/CodeDraw#how-to-install)
+Instruction on how to install CodeDraw can be found in the [How to Install](/#how-to-install)
 section in the README of the CodeDraw repository.
 Install CodeDraw and then create an empty Java file with the name `MyProgram` and
 then copy the following code into your file:
@@ -79,7 +81,7 @@ public class MyProgram {
 When you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle and a filled light blue circle as shown in the image below.
 
-![01 Gettings started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
+![01 Getting started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
 
 ## The Coordinate System
 
@@ -94,7 +96,7 @@ Note that rectangular and circular shapes have different origins as described in
 ![02 The coordinate system](https://user-images.githubusercontent.com/24553082/153450673-0b3470cc-7548-4b92-b597-05b4dd13bc1d.png)
 
 
-## Outline and filled shapes
+## Outlined and Filled Shapes
 
 CodeDraw has two general kinds of drawing methods, `fill`-methods and `draw`-methods.
 A `fill`-method always completely fills its shape and a `draw`-method only draws its outline.
@@ -134,7 +136,7 @@ Filled Shapes:
 A point can be drawn by calling the `drawPoint(double x, double y)` method.
 Its radius is determined by the set `lineWidth`.
 
-A line can drawn with the `drawLine()` method. The styling of the ends are determined by the `corner` property.
+A line can be drawn with the `drawLine()` method. The styling of the ends are determined by the `corner` property.
 If corners are set to `cd.setCorner(Corner.SHARP)` the line will be drawn pointy around the endpoint.
 However, if `cd.setCorner(Corner.BEVEL)` is set the line will stop at exactly the endpoint.
 Additionally, `cd.setCorner(Corner.ROUND)` can also be set to get round endpoints.
@@ -222,7 +224,7 @@ List of drawing properties:
 
 Text is drawn with the `drawText(double x, double y, String text)` method.
 The way the text is drawn can be defined through the `TextFormat` object.
-First the `TextFormat` object has to be get through the `getTextFormat()` method,
+First, get the `TextFormat` object from the `CodeDraw` class by calling the `getTextFormat()` method,
 then the `TextFormat` variable can be used to change a variety of font properties like
 text size `setFontSize(int)`, font family `setFontName(String)` and boldness `setBold(boolean)`.
 Additionally, styling such as strikethrough `setStrikethrough(boolean)`, italics `setItalic(boolean)`
@@ -349,10 +351,10 @@ public class Main {
 }
 ```
 
-## Drawing Images
+## Images
 
 Images can be handled through CodeDraw's custom `Image` class.
-Images work very similarly to the CodeDraw class, they just don't have a window attached to them.
+Images work very similarly to the `CodeDraw` class, they just don't have a window attached to them.
 
 To draw images to the CodeDraw window you must first load the image into your program.
 This can be done with the `CodeDrawImage.fromFile(path)` function.
@@ -381,10 +383,10 @@ public class Main {
 
 ![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/155164429-43e1273a-ed01-4a42-b87f-7e448537ffda.png)
 
-The first `drawImage()` method takes the width and height of the given image to draw the image.
-The second `drawImage()` rescales the image to fit inside the 200x200 bounds.
-The third `drawImage()` also rescales the image but also specifies how pixels are supposed to be interpolated.
-Read the documentation or read the Wikipedia article on
+The first `drawImage(double x, double y, Image image)` method takes the width and height of the given image to draw the image.
+The second `drawImage(double x, double y, double width, double height, Image image)` rescales the image to fit inside the 200x200 bounds.
+The third `drawImage(double x, double y, double width, double height, Image image, Interpolation interpolation)` also rescales the image but also specifies how pixels are supposed to be interpolated.
+For more information on interpolation read the CodeDraw documentation of the Interpolation enum or read the Wikipedia article on
 [Bicubic Interpolation](https://en.wikipedia.org/wiki/Bicubic_interpolation) and
 [Image Scaling](https://en.wikipedia.org/wiki/Image_scaling).
 
@@ -398,6 +400,36 @@ Image creation methods:
 - `Image.fromBase64String(String base64)`
 - `new Image(int width, int height)`
 - `new Image(int width, int height, Color backgroundColor)`
+
+Since images have the same capabilities as the `CodeDraw` class it is easy to draw on them.
+The example below loads an image then draws an orange circle onto the image and
+saves it as an edited image.
+
+```java
+import codedraw.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Image image = Image.fromFile("./path_to/image.png");
+
+        image.setColor(Palette.ORANGE);
+        image.fillCircle(100, 100, 50);
+
+        Image.saveAs(image, "./path_to/edited_image.png", ImageFormat.PNG);
+    }
+}
+```
+
+The `Image` class also has some image editing capabilities.
+
+Image editing function:
+- `Image.crop(Image source, int x, int y, int width, int height)`
+- `Image.scale(Image source, double scale)`
+- `Image.scale(Image source, double scale, Interpolation interpolation)`
+- `Image.rotateClockwise(Image image)`
+- `Image.rotateCounterClockwise(Image image)`
+- `Image.mirrorHorizontally(Image image)`
+- `Image.mirrorVertically(Image image)`
 
 ## Creating Animations
 
@@ -418,7 +450,7 @@ public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw(400, 400);
 
-        for (double sec = -Math.PI / 2; true; sec += Math.PI / 30) {
+        for (double sec = -Math.PI / 2; !cd.isClosed(); sec += Math.PI / 30) {
             // clears the entire canvas
             cd.clear();
             // draws the second hand
@@ -441,7 +473,7 @@ https://user-images.githubusercontent.com/24553082/153450896-51e4de7b-d741-4832-
 ## Handling Events
 
 An event is something that occurs when a user interacts with your application
-like the user pressing a button or moving the mouse.
+like the user pressing a key or moving the mouse.
 There are 12 different events in CodeDraw:
 
 - MouseClickEvent: Happens once when a mouse button is pressed down and quickly released again.
@@ -457,33 +489,20 @@ There are 12 different events in CodeDraw:
 - WindowMoveEvent: Happens every time the CodeDraw window is moved.
 - WindowCloseEvent: Happens exactly once when the user closes the window or `cd.close()` is called.
 
-The EventScanner lets you handle events in two ways.
-The first way is the more modern approach using a `foreach` and `enhanced switch statements`.
-The second way works with older Java versions, but it is easier to make mistakes.
+### Enhanced EventScanner
 
-
-The easiest way to use events is to create an EventScanner.
-The EventScanner is very similar to Scanner in Java.
-The source of the events a CodeDraw object given to the constructor of the EventScanner.
-The EventScanner remains open until the CodeDraw window is closed.
-One approach is to create an endless loop until the CodeDraw window closes.
-Then there are two stages inside the endless loop.
-First process all the events that are in the EventScanner, then render a new frame.
-
-To process the events you should only process the ones that are currently available.
-*es.hasEventNow()* check whether there are currently events in the EventScanner.
-*es.hasEvent()* waits until the next event is available to check whether there are more events.
-Sometimes it might be right to wait for an event and only rerender when the user does something.
-In general, it is best to just process all available.
-An action like MouseMove will generate a lot of events and
-showing the current image every single time will slow down you application.
-
-Once you know that you have an event inside the EventScanner you can check which type of event it is.
-Checks happen with the *es.has___Event()* methods.
-When the event is the one you are looking for you can call *es.next___Event()* to take it out of the EventScanner.
-Calling *es.nextEvent()* just skips the event. (*nextEvent* returns the event as an Object).
-
-After processing the events display the new data based on *x*, *y* and *clickCount*.
+To create an application that handles user input you first need to consider what variables are
+necessary to store everything that is happening in your application.
+In the example below the mouse position and click count needs to be tracked.
+Each iteration in the outer `while` loop draws exactly one frame.
+The inner `foreach` loop processes all events that happen in between frames.
+Depending on the type of event different code is executed.
+If the event is a `MouseMoveEvent` the position the `mouseX` and `mouseY` variables are updated.
+If the event is a `MouseClickEvent` the `clickCount` is increased by one.
+After the `foreach` loop is finished with all currently available events the updated event data is displayed.
+The previously drawn image is removed by calling `clear()` and the new data is drawn with `drawText()`.
+After that the `show(long waitMilliseconds)` is called to display the updated image
+and sleep for 16 milliseconds.
 
 ```java
 import codedraw.*;
@@ -492,16 +511,16 @@ public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw();
 
-        int x = 0;
-        int y = 0;
+        int mouseX = 0;
+        int mouseY = 0;
         int clickCount = 0;
 
-        while (!es.isClosed()) {
+        while (!cd.isClosed()) {
             for (var e : cd.getEventScanner()) {
                 switch (e) {
                     case MouseMoveEvent a -> {
-                        x = a.getX();
-                        y = a.getY();
+                        mouseX = a.getX();
+                        mouseY = a.getY();
                     }
                     case MouseClickEvent a -> clickCount++;
                     default -> { }
@@ -509,16 +528,35 @@ public class Main {
             }
 
             cd.clear();
-            cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+            cd.drawText(100, 100, "Position: " + mouseX + " " + mouseY + "\nClick: " + clickCount);
             cd.show(16);
         }
     }
 }
 ```
 
-https://user-images.githubusercontent.com/24553082/153450933-a957c3e9-6f60-4896-8b32-0acf2894393d.mp4
+### Normal EventScanner
 
-For a more complicated and interesting examples look at a simple implementation of [Conway's Game of Life](https://github.com/Krassnig/CodeDraw/blob/cc2ed6eabc03c43c8538a6e95d5c85f43358cff2/src/examples/java/GameOfLife.java).
+If you use an older version of Java you can utilize the `java.util.Scanner` like properties of the EventScanner.
+
+Much of the program remains exactly the same as with the [Enhanced EventScanner](#Enhanced EventScanner).
+The inner while loop in the example below processes all currently available events.
+In each iteration a new event will be at the head of the queue and the inner while loop
+will only stop once all currently available events are consumed.
+Inside the inner loop depending on which type of event is at the head of the queue
+one branch of the `if`/`else if`/`else` will be selected.
+If the head of the queue is a `MouseMoveEvent` event the `hasMouseMoveEvent()` method will return true and then the
+`nextMouseMoveEvent()` method will be called which returns the MouseMoveEvent from the head of the queue.
+All other events inside the queue will then shift forward and there will be a new event at the head of the queue.
+Do not forget to call the next method because otherwise the program will enter an endless loop because
+the same event will always be at the head of the queue.
+After the `MouseMoveEvent` has been returned from the `nextMouseMoveEvent()` method
+the event can be used to update the state of the program.
+In this case it just updates the current mouse position.
+After all currently available events are processed the changes are displayed by clearing the canvas and
+then calling the drawText method.
+
+https://user-images.githubusercontent.com/24553082/153450933-a957c3e9-6f60-4896-8b32-0acf2894393d.mp4
 
 ```java
 import codedraw.*;
@@ -527,12 +565,11 @@ public class Main {
     public static void main(String[] args) {
         CodeDraw cd = new CodeDraw();
         EventScanner es = cd.getEventScanner();
-
         int x = 0;
         int y = 0;
         int clickCount = 0;
 
-        while (!es.isClosed()) {
+        while (!cd.isClosed()) {
             while (es.hasEventNow()) {
                 if (es.hasMouseMoveEvent()) {
                     MouseMoveEvent a = es.nextMouseMoveEvent();
@@ -555,5 +592,7 @@ public class Main {
     }
 }
 ```
+
+For a more complicated and interesting examples look at a simple implementation of [Conway's Game of Life](https://github.com/Krassnig/CodeDraw/blob/cc2ed6eabc03c43c8538a6e95d5c85f43358cff2/src/examples/java/GameOfLife.java).
 
 ## The Animation Interface

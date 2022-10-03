@@ -96,7 +96,7 @@ public class Main {
     }
 }
 ```
-# ❗ Don't forget to call `show()` ❗
+## ❗ Don't forget to call `show()` ❗
 
 ![static_image](https://user-images.githubusercontent.com/24553082/153450298-403d3adc-87f9-476e-82a4-48aeac21ec90.png)
 
@@ -183,7 +183,6 @@ The example below lets you control a circle with the WASD keys.
 
 ```Java
 import codedraw.*;
-import codedraw.events.KeyDownEvent;
 
 public class InversionOfControl implements Animation {
     public static void main(String[] args) {
