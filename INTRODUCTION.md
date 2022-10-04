@@ -32,7 +32,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Getting Started
 
-Instruction on how to install CodeDraw can be found in the [How to Install](README.md#how-to-install)
+Instruction on how to install CodeDraw can be found in the [How to Install](./README.md#how-to-install)
 section in the README of the CodeDraw repository.
 Install CodeDraw and then create an empty Java file with the name `MyProgram` and
 then copy the following code into your file:
@@ -50,7 +50,7 @@ public class MyProgram {
         // By calling the method *setColor* the rectangle
         // and the square will be drawn in the color red.
         cd.setColor(Palette.RED);
-        // When setColor is called all shapes that are drawn after
+        // If setColor is called all shapes that are drawn after
         // will have the given color, until *setColor* is called again
         // with a different color.
         cd.drawRectangle(100, 100, 200, 100);
@@ -78,7 +78,7 @@ public class MyProgram {
 }
 ```
 
-When you execute this program, you should see window with the outlines of a red rectangle,
+After you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle and a filled light blue circle as shown in the image below.
 
 ![01 Getting started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
@@ -313,7 +313,7 @@ Methods about the CodeDraw window:
 
 ## Debugging CodeDraw and InstantDraw
 
-When debugging CodeDraw in Intellij, Intellij stops the entire program including the CodeDraw window, which then freezes.
+If you debug CodeDraw with Intellij, Intellij stops the entire program including the CodeDraw window, which then freezes.
 To stop the debugger from stopping all threads, only the main thread should be stopped.
 This can be done by:
 
@@ -331,7 +331,7 @@ which immediately draws all shapes to the canvas.
 This can be used to better understand what is happening in your application
 but also slows down drawing because CodeDraw has to display the changes each time a draw method is called.
 
-Another useful tool is `setAlwaysOnTop(boolean)`, when `true` the CodeDraw window will always be placed on top
+Another useful tool is `setAlwaysOnTop(boolean)`, if `true` the CodeDraw window will always be placed on top
 of all other windows. This should make it easier when switching between the IDE and the CodeDraw window.
 
 ```java
@@ -420,7 +420,7 @@ public class Main {
 }
 ```
 
-The `Image` class also has some image editing capabilities.
+The `Image` class also has image editing capabilities.
 
 Image editing function:
 - `Image.crop(Image source, int x, int y, int width, int height)`
@@ -472,22 +472,22 @@ https://user-images.githubusercontent.com/24553082/153450896-51e4de7b-d741-4832-
 
 ## Handling Events
 
-An event is something that occurs when a user interacts with your application
+An event is something that occurs every time a user interacts with your application
 like the user pressing a key or moving the mouse.
 There are 12 different events in CodeDraw:
 
-- `MouseClickEvent` happens once when a mouse button is pressed down and quickly released again.
+- `MouseClickEvent` happens once every time a mouse button is pressed down and quickly released again.
 - `MouseMoveEvent` happens continuously while the mouse is being moved.
-- `MouseDownEvent` happens exactly once when a mouse button is pressed down.
-- `MouseUpEvent` happens exactly once when a mouse button is released.
-- `MouseEnterEvent` happens when the mouse enters the canvas.
-- `MouseLeaveEvent` happens when the mouse leaves the canvas.
+- `MouseDownEvent` happens exactly once every time a mouse button is pressed down.
+- `MouseUpEvent` happens exactly once every time a mouse button is released.
+- `MouseEnterEvent` happens every time the mouse enters the canvas.
+- `MouseLeaveEvent` happens every time the mouse leaves the canvas.
 - `MouseWheelEvent` happens each time the mouse wheel is turned.
-- `KeyDownEvent` happens exactly once when a key is pressed down.
-- `KeyUpEvent` happens exactly once when a key is released.
+- `KeyDownEvent` happens exactly once every time a key is pressed down.
+- `KeyUpEvent` happens exactly once every time a key is released.
 - `KeyPressEvent` happens continuously while a key is being held down.
 - `WindowMoveEvent` happens every time the CodeDraw window is moved.
-- `WindowCloseEvent` happens exactly once when the user closes the window or `cd.close()` is called.
+- `WindowCloseEvent` happens exactly once after the user closes the window or `cd.close()` is called.
 
 ### Enhanced EventScanner
 
@@ -539,8 +539,9 @@ public class Main {
 
 If you use an older version of Java you can utilize the `java.util.Scanner` like properties of the EventScanner.
 
-Much of the program remains exactly the same as with the [Enhanced EventScanner](#Enhanced EventScanner).
-The inner while loop in the example below processes all currently available events.
+Much of the program remains exactly the same as with the [Enhanced EventScanner](#Enhanced EventScanner),
+only the event handling part changes.
+The inner loop in the example below is now a `while` loop.
 In each iteration a new event will be at the head of the queue and the inner while loop
 will only stop once all currently available events are consumed.
 Inside the inner loop depending on which type of event is at the head of the queue
@@ -593,6 +594,7 @@ public class Main {
 }
 ```
 
-For a more complicated and interesting examples look at a simple implementation of [Conway's Game of Life](https://github.com/Krassnig/CodeDraw/blob/cc2ed6eabc03c43c8538a6e95d5c85f43358cff2/src/examples/java/GameOfLife.java).
+For a more interesting examples look at an implementation of [Conway's Game of Life](/src/examples/java/GameOfLife.java).
 
 ## The Animation Interface
+

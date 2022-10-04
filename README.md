@@ -4,7 +4,7 @@ CodeDraw is an easy-to-use drawing library where you use code to create pictures
 It is made for beginners that understand little about programming
 and makes it very simple to draw and animate various shapes and images to a canvas.
 
-Read the [Introduction to CodeDraw](INTRODUCTION.md)
+Read the [Introduction to CodeDraw](./INTRODUCTION.md)
 for a beginners guide to CodeDraw. It also gives an overview of the features available in CodeDraw.
 
 The JavaDoc for CodeDraw can be found [here](https://krassnig.github.io/CodeDrawJavaDoc/).
@@ -139,7 +139,7 @@ Interactive programs can be created by reading events from the EventScanner swit
 In older Java versions the EventScanner can also be used the same way as the `java.util.Scanner`
 with *has* and *next* methods.
 A more detailed explanation can be found in the
-[event handling section in the Introduction to CodeDraw](INTRODUCTION.md#Handling Events).
+[event handling section in the Introduction to CodeDraw](./INTRODUCTION.md#Handling Events).
 
 ```java
 import codedraw.*;
