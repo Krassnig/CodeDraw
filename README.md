@@ -197,13 +197,13 @@ public class InversionOfControl implements Animation {
         if (event.getKey() == Key.W) {
             y -= 10;
         }
-        else if (event.getKey() == KEY.A) {
+        else if (event.getKey() == Key.A) {
             x -= 10;
         }
-        else if (event.getKey() == KEY.S) {
+        else if (event.getKey() == Key.S) {
             y += 10;
         }
-        else if (event.getKey() == KEY.D) {
+        else if (event.getKey() == Key.D) {
             x += 10;
         }
     }
