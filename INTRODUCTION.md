@@ -321,7 +321,7 @@ This can be done by:
 3. Select the *Thread* options (instead of *All*).
 4. Click on *Make Default* and *Done*.
 
-![06 Debugging CodeDraw and ImmediateDraw](https://user-images.githubusercontent.com/24553082/156898569-6dbc7bb0-b5f2-43d7-a423-078d82d37767.png)
+![06 Debugging CodeDraw and InstantDraw](https://user-images.githubusercontent.com/24553082/193884905-515a41b0-1e45-4aae-948e-640c50dda99a.png)
 
 After setting this, your code should behave as it did before but the CodeDraw window should no longer freeze.
 
@@ -380,7 +380,7 @@ public class Main {
 }
 ```
 
-![07 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/155164429-43e1273a-ed01-4a42-b87f-7e448537ffda.png)
+![08 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/193884951-83f293f6-e882-4dd3-8c3b-e935bbf8ec9e.png)
 
 The first `drawImage(double x, double y, Image image)` method takes the width and height of the given image to draw the image.
 The second `drawImage(double x, double y, double width, double height, Image image)` rescales the image to fit inside the 200x200 bounds.
