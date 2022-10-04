@@ -7,4 +7,9 @@ package codedraw.events;
  */
 public class WindowCloseEvent extends Event {
 	WindowCloseEvent() { }
+
+	@Override
+	public String toString() {
+		return "[Closing]";
+	}
 }

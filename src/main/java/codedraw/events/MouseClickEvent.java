@@ -38,6 +38,6 @@ public class MouseClickEvent extends Event {
 
 	@Override
 	public String toString() {
-		return "[" + getMouseButton() + ", x:" + getX() + ", y:" + getY() + "]";
+		return "[Click: " + getMouseButton() + " at (" + getX() + ", " + getY() + ")]";
 	}
 }

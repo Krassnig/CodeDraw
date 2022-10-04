@@ -35,4 +35,9 @@ public class MouseUpEvent extends Event {
 	public MouseButton getMouseButton() {
 		return MouseButton.values()[e.getButton() - 1];
 	}
+
+	@Override
+	public String toString() {
+		return "[Click: " + getMouseButton() + " at (" + getX() + ", " + getY() + ")]";
+	}
 }

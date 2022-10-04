@@ -27,4 +27,9 @@ public class MouseMoveEvent extends Event {
 	public int getY() {
 		return e.getY();
 	}
+
+	@Override
+	public String toString() {
+		return "[Move: (" + getX() + ", " + getY() + ")]";
+	}
 }

@@ -27,4 +27,9 @@ public class MouseEnterEvent extends Event {
 	public int getY() {
 		return e.getY();
 	}
+
+	@Override
+	public String toString() {
+		return "[Enter: (" + getX() + ", " + getY() + ")]";
+	}
 }

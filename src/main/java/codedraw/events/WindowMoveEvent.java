@@ -51,4 +51,9 @@ public class WindowMoveEvent extends Event {
 	public int getWindowPositionY() {
 		return windowPosition.y;
 	}
+
+	@Override
+	public String toString() {
+		return "[Canvas: (" + getCanvasPositionX() + ", " + getCanvasPositionY() + "), Window: (" + getWindowPositionX() + ", " + getWindowPositionY() + ")]";
+	}
 }

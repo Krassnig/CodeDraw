@@ -27,4 +27,9 @@ public class MouseLeaveEvent extends Event {
 	public int getY() {
 		return e.getY();
 	}
+
+	@Override
+	public String toString() {
+		return "[Leave: (" + getX() + ", " + getY() + ")]";
+	}
 }

@@ -73,4 +73,17 @@ public class KeyDownEvent extends Event {
 	public boolean isShiftDown() {
 		return e.isShiftDown();
 	}
+
+	@Override
+	public String toString() {
+		return "[Key: " + toControlString() + getKey() + ", Char: " + getChar() + "]";
+	}
+
+	private String toControlString() {
+		return "" +
+			(isControlDown() && this.key != Key.CONTROL ? "CTRL + " : "") +
+			(isShiftDown() && this.key != Key.SHIFT ? "SHIFT + " : "") +
+			(isAltDown() && this.key != Key.ALT ? "ALT +" : "") +
+			(isAltGraphDown() && this.key != Key.ALT_GRAPH ? "ALT GR + " : "");
+	}
 }

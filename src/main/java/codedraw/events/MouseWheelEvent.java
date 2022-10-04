@@ -20,4 +20,9 @@ public class MouseWheelEvent extends Event {
 	public double getWheelRotation() {
 		return e.getPreciseWheelRotation();
 	}
+
+	@Override
+	public String toString() {
+		return "[MouseWheel: " + getWheelRotation() + "]";
+	}
 }
