@@ -252,6 +252,7 @@ public class Image {
 	 * If the resulting image resolution is too small this function will throw an exception.
 	 * @param source The source image to create the larger or smaller image.
 	 * @param scale The increase or decrease in image size.
+	 * @throws IllegalArgumentException if the resulting image width or height is zero.
 	 * @return the scaled image.
 	 */
 	public static Image scale(Image source, double scale) {
@@ -268,6 +269,7 @@ public class Image {
 	 * @param source The source image to create the larger or smaller image.
 	 * @param scale The increase or decrease in image size.
 	 * @param interpolation What technique is used to upscale the image. See {@link Interpolation}.
+	 * @throws IllegalArgumentException if the resulting image width or height is zero.
 	 * @return the scaled image.
 	 */
 	public static Image scale(Image source, double scale, Interpolation interpolation) {
@@ -385,10 +387,10 @@ public class Image {
 	}
 
 	/**
-	 * Creates an image of the specified size.
+	 * Creates an image of the specified size with a custom background color.
 	 * @param width The width of the image.
 	 * @param height The height of the image.
-	 * @param backgroundColor the background color of the whole image.
+	 * @param backgroundColor the background color of the whole image. Can be transparent.
 	 */
 	public Image(int width, int height, Color backgroundColor) {
 		this(width, height, 1, 1, backgroundColor);
@@ -440,12 +442,14 @@ public class Image {
 	private boolean drawOver = true;
 
 	/**
+	 * This width of this image.
 	 * This value cannot be changed once set via the constructor.
 	 * @return the width of the canvas in pixel.
 	 */
 	public int getWidth() { return width; }
 
 	/**
+	 * This height of this image.
 	 * This value cannot be changed once set via the constructor.
 	 * @return the height of the canvas in pixel.
 	 */
@@ -461,7 +465,7 @@ public class Image {
 
 	/**
 	 * Defines the color that is used for drawing all shapes.
-	 * Use {@link Palette} for a large selection of colors.
+	 * Use the {@link Palette} for a large selection of predefined colors.
 	 * @param color Sets the drawing color of this CodeDraw window.
 	 */
 	public void setColor(Color color) {
@@ -529,15 +533,15 @@ public class Image {
 	}
 
 	/**
-	 * Defines whether draw text, drawn shapes and filled shapes are anti-aliased.
-	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
+	 * Defines whether drawn text and shapes are anti-aliased.
+	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a> for details.
 	 * @return Whether this CodeDraw window anti aliases.
 	 */
 	public boolean isAntiAliased() { return isAntiAliased; }
 
 	/**
-	 * Defines whether drawn text, drawn shapes and filled shapes are anti-aliased.
-	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a>
+	 * Defines whether drawn text and shapes are anti-aliased.
+	 * See <a href="https://en.wikipedia.org/wiki/Spatial_anti-aliasing">Wikipedia Spatial Anti-aliasing</a> for details.
 	 * @param isAntiAliased Sets whether this CodeDraw window anti aliases.
 	 */
 	public void setAntiAliased(boolean isAntiAliased) {
@@ -613,7 +617,7 @@ public class Image {
 
 	/**
 	 * Resets the current transformation to the default value where no transformation is applied.
-	 * See {@link #setTransformation(Matrix2D)} and {@link Matrix2D} on how to transform this image.
+	 * See {@link #setTransformation(Matrix2D)} and {@link Matrix2D} for details on linear transformations.
 	 */
 	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
@@ -742,7 +746,8 @@ public class Image {
 	}
 
 	/**
-	 * Draws a point. The size of the point can be changed by changing the {@link #getLineWidth()}.
+	 * Draws a point.
+	 * The size of the point can be changed through the {@link #setLineWidth(double)} method.
 	 * @param centerX The distance in pixel from the left side of the canvas to the center of the point.
 	 * @param centerY The distance in pixel from the top side of the canvas to the center of the point.
 	 */
@@ -757,7 +762,7 @@ public class Image {
 
 	/**
 	 * Draws a straight line between the start point and end point.
-	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * The line width can be changed through the {@link #setLineWidth(double)} method.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param startX The distance in pixel from the left side of the canvas to the start of the line.
 	 * @param startY The distance in pixel from the top side of the canvas to the start of the line.
@@ -776,7 +781,7 @@ public class Image {
 	}
 
 	/**
-	 * Draws a quadratic Bézier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a quadratic Bézier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>.
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The controlX/Y parameter specifies in what way the curve will be bent.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
@@ -802,9 +807,9 @@ public class Image {
 	}
 
 	/**
-	 * Draws a cubic Bézier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
+	 * Draws a cubic Bézier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>.
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
-	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
+	 * The control1X/Y and control2X/Y parameters specify in what way the curve will be bent.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param startX The distance in pixel from the left side of the canvas to the start of the curve.
@@ -1194,7 +1199,6 @@ public class Image {
 	/**
 	 * Draws the outline of a triangle.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
 	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
 	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
@@ -1240,10 +1244,10 @@ public class Image {
 	/**
 	 * Draws the outline of a polygon.
 	 * This function must be called with an even number of parameters.
-	 * Each parameter pair (x, y) represents a corner of the polygon.
+	 * Each parameter pair (x, y) represents a vertex of the polygon.
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
-	 * the last point will be connected to the first point.
+	 * the last vertex will be connected to the first vertex.
 	 * <pre>{@code
 	 * cd.drawPolygon(
 	 *     200, 100,
@@ -1252,7 +1256,6 @@ public class Image {
 	 * );
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
 	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
 	 */
 	public void drawPolygon(double... vertices) {
@@ -1267,11 +1270,11 @@ public class Image {
 	/**
 	 * Draws a filled polygon.
 	 * This function must be called with an even number of parameters.
-	 * Each parameter pair (x, y) represents a corner of the polygon.
+	 * Each parameter pair (x, y) represents a vertex of the polygon.
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
-	 * the last point will be connected to the first point.
-	 * If you pass only two arguments to fillPolygon nothing will be drawn.
+	 * the last vertex will be connected to the first vertex.
+	 * If you pass only two arguments to this method nothing will be drawn.
 	 * <pre>{@code
 	 * cd.fillPolygon(
 	 *     200, 100,
@@ -1448,7 +1451,7 @@ public class Image {
 	}
 
 	/**
-	 * Creates a copy of this image in the form of a BufferedImage.
+	 * Creates a copy of this image in the form of a {@link BufferedImage}.
 	 * @param type Defines the way the image is encoded in memory.
 	 * @return a BufferedImage.
 	 */
@@ -1464,8 +1467,8 @@ public class Image {
 	}
 
 	/**
-	 * Creates a copy of this image in the form of a BufferedImage.
-	 * The BufferedImage type INT_ARGB is chosen as a default.
+	 * Creates a copy of this image in the form of a {@link BufferedImage}.
+	 * The {@link BufferedImage} type INT_ARGB is chosen as a default.
 	 * @return a BufferedImage.
 	 */
 	public BufferedImage toBufferedImage() {

@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * Describes the image type as defined in {@link BufferedImage}.
- * This enum is used when converting an {@link codedraw.drawing.Image}
- * to an {@link java.awt.Image} in the {@link Image#toBufferedImage(BufferedImageType)} method.
+ * This enum is used when converting an {@link Image}
+ * to an {@link BufferedImage} in the {@link Image#toBufferedImage(BufferedImageType)} method.
  */
 public enum BufferedImageType {
 	CUSTOM(BufferedImage.TYPE_CUSTOM),

@@ -104,8 +104,8 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
-	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas without calling {@link #show()}.
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once {@link #show()} is called.
 	 * InstantDraw is disabled per default.
 	 * @return whether InstantDraw is enabled.
 	 */
@@ -114,8 +114,8 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once show is called.
-	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas.
+	 * When InstantDraw is enabled CodeDraw will immediately draw all shapes to the canvas without calling {@link #show()}.
+	 * When InstantDraw is disabled CodeDraw will only draw shapes to the window once {@link #show()} is called.
 	 * InstantDraw is disabled per default.
 	 * @param isInstantDraw defines whether InstantDraw is enabled.
 	 */
@@ -197,18 +197,20 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Displays all the drawn and filled shapes that have been drawn until now.
-	 * Showing the drawn elements in the CodeDraw window is slow.
-	 * Calling show frequently will slow down your program.
+	 * Displays all the shapes and images that were drawn onto the canvas.
+	 * Since showing the drawn elements in the CodeDraw window is slow,
+	 * calling this method frequently will slow down your program.
 	 */
 	public void show() {
 		gui.show(this);
 	}
 
 	/**
-	 * Displays all the drawn and filled shapes that have been drawn until now
-	 * and then waits for the given amount of milliseconds.
-	 * CodeDraw might take longer to return from show if you specify only a small amount of milliseconds.
+	 * Displays all the shapes and images that were drawn onto the canvas
+	 * and waits for the given amount of milliseconds.
+	 * Since showing the drawn elements in the CodeDraw window is slow,
+	 * calling this method frequently will slow down your program.
+	 * This method might take longer to return from show if you specify only a small amount of milliseconds.
 	 * The amount of milliseconds this method must be called with to display a certain amount of frames per second:
 	 * <br>
 	 * 30 fps ~ 33ms<br>
@@ -232,8 +234,8 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
-	 * Any methods associated with the graphical user interface can no longer be used then.
+	 * Closes the window and disposes all resources associated with this instance.
+	 * Any methods associated with the graphical user interface can no longer be accessed afterwards.
 	 */
 	@Override
 	public void close() {
@@ -241,7 +243,8 @@ public class FullScreen extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Closes the frame and disposes all created resources associated with this CodeDraw instance.
+	 * Closes the window and disposes all resources associated with this instance.
+	 * Any methods associated with the graphical user interface can no longer be accessed afterwards.
 	 * @param terminateProcess When true terminates the process when all CodeDraw instances are closed.
 	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
 	 */

@@ -53,7 +53,7 @@ public class Path {
 
 	/**
 	 * Draws a straight line from the current position to the end position.
-	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)} and {@link Image#setCorner(Corner)}.
+	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)}.
 	 * @param endX The distance in pixel from the left side of the canvas to the end of the line.
 	 * @param endY The distance in pixel from the top side of the canvas to the end of the line.
 	 * @return An instance of this path which can be used to complete the shape.
@@ -70,7 +70,7 @@ public class Path {
 	 * Draws a quadratic Bézier curve. See: <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>.
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The controlX/Y parameter specifies in what way the curve will be bent.
-	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)} and {@link Image#setCorner(Corner)}.
+	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)}.
 	 * @param controlX Defines the way the curve bends in the x direction.
 	 * @param controlY Defines the way the curve bends in the y direction.
 	 * @param endX The distance in pixel from the left side of the canvas to the end of the curve.
@@ -91,7 +91,7 @@ public class Path {
 	 * Draws a cubic Bézier curve. See <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia Bezier Curve</a>
 	 * The start and end of the curve will be precisely where startX/Y and endX/Y are specified.
 	 * The control1X/Y and control2X/Y parameter specify in what way the curve will be bent.
-	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)} and {@link Image#setCorner(Corner)}.
+	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)}.
 	 * @param control1X Defines the way the curve bends in the x direction.
 	 * @param control1Y Defines the way the curve bends in the y direction.
 	 * @param control2X Defines the way the curve bends in the x direction.
@@ -115,7 +115,7 @@ public class Path {
 	/**
 	 * Draws an arc with the center being the (centerX, centerY) coordinates.
 	 * The total length of the arc is defined by the sweepRadians parameter.
-	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)} and {@link Image#setCorner(Corner)}.
+	 * The underlying image class can be used to change the {@link Image#setLineWidth(double)}.
 	 * @param centerX The distance in pixel from the left side of the canvas to the center of the arc.
 	 * @param centerY The distance in pixel from the top side of the canvas to the center of the arc.
 	 * @param sweepRadians The length of the arc in radians from the current Position in a clockwise direction.
@@ -164,7 +164,7 @@ public class Path {
 
 	/**
 	 * Completes the shapes by connecting the start point with the last position of this path.
-	 * Complete has to be called to draw the path to the image.
+	 * This method has to be called to draw the path to the image.
 	 */
 	public void complete() {
 		image.beforeDrawing();

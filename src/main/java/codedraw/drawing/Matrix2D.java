@@ -5,11 +5,11 @@ import java.util.Arrays;
 import codedraw.CodeDraw;
 
 /**
- * This class is used to transform the input coordinates given to {@link CodeDraw} and {@link Image}.
+ * This class is used to transform the input coordinates.
  * You can pass matrices with different transformations to {@link CodeDraw#setTransformation(Matrix2D)} and
  * {@link Image#setTransformation(Matrix2D)}.
  * All methods except for the {@link #multiply(Matrix2D)} method apply their operations left-to-right.
- * {@link #multiply(Matrix2D)} works like normal matrix-matrix multiplication right-to-left.
+ * {@link #multiply(Matrix2D)} applies its operation right-to-left like in normal matrix multiplication.
  */
 public class Matrix2D {
 	/**
@@ -104,7 +104,7 @@ public class Matrix2D {
 
 	/**
 	 * Calculates the inverse of this matrix.
-	 * A matrix m times its inverse is the {@link #IDENTITY} matrix.
+	 * A matrix M times its inverse is the {@link #IDENTITY} matrix.
 	 * @return The inverse of this matrix.
 	 */
 	public Matrix2D inverse() {
@@ -126,7 +126,7 @@ public class Matrix2D {
 	}
 
 	/**
-	 * Rotates the matrix clockwise at the (0, 0) coordinate.
+	 * Rotates the coordinate system at the (0, 0) coordinate.
 	 * @param angleRadians Angle in radians. The angle goes counter-clockwise.
 	 * @return The rotated matrix.
 	 */
@@ -213,7 +213,7 @@ public class Matrix2D {
 	}
 
 	/**
-	 * Mirrors the coordinate system at the (0, 0) coordinate.
+	 * Mirrors the coordinate system at the specified coordinate.
 	 * An angle with the value 0 would mirror the coordinate system along the x-axis.
 	 * An angle with the value Math.PI / 2 would mirror the coordinate system along the y-axis.
 	 * @param x The x coordinate where the mirror line goes through.
@@ -227,7 +227,7 @@ public class Matrix2D {
 
 	/**
 	 * Multiplies two matrices with each other.
-	 * This multiply method works the same as normal matrix-matrix multiplication.
+	 * This multiply method works the same as normal matrix multiplication.
 	 * This means that the operational order would be right-to-left.
 	 * @param other The other matrix to multiply this matrix with.
 	 * @return The multiplied matrix as the result.

@@ -3,7 +3,7 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given when the mouse leaves the canvas.
+ * This argument is given every time the mouse leaves the canvas.
  */
 public class MouseLeaveEvent extends Event {
 	MouseLeaveEvent(MouseEvent e) {

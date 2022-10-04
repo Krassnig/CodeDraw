@@ -14,11 +14,11 @@ public final class Palette {
 
 	/**
 	 * Creates an RGBA color.
-	 * 0 is no color or black. 255 is maximum color.
+	 * 0 is no color or black and 255 is the maximum amount of color.
 	 * @param red The value can range from 0 to 255.
 	 * @param green The value can range from 0 to 255.
 	 * @param blue The value can range from 0 to 255.
-	 * @param transparency The value can range from 0 to 255. 0 is invisible. 255 is 100% visible.
+	 * @param transparency The value can range from 0 to 255. 0 is invisible and 255 is 100% visible.
 	 */
 	public static Color fromRGBA(int red, int green, int blue, int transparency) {
 		checkRange(red, "red", 0, 256);
@@ -33,10 +33,11 @@ public final class Palette {
 	 * Creates an RGBA color.
 	 * The 8 most significant bits represent red.
 	 * The following 8 bits represent green.
-	 * The next 8 bits represent blue .
+	 * The next 8 bits represent blue.
 	 * The 8 least significant bits represent the alpha value.
-	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because both red and blue are set to 255 and the alpha value is 128.
-	 * @param rgba any valid integer value.
+	 * For example Palette.fromRGBA(0xFF00FF80) would produce a pink color that is 50% transparent because
+	 * both red and blue are set to 255 and the alpha value is set to 128.
+	 * @param rgba any integer value.
 	 */
 	public static Color fromRGBA(int rgba) {
 		return fromRGBA((rgba >>> 24) & 0xFF, (rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF);
@@ -44,7 +45,7 @@ public final class Palette {
 
 	/**
 	 * Creates an RGBA color with the alpha implicitly being 255.
-	 * 0 is no color or black, 255 is maximum color.
+	 * 0 is no color or black and 255 is maximum amount of color.
 	 * @param red The value can range from 0 to 255.
 	 * @param green The value can range from 0 to 255.
 	 * @param blue The value can range from 0 to 255.
@@ -61,7 +62,7 @@ public final class Palette {
 	 * Creates an RGBA color with the alpha implicitly being 255. The 8 most significant bits are ignored.
 	 * The following 24 bits represent the red, green and blue amount of the color (8 bits each).
 	 * For example Palette.fromRGB(0xFF00FF) would produce a pink color because both red and blue are set to 255.
-	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal)
+	 * @param rgb The value can range from 0 to 16777216 (0xFFFFFF in hexadecimal).
 	 */
 	public static Color fromRGB(int rgb) {
 		checkRange(rgb, "rgb", 0, (1 << 24) + 1);
@@ -70,8 +71,8 @@ public final class Palette {
 	}
 
 	/**
-	 * Creates a grayscale color where its color component (red, green, blue) all have the same value.
-	 * 0 is white. 255 is black. 128 would be gray.
+	 * Creates a grayscale color where its color component red, green and blue all have the same value.
+	 * 0 is white, 255 is black and 128 would be gray.
 	 * @param gray The value can range from 0 to 255.
 	 */
 	public static Color fromGrayscale(int gray) {
@@ -81,8 +82,8 @@ public final class Palette {
 	}
 
 	/**
-	 * Creates a new Color based of the baseColor but with a different transparency value.
-	 * @param baseColor Any color. It's transparency value will be ignored when creating the new color.
+	 * Creates a new color based on the base color but with a different transparency value.
+	 * @param baseColor Any color. Its transparency value will be ignored when creating the new color.
 	 * @param transparency The value can range from 0 to 255
 	 */
 	public static Color fromBaseColor(Color baseColor, int transparency) {
@@ -221,13 +222,13 @@ public final class Palette {
 	public static final Color GOLDEN_ROD = new Color(0xDAA520);
 	/**
 	 * This color differs from {@link Color#GRAY}.
-	 * If you want awt gray use {@link Palette#DARK_GRAY} instead.
+	 * If you want AWT's gray use {@link Palette#DARK_GRAY} instead.
 	 * Note that this color does not match CSS gray but instead matches CSS dark gray.
 	 */
 	public static final Color GRAY = new Color(0xA9A9A9);
 	/**
 	 * This color differs from {@link Color#GREEN}.
-	 * If you want awt Green use {@link Palette#LIME} instead.
+	 * If you want AWT's Green use {@link Palette#LIME} instead.
 	 */
 	public static final Color GREEN = new Color(0x008000);
 	public static final Color GREEN_YELLOW = new Color(0xADFF2F);
@@ -247,7 +248,7 @@ public final class Palette {
 	public static final Color LIGHT_GOLDEN_ROD_YELLOW = new Color(0xFAFAD2);
 	/**
 	 * This color differs from {@link Color#LIGHT_GRAY}.
-	 * If you want awt light gray use {@link Palette#SILVER} instead.
+	 * If you want AWT's light gray use {@link Palette#SILVER} instead.
 	 */
 	public static final Color LIGHT_GRAY = new Color(0xD3D3D3);
 	public static final Color LIGHT_GREEN = new Color(0x90EE90);

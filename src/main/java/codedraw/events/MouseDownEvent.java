@@ -3,7 +3,7 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given exactly once when a mouse button is pressed down.
+ * This argument is given exactly once every time a mouse button is pressed down.
  */
 public class MouseDownEvent extends Event {
 	MouseDownEvent(MouseEvent e) {

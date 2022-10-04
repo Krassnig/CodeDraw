@@ -2,7 +2,7 @@ package codedraw.drawing;
 
 /**
  * Horizontally and vertically aligns text.
- * The origin describes where the text is relative to the specified (x, y) coordinates.
+ * The origin describes where the text is placed relative to the specified (x, y) coordinates.
  */
 public enum TextOrigin {
 	/**

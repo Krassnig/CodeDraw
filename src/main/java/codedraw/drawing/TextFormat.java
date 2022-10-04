@@ -123,14 +123,14 @@ public final class TextFormat {
 
 	/**
 	 * Defines the underline styling of the drawn text.
-	 * The default is Underline.NONE.
+	 * The default is {@link Underline#NONE}.
 	 * @return the underline styling.
 	 */
 	public Underline getUnderline() { return underline; }
 
 	/**
 	 * Defines the underline styling of the drawn text.
-	 * The default is Underline.NONE.
+	 * The default is {@link Underline#NONE}.
 	 * @param underline Sets the underline styling.
 	 */
 	public TextFormat setUnderlined(Underline underline) {

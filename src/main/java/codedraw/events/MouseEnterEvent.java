@@ -3,7 +3,7 @@ package codedraw.events;
 import java.awt.event.MouseEvent;
 
 /**
- * This argument is given when the mouse enters the canvas.
+ * This argument is given every time the mouse enters the canvas.
  */
 public class MouseEnterEvent extends Event {
 	MouseEnterEvent(MouseEvent e) {

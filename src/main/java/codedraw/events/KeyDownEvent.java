@@ -3,7 +3,7 @@ package codedraw.events;
 import java.awt.event.KeyEvent;
 
 /**
- * This argument is given exactly once when a key is pressed down.
+ * This argument is given exactly once every time a key is pressed down.
  */
 public class KeyDownEvent extends Event {
 	KeyDownEvent(KeyEvent e) {
