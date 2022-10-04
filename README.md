@@ -195,16 +195,16 @@ public class InversionOfControl implements Animation {
     @Override
     public void onKeyDown(KeyDownEvent event) {
         if (event.getKey() == Key.W) {
-            y -= 10;
+            y -= 20;
         }
         else if (event.getKey() == Key.A) {
-            x -= 10;
+            x -= 20;
         }
         else if (event.getKey() == Key.S) {
-            y += 10;
+            y += 20;
         }
         else if (event.getKey() == Key.D) {
-            x += 10;
+            x += 20;
         }
     }
 
