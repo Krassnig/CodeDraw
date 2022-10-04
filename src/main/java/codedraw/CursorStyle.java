@@ -1,7 +1,5 @@
 package codedraw;
 
-import codedraw.drawing.Image;
-
 import java.awt.*;
 import java.util.Objects;
 

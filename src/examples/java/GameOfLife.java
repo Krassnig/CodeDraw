@@ -1,5 +1,4 @@
 import codedraw.*;
-import codedraw.events.*;
 
 public class GameOfLife {
 	private static final int FIELD_SIZE = 10;

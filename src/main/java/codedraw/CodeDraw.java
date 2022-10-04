@@ -1,8 +1,5 @@
 package codedraw;
 
-import codedraw.drawing.Image;
-import codedraw.events.*;
-
 import java.awt.*;
 
 /**

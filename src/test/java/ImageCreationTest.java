@@ -1,4 +1,4 @@
-import codedraw.drawing.Image;
+import codedraw.Image;
 import org.junit.Test;
 
 public class ImageCreationTest {

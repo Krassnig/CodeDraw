@@ -1,8 +1,5 @@
 package codedraw;
 
-import codedraw.drawing.Image;
-import codedraw.events.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;

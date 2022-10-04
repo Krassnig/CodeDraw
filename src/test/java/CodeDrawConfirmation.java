@@ -1,7 +1,6 @@
 import codedraw.*;
-import codedraw.drawing.TextFormat;
-import codedraw.drawing.TextOrigin;
-import codedraw.events.*;
+import codedraw.TextFormat;
+import codedraw.TextOrigin;
 
 import static org.junit.Assert.fail;
 

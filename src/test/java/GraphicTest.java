@@ -1,5 +1,4 @@
 import codedraw.*;
-import codedraw.drawing.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

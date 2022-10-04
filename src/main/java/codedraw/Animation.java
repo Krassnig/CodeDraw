@@ -1,8 +1,5 @@
 package codedraw;
 
-import codedraw.drawing.Image;
-import codedraw.events.*;
-
 /**
  * The animation interface can be implemented to create animations and interactive applications.
  * Pass an instance of the Animation interface to {@link CodeDraw#run(Animation)},

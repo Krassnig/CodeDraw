@@ -143,11 +143,11 @@ public final class Palette {
 		return x * 255 / (300 * 300 * 60);
 	}
 
-	/*INTERNAL*/ public static Color fromARGB(int transparency, int red, int green, int blue) {
+	static Color fromARGB(int transparency, int red, int green, int blue) {
 		return fromRGBA(red, green, blue, transparency);
 	}
 
-	/*INTERNAL*/ public static Color fromARGB(int argb) {
+	static Color fromARGB(int argb) {
 		return fromRGBA(convertARGBToRGBA(argb));
 	}
 

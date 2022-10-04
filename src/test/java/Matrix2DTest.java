@@ -1,4 +1,4 @@
-import codedraw.drawing.Matrix2D;
+import codedraw.Matrix2D;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
