@@ -215,3 +215,5 @@ public class InversionOfControl implements Animation {
     }
 }
 ```
+
+https://user-images.githubusercontent.com/24553082/193877472-17efc505-11a5-409e-951c-c095a4a8cb1b.mp4
