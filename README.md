@@ -138,8 +138,8 @@ https://user-images.githubusercontent.com/24553082/153450395-71f69b67-9b86-4f16-
 Interactive programs can be created by reading events from the EventScanner switching based on the type of event.
 In older Java versions the EventScanner can also be used the same way as the `java.util.Scanner`
 with *has* and *next* methods.
-A more detailed explanation can be found in the
-[event handling section in the Introduction to CodeDraw](./INTRODUCTION.md#Handling Events).
+A more detailed explanation can be found in the 
+[event handling section](./INTRODUCTION.md#Handling Events) in the Introduction to CodeDraw.
 
 ```java
 import codedraw.*;
