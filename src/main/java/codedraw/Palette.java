@@ -142,6 +142,18 @@ public final class Palette {
 		return x * 255 / (300 * 300 * 60);
 	}
 
+	/*INTERNAL*/ public static Color fromARGB(int transparency, int red, int green, int blue) {
+		return fromRGBA(red, green, blue, transparency);
+	}
+
+	/*INTERNAL*/ public static Color fromARGB(int argb) {
+		return fromRGBA(convertARGBToRGBA(argb));
+	}
+
+	private static int convertARGBToRGBA(int argb) {
+		return ((argb << 8) & 0xFFFFFF00) + ((argb >> 24) & 0xFF);
+	}
+
 	public static final Color TRANSPARENT = fromRGBA(0, 0, 0, 0);
 
 	public static final Color ALICE_BLUE = new Color(0xF0F8FF);

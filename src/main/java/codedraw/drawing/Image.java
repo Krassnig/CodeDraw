@@ -642,28 +642,6 @@ public class Image {
 	}
 
 	/**
-	 * Draws the text at the specified (x, y) coordinate.
-	 * Formatting options can be set via the TextFormat object.
-	 * See {@link #getTextFormat()}, {@link #setTextFormat(TextFormat)} and the {@link TextFormat} class.
-	 * Multiple lines can be drawn by including newline characters in the text parameter.
-	 * If not specified otherwise in the TextFormat object the (x, y) coordinates will be in the top left corner of the text.
-	 * @param x The distance in pixel from the left side of the canvas.
-	 * @param y The distance in pixel from the top side of the canvas.
-	 * @param text The text or string to be drawn.
-	 */
-	public void drawText(double x, double y, String text) {
-		if (text == null) throw createParameterNullException("text");
-
-		checkNaNAndInfinity(x, "x");
-		checkNaNAndInfinity(y, "y");
-
-		beforeDrawing();
-		g.setFont(textFormat.toFont());
-		TextFormat.drawText(g, x, y, text, textFormat);
-		afterDrawing();
-	}
-
-	/**
 	 * Returns the pixel color at the specified location.
 	 * Ignores any transformation set by {@link #setTransformation(Matrix2D)}.
 	 * @param x The distance in pixel from the left side of the canvas.
@@ -675,32 +653,29 @@ public class Image {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
+		// BufferedImage.getRGB(), BufferedImage.setRGB() and Color.getRGB() all return ARGB colors, NOT RGBA!
 		if (xScale == 1 && yScale == 1) {
-			return Palette.fromRGBA(convertARGBToRGBA(image.getRGB(x, y)));
+			return Palette.fromARGB(image.getRGB(x, y));
 		}
 		else {
-			int[] pixel = new int[xScale * yScale];
+			int[] argb = new int[xScale * yScale];
 
 			int xStart = x * xScale;
 			int yStart = y * yScale;
 
 			for (int xi = xStart; xi < xStart + xScale; xi++) {
 				for (int yi = yStart; yi < yStart + yScale; yi++) {
-					pixel[xi * xScale + yi] = convertARGBToRGBA(image.getRGB(xi, yi));
+					argb[xi * xScale + yi] = image.getRGB(xi, yi);
 				}
 			}
 
-			return Palette.fromRGBA(
-				averageColor(pixel, 0),
-				averageColor(pixel, 1),
-				averageColor(pixel, 2),
-				averageColor(pixel, 3)
+			return Palette.fromARGB(
+				averageColor(argb, 0),
+				averageColor(argb, 1),
+				averageColor(argb, 2),
+				averageColor(argb, 3)
 			);
 		}
-	}
-
-	private static int convertARGBToRGBA(int argb) {
-		return ((argb << 8) & 0xFFFFFF00) + ((argb >> 24) & 0xFF);
 	}
 
 	private static int averageColor(int[] colors, int colorComponentIndex) {
@@ -728,18 +703,41 @@ public class Image {
 		checkNaNAndInfinity(x, "x");
 		checkNaNAndInfinity(y, "y");
 
+		// BufferedImage.getRGB(), BufferedImage.setRGB() and Color.getRGB() all return ARGB colors, NOT RGBA!
 		beforeDrawing();
 		if (0 <= x && x < getWidth() && 0 <= y && y < getHeight()) {
-			int rgb = color.getRGB();
+			int argb = color.getRGB();
 			int xStart = x * xScale;
 			int yStart = y * yScale;
 
 			for (int xi = xStart; xi < xStart + xScale; xi++) {
 				for (int yi = yStart; yi < yStart + yScale; yi++) {
-					image.setRGB(xi, yi, rgb);
+					image.setRGB(xi, yi, argb);
 				}
 			}
 		}
+		afterDrawing();
+	}
+
+	/**
+	 * Draws the text at the specified (x, y) coordinate.
+	 * Formatting options can be set via the TextFormat object.
+	 * See {@link #getTextFormat()}, {@link #setTextFormat(TextFormat)} and the {@link TextFormat} class.
+	 * Multiple lines can be drawn by including newline characters in the text parameter.
+	 * If not specified otherwise in the TextFormat object the (x, y) coordinates will be in the top left corner of the text.
+	 * @param x The distance in pixel from the left side of the canvas.
+	 * @param y The distance in pixel from the top side of the canvas.
+	 * @param text The text or string to be drawn.
+	 */
+	public void drawText(double x, double y, String text) {
+		if (text == null) throw createParameterNullException("text");
+
+		checkNaNAndInfinity(x, "x");
+		checkNaNAndInfinity(y, "y");
+
+		beforeDrawing();
+		g.setFont(textFormat.toFont());
+		TextFormat.drawText(g, x, y, text, textFormat);
 		afterDrawing();
 	}
 
