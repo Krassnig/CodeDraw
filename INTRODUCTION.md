@@ -28,7 +28,6 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
   * [Handling Events](#handling-events)
     + [Enhanced EventScanner](#enhanced-eventscanner)
     + [Normal EventScanner](#normal-eventscanner)
-  * [The Animation Interface](#the-animation-interface)
 
 ## Getting Started
 
