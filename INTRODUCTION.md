@@ -375,7 +375,7 @@ public class Main {
 
         cd.show();
 
-        Image.saveAs(cd, "./path_to/new_image.png", ImageFormat.PNG);
+        Image.save(cd, "./path_to/new_image.png", ImageFormat.PNG);
     }
 }
 ```
@@ -414,7 +414,7 @@ public class Main {
         image.setColor(Palette.ORANGE);
         image.fillCircle(100, 100, 50);
 
-        Image.saveAs(image, "./path_to/edited_image.png", ImageFormat.PNG);
+        Image.save(image, "./path_to/edited_image.png", ImageFormat.PNG);
     }
 }
 ```
