@@ -87,4 +87,113 @@ public interface Animation {
 	 * @param event the data of the event.
 	 */
 	default void onWindowClose(WindowCloseEvent event) { }
+
+	/**
+	 * Multiple animations can be combined into a single animation.
+	 * The animations given as a parameter are called in the order they are given in.
+	 * @param animations list of animations.
+	 * @return A new animation.
+	 */
+	static Animation combine(Animation... animations) {
+		return new Animation() {
+			@Override
+			public void draw(Image canvas) {
+				for (Animation a : animations) {
+					canvas.resetProperties();
+					a.draw(canvas);
+				}
+			}
+
+			@Override
+			public void simulate() {
+				for (Animation a : animations) {
+					a.simulate();
+				}
+			}
+
+			@Override
+			public void onMouseClick(MouseClickEvent event) {
+				for (Animation a : animations) {
+					a.onMouseClick(event);
+				}
+			}
+
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+				for (Animation a : animations) {
+					a.onMouseMove(event);
+				}
+			}
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				for (Animation a : animations) {
+					a.onMouseDown(event);
+				}
+			}
+
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				for (Animation a : animations) {
+					a.onMouseUp(event);
+				}
+			}
+
+			@Override
+			public void onMouseEnter(MouseEnterEvent event) {
+				for (Animation a : animations) {
+					a.onMouseEnter(event);
+				}
+			}
+
+			@Override
+			public void onMouseLeave(MouseLeaveEvent event) {
+				for (Animation a : animations) {
+					a.onMouseLeave(event);
+				}
+			}
+
+			@Override
+			public void onMouseWheel(MouseWheelEvent event) {
+				for (Animation a : animations) {
+					a.onMouseWheel(event);
+				}
+			}
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				for (Animation a : animations) {
+					a.onKeyDown(event);
+				}
+			}
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				for (Animation a : animations) {
+					a.onKeyUp(event);
+				}
+			}
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				for (Animation a : animations) {
+					a.onKeyPress(event);
+				}
+			}
+
+			@Override
+			public void onWindowMove(WindowMoveEvent event) {
+				for (Animation a : animations) {
+					a.onWindowMove(event);
+				}
+			}
+
+			@Override
+			public void onWindowClose(WindowCloseEvent event) {
+				for (Animation a : animations) {
+					a.onWindowClose(event);
+				}
+			}
+		};
+	}
 }
