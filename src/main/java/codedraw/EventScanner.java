@@ -433,7 +433,7 @@ public class EventScanner implements Iterable<Event> {
 		}
 	}
 
-	private static class EndOfEvent extends Event {
+	private static final class EndOfEvent extends Event {
 		private EndOfEvent() { }
 
 		public static final EndOfEvent INSTANCE = new EndOfEvent();
