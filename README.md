@@ -47,7 +47,7 @@ To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
 <dependency>
     <groupId>com.github.Krassnig</groupId>
     <artifactId>CodeDraw</artifactId>
-    <version>2.1.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -63,7 +63,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.Krassnig:CodeDraw:2.1.0'
+    implementation 'com.github.Krassnig:CodeDraw:3.0.0'
 }
 ```
 
