@@ -408,21 +408,10 @@ public class Image {
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
 
-		setRenderingHint(RHAlphaInterpolation.QUALITY);
-		setRenderingHint(RHColorRendering.QUALITY);
-		setRenderingHint(RHRendering.QUALITY);
-		setRenderingHint(RHDithering.ENABLE);
-		setRenderingHint(RHFractionalMetrics.ON);
-		setRenderingHint(RHResolutionVariant.BASE);
-
-		setColor(Palette.BLACK);
-		setLineWidth(1);
-		setAntiAliased(true);
-		setCorner(Corner.SHARP);
-		setTransformationToIdentity();
+		setRenderingHints();
 		setDrawOver(false);
 		clearInternal(backgroundColor); // If a transparent background color is set the resulting image should also be transparent.
-		setDrawOver(true);
+		resetProperties();
 	}
 
 	private final BufferedImage image;
@@ -438,6 +427,28 @@ public class Image {
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
 	private boolean drawOver = true;
+
+	/**
+	 * Sets all drawing properties to their default value.
+	 */
+	public void resetProperties() {
+		setColor(Palette.BLACK);
+		setLineWidth(1);
+		setCorner(Corner.SHARP);
+		setAntiAliased(true);
+		setTextFormat(new TextFormat());
+		setTransformationToIdentity();
+		setDrawOver(true);
+	}
+
+	private void setRenderingHints() {
+		setRenderingHint(RHAlphaInterpolation.QUALITY);
+		setRenderingHint(RHColorRendering.QUALITY);
+		setRenderingHint(RHRendering.QUALITY);
+		setRenderingHint(RHDithering.ENABLE);
+		setRenderingHint(RHFractionalMetrics.ON);
+		setRenderingHint(RHResolutionVariant.BASE);
+	}
 
 	/**
 	 * This width of this image.
