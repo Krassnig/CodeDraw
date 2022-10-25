@@ -13,59 +13,7 @@ For a C# version of CodeDraw go to the [CodeDrawProject repository](https://gith
 
 ## How to Install
 
-### Intellij
-
-Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
-
-Open Intellij with the project where you would like to add CodeDraw. Click on **File > Project Structure...**.
-Under **Project Settings** select **Libraries**.
-At the top left click on the small **plus icon** and select the **Java** option.
-Goto the downloaded CodeDraw.jar and select it and then press **OK**.
-Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
-
-### Eclipse
-
-Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
-
-Open Eclipse with the project where you would like to add CodeDraw. Right-click on your Project > **Properties > Java Build Path > Add External JARs...**
-Go to the downloaded CodeDraw.jar and select it and then press **OK**.
-Now you can import CodeDraw with ```import codedraw.*;``` at the top of your Java files.
-
-
-### Maven
-To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-```
-
-```xml
-<dependency>
-    <groupId>com.github.Krassnig</groupId>
-    <artifactId>CodeDraw</artifactId>
-    <version>2.1.0</version>
-</dependency>
-```
-
-### Gradle
-To use CodeDraw as a Gradle dependency add the following lines to your `build.gradle`.
-```groovy
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-```groovy
-dependencies {
-    implementation 'com.github.Krassnig:CodeDraw:2.1.0'
-}
-```
+Read the [INSTALL.md](./INSTALL.md) to learn how to install CodeDraw for Intellij, Eclipse, Maven and Gradle.
 
 ## Static Images
 
