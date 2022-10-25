@@ -31,7 +31,7 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
 
 ## Getting Started
 
-Instruction on how to install CodeDraw can be found in the [How to Install](./README.md#how-to-install)
+Instruction on how to install CodeDraw can be found in the [INSTALL.md](./INSTALL.md)
 section in the README of the CodeDraw repository.
 Install CodeDraw and then create an empty Java file with the name `MyProgram` and
 then copy the following code into your file:
