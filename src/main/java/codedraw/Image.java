@@ -1208,12 +1208,12 @@ public class Image {
 	/**
 	 * Draws the outline of a triangle.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
-	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
-	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
-	 * @param y2 The distance in pixel from the top side of the canvas to the second corner of the triangle.
-	 * @param x3 The distance in pixel from the left side of the canvas to the third corner of the triangle.
-	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
+	 * @param x1 The distance in pixel from the left side of the canvas to the first vertex of the triangle.
+	 * @param y1 The distance in pixel from the top side of the canvas to the first vertex of the triangle.
+	 * @param x2 The distance in pixel from the left side of the canvas to the second vertex of the triangle.
+	 * @param y2 The distance in pixel from the top side of the canvas to the second vertex of the triangle.
+	 * @param x3 The distance in pixel from the left side of the canvas to the third vertex of the triangle.
+	 * @param y3 The distance in pixel from the top side of the canvas to the third vertex of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkNaNAndInfinity(x1, "x1");
@@ -1230,12 +1230,12 @@ public class Image {
 
 	/**
 	 * Draws a filled triangle.
-	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
-	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
-	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
-	 * @param y2 The distance in pixel from the top side of the canvas to the second corner of the triangle.
-	 * @param x3 The distance in pixel from the left side of the canvas to the third corner of the triangle.
-	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
+	 * @param x1 The distance in pixel from the left side of the canvas to the first vertex of the triangle.
+	 * @param y1 The distance in pixel from the top side of the canvas to the first vertex of the triangle.
+	 * @param x2 The distance in pixel from the left side of the canvas to the second vertex of the triangle.
+	 * @param y2 The distance in pixel from the top side of the canvas to the second vertex of the triangle.
+	 * @param x3 The distance in pixel from the left side of the canvas to the third vertex of the triangle.
+	 * @param y3 The distance in pixel from the top side of the canvas to the third vertex of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkNaNAndInfinity(x1, "x1");
@@ -1265,7 +1265,7 @@ public class Image {
 	 * );
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
 	public void drawPolygon(double... vertices) {
 		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "drawPolygon");
@@ -1291,7 +1291,7 @@ public class Image {
 	 *     300, 200
 	 * );
 	 * }</pre>
-	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
 	public void fillPolygon(double... vertices) {
 		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "fillPolygon");
