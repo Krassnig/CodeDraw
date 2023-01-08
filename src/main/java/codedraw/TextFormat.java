@@ -68,15 +68,32 @@ public final class TextFormat {
 
 	/**
 	 * Defines the font of the drawn text.
+	 * If a given font is not available the next fallbackFontName will be used.
+	 * If none of the fallbackFontNames are available the {@link Font#DIALOG} will be used.
 	 * The default font is {@link Font#DIALOG}.
-	 * @param fontName Sets the font name. Only accepts valid fonts installed on the system running this application.
+	 * To check which fonts are available you can call the static methods
+	 * {@link #getAllAvailableFontNames()} and {@link #isFontNameAvailable(String)}.
+	 * @param fontName Sets the font name.
+	 * @param fallbackFontNames Defines alternative font names which are used in case fontName is not available.
 	 */
-	public TextFormat setFontName(String fontName) {
+	public TextFormat setFontName(String fontName, String... fallbackFontNames) {
 		if (fontName == null) throw createParameterNullException("fontName");
-		if (!isFontNameAvailable(fontName))
-			throw new IllegalArgumentException("The font '" + fontName + "' is not available on your device.");
-		this.fontName = fontName;
+		if (fallbackFontNames == null) throw createParameterNullException("fallbackFontNames");
+
+		this.fontName = getFirstAvailableFontName(fontName, fallbackFontNames);
 		return this;
+	}
+
+	private static String getFirstAvailableFontName(String font, String... fontNames) {
+		if (isFontNameAvailable(font)) return font;
+
+		for (String fontName : fontNames) {
+			if (isFontNameAvailable(fontName)) {
+				return fontName;
+			}
+		}
+
+		return Font.DIALOG;
 	}
 
 	/**
@@ -180,20 +197,20 @@ public final class TextFormat {
 	 * Creates a list of available fonts on the current system.
 	 * @return an array of all available fonts.
 	 */
-	public static String[] allFontNames() {
+	public static String[] getAllAvailableFontNames() {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 	}
 
 	/**
 	 * Tests whether the font is available on the current system.
-	 * If this method returns true {@link #setFontName(String)} will not throw an exception and vice versa.
+	 * If this method returns for a given font, {@link #setFontName(String, String...)} will not use the fallback fonts.
 	 * @param fontName any font name.
 	 * @return whether the font is available.
 	 */
 	public static boolean isFontNameAvailable(String fontName) {
 		if (fontName == null) throw createParameterNullException("fontName");
 
-		for (String font : allFontNames()) {
+		for (String font : getAllAvailableFontNames()) {
 			if (font.equals(fontName)) {
 				return true;
 			}

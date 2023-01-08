@@ -58,7 +58,7 @@ public class TextFormatTest {
 		TextFormat format = cd.getTextFormat();
 		format.setFontSize(16);
 
-		String[] fonts = TextFormat.allFontNames();
+		String[] fonts = TextFormat.getAllAvailableFontNames();
 
 		for (int i = 0; i < 60 && i < fonts.length; i++) {
 			format.setFontName(fonts[i]);
