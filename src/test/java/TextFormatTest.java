@@ -1,12 +1,7 @@
 import codedraw.*;
-import codedraw.TextFormat;
-import codedraw.TextOrigin;
-import codedraw.Underline;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class TextFormatTest {
 	private CodeDrawConfirmation confirm;
@@ -63,7 +58,7 @@ public class TextFormatTest {
 		TextFormat format = cd.getTextFormat();
 		format.setFontSize(16);
 
-		String[] fonts = getAvailableFontNames();
+		String[] fonts = TextFormat.allFontNames();
 
 		for (int i = 0; i < 60 && i < fonts.length; i++) {
 			format.setFontName(fonts[i]);
@@ -156,9 +151,5 @@ public class TextFormatTest {
 		cd.drawLine(x, y - 80, x, y + 80);
 		cd.setColor(Palette.BLACK);
 		cd.drawText(x, y, String.join("\n", textOrigin.name().split("_", -1)).toLowerCase() + "\nTest");
-	}
-
-	private static String[] getAvailableFontNames() {
-		return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 	}
 }

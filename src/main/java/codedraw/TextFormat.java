@@ -10,8 +10,6 @@ import java.util.*;
  * and {@link Image#drawText(double, double, String)}.
  */
 public final class TextFormat {
-	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
-
 	public TextFormat() { }
 
 	private TextOrigin textOrigin = TextOrigin.TOP_LEFT;
@@ -59,25 +57,33 @@ public final class TextFormat {
 		return this;
 	}
 
-	private String fontName = "Arial";
+	private String fontName = Font.DIALOG;
 
 	/**
 	 * Defines the font of the drawn text.
-	 * The default font is Arial.
+	 * The default font is {@link Font#DIALOG}.
 	 * @return the font name.
 	 */
 	public String getFontName() { return fontName; }
 
 	/**
 	 * Defines the font of the drawn text.
-	 * The default font is Arial.
+	 * The default font is {@link Font#DIALOG}.
 	 * @param fontName Sets the font name. Only accepts valid fonts installed on the system running this application.
 	 */
 	public TextFormat setFontName(String fontName) {
 		if (fontName == null) throw createParameterNullException("fontName");
-		if (!availableFonts.contains(fontName))
-			throw new IllegalArgumentException("The font " + fontName + " is not available on your device.");
+		if (!isFontNameAvailable(fontName))
+			throw new IllegalArgumentException("The font '" + fontName + "' is not available on your device.");
 		this.fontName = fontName;
+		return this;
+	}
+
+	/**
+	 * Sets the font-name property to its default value {@link Font#DIALOG}.
+	 */
+	public TextFormat setFontNameToDefault() {
+		setFontName(Font.DIALOG);
 		return this;
 	}
 
@@ -168,6 +174,32 @@ public final class TextFormat {
 			put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 			put(TextAttribute.STRIKETHROUGH, isStrikethrough());
 		}});
+	}
+
+	/**
+	 * Creates a list of available fonts on the current system.
+	 * @return an array of all available fonts.
+	 */
+	public static String[] allFontNames() {
+		return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+	}
+
+	/**
+	 * Tests whether the font is available on the current system.
+	 * If this method returns true {@link #setFontName(String)} will not throw an exception and vice versa.
+	 * @param fontName any font name.
+	 * @return whether the font is available.
+	 */
+	public static boolean isFontNameAvailable(String fontName) {
+		if (fontName == null) throw createParameterNullException("fontName");
+
+		for (String font : allFontNames()) {
+			if (font.equals(fontName)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static int underlineEnumToTextAttributeUnderlineNumber(Underline underline) {
