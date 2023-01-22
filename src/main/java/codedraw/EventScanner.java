@@ -1,5 +1,7 @@
 package codedraw;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -374,6 +376,16 @@ public class EventScanner implements Iterable<Event> {
 	 * @return a window close event.
 	 */
 	public WindowCloseEvent nextWindowCloseEvent() { return next(WindowCloseEvent.class); }
+
+	/**
+	 * Removes all events that are older than the duration given as a parameter.
+	 * @param duration any duration.
+	 */
+	public void removeEventsOlderThan(Duration duration) {
+		while (queue.peek().getTimeCreated().isBefore(OffsetDateTime.now().minus(duration))) {
+			queue.pop();
+		}
+	}
 
 	/**
 	 * Creates an iterator containing all the currently available events.
