@@ -73,6 +73,8 @@ public final class TextFormat {
 	 * The default font is {@link Font#DIALOG}.
 	 * To check which fonts are available you can call the static methods
 	 * {@link #getAllAvailableFontNames()} and {@link #isFontNameAvailable(String)}.
+	 * The font chosen by this method can be found by calling {@link #getFontName()} after setting
+	 * one or several fonts.
 	 * @param fontName Sets the font name.
 	 * @param fallbackFontNames Defines alternative font names which are used in case fontName is not available.
 	 */
