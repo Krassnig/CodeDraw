@@ -749,7 +749,6 @@ public class Image {
 		checkNaNAndInfinity(y, "y");
 
 		beforeDrawing();
-		g.setFont(textFormat.toFont());
 		TextFormat.drawText(g, x, y, text, textFormat);
 		afterDrawing();
 	}

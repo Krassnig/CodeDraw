@@ -183,7 +183,7 @@ public final class TextFormat {
 		return this;
 	}
 
-	Font toFont() {
+	private Font toFont() {
 		return Font.getFont(new HashMap<TextAttribute, Object>() {{
 			put(TextAttribute.FAMILY, getFontName());
 			put(TextAttribute.SIZE, getFontSize());
@@ -259,6 +259,7 @@ public final class TextFormat {
 	}
 
 	static void drawText(Graphics2D graphics, double x, double y, String text, TextFormat textFormat) {
+		graphics.setFont(textFormat.toFont());
 		FontMetrics fontMetrics = graphics.getFontMetrics();
 		String[] lines = text.split("(\r\n)|\r|\n", -1);
 
