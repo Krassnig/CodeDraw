@@ -102,7 +102,7 @@ public class GraphicTest {
 	public void polygonTest() {
 		confirm.setConfirmationDialogue(
 				"There should be two polygons of the same shape, one with red circles\n" +
-				"at the endpoints. For the two argument fill polygon nothing\n" +
+				"at the endpoints. For the two argument fill polygon almost nothing\n" +
 				"should be displayed and a line for the draw polygon."
 		);
 
@@ -115,7 +115,8 @@ public class GraphicTest {
 				55, 60
 		);
 
-		cd.fillPolygon(400, 100, 500, 200);
+		cd.fillTriangle(400, 50, 400, 50, 500, 150);
+		cd.fillTriangle(400, 100, 400, 101, 500, 200);
 
 		cd.setColor(Palette.RED);
 		cd.drawCircle(50, 100, 5);

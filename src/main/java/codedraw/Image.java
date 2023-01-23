@@ -1257,6 +1257,7 @@ public class Image {
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
+	 * At least 2 vertices must be provided.
 	 * <pre>{@code
 	 * cd.drawPolygon(
 	 *     200, 100,
@@ -1267,12 +1268,12 @@ public class Image {
 	 * The line width can be changed with {@link #setLineWidth(double)}.
 	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
-	public void drawPolygon(double... vertices) {
-		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "drawPolygon");
+	public void drawPolygon(double x1, double y1, double x2, double y2, double... vertices) {
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("drawPolygon");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.draw(Shapes.polygon(vertices));
+		g.draw(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2).add(vertices).toArray()));
 		afterDrawing();
 	}
 
@@ -1283,7 +1284,8 @@ public class Image {
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
-	 * If you pass only two arguments to this method nothing will be drawn.
+	 * At least 3 vertices must be provided.
+	 * If all three vertices are on one line, nothing will be drawn.
 	 * <pre>{@code
 	 * cd.fillPolygon(
 	 *     200, 100,
@@ -1293,12 +1295,12 @@ public class Image {
 	 * }</pre>
 	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
-	public void fillPolygon(double... vertices) {
-		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "fillPolygon");
+	public void fillPolygon(double x1, double y1, double x2, double y2, double x3, double y3, double... vertices) {
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("fillPolygon");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.fill(Shapes.polygon(vertices));
+		g.fill(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray()));
 		afterDrawing();
 	}
 
@@ -1513,19 +1515,11 @@ public class Image {
 	}
 
 	private static boolean isInvalidPolygonCount(double[] polygonParameter) {
-		return polygonParameter.length < 4 || (polygonParameter.length & 1) == 1;
+		return (polygonParameter.length & 1) == 1;
 	}
 
-	private static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
-		if (polygonParameter.length < 4) {
-			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
-		}
-		else if ((polygonParameter.length & 1) == 1) {
-			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of one point of the polygon.");
-		}
-		else {
-			throw new RuntimeException();
-		}
+	private static IllegalArgumentException createPolygonCountException(String methodName) {
+		return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of one point of the polygon.");
 	}
 
 	private static <T> T checkParameterNull(T parameter, String parameterName) {
