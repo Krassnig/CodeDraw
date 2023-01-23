@@ -13,10 +13,10 @@ import java.util.NoSuchElementException;
  * through the {@link java.util.Scanner} like structure by calling <i>has</i>- and <i>next</i>-methods.
  * <br><br>
  * The example below displays the current mouse position and the amount the mouse has been pressed.
- * Before each frame is drawn all events that happened between the previous frame and now are processed
+ * Before each frame is drawn all events that happened between the previous frame and the current frame are processed
  * by a foreach loop. Each event inside that foreach loop is then processed based on the type of the event.
- * If it is a MouseMoveEvent then the position gets saved. if it is a MouseClickEvent then the clickCount is
- * increased. Otherwise, the Event is discarded in the default branch.
+ * If it is a MouseMoveEvent then the position is saved, if it is a MouseClickEvent then the clickCount is
+ * increased. All other event types are discarded in the default branch.
  * <pre>{@code
  * CodeDraw cd = new CodeDraw();
  *
@@ -382,7 +382,7 @@ public class EventScanner implements Iterable<Event> {
 	 * @param duration any duration.
 	 */
 	public void removeEventsOlderThan(Duration duration) {
-		while (queue.peek().getTimeCreated().isBefore(OffsetDateTime.now().minus(duration))) {
+		while (hasNow() && peek().getTimeCreated().isBefore(OffsetDateTime.now().minus(duration))) {
 			queue.pop();
 		}
 	}
@@ -404,29 +404,42 @@ public class EventScanner implements Iterable<Event> {
 		return result.iterator();
 	}
 
+	private boolean hasNow() {
+		return !queue.isEmpty();
+	}
+
 	private boolean hasNow(Class<? extends Event> type) {
-		return !queue.isEmpty() && has(type);
+		return hasNow() && has(type);
 	}
 
 	private boolean has(Class<? extends Event> expected) {
-		Class<? extends Event> actual = peekType();
-		return !actual.isAssignableFrom(EndOfEvent.class) && expected.isAssignableFrom(actual);
+		return expected.isAssignableFrom(peekType());
 	}
 
+	/**
+	 * Blocking, call hasNow() beforehand.
+	 */
+	private Event peek() {
+		return queue.peek();
+	}
+
+	/**
+	 * Blocking, call hasNow() beforehand.
+	 */
 	private Class<? extends Event> peekType() {
-		return queue.peek().getClass();
+		return peek().getClass();
 	}
 
 	private <T extends Event> T next(Class<T> expected) {
+		if (!hasNow()) {
+			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available by calling hasEvent() before calling nextEvent().");
+		}
+
 		Class<? extends Event> actual = peekType();
 
-		if (EndOfEvent.class.isAssignableFrom(actual))
-			throw new NoSuchElementException("There are no more events in this EventScanner. Check if there are events available before calling next.");
-		if (WindowCloseEvent.class.isAssignableFrom(actual))
-			push(EndOfEvent.INSTANCE);
 		if (!expected.isAssignableFrom(actual)) {
-			String expectedName = getEventName(expected);
-			String actualName = getEventName(actual);
+			String expectedName = expected.getSimpleName();
+			String actualName = actual.getSimpleName();
 			throw new InputMismatchException(
 				"The next event is of type " + actualName + " but method next" + expectedName + "() was called. " +
 				"Check whether an event of type " + expectedName + " is available by calling has" + expectedName + "() before calling next" + expectedName + "()."
@@ -434,20 +447,5 @@ public class EventScanner implements Iterable<Event> {
 		}
 
 		return expected.cast(queue.pop());
-	}
-
-	private static <T extends Event> String getEventName(Class<T> eventType) {
-		if (Event.class.isAssignableFrom(eventType)) {
-			return "Event";
-		}
-		else {
-			return eventType.getSimpleName();
-		}
-	}
-
-	private static final class EndOfEvent extends Event {
-		private EndOfEvent() { }
-
-		public static final EndOfEvent INSTANCE = new EndOfEvent();
 	}
 }
