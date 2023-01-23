@@ -764,7 +764,7 @@ public class Image {
 		checkNaNAndInfinity(centerY, "centerY");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, getLineWidth(), getLineWidth()));
+		g.fill(Shapes.point(centerX, centerY, getLineWidth() / 2));
 		afterDrawing();
 	}
 
@@ -784,7 +784,7 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createLine(startX, startY, endX, endY));
+		g.draw(Shapes.line(startX, startY, endX, endY));
 		afterDrawing();
 	}
 
@@ -810,7 +810,7 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createCurve(startX, startY, controlX, controlY, endX, endY));
+		g.draw(Shapes.curve(startX, startY, controlX, controlY, endX, endY));
 		afterDrawing();
 	}
 
@@ -840,7 +840,8 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createBezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
+
+		g.draw(Shapes.bezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
 		afterDrawing();
 	}
 
@@ -860,7 +861,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
+		g.draw(Shapes.rectangle(x, y, sideLength, sideLength, corner, lineWidth / 2));
 		afterDrawing();
 	}
 
@@ -879,7 +880,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.fill(createFillRectangle(x, y, sideLength, sideLength));
+		g.fill(Shapes.rectangle(x, y, sideLength, sideLength, corner, lineWidth / 2));
 		afterDrawing();
 	}
 
@@ -902,7 +903,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.draw(createDrawRectangle(x, y, width, height));
+		g.draw(Shapes.rectangle(x, y, width, height, corner, lineWidth / 2));
 		afterDrawing();
 	}
 
@@ -924,7 +925,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.fill(createFillRectangle(x, y, width, height));
+		g.fill(Shapes.rectangle(x, y, width, height, corner, lineWidth / 2));
 		afterDrawing();
 	}
 
@@ -944,7 +945,7 @@ public class Image {
 		checkNaNAndInfinity(radius, "radius");
 
 		beforeDrawing();
-		g.draw(createEllipse(centerX, centerY, radius, radius));
+		g.draw(Shapes.ellipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
@@ -963,7 +964,7 @@ public class Image {
 		checkNaNAndInfinity(radius, "radius");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, radius, radius));
+		g.fill(Shapes.ellipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
@@ -986,7 +987,7 @@ public class Image {
 		checkNaNAndInfinity(verticalRadius, "verticalRadius");
 
 		beforeDrawing();
-		g.draw(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
+		g.draw(Shapes.ellipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
@@ -1008,7 +1009,7 @@ public class Image {
 		checkNaNAndInfinity(verticalRadius, "verticalRadius");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
+		g.fill(Shapes.ellipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
@@ -1039,7 +1040,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createArc(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.draw(Shapes.arc(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1074,7 +1075,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createArc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(Shapes.arc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1105,7 +1106,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.draw(Shapes.pie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1140,7 +1141,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(Shapes.pie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1168,7 +1169,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.fill(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.fill(Shapes.pie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1200,7 +1201,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.fill(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.fill(Shapes.pie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1223,7 +1224,7 @@ public class Image {
 		checkNaNAndInfinity(y3, "y3");
 
 		beforeDrawing();
-		g.draw(createTriangle(x1, y1, x2, y2, x3, y3));
+		g.draw(Shapes.polygon(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
 	}
 
@@ -1245,7 +1246,7 @@ public class Image {
 		checkNaNAndInfinity(y3, "y3");
 
 		beforeDrawing();
-		g.fill(createTriangle(x1, y1, x2, y2, x3, y3));
+		g.fill(Shapes.polygon(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
 	}
 
@@ -1271,7 +1272,7 @@ public class Image {
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.draw(createPolygon(vertices));
+		g.draw(Shapes.polygon(vertices));
 		afterDrawing();
 	}
 
@@ -1297,7 +1298,7 @@ public class Image {
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.fill(createPolygon(vertices));
+		g.fill(Shapes.polygon(vertices));
 		afterDrawing();
 	}
 
@@ -1432,7 +1433,7 @@ public class Image {
 		Matrix2D m = getTransformation();
 		setTransformationToIdentity();
 		setColor(color);
-		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
+		g.fill(Shapes.rectangle(0, 0, getWidth(), getHeight(), Corner.SHARP, 0));
 		setColor(c);
 		setTransformation(m);
 	}
@@ -1494,134 +1495,6 @@ public class Image {
 	 * You can override this method to implement custom behavior when drawing in the inheriting class.
 	 */
 	protected void afterDrawing() { }
-
-	private static Line2D createLine(double startX, double startY, double endX, double endY) {
-		return new Line2D.Double(
-				startX, startY,
-				endX, endY
-		);
-	}
-
-	private static QuadCurve2D createCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
-		return new QuadCurve2D.Double(
-				startX, startY,
-				controlX, controlY,
-				endX, endY
-		);
-	}
-
-	private static CubicCurve2D createBezierCurve(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		return new CubicCurve2D.Double(
-				startX, startY,
-				control1X, control1Y,
-				control2X, control2Y,
-				endX, endY
-		);
-	}
-
-	private Shape createFillRectangle(double x, double y, double width, double height) {
-		if (corner == Corner.SHARP) {
-			return createSharpRectangle(x, y, width, height);
-		}
-		else if (corner == Corner.ROUND) {
-			return createRoundRectangle(x, y, width, height);
-		}
-		else {
-			return createBevelRectangle(x, y, width, height);
-		}
-	}
-
-	private Shape createDrawRectangle(double x, double y, double width, double height) {
-		return createSharpRectangle(x, y, width, height);
-	}
-
-	private static Rectangle2D createSharpRectangle(double x, double y, double width, double height) {
-		return new Rectangle2D.Double(
-				x, y,
-				width, height
-		);
-	}
-
-	private RoundRectangle2D createRoundRectangle(double x, double y, double width, double height) {
-		return new RoundRectangle2D.Double(
-				x, y,
-				width, height,
-				lineWidth, lineWidth
-		);
-	}
-
-	private Path2D createBevelRectangle(double x, double y, double width, double height) {
-		double lw = lineWidth / 2;
-		return createPolygon(
-				x + lw, y,
-				x + width - lw, y,
-				x + width, y + lw,
-				x + width, y + height - lw,
-				x + width - lw, y + height,
-				x + lw, y + height,
-				x, y + height - lw,
-				x, y + lw
-		);
-	}
-
-	private static Ellipse2D createEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		return new Ellipse2D.Double(
-				x - horizontalRadius, y - verticalRadius,
-				2 * horizontalRadius, 2 * verticalRadius
-		);
-	}
-
-	private static Arc2D createArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		return new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.OPEN
-		);
-	}
-
-	private static Arc2D createPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		return new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.PIE
-		);
-	}
-
-	private static Path2D createTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		return createPolygon(
-				x1, y1,
-				x2, y2,
-				x3, y3
-		);
-	}
-
-	private static Path2D createPolygon(double... doubles) {
-		Path2D.Double result = new Path2D.Double();
-
-		result.moveTo(doubles[0], doubles[1]);
-		for (int i = 2; i < doubles.length; i += 2) {
-			result.lineTo(doubles[i], doubles[i + 1]);
-		}
-		result.closePath();
-
-		return result;
-	}
-
-	private static double transformStart(double startRadians) {
-		return Math.toDegrees(-startRadians);
-	}
-
-	private static double transformSweep(double sweepRadians) {
-		return Math.toDegrees(-sweepRadians);
-	}
 
 	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
