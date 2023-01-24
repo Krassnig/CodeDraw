@@ -840,7 +840,6 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-
 		g.draw(Shapes.bezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
 		afterDrawing();
 	}
@@ -1269,7 +1268,13 @@ public class Image {
 	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
 	public void drawPolygon(double x1, double y1, double x2, double y2, double... vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
 		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("drawPolygon");
+
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
@@ -1296,7 +1301,15 @@ public class Image {
 	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
 	public void fillPolygon(double x1, double y1, double x2, double y2, double x3, double y3, double... vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
 		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("fillPolygon");
+
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
+		checkNaNAndInfinity(x3, "x3");
+		checkNaNAndInfinity(y3, "y3");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
