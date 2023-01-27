@@ -20,8 +20,9 @@ public class GameOfLife {
 				if (es.hasMouseDownEvent()) {
 					MouseDownEvent a = es.nextMouseDownEvent();
 					isMouseDown = true;
-					// the value that is used to draw cells depends on the state of the cell where the initial click happens
-					// if that cell was white then every subsequent move of the mouse will draw black cells.
+					// the value that is used to draw cells depends on the state
+					// of the cell where the initial click happens
+					// if that cell was white then every subsequent mouse move will draw black cells.
 					int x = a.getX() / FIELD_SIZE;
 					int y = a.getY() / FIELD_SIZE;
 					setValue = field[x][y] = !field[x][y];
