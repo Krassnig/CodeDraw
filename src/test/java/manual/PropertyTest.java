@@ -89,6 +89,39 @@ public class PropertyTest {
 	}
 
 	@Test
+	public void cornerRadiusTest() {
+		confirm.setConfirmationDialogue(
+			"The width of the rectangles should change independently of radius of the corners."
+		);
+		cd.close();
+		cd = new CodeDraw(1200, 600);
+		confirm.placeCodeDrawTestingInstance(cd);
+
+		for (int x = 0; x < 6; x++) {
+			for (int y = 0; y < 6; y++) {
+				cd.setCorner(((x + y) & 1) == 1 ? Corner.ROUND : Corner.BEVEL);
+				cd.setLineWidth(y * 4 + 1);
+				cd.setCornerRadius(x * 4 + 1);
+
+				cd.drawRectangle(x * 100 + 20, y * 100 + 20, 60, 60);
+			}
+		}
+
+		for (int x = 0; x < 6; x++) {
+			for (int y = 0; y < 6; y++) {
+				cd.setCorner(((x + y) & 1) == 1 ? Corner.ROUND : Corner.BEVEL);
+				cd.setLineWidth(y * 4 + 1);
+				cd.setCornerRadius(x * 4 + 1);
+
+				cd.fillRectangle(600 + x * 100 + 20, y * 100 + 20, 60, 60);
+			}
+		}
+
+		cd.show();
+		confirm.assertConfirmation();
+	}
+
+	@Test
 	public void antiAliasingLineWidthTest() {
 		confirm.setConfirmationDialogue(
 			"The lines and the outlined rectangles should increase in size.\n" +

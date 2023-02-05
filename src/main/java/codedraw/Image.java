@@ -425,9 +425,9 @@ public class Image {
 	private Corner corner = Corner.SHARP;
 	private double cornerRadius = 10;
 	private boolean isAntiAliased = true;
+	private boolean drawOver = true;
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
-	private boolean drawOver = true;
 
 	/**
 	 * Sets all drawing properties to their default value.
@@ -595,6 +595,28 @@ public class Image {
 		}
 	}
 
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * @return whether draw over is on or off.
+	 */
+	public boolean drawOver() {
+		return drawOver;
+	}
+
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * If you want to make a section of an image transparent set draw over to false.
+	 * @param drawOver whether shapes are drawn over or replace existing pixels.
+	 */
+	public void setDrawOver(boolean drawOver) {
+		this.drawOver = drawOver;
+		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
+	}
+
 	private void setRenderingHint(RenderingHintValue hint) {
 		RenderingHintValue.applyHint(g, hint);
 	}
@@ -655,28 +677,6 @@ public class Image {
 	 */
 	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
-	}
-
-	/**
-	 * Defines the way new pixels are drawn over already existing pixels.
-	 * When draw over is true transparent pixel will mix with the underlying pixels.
-	 * When draw over is false transparent pixel will replace the existing pixels.
-	 * @return whether draw over is on or off.
-	 */
-	public boolean drawOver() {
-		return drawOver;
-	}
-
-	/**
-	 * Defines the way new pixels are drawn over already existing pixels.
-	 * When draw over is true transparent pixel will mix with the underlying pixels.
-	 * When draw over is false transparent pixel will replace the existing pixels.
-	 * If you want to make a section of an image transparent set draw over to false.
-	 * @param drawOver whether shapes are drawn over or replace existing pixels.
-	 */
-	public void setDrawOver(boolean drawOver) {
-		this.drawOver = drawOver;
-		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
 	}
 
 	/**
@@ -885,7 +885,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.draw(Shapes.rectangle(x, y, sideLength, sideLength, corner, lineWidth / 2));
+		g.draw(Shapes.rectangle(x, y, sideLength, sideLength, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -904,7 +904,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.fill(Shapes.rectangle(x, y, sideLength, sideLength, corner, lineWidth / 2));
+		g.fill(Shapes.rectangle(x, y, sideLength, sideLength, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -927,7 +927,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.draw(Shapes.rectangle(x, y, width, height, corner, lineWidth / 2));
+		g.draw(Shapes.rectangle(x, y, width, height, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -949,7 +949,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.fill(Shapes.rectangle(x, y, width, height, corner, lineWidth / 2));
+		g.fill(Shapes.rectangle(x, y, width, height, corner, cornerRadius));
 		afterDrawing();
 	}
 
