@@ -423,6 +423,7 @@ public class Image {
 
 	private double lineWidth = 1;
 	private Corner corner = Corner.SHARP;
+	private double cornerRadius = 10;
 	private boolean isAntiAliased = true;
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
@@ -435,6 +436,7 @@ public class Image {
 		setColor(Palette.BLACK);
 		setLineWidth(1);
 		setCorner(Corner.SHARP);
+		setCornerRadius(10);
 		setAntiAliased(true);
 		setTextFormat(new TextFormat());
 		setTransformationToIdentity();
@@ -519,6 +521,29 @@ public class Image {
 
 		this.corner = corner;
 		updateBrush();
+	}
+
+	/**
+	 * Defines the radius of the corners of rectangular shapes:
+	 * {@link #drawSquare(double, double, double)}, {@link #fillSquare(double, double, double)},
+	 * {@link #drawRectangle(double, double, double, double)}, {@link #fillRectangle(double, double, double, double)};
+	 * Per default it is set to 10 pixel.
+	 * @return The corner radius of this CodeDraw window.
+	 */
+	public double getCornerRadius() {
+		return cornerRadius;
+	}
+
+	/**
+	 * Defines the radius of the corners of rectangular shapes:
+	 * {@link #drawSquare(double, double, double)}, {@link #fillSquare(double, double, double)},
+	 * {@link #drawRectangle(double, double, double, double)}, {@link #fillRectangle(double, double, double, double)};
+	 * Per default it is set to 10 pixel.
+	 * @param cornerRadius Sets the corner radius of this CodeDraw window.
+	 */
+	public void setCornerRadius(double cornerRadius) {
+		if (cornerRadius <= 0) throw createParameterMustBeGreaterThanZeroException("cornerRadius");
+		this.cornerRadius = cornerRadius;
 	}
 
 	/**
@@ -764,7 +789,7 @@ public class Image {
 		checkNaNAndInfinity(centerY, "centerY");
 
 		beforeDrawing();
-		g.fill(Shapes.point(centerX, centerY, getLineWidth() / 2));
+		g.fill(Shapes.ellipse(centerX, centerY, lineWidth / 2, lineWidth / 2));
 		afterDrawing();
 	}
 

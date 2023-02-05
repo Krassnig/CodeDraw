@@ -6,15 +6,6 @@ import java.awt.geom.*;
 class Shapes {
 	private Shapes() { }
 
-	public static Ellipse2D point(double x, double y, double radius) {
-		return new Ellipse2D.Double(
-			x - radius,
-			y - radius,
-			radius * 2,
-			radius * 2
-		);
-	}
-
 	public static Line2D line(double startX, double startY, double endX, double endY) {
 		return new Line2D.Double(
 			startX, startY,
