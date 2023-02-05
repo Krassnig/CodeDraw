@@ -33,7 +33,7 @@ public class MouseClickEvent extends Event {
 	 * @return a mouse button.
 	 */
 	public MouseButton getMouseButton() {
-		return MouseButton.values()[e.getButton() - 1];
+		return MouseButton.values()[e.getButton()];
 	}
 
 	@Override

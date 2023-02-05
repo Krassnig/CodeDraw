@@ -1,3 +1,5 @@
+package manual;
+
 import codedraw.*;
 import codedraw.TextFormat;
 import codedraw.TextOrigin;

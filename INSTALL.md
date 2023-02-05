@@ -1,6 +1,13 @@
-## How to Install
+# How to Install
 
-### Intellij
+## Table of Contents
+- [How to Install](#how-to-install)
+  * [Intellij](#Intellij)
+  * [Eclipse](#eclipse)
+  * [Maven](#maven)
+  * [Gradle](#gradle)
+
+## Intellij
 
 Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
 
@@ -10,7 +17,7 @@ At the top left click on the small **plus icon** and select the **Java** option.
 Goto the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with `import codedraw.*;` at the top of your Java files.
 
-### Eclipse
+## Eclipse
 
 Go to [releases](https://github.com/Krassnig/CodeDraw/releases) and download the newest CodeDraw.jar.
 
@@ -18,7 +25,7 @@ Open Eclipse with the project where you would like to add CodeDraw. Right-click 
 Go to the downloaded CodeDraw.jar and select it and then press **OK**.
 Now you can import CodeDraw with `import codedraw.*;` at the top of your Java files.
 
-### Maven
+## Maven
 
 To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
 
@@ -35,7 +42,7 @@ To use CodeDraw as a Maven dependency add the following lines to your `pom.xml`.
 <dependency>
     <groupId>com.github.Krassnig</groupId>
     <artifactId>CodeDraw</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
@@ -62,14 +69,14 @@ To see a minimal `pom.xml` go [here](https://maven.apache.org/guides/introductio
       <dependency>
          <groupId>com.github.Krassnig</groupId>
          <artifactId>CodeDraw</artifactId>
-         <version>3.0.0</version>
+         <version>4.0.0</version>
       </dependency>
    </dependencies>
 
 </project>
 ```
 
-### Gradle
+## Gradle
 
 To use CodeDraw as a Gradle dependency add the following lines to your `build.gradle`.
 
@@ -83,7 +90,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.Krassnig:CodeDraw:3.0.0'
+    implementation 'com.github.Krassnig:CodeDraw:4.0.0'
 }
 ```
 
@@ -101,7 +108,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Krassnig:CodeDraw:3.0.0'
+    implementation 'com.github.Krassnig:CodeDraw:4.0.0'
 }
 
 application {

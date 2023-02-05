@@ -408,21 +408,11 @@ public class Image {
 		image = new BufferedImage(width * xScale, height * yScale, BufferedImage.TYPE_INT_ARGB);
 		g = image.createGraphics();
 
-		setRenderingHint(RHAlphaInterpolation.QUALITY);
-		setRenderingHint(RHColorRendering.QUALITY);
-		setRenderingHint(RHRendering.QUALITY);
-		setRenderingHint(RHDithering.ENABLE);
-		setRenderingHint(RHFractionalMetrics.ON);
-		setRenderingHint(RHResolutionVariant.BASE);
-
-		setColor(Palette.BLACK);
-		setLineWidth(1);
-		setAntiAliased(true);
-		setCorner(Corner.SHARP);
-		setTransformationToIdentity();
-		setDrawOver(false);
+		setRenderingHints();
+		setDrawOver(false); // If the background-color is transparent it should not be drawn over but instead set
 		clearInternal(backgroundColor); // If a transparent background color is set the resulting image should also be transparent.
-		setDrawOver(true);
+
+		resetProperties();
 	}
 
 	private final BufferedImage image;
@@ -434,10 +424,34 @@ public class Image {
 
 	private double lineWidth = 1;
 	private Corner corner = Corner.SHARP;
+	private double cornerRadius = 10;
 	private boolean isAntiAliased = true;
+	private boolean drawOver = true;
 	private TextFormat textFormat = new TextFormat();
 	private Matrix2D transformation = Matrix2D.IDENTITY;
-	private boolean drawOver = true;
+
+	/**
+	 * Sets all drawing properties to their default value.
+	 */
+	public void resetProperties() {
+		setColor(Palette.BLACK);
+		setLineWidth(1);
+		setCorner(Corner.SHARP);
+		setCornerRadius(10);
+		setAntiAliased(true);
+		setTextFormat(new TextFormat());
+		setTransformationToIdentity();
+		setDrawOver(true);
+	}
+
+	private void setRenderingHints() {
+		setRenderingHint(RHAlphaInterpolation.QUALITY);
+		setRenderingHint(RHColorRendering.QUALITY);
+		setRenderingHint(RHRendering.QUALITY);
+		setRenderingHint(RHDithering.ENABLE);
+		setRenderingHint(RHFractionalMetrics.ON);
+		setRenderingHint(RHResolutionVariant.BASE);
+	}
 
 	/**
 	 * This width of this image.
@@ -511,6 +525,29 @@ public class Image {
 	}
 
 	/**
+	 * Defines the radius of the corners of rectangular shapes:
+	 * {@link #drawSquare(double, double, double)}, {@link #fillSquare(double, double, double)},
+	 * {@link #drawRectangle(double, double, double, double)}, {@link #fillRectangle(double, double, double, double)};
+	 * Per default it is set to 10 pixel.
+	 * @return The corner radius of this CodeDraw window.
+	 */
+	public double getCornerRadius() {
+		return cornerRadius;
+	}
+
+	/**
+	 * Defines the radius of the corners of rectangular shapes:
+	 * {@link #drawSquare(double, double, double)}, {@link #fillSquare(double, double, double)},
+	 * {@link #drawRectangle(double, double, double, double)}, {@link #fillRectangle(double, double, double, double)};
+	 * Per default it is set to 10 pixel.
+	 * @param cornerRadius Sets the corner radius of this CodeDraw window.
+	 */
+	public void setCornerRadius(double cornerRadius) {
+		if (cornerRadius <= 0) throw createParameterMustBeGreaterThanZeroException("cornerRadius");
+		this.cornerRadius = cornerRadius;
+	}
+
+	/**
 	 * Defines the styling of drawn text.
 	 * See also {@link #drawText(double, double, String)} on how the styling is applied.
 	 * @return the text formatting options of this CodeDraw window.
@@ -557,6 +594,28 @@ public class Image {
 			   With normalize, non-anti-aliased lines don't change. */
 			setRenderingHint(RHStrokeControl.NORMALIZE);
 		}
+	}
+
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * @return whether draw over is on or off.
+	 */
+	public boolean drawOver() {
+		return drawOver;
+	}
+
+	/**
+	 * Defines the way new pixels are drawn over already existing pixels.
+	 * When draw over is true transparent pixel will mix with the underlying pixels.
+	 * When draw over is false transparent pixel will replace the existing pixels.
+	 * If you want to make a section of an image transparent set draw over to false.
+	 * @param drawOver whether shapes are drawn over or replace existing pixels.
+	 */
+	public void setDrawOver(boolean drawOver) {
+		this.drawOver = drawOver;
+		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
 	}
 
 	private void setRenderingHint(RenderingHintValue hint) {
@@ -619,28 +678,6 @@ public class Image {
 	 */
 	public void setTransformationToIdentity() {
 		setTransformation(Matrix2D.IDENTITY);
-	}
-
-	/**
-	 * Defines the way new pixels are drawn over already existing pixels.
-	 * When draw over is true transparent pixel will mix with the underlying pixels.
-	 * When draw over is false transparent pixel will replace the existing pixels.
-	 * @return whether draw over is on or off.
-	 */
-	public boolean drawOver() {
-		return drawOver;
-	}
-
-	/**
-	 * Defines the way new pixels are drawn over already existing pixels.
-	 * When draw over is true transparent pixel will mix with the underlying pixels.
-	 * When draw over is false transparent pixel will replace the existing pixels.
-	 * If you want to make a section of an image transparent set draw over to false.
-	 * @param drawOver whether shapes are drawn over or replace existing pixels.
-	 */
-	public void setDrawOver(boolean drawOver) {
-		this.drawOver = drawOver;
-		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
 	}
 
 	/**
@@ -738,7 +775,6 @@ public class Image {
 		checkNaNAndInfinity(y, "y");
 
 		beforeDrawing();
-		g.setFont(textFormat.toFont());
 		TextFormat.drawText(g, x, y, text, textFormat);
 		afterDrawing();
 	}
@@ -754,7 +790,7 @@ public class Image {
 		checkNaNAndInfinity(centerY, "centerY");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, getLineWidth(), getLineWidth()));
+		g.fill(Shapes.ellipse(centerX, centerY, lineWidth / 2, lineWidth / 2));
 		afterDrawing();
 	}
 
@@ -774,7 +810,7 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createLine(startX, startY, endX, endY));
+		g.draw(Shapes.line(startX, startY, endX, endY));
 		afterDrawing();
 	}
 
@@ -800,7 +836,7 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createCurve(startX, startY, controlX, controlY, endX, endY));
+		g.draw(Shapes.curve(startX, startY, controlX, controlY, endX, endY));
 		afterDrawing();
 	}
 
@@ -830,7 +866,7 @@ public class Image {
 		checkNaNAndInfinity(endY, "endY");
 
 		beforeDrawing();
-		g.draw(createBezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
+		g.draw(Shapes.bezierCurve(startX, startY, control1X, control1Y, control2X, control2Y, endX, endY));
 		afterDrawing();
 	}
 
@@ -850,7 +886,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.draw(createDrawRectangle(x, y, sideLength, sideLength));
+		g.draw(Shapes.rectangle(x, y, sideLength, sideLength, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -869,7 +905,7 @@ public class Image {
 		checkNaNAndInfinity(sideLength, "sideLength");
 
 		beforeDrawing();
-		g.fill(createFillRectangle(x, y, sideLength, sideLength));
+		g.fill(Shapes.rectangle(x, y, sideLength, sideLength, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -892,7 +928,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.draw(createDrawRectangle(x, y, width, height));
+		g.draw(Shapes.rectangle(x, y, width, height, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -914,7 +950,7 @@ public class Image {
 		checkNaNAndInfinity(height, "height");
 
 		beforeDrawing();
-		g.fill(createFillRectangle(x, y, width, height));
+		g.fill(Shapes.rectangle(x, y, width, height, corner, cornerRadius));
 		afterDrawing();
 	}
 
@@ -934,7 +970,7 @@ public class Image {
 		checkNaNAndInfinity(radius, "radius");
 
 		beforeDrawing();
-		g.draw(createEllipse(centerX, centerY, radius, radius));
+		g.draw(Shapes.ellipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
@@ -953,7 +989,7 @@ public class Image {
 		checkNaNAndInfinity(radius, "radius");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, radius, radius));
+		g.fill(Shapes.ellipse(centerX, centerY, radius, radius));
 		afterDrawing();
 	}
 
@@ -976,7 +1012,7 @@ public class Image {
 		checkNaNAndInfinity(verticalRadius, "verticalRadius");
 
 		beforeDrawing();
-		g.draw(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
+		g.draw(Shapes.ellipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
@@ -998,7 +1034,7 @@ public class Image {
 		checkNaNAndInfinity(verticalRadius, "verticalRadius");
 
 		beforeDrawing();
-		g.fill(createEllipse(centerX, centerY, horizontalRadius, verticalRadius));
+		g.fill(Shapes.ellipse(centerX, centerY, horizontalRadius, verticalRadius));
 		afterDrawing();
 	}
 
@@ -1029,7 +1065,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createArc(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.draw(Shapes.arc(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1064,7 +1100,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createArc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(Shapes.arc(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1095,7 +1131,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.draw(Shapes.pie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1130,7 +1166,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.draw(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.draw(Shapes.pie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1158,7 +1194,7 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.fill(createPie(centerX, centerY, radius, radius, startRadians, sweepRadians));
+		g.fill(Shapes.pie(centerX, centerY, radius, radius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
@@ -1190,19 +1226,19 @@ public class Image {
 		checkNaNAndInfinity(sweepRadians, "sweepRadians");
 
 		beforeDrawing();
-		g.fill(createPie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
+		g.fill(Shapes.pie(centerX, centerY, horizontalRadius, verticalRadius, startRadians, sweepRadians));
 		afterDrawing();
 	}
 
 	/**
 	 * Draws the outline of a triangle.
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
-	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
-	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
-	 * @param y2 The distance in pixel from the top side of the canvas to the second corner of the triangle.
-	 * @param x3 The distance in pixel from the left side of the canvas to the third corner of the triangle.
-	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
+	 * @param x1 The distance in pixel from the left side of the canvas to the first vertex of the triangle.
+	 * @param y1 The distance in pixel from the top side of the canvas to the first vertex of the triangle.
+	 * @param x2 The distance in pixel from the left side of the canvas to the second vertex of the triangle.
+	 * @param y2 The distance in pixel from the top side of the canvas to the second vertex of the triangle.
+	 * @param x3 The distance in pixel from the left side of the canvas to the third vertex of the triangle.
+	 * @param y3 The distance in pixel from the top side of the canvas to the third vertex of the triangle.
 	 */
 	public void drawTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkNaNAndInfinity(x1, "x1");
@@ -1213,18 +1249,18 @@ public class Image {
 		checkNaNAndInfinity(y3, "y3");
 
 		beforeDrawing();
-		g.draw(createTriangle(x1, y1, x2, y2, x3, y3));
+		g.draw(Shapes.polygon(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
 	}
 
 	/**
 	 * Draws a filled triangle.
-	 * @param x1 The distance in pixel from the left side of the canvas to the first corner of the triangle.
-	 * @param y1 The distance in pixel from the top side of the canvas to the first corner of the triangle.
-	 * @param x2 The distance in pixel from the left side of the canvas to the second corner of the triangle.
-	 * @param y2 The distance in pixel from the top side of the canvas to the second corner of the triangle.
-	 * @param x3 The distance in pixel from the left side of the canvas to the third corner of the triangle.
-	 * @param y3 The distance in pixel from the top side of the canvas to the third corner of the triangle.
+	 * @param x1 The distance in pixel from the left side of the canvas to the first vertex of the triangle.
+	 * @param y1 The distance in pixel from the top side of the canvas to the first vertex of the triangle.
+	 * @param x2 The distance in pixel from the left side of the canvas to the second vertex of the triangle.
+	 * @param y2 The distance in pixel from the top side of the canvas to the second vertex of the triangle.
+	 * @param x3 The distance in pixel from the left side of the canvas to the third vertex of the triangle.
+	 * @param y3 The distance in pixel from the top side of the canvas to the third vertex of the triangle.
 	 */
 	public void fillTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
 		checkNaNAndInfinity(x1, "x1");
@@ -1235,7 +1271,7 @@ public class Image {
 		checkNaNAndInfinity(y3, "y3");
 
 		beforeDrawing();
-		g.fill(createTriangle(x1, y1, x2, y2, x3, y3));
+		g.fill(Shapes.polygon(x1, y1, x2, y2, x3, y3));
 		afterDrawing();
 	}
 
@@ -1246,6 +1282,7 @@ public class Image {
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
+	 * At least 2 vertices must be provided.
 	 * <pre>{@code
 	 * cd.drawPolygon(
 	 *     200, 100,
@@ -1254,14 +1291,20 @@ public class Image {
 	 * );
 	 * }</pre>
 	 * The line width can be changed with {@link #setLineWidth(double)}.
-	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
-	public void drawPolygon(double... vertices) {
-		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "drawPolygon");
+	public void drawPolygon(double x1, double y1, double x2, double y2, double... vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("drawPolygon");
+
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.draw(createPolygon(vertices));
+		g.draw(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2).add(vertices).toArray()));
 		afterDrawing();
 	}
 
@@ -1272,7 +1315,8 @@ public class Image {
 	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
-	 * If you pass only two arguments to this method nothing will be drawn.
+	 * At least 3 vertices must be provided.
+	 * If all three vertices are on one line, nothing will be drawn.
 	 * <pre>{@code
 	 * cd.fillPolygon(
 	 *     200, 100,
@@ -1280,14 +1324,22 @@ public class Image {
 	 *     300, 200
 	 * );
 	 * }</pre>
-	 * @param vertices An even number of doubles. Each pair represents one corner of the polygon.
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
 	 */
-	public void fillPolygon(double... vertices) {
-		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException(vertices, "fillPolygon");
+	public void fillPolygon(double x1, double y1, double x2, double y2, double x3, double y3, double... vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("fillPolygon");
+
+		checkNaNAndInfinity(x1, "x1");
+		checkNaNAndInfinity(y1, "y1");
+		checkNaNAndInfinity(x2, "x2");
+		checkNaNAndInfinity(y2, "y2");
+		checkNaNAndInfinity(x3, "x3");
+		checkNaNAndInfinity(y3, "y3");
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.fill(createPolygon(vertices));
+		g.fill(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray()));
 		afterDrawing();
 	}
 
@@ -1422,7 +1474,7 @@ public class Image {
 		Matrix2D m = getTransformation();
 		setTransformationToIdentity();
 		setColor(color);
-		g.fill(createSharpRectangle(0, 0, getWidth(), getHeight()));
+		g.fill(Shapes.rectangle(0, 0, getWidth(), getHeight(), Corner.SHARP, 0));
 		setColor(c);
 		setTransformation(m);
 	}
@@ -1485,134 +1537,6 @@ public class Image {
 	 */
 	protected void afterDrawing() { }
 
-	private static Line2D createLine(double startX, double startY, double endX, double endY) {
-		return new Line2D.Double(
-				startX, startY,
-				endX, endY
-		);
-	}
-
-	private static QuadCurve2D createCurve(double startX, double startY, double controlX, double controlY, double endX, double endY) {
-		return new QuadCurve2D.Double(
-				startX, startY,
-				controlX, controlY,
-				endX, endY
-		);
-	}
-
-	private static CubicCurve2D createBezierCurve(double startX, double startY, double control1X, double control1Y, double control2X, double control2Y, double endX, double endY) {
-		return new CubicCurve2D.Double(
-				startX, startY,
-				control1X, control1Y,
-				control2X, control2Y,
-				endX, endY
-		);
-	}
-
-	private Shape createFillRectangle(double x, double y, double width, double height) {
-		if (corner == Corner.SHARP) {
-			return createSharpRectangle(x, y, width, height);
-		}
-		else if (corner == Corner.ROUND) {
-			return createRoundRectangle(x, y, width, height);
-		}
-		else {
-			return createBevelRectangle(x, y, width, height);
-		}
-	}
-
-	private Shape createDrawRectangle(double x, double y, double width, double height) {
-		return createSharpRectangle(x, y, width, height);
-	}
-
-	private static Rectangle2D createSharpRectangle(double x, double y, double width, double height) {
-		return new Rectangle2D.Double(
-				x, y,
-				width, height
-		);
-	}
-
-	private RoundRectangle2D createRoundRectangle(double x, double y, double width, double height) {
-		return new RoundRectangle2D.Double(
-				x, y,
-				width, height,
-				lineWidth, lineWidth
-		);
-	}
-
-	private Path2D createBevelRectangle(double x, double y, double width, double height) {
-		double lw = lineWidth / 2;
-		return createPolygon(
-				x + lw, y,
-				x + width - lw, y,
-				x + width, y + lw,
-				x + width, y + height - lw,
-				x + width - lw, y + height,
-				x + lw, y + height,
-				x, y + height - lw,
-				x, y + lw
-		);
-	}
-
-	private static Ellipse2D createEllipse(double x, double y, double horizontalRadius, double verticalRadius) {
-		return new Ellipse2D.Double(
-				x - horizontalRadius, y - verticalRadius,
-				2 * horizontalRadius, 2 * verticalRadius
-		);
-	}
-
-	private static Arc2D createArc(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		return new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.OPEN
-		);
-	}
-
-	private static Arc2D createPie(double x, double y, double horizontalRadius, double verticalRadius, double startRadians, double sweepRadians) {
-		return new Arc2D.Double(
-				x - horizontalRadius,
-				y - verticalRadius,
-				2 * horizontalRadius,
-				2 * verticalRadius,
-				transformStart(startRadians),
-				transformSweep(sweepRadians),
-				Arc2D.PIE
-		);
-	}
-
-	private static Path2D createTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
-		return createPolygon(
-				x1, y1,
-				x2, y2,
-				x3, y3
-		);
-	}
-
-	private static Path2D createPolygon(double... doubles) {
-		Path2D.Double result = new Path2D.Double();
-
-		result.moveTo(doubles[0], doubles[1]);
-		for (int i = 2; i < doubles.length; i += 2) {
-			result.lineTo(doubles[i], doubles[i + 1]);
-		}
-		result.closePath();
-
-		return result;
-	}
-
-	private static double transformStart(double startRadians) {
-		return Math.toDegrees(-startRadians);
-	}
-
-	private static double transformSweep(double sweepRadians) {
-		return Math.toDegrees(-sweepRadians);
-	}
-
 	private static IllegalArgumentException createParameterNullException(String parameterName) {
 		return new IllegalArgumentException("The parameter " + parameterName + " cannot be null.");
 	}
@@ -1630,19 +1554,11 @@ public class Image {
 	}
 
 	private static boolean isInvalidPolygonCount(double[] polygonParameter) {
-		return polygonParameter.length < 4 || (polygonParameter.length & 1) == 1;
+		return (polygonParameter.length & 1) == 1;
 	}
 
-	private static IllegalArgumentException createPolygonCountException(double[] polygonParameter, String methodName) {
-		if (polygonParameter.length < 4) {
-			return new IllegalArgumentException("You must pass at least 4 arguments to " + methodName + ". A polygon must have at least two points (2 arguments for each point).");
-		}
-		else if ((polygonParameter.length & 1) == 1) {
-			return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of one point of the polygon.");
-		}
-		else {
-			throw new RuntimeException();
-		}
+	private static IllegalArgumentException createPolygonCountException(String methodName) {
+		return new IllegalArgumentException(methodName + " must be called with an even number of arguments. Each argument pair represents the x and y coordinate of one point of the polygon.");
 	}
 
 	private static <T> T checkParameterNull(T parameter, String parameterName) {

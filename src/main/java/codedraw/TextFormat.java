@@ -10,8 +10,6 @@ import java.util.*;
  * and {@link Image#drawText(double, double, String)}.
  */
 public final class TextFormat {
-	private static final Set<String> availableFonts = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
-
 	public TextFormat() { }
 
 	private TextOrigin textOrigin = TextOrigin.TOP_LEFT;
@@ -59,25 +57,52 @@ public final class TextFormat {
 		return this;
 	}
 
-	private String fontName = "Arial";
+	private String fontName = Font.DIALOG;
 
 	/**
 	 * Defines the font of the drawn text.
-	 * The default font is Arial.
+	 * The default font is {@link Font#DIALOG}.
 	 * @return the font name.
 	 */
 	public String getFontName() { return fontName; }
 
 	/**
 	 * Defines the font of the drawn text.
-	 * The default font is Arial.
-	 * @param fontName Sets the font name. Only accepts valid fonts installed on the system running this application.
+	 * If a given font is not available the next fallbackFontName will be used.
+	 * If none of the fallbackFontNames are available the {@link Font#DIALOG} will be used.
+	 * The default font is {@link Font#DIALOG}.
+	 * To check which fonts are available you can call the static methods
+	 * {@link #getAllAvailableFontNames()} and {@link #isFontNameAvailable(String)}.
+	 * The font chosen by this method can be found by calling {@link #getFontName()} after setting
+	 * one or several fonts.
+	 * @param fontName Sets the font name.
+	 * @param fallbackFontNames Defines alternative font names which are used in case fontName is not available.
 	 */
-	public TextFormat setFontName(String fontName) {
+	public TextFormat setFontName(String fontName, String... fallbackFontNames) {
 		if (fontName == null) throw createParameterNullException("fontName");
-		if (!availableFonts.contains(fontName))
-			throw new IllegalArgumentException("The font " + fontName + " is not available on your device.");
-		this.fontName = fontName;
+		if (fallbackFontNames == null) throw createParameterNullException("fallbackFontNames");
+
+		this.fontName = getFirstAvailableFontName(fontName, fallbackFontNames);
+		return this;
+	}
+
+	private static String getFirstAvailableFontName(String font, String... fontNames) {
+		if (isFontNameAvailable(font)) return font;
+
+		for (String fontName : fontNames) {
+			if (isFontNameAvailable(fontName)) {
+				return fontName;
+			}
+		}
+
+		return Font.DIALOG;
+	}
+
+	/**
+	 * Sets the font-name property to its default value {@link Font#DIALOG}.
+	 */
+	public TextFormat setFontNameToDefault() {
+		setFontName(Font.DIALOG);
 		return this;
 	}
 
@@ -158,7 +183,7 @@ public final class TextFormat {
 		return this;
 	}
 
-	Font toFont() {
+	private Font toFont() {
 		return Font.getFont(new HashMap<TextAttribute, Object>() {{
 			put(TextAttribute.FAMILY, getFontName());
 			put(TextAttribute.SIZE, getFontSize());
@@ -168,6 +193,32 @@ public final class TextFormat {
 			put(TextAttribute.KERNING, TextAttribute.KERNING_ON); //Kerning is always on, 0 == KERNING_OFF
 			put(TextAttribute.STRIKETHROUGH, isStrikethrough());
 		}});
+	}
+
+	/**
+	 * Creates a list of available fonts on the current system.
+	 * @return an array of all available fonts.
+	 */
+	public static String[] getAllAvailableFontNames() {
+		return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+	}
+
+	/**
+	 * Tests whether the font is available on the current system.
+	 * If this method returns for a given font, {@link #setFontName(String, String...)} will not use the fallback fonts.
+	 * @param fontName any font name.
+	 * @return whether the font is available.
+	 */
+	public static boolean isFontNameAvailable(String fontName) {
+		if (fontName == null) throw createParameterNullException("fontName");
+
+		for (String font : getAllAvailableFontNames()) {
+			if (font.equals(fontName)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static int underlineEnumToTextAttributeUnderlineNumber(Underline underline) {
@@ -208,6 +259,7 @@ public final class TextFormat {
 	}
 
 	static void drawText(Graphics2D graphics, double x, double y, String text, TextFormat textFormat) {
+		graphics.setFont(textFormat.toFont());
 		FontMetrics fontMetrics = graphics.getFontMetrics();
 		String[] lines = text.split("(\r\n)|\r|\n", -1);
 
