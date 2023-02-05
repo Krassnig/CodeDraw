@@ -411,7 +411,7 @@ public class Image {
 		setRenderingHints();
 		setDrawOver(false); // If the background-color is transparent it should not be drawn over but instead set
 		clearInternal(backgroundColor); // If a transparent background color is set the resulting image should also be transparent.
-		
+
 		resetProperties();
 	}
 

@@ -185,6 +185,8 @@ Getters and Setter are methods that always start with the word `get` and `set` r
 For example, you can read the currently used color by calling the `getColor()` method
 and change the color by calling the `setColor(Color newColor)` method.
 `setCorner(Corner newCorner)` changes the way corners of lines and shapes are drawn.
+To change the radius of the corner on squares and rectangles
+the `setCornerRadius(double cornerRadius)` property can be used.
 `setLineWidth(double newLineWidth)` can be used to change the thickness of lines,
 and the thickness of the outlines of shapes.
 
@@ -215,9 +217,10 @@ List of drawing properties:
 - `getColor()`/`setColor(Color newColor)`
 - `getLineWidth()`/`setLineWidth(double newLineWidth)`
 - `getCorner()`/`setCorner(Corner newCorner)`
+- `getCornerRadius()`/`setCornerRadius(double cornerRadius)`
+- `drawOver()`/`setDrawOver(boolean drawOver)`
 - `isAntiAliased()`/`setAntiAliased(boolean isAntiAliased)`
 - `getTransformation()`/`setTransformation(Matrix2D newTransformation)`
-- `drawOver()`/`setDrawOver(boolean drawOver)`
 
 ## Drawing text
 
@@ -228,8 +231,8 @@ then the `TextFormat` variable can be used to change a variety of font propertie
 text size `setFontSize(int)`, font family `setFontName(String)` and boldness `setBold(boolean)`.
 Additionally, styling such as strikethrough `setStrikethrough(boolean)`, italics `setItalic(boolean)`
 and underline `setUnterline(Underline)` can be set.
-`TextFormat` also has an option where, relative to the position specified in `drawText(...)` the
-text should be placed.
+The placement and alignment relative to the point specified in `drawText(x, y, text)` can be changed
+with the `setTextOigin(TextOrigin textOrigin)` property.
 
 ```java
 import codedraw.*;
@@ -260,10 +263,26 @@ in `drawText(double x, double y, String text)`.
 The size of the text is changed and the text is styled italic.
 Text that contains newlines is displayed in separate lines.
 
+Additional Notes on `setFontName(String fontName, String... fallbackFontNames)`:
+A certain font name might not be available on a computer.
+To solve this problem multiple font names can be specified in the `setFontName` setter.
+The first font that is installed on your system will be selected.
+If none of the specified font names are installed on the system a neutral fallback font will be used.
+
+```java
+String[] installedFonts = TextFormat.getAllAvailableFontNames();
+// installedFonts = new String[] { "Arial", "Verdana" };
+
+textFormat.setFontName("JetBrains Mono", "Arial", "Verdana");
+// The font Arial is set
+```
+In the example above the only fonts installed are *Arial* and *Verdana*.
+Since *Arial* is the first font that is installed on the system, it would be select.
+
 List of text format options:
 - `getTextOrigin()`/`setTextOrigin(TextOrigin textOrigin)`
 - `getFontSize()`/`setFontSize(int fontSize)`
-- `getFontName()`/`setFontName(String fontName)`
+- `getFontName()`/`setFontName(String fontName, String... fallbackFontNames)`
 - `isBold()`/`setBold(boolean isBold)`
 - `isItalic()`/`setItalic(boolean isItalic)`
 - `getUnderline()`/`setUnderline(Underline underline)`
