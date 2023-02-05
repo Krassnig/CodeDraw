@@ -1,3 +1,5 @@
+package auto;
+
 import codedraw.Palette;
 import org.junit.Test;
 

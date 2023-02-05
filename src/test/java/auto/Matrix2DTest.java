@@ -1,3 +1,5 @@
+package auto;
+
 import codedraw.Matrix2D;
 import org.junit.Test;
 

@@ -1,3 +1,5 @@
+package manual;
+
 import codedraw.*;
 import org.junit.After;
 import org.junit.Before;

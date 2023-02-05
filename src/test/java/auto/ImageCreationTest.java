@@ -1,3 +1,5 @@
+package auto;
+
 import codedraw.Image;
 import org.junit.Test;
 
