@@ -198,8 +198,10 @@ public class Main {
         CodeDraw cd = new CodeDraw(400, 400);
 
         cd.setColor(Palette.GREEN);
-        cd.setCorner(Corner.ROUND);
         cd.setLineWidth(5);
+		
+        cd.setCorner(Corner.ROUND);
+		cd.setCornerRadius(10);
 
         cd.drawRectangle(100, 100, 200, 100);
 
