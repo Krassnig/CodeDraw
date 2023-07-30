@@ -6,7 +6,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 
-class JFrameCorrector {
+/**
+ * This class fixes a bug where the JFrame is too small when both the screen scaling (zoom) is enabled
+ * and the JFrame is larger than the size of the screen.
+ * It artificially specifies a larger size than desired to hit the actual
+ * targetDimension specified in the constructor argument.
+ */
+class JFrameCorrector implements AutoCloseable {
 	public JFrameCorrector(JFrame jFrame, Dimension jFrameTargetDimension) {
 		if (jFrame.isUndecorated()) throw new RuntimeException("JFrame correction is not necessary for undecorated frames");
 		frame = jFrame;
@@ -29,7 +35,8 @@ class JFrameCorrector {
 	private ComponentListener listener;
 	private Dimension lastCorrection = null;
 
-	public void stop() {
+	@Override
+	public void close() {
 		if (listener != null) {
 			frame.removeComponentListener(listener);
 			listener = null;

@@ -4,19 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-class EventHandler {
-	private static final Semaphore windowCloseLock = new Semaphore(1);
-	private static int windowCount = 0;
-
-	public EventHandler(JFrame frame, CanvasPanel panel) {
-		windowCloseLock.acquire();
-		windowCount++;
-		windowCloseLock.release();
-
+class EventHandler implements AutoCloseable {
+	public EventHandler(JFrame frame, CanvasPanel panel, Runnable closeCodeDrawGUI) {
 		this.frame = frame;
 		this.panel = panel;
 		this.position = new PositionExtension(frame, panel);
 		eventScanner = new EventScanner();
+
+		this.closeCodeDrawGUI = closeCodeDrawGUI;
 
 		createEvents();
 		bindEvents();
@@ -27,7 +22,7 @@ class EventHandler {
 	private final PositionExtension position;
 	private final EventScanner eventScanner;
 
-	private boolean terminateOnLastClose = true;
+	private final Runnable closeCodeDrawGUI;
 
 	private MouseListener mouseListener;
 	private MouseMotionListener mouseMotionListener;
@@ -54,14 +49,6 @@ class EventHandler {
 
 	public EventScanner getEventScanner() {
 		return eventScanner;
-	}
-
-	public void dispose(boolean terminateOnLastClose) {
-		windowCloseLock.acquire();
-		this.terminateOnLastClose = terminateOnLastClose;
-		windowCloseLock.release();
-
-		unbindEvents();
 	}
 
 	private void createEvents() {
@@ -172,13 +159,13 @@ class EventHandler {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				eventScanner.push(new WindowCloseEvent());
-				windowCloseLock.acquire();
-				windowCount--;
-				if (windowCount == 0 && terminateOnLastClose) {
-					System.exit(0);
-				}
-				windowCloseLock.release();
+				closeCodeDrawGUI.run();
 			}
 		};
+	}
+
+	@Override
+	public void close() {
+		unbindEvents();
 	}
 }

@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 class CodeDrawGUI implements AutoCloseable {
+	private static final Semaphore guiCountLock = new Semaphore(1);
+	private static int guiCount = 0;
+
 	public static CodeDrawGUI createWindow(int width, int height) {
 		CodeDrawGUI gui = new CodeDrawGUI(width, height);
 		JFrame frame = gui.frame;
@@ -53,6 +56,10 @@ class CodeDrawGUI implements AutoCloseable {
 		setTitle("CodeDraw");
 		setCursorStyle(CursorStyle.DEFAULT);
 		setInstantDraw(false);
+
+		guiCountLock.acquire();
+		guiCount++;
+		guiCountLock.release();
 	}
 
 	private CodeDrawGUI finishConstructor() {
@@ -60,7 +67,7 @@ class CodeDrawGUI implements AutoCloseable {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.toFront();
-		eventHandler = new EventHandler(frame, panel);
+		eventHandler = new EventHandler(frame, panel, this::close);
 		return this;
 	}
 
@@ -182,14 +189,26 @@ class CodeDrawGUI implements AutoCloseable {
 		return isClosed;
 	}
 
+	// this method can be called from both the awt/swing thread and the main thread.
+	private Semaphore closeLock = new Semaphore(1);
 	public void close(boolean terminateOnLastClose) {
+		closeLock.acquire();
 		if (!isClosed) {
 			isClosed = true;
-			if (jFrameCorrector != null) jFrameCorrector.stop();
+			if (jFrameCorrector != null) jFrameCorrector.close();
 			if (screen != null) screen.detachGUI(frame);
 			frame.dispose();
-			eventHandler.dispose(terminateOnLastClose);
+			panel.close();
+			eventHandler.close();
+
+			guiCountLock.acquire();
+			guiCount--;
+			if (guiCount == 0 && terminateOnLastClose) {
+				System.exit(0);
+			}
+			guiCountLock.release();
 		}
+		closeLock.release();
 	}
 
 	@Override

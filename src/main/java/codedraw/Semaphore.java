@@ -22,8 +22,4 @@ class Semaphore {
 	public void release() {
 		s.release();
 	}
-
-	public void emptySemaphore() {
-		s.drainPermits();
-	}
 }

@@ -1,10 +1,11 @@
+
 package codedraw;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 
-class CanvasPanel extends JPanel {
+class CanvasPanel extends JPanel implements AutoCloseable {
 	public CanvasPanel(int width, int height) {
 		buffer = Image.fromDPIAwareSize(width, height);
 
@@ -16,7 +17,7 @@ class CanvasPanel extends JPanel {
 
 	private final Semaphore copyToClipboardLock = new Semaphore(1);
 	private final Semaphore renderLock = new Semaphore(1);
-	private final Semaphore waitForDisplay = new Semaphore(1);
+	private final CloseableSemaphore waitForDisplay = new CloseableSemaphore(1);
 
 	public void show(Image image) {
 		waitForDisplay.acquire();
@@ -44,6 +45,11 @@ class CanvasPanel extends JPanel {
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(new TransferableImage(buffer), null);
 		copyToClipboardLock.release();
+	}
+
+	@Override
+	public void close() {
+		waitForDisplay.close();
 	}
 
 	@Override
