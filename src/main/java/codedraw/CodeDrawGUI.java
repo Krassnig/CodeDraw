@@ -61,12 +61,16 @@ class CodeDrawGUI implements AutoCloseable {
 		guiCount++;
 		guiCountLock.release();
 	}
-
+	/*
+		The constructor must be split in two parts because the things above and below this comment must
+		be executed both before and after the execution logic of each type of window.
+	*/
 	private CodeDrawGUI finishConstructor() {
 		frame.setLayout(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.toFront();
+		// must be instantiated last otherwise the positions cannot be initialized inside EventHandler
 		eventHandler = new EventHandler(frame, panel, this::close);
 		return this;
 	}

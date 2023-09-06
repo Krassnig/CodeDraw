@@ -1279,7 +1279,6 @@ public class Image {
 	 * Draws the outline of a polygon.
 	 * This function must be called with an even number of parameters.
 	 * Each parameter pair (x, y) represents a vertex of the polygon.
-	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
 	 * At least 2 vertices must be provided.
@@ -1303,8 +1302,31 @@ public class Image {
 		checkNaNAndInfinity(y2, "y2");
 		checkNaNAndInfinity(vertices, "vertices");
 
+		drawPolygon(new DoubleList().add(x1, y1, x2, y2).add(vertices).toArray());
+	}
+
+	/**
+	 * Draws the outline of a polygon.
+	 * This function must be called with an even number of parameters.
+	 * Each parameter pair (x, y) represents a vertex of the polygon.
+	 * Each point passed to drawPolygon will be connected to the following vertices and
+	 * the last vertex will be connected to the first vertex.
+	 * At least 2 vertices must be provided.
+	 * <pre>{@code
+	 * double[] vertices = generateVertices();
+	 * cd.drawPolygon(vertices);
+	 * }</pre>
+	 * The line width can be changed with {@link #setLineWidth(double)}.
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
+	 */
+	public void drawPolygon(double[] vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("drawPolygon");
+
+		checkNaNAndInfinity(vertices, "vertices");
+
 		beforeDrawing();
-		g.draw(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2).add(vertices).toArray()));
+		g.draw(Shapes.polygon(vertices));
 		afterDrawing();
 	}
 
@@ -1312,7 +1334,6 @@ public class Image {
 	 * Draws a filled polygon.
 	 * This function must be called with an even number of parameters.
 	 * Each parameter pair (x, y) represents a vertex of the polygon.
-	 * Must be called with at least two vertices as parameter.
 	 * Each point passed to drawPolygon will be connected to the following vertices and
 	 * the last vertex will be connected to the first vertex.
 	 * At least 3 vertices must be provided.
@@ -1339,7 +1360,32 @@ public class Image {
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		g.fill(Shapes.polygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray()));
+		drawPolygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray());
+		afterDrawing();
+	}
+
+	/**
+	 * Draws a filled polygon.
+	 * This function must be called with an even number of parameters.
+	 * Each parameter pair (x, y) represents a vertex of the polygon.
+	 * Each point passed to drawPolygon will be connected to the following vertices and
+	 * the last vertex will be connected to the first vertex.
+	 * At least 3 vertices must be provided.
+	 * If all three vertices are on one line, nothing will be drawn.
+	 * <pre>{@code
+	 * double[] vertices = generateVertices();
+	 * cd.fillPolygon(vertices);
+	 * }</pre>
+	 * @param vertices An even number of doubles. Each pair represents one vertex of the polygon.
+	 */
+	public void fillPolygon(double[] vertices) {
+		if (vertices == null) throw createParameterNullException("vertices");
+		if (isInvalidPolygonCount(vertices)) throw createPolygonCountException("fillPolygon");
+
+		checkNaNAndInfinity(vertices, "vertices");
+
+		beforeDrawing();
+		g.fill(Shapes.polygon(vertices));
 		afterDrawing();
 	}
 
