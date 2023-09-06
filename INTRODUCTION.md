@@ -80,7 +80,7 @@ public class MyProgram {
 After you execute this program, you should see window with the outlines of a red rectangle,
 another filled rectangle, and a filled light blue circle as shown in the image below.
 
-![01 Getting started](https://user-images.githubusercontent.com/24553082/153450652-8dff6b3f-17b6-40ba-b8e1-156b9e72ee26.png)
+![01 Gettings started.png](illustrations%2Fintroduction%2F01%20Gettings%20started.png)
 
 ## The Coordinate System
 
@@ -90,8 +90,8 @@ For instance, when calling `cd.fillSquare(180, 150, 50);`, the draw process star
 It then moves 180 pixel to the right, 150 pixel down and starts drawing the 50 by 50 pixel square towards the bottom-right.
 The pixel coordinate (180, 150) is part of that rectangle.
 
-![02 The coordinate system](https://user-images.githubusercontent.com/24553082/153450673-0b3470cc-7548-4b92-b597-05b4dd13bc1d.png)
 
+![02 The coordinate system.png](illustrations%2Fintroduction%2F02%20The%20coordinate%20system.png)
 
 ## Outlined And Filled Shapes
 
@@ -174,7 +174,7 @@ public class Main {
 }
 ```
 
-![06 Points, lines and curves](https://user-images.githubusercontent.com/24553082/153450804-cc0835d2-e5d4-4ac2-9e49-0d4da78a60fe.png)
+![07 Points, lines and curves.png](illustrations%2Fintroduction%2F07%20Points%2C%20lines%20and%20curves.png)
 
 Points, lines and curves:
 - `drawPoint(double x, double y)`
@@ -215,7 +215,7 @@ public class Main {
 }
 ```
 
-![03 Modifying the way things are drawn](https://user-images.githubusercontent.com/24553082/153450719-418eab8a-80ab-481d-9ac2-ca90dc4b2370.png)
+![03 Modifying the way things are drawn.png](illustrations%2Fintroduction%2F03%20Modifying%20the%20way%20things%20are%20drawn.png)
 
 The program above will create a green rectangle with round corners,
 and the outline of the rectangle will be 10 pixels wide.
@@ -268,7 +268,7 @@ public class Main {
 }
 ```
 
-![04 Drawing text](https://user-images.githubusercontent.com/24553082/153450747-27066c3f-a831-4961-91ec-295f40a26813.png)
+![04 Drawing text.png](illustrations%2Fintroduction%2F04%20Drawing%20text.png)
 
 By specifying the `TextOrigin.TOP_MIDDLE`,
 the text is drawn at the center below origin point defined by the `x` and `y` variables in the `drawText(x, y, text)` method.
@@ -339,7 +339,7 @@ public class Main {
 }
 ```
 
-![05 Canvas and window](https://user-images.githubusercontent.com/24553082/153450766-60aac8f5-ea8b-4701-b7c2-6b064fd373ca.png)
+![05 Canvas and window.png](illustrations%2Fintroduction%2F05%20Canvas%20and%20window.png)
 
 Methods that manipulate the behavior of the CodeDraw window:
 
@@ -368,7 +368,6 @@ CodeDraw can also be used in fullscreen and borderless window mode.
 
 ![40 Display Options.png](illustrations%2Fintroduction%2F40%20Display%20Options.png)
 
-
 ```java
 FullScreen fs = new FullScreen();
 fs.drawText(100, 100, "Hello World!");
@@ -395,7 +394,7 @@ Fortunately, there is an option in Intellij to change this behavior:
 3. Select the **Thread** options (instead of **All**).
 4. Click on **Make Default** and then **Done**.
 
-![06 Debugging CodeDraw and InstantDraw](https://user-images.githubusercontent.com/24553082/193884905-515a41b0-1e45-4aae-948e-640c50dda99a.png)
+![06 Debugging CodeDraw and InstantDraw.png](illustrations%2Fintroduction%2F06%20Debugging%20CodeDraw%20and%20InstantDraw.png)
 
 Once this is set, everything should be as before, but now you can freely move and interact with the CodeDraw window.
 
@@ -456,7 +455,7 @@ public class Main {
 }
 ```
 
-![08 Images in CodeDraw](https://user-images.githubusercontent.com/24553082/193884951-83f293f6-e882-4dd3-8c3b-e935bbf8ec9e.png)
+![08 Images in CodeDraw.png](illustrations%2Fintroduction%2F08%20Images%20in%20CodeDraw.png)
 
 The example above loads an image from the hard drive, displays it in three different ways and then saves the output
 produced inside the CodeDraw window to the `new_image.png` file.
@@ -760,6 +759,8 @@ public class MyAnimation implements Animation {
     }
 }
 ```
+
+https://user-images.githubusercontent.com/24553082/193877472-17efc505-11a5-409e-951c-c095a4a8cb1b.mp4
 
 ## GUI Development With CodeDraw
 

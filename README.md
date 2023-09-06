@@ -57,7 +57,7 @@ public class Main {
 ```
 ## ❗ Don't forget to call `.show()` ❗
 
-![static_image](https://user-images.githubusercontent.com/24553082/153450298-403d3adc-87f9-476e-82a4-48aeac21ec90.png)
+![static_image.png](illustrations%2Freadme%2Fstatic_image.png)
 
 ## Animations
 
