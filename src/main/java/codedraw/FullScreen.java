@@ -74,7 +74,7 @@ public class FullScreen extends Image implements AutoCloseable {
 	 * @param screen A screen on your computer.
 	 */
 	public FullScreen(Screen screen) {
-		super(Image.fromDPIAwareSize(checkParameterNull(screen, "screen").getWidth(), screen.getHeight()));
+		super(checkParameterNull(screen, "screen").getWidth(), screen.getHeight(), Palette.WHITE, true);
 		if (!screen.canAttachGUI()) throw Screen.createWindowAlreadyAttachedException(screen);
 
 		gui = CodeDrawGUI.createFullscreen(screen);

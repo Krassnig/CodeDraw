@@ -93,7 +93,7 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 	 * @param height must be at least 1 pixel
 	 */
 	public BorderlessWindow(int width, int height) {
-		super(Image.fromDPIAwareSize(width, height));
+		super(width, height, Palette.WHITE, true);
 		gui = CodeDrawGUI.createBorderlessWindow(width, height);
 		show();
 	}

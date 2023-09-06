@@ -3,17 +3,16 @@ package codedraw;
 import java.awt.*;
 
 /**
- * CodeDraw is an easy-to-use drawing library where you use code to create pictures and animations.
- * It is made for beginners that understand little about programming
- * and makes it very simple to draw and animate various shapes and images to a canvas.
+ * CodeDraw is a beginner-friendly drawing library which can be used to create pictures, animations and even interactive applications.
+ * It is designed for people who are just starting to learn programming, enabling them to create graphical applications.
  * <br>
  * <br>
- * The source code can be found in the <a href="https://github.com/Krassnig/CodeDraw">CodeDraw repository</a>.
+ * Read the <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">Introduction to CodeDraw</a>
+ * for a beginners guide to CodeDraw. It also gives an overview of the features available in CodeDraw.
  * <br>
- * If you are unfamiliar with graphical output and want more details you can read the
- * <a href="https://github.com/Krassnig/CodeDraw/blob/master/INTRODUCTION.md">Introduction to CodeDraw</a>.
  * <br>
- * For the JavaDoc visit <a href="https://krassnig.github.io/CodeDrawJavaDoc/">CodeDrawJavaDoc</a>.
+ * The JavaDoc for CodeDraw can be found <a href="https://krassnig.github.io/CodeDrawJavaDoc/">here</a>.
+ * <br>
  * <br>
  * Here is an example to get you started:<br>
  * <pre>{@code
@@ -21,17 +20,17 @@ import java.awt.*;
  *
  * public class MyProgram {
  *     public static void main(String[] args) {
- *         // Creates a new CodeDraw window with the size of 600x600 pixel
+ *         // Creates a new CodeDraw window with the size of 600x600 pixel.
  *         CodeDraw cd = new CodeDraw();
  *
- *         // Sets the drawing color to red
+ *         // Sets the drawing color to red.
  *         cd.setColor(Palette.RED);
- *         // Draws the outline of a rectangle
+ *         // Draws the outline of a rectangle.
  *         cd.drawRectangle(100, 100, 200, 100);
- *         // Draws a filled Square
+ *         // Draws a filled Square.
  *         cd.fillSquare(180, 150, 80);
  *
- *         // Changes the color to light blue
+ *         // Changes the color to light blue.
  *         cd.setColor(Palette.LIGHT_BLUE);
  *         cd.fillCircle(300, 200, 50);
  *
@@ -133,7 +132,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 	 * @param canvasHeight must be at least 1 pixel
 	 */
 	public CodeDraw(int canvasWidth, int canvasHeight) {
-		super(Image.fromDPIAwareSize(canvasWidth, canvasHeight));
+		super(canvasWidth, canvasHeight, Palette.WHITE, true);
 		gui = CodeDrawGUI.createWindow(canvasWidth, canvasHeight);
 		show();
 	}

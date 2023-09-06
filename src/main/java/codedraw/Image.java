@@ -394,6 +394,14 @@ public class Image {
 		this(width, height, 1, 1, backgroundColor);
 	}
 
+	Image(int width, int height, Color backgroundColor, boolean isDPIAware) {
+		this(width, height, isDPIAware ? getMaximumDPIFromAllScreens() : new AffineTransform(1, 0, 0, 1, 0, 0), backgroundColor);
+	}
+
+	private Image(int width, int height, AffineTransform dpi, Color backgroundColor) {
+		this(width, height, upscale(dpi.getScaleX()), upscale(dpi.getScaleY()), backgroundColor);
+	}
+
 	private Image(int width, int height, int xScale, int yScale, Color backgroundColor) {
 		if (width < 1) throw createParameterMustBeGreaterThanZeroException("width");
 		if (height < 1) throw createParameterMustBeGreaterThanZeroException("height");
