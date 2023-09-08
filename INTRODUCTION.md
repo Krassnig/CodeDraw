@@ -25,8 +25,8 @@ or as [JavaDoc](https://krassnig.github.io/CodeDrawJavaDoc/).
   * [Images](#images)
   * [Creating Animations](#creating-animations)
   * [Handling Events](#handling-events)
-    + [Enhanced EventScanner](#enhanced-eventscanner)
-    + [Normal EventScanner](#normal-eventscanner)
+    + [Event Handling With Switch Pattern Matching](#event-handling-with-switch-pattern-matching)
+    + [Event Handling With The EventScanner](#event-handling-with-the-eventscanner)
   * [The Animation Interface](#the-animation-interface)
   * [GUI Development With CodeDraw](#gui-development-with-codedraw)
 
@@ -586,7 +586,11 @@ CodeDraw provides 12 different events:
 - `WindowMoveEvent` happens every time the CodeDraw window is moved.
 - `WindowCloseEvent` happens exactly once after the user closes the window or `cd.close()` is called.
 
-### Enhanced EventScanner
+You can also use the
+[CodeDraw Event Code Generator](https://krassnig.github.io/CodeDrawJavaDoc/EventGenerator/)
+to automatically generate your event code for you.
+
+### Event Handling With Switch Pattern Matching
 
 To create an application that is capable of handling user input,
 it is essential to first determine which variables are necessary to store the state of your application.
@@ -636,7 +640,7 @@ public class Main {
 }
 ```
 
-### Normal EventScanner
+### Event Handling With The EventScanner
 
 If you are using an older version of Java, you can utilize the `java.util.Scanner`-like properties of the `EventScanner`.
 The java `Scanner` and the `EventScanner` are both queues where the elements are put into the back of the queue automatically

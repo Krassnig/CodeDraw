@@ -100,6 +100,10 @@ with `has...` and `next...` methods.
 A more detailed explanation can be found in the 
 [Handling Events](./INTRODUCTION.md#handling-events) section in the Introduction to CodeDraw.
 
+You can also use the
+[CodeDraw Event Code Generator](https://krassnig.github.io/CodeDrawJavaDoc/EventGenerator/)
+to automatically generate your event code for you.
+
 ```java
 import codedraw.*;
 
