@@ -235,7 +235,7 @@ Text is drawn using the `drawText(double x, double y, String text)` method.
 To customize the appearance of your text, use the `TextFormat` object.
 You can access the `TextFormat` object through the `CodeDraw` class by calling the `.getTextFormat()` method.
 
-Inside the `TextFormat` object, there are several of text formatting options, such as:
+Inside the `TextFormat` object, there are several text formatting options, such as:
 * text size `setFontSize(int)`
 * font family `setFontName(String, String...)`
 * boldness `setBold(boolean)`
@@ -303,8 +303,9 @@ public class Main {
 Certain font name might not be available on a computer.
 Therefore, you can set multiple font names using the `setFontName(fontName, ...fallbackFontNames)` method.
 The first font name that is available in that list will be used to draw the text.
-If none of the specified font names are available on the system, a neutral fallback font will be used through the
-[logical font Dialog](https://docs.oracle.com/javase/8/docs/api/java/awt/Font.html).
+If none of the specified font names are available on the system, the neutral fallback font
+[Dialog](https://docs.oracle.com/javase/8/docs/api/java/awt/Font.html).
+will be used.
 
 ```java
 String[] installedFonts = TextFormat.getAllAvailableFontNames();
@@ -396,7 +397,7 @@ Fortunately, there is an option in Intellij to change this behavior:
 
 ![06 Debugging CodeDraw and InstantDraw.png](illustrations%2Fintroduction%2F06%20Debugging%20CodeDraw%20and%20InstantDraw.png)
 
-Once this is set, everything should be as before, but now you can freely move and interact with the CodeDraw window.
+Once this is set, everything should be as before, but now you can freely move and interact with the CodeDraw window while debugging.
 
 #### InstantDraw
 
@@ -404,6 +405,7 @@ To better understand what is happening inside your application, CodeDraw has a b
 The instant draw mode instantly draws each shape when the corresponding command is called and also guarantees that
 once the `draw` or `fill` method returns, the shape is shown on the canvas.
 However, the instant draw mode is very slow and should therefore only be used for debugging your application.
+Activate the instant draw mode by calling `cd.setInstantDraw(true);`.
 
 #### AlwaysOnTop
 
@@ -468,7 +470,7 @@ rescales the image to fit inside the 200x200 bounds specified through the width 
 additionally specifies an interpolation method for rescaling the image.
 If not specified, `Interpolation.Bicubic` is chosen by default.
 
-Further details about Interpolation can be found in the CodeDraw
+Further details about interpolation can be found in the CodeDraw
 [Interpolation enum](https://github.com/Krassnig/CodeDraw/blob/master/src/main/java/codedraw/Interpolation.java)
 or on the Wikipedia article on
 [Bicubic Interpolation](https://en.wikipedia.org/wiki/Bicubic_interpolation) and
@@ -519,7 +521,7 @@ Image mirrored = Image.mirrorVertically(rotated);
 ![30 Image Editing.png](illustrations%2Fintroduction%2F30%20Image%20Editing.png)
 The operations performed by the code above.
 
-Image editing function:
+Image editing functions:
 - `Image.crop(Image source, int x, int y, int width, int height)`
 - `Image.scale(Image source, double scale)`
 - `Image.scale(Image source, double scale, Interpolation interpolation)`
@@ -647,7 +649,7 @@ The java `Scanner` and the `EventScanner` are both queues where the elements are
 and the program using the queue takes the elements out from the front of the queue.
 
 Like in the previous section, we need a loop to take out all the available events.
-In each iteration, a new event while be at the head of the queue, and the inner while loop will continue until all available events are consumed.
+In each iteration, a new event will be at the head of the queue, and the inner while loop will continue until all available events are consumed.
 Within the inner loop, the selected branch of the `if`/`else if`/`else` statement depends on the type of event at the head of the queue.
 
 If the head of the queue is a `MouseMoveEvent`, the `.hasMouseMoveEvent()` method will return true.
@@ -699,7 +701,7 @@ public class Main {
 }
 ```
 
-For a more in depth example using the `EventScanner` look at an implementation of [Conway's Game of Life](/src/examples/java/GameOfLife.java) using CodeDraw.
+For a more complex example using the `EventScanner` look at this implementation of [Conway's Game of Life](/src/examples/java/GameOfLife.java) using CodeDraw.
 
 ## The Animation Interface
 
