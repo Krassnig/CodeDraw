@@ -8,7 +8,6 @@ import java.awt.image.RenderedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -115,7 +114,7 @@ public class Image {
 		try {
 			return new Image(checkNullAndThenThrowFormatException(ImageIO.read(url)));
 		} catch (IOException e) {
-			throw new UncheckedIOException("" + e.getMessage(), e);
+			throw new UncheckedIOException(e.getMessage(), e);
 		}
 	}
 
