@@ -8,6 +8,7 @@ import java.awt.image.RenderedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -710,17 +711,17 @@ public class Image {
 			int xStart = x * xScale;
 			int yStart = y * yScale;
 
-			for (int xi = xStart; xi < xStart + xScale; xi++) {
-				for (int yi = yStart; yi < yStart + yScale; yi++) {
-					argb[xi * xScale + yi] = image.getRGB(xi, yi);
+			for (int xi = 0; xi < xScale; xi++) {
+				for (int yi = 0; yi < yScale; yi++) {
+					argb[xi * xScale + yi] = image.getRGB(xi + xStart, yi + yStart);
 				}
 			}
 
 			return Palette.fromARGB(
-				averageColor(argb, 0),
-				averageColor(argb, 1),
+				averageColor(argb, 3),
 				averageColor(argb, 2),
-				averageColor(argb, 3)
+				averageColor(argb, 1),
+				averageColor(argb, 0)
 			);
 		}
 	}
