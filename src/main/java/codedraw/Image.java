@@ -1368,7 +1368,7 @@ public class Image {
 		checkNaNAndInfinity(vertices, "vertices");
 
 		beforeDrawing();
-		drawPolygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray());
+		fillPolygon(new DoubleList().add(x1, y1, x2, y2, x3, y3).add(vertices).toArray());
 		afterDrawing();
 	}
 
