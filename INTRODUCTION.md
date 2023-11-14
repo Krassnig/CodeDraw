@@ -160,7 +160,7 @@ public class Main {
         cd.setLineWidth(10);
         cd.setCorner(Corner.ROUND);
 
-		// (100, 300) = start point
+	// (100, 300) = start point
         // (250, 250) = control point
         // (200, 400) = end point
         cd.drawCurve(100, 300, 250, 250, 200, 400);
@@ -206,7 +206,7 @@ public class Main {
         cd.setLineWidth(5);
 		
         cd.setCorner(Corner.ROUND);
-		cd.setCornerRadius(10);
+	cd.setCornerRadius(10);
 
         cd.drawRectangle(100, 100, 200, 100);
 
@@ -536,7 +536,7 @@ Animations are created by generating multiple frames with pauses in between each
 In CodeDraw, this is accomplished by creating a loop, where each iteration produces a single frame
 and then waits a specific amount of time.
 
-The animation below increases the `sec` variable by 1/60th of pi (equivalent to one second) each iteration.
+The animation below increases the `sec` variable by 1/60th of a circle (which corresponds to 1/30th of PI) each iteration.
 Whenever the clock's second hand is updated, the entire canvas is cleared through `.clear()`.
 Subsequently, the clock's second hand is drawn, along with the twelve dots that indicate the hour.
 Finally, the `show(long waitMilliseconds)` method must be called to display the drawn frame and wait for 1 second.
