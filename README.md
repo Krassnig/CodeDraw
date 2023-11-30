@@ -184,4 +184,4 @@ https://user-images.githubusercontent.com/24553082/193877472-17efc505-11a5-409e-
 
 ## Contributing
 
-Feel free to ask questions, suggest features or make bug reports in the [Issue Section](/Krassnig/CodeDraw/issues). 🙂
+Feel free to ask questions, suggest features or make bug reports in the [Issue Section](https://github.com/Krassnig/CodeDraw/issues). 🙂
