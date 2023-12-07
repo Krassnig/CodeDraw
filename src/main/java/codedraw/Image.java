@@ -453,12 +453,12 @@ public class Image {
 	}
 
 	private void setRenderingHints() {
-		setRenderingHint(RHAlphaInterpolation.QUALITY);
-		setRenderingHint(RHColorRendering.QUALITY);
-		setRenderingHint(RHRendering.QUALITY);
-		setRenderingHint(RHDithering.ENABLE);
-		setRenderingHint(RHFractionalMetrics.ON);
-		setRenderingHint(RHResolutionVariant.BASE);
+		AWTRenderingHint.AlphaInterpolation.QUALITY.applyTo(g);
+		AWTRenderingHint.ColorRendering.QUALITY.applyTo(g);
+		AWTRenderingHint.Rendering.QUALITY.applyTo(g);
+		AWTRenderingHint.Dithering.ENABLE.applyTo(g);
+		AWTRenderingHint.FractionalMetrics.ON.applyTo(g);
+		AWTRenderingHint.ResolutionVariant.BASE.applyTo(g);
 	}
 
 	/**
@@ -590,17 +590,17 @@ public class Image {
 	public void setAntiAliased(boolean isAntiAliased) {
 		this.isAntiAliased = isAntiAliased;
 		if (isAntiAliased) {
-			setRenderingHint(RHAntiAliasing.ON);
-			setRenderingHint(RHTextAntiAliasing.ON);
-			setRenderingHint(RHStrokeControl.PURE);
+			AWTRenderingHint.AntiAliasing.ON.applyTo(g);
+			AWTRenderingHint.TextAntiAliasing.ON.applyTo(g);
+			AWTRenderingHint.StrokeControl.PURE.applyTo(g);
 		}
 		else {
-			setRenderingHint(RHAntiAliasing.OFF);
-			setRenderingHint(RHTextAntiAliasing.OFF);
+			AWTRenderingHint.AntiAliasing.OFF.applyTo(g);
+			AWTRenderingHint.TextAntiAliasing.OFF.applyTo(g);
 			/* Pure strokes look better when anti-aliasing is on
 			   but certain vertical lines can disappear when anti-aliasing is off.
 			   With normalize, non-anti-aliased lines don't change. */
-			setRenderingHint(RHStrokeControl.NORMALIZE);
+			AWTRenderingHint.StrokeControl.NORMALIZE.applyTo(g);
 		}
 	}
 
@@ -624,14 +624,6 @@ public class Image {
 	public void setDrawOver(boolean drawOver) {
 		this.drawOver = drawOver;
 		g.setComposite(drawOver ? AlphaComposite.SrcOver : AlphaComposite.Src);
-	}
-
-	private void setRenderingHint(RenderingHintValue hint) {
-		RenderingHintValue.applyHint(g, hint);
-	}
-
-	private void setRenderingHint(Interpolation interpolation) {
-		RenderingHintValue.applyHint(g, interpolation);
 	}
 
 	private void updateBrush() {
@@ -1430,7 +1422,7 @@ public class Image {
 	}
 
 	private void drawImageInternal(double x, double y, double width, double height, java.awt.Image image, Interpolation interpolation) {
-		setRenderingHint(interpolation);
+		AWTRenderingHint.Interpolation.from(interpolation).applyTo(g);
 		g.drawImage(image, (int)x, (int)y, (int)width, (int)height, null);
 	}
 
@@ -1544,7 +1536,7 @@ public class Image {
 		if (interpolation == null) throw createParameterNullException("interpolation");
 
 		if (target instanceof Graphics2D) {
-			RenderingHintValue.applyHint((Graphics2D) target, interpolation);
+			AWTRenderingHint.Interpolation.from(interpolation).applyTo((Graphics2D) target);
 		}
 
 		Color c = target.getColor();
@@ -1564,7 +1556,7 @@ public class Image {
 
 		BufferedImage result = new BufferedImage(width, height, type.getType());
 		Graphics2D g = result.createGraphics();
-		RenderingHintValue.applyHint(g, RHInterpolation.BICUBIC);
+		AWTRenderingHint.Interpolation.BICUBIC.applyTo(g);
 		g.drawImage(image, 0, 0, width, height, Palette.WHITE, null);
 		g.dispose();
 		return result;
