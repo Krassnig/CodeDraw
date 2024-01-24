@@ -6,7 +6,7 @@
 
     <groupId>codedraw</groupId>
     <artifactId>CodeDraw</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.3</version>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
