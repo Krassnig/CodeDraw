@@ -56,7 +56,7 @@ public class FullScreen extends Image implements AutoCloseable {
 
 		FullScreen fs = new FullScreen(screen);
 		CodeDrawGUI.run(animation, fs.gui, fs, framesPerSecond, simulationsPerSecond);
-		fs.close(false);
+		fs.close();
 	}
 
 	/**
@@ -237,14 +237,6 @@ public class FullScreen extends Image implements AutoCloseable {
 	@Override
 	public void close() {
 		gui.close();
-	}
-
-	/**
-	 * Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void close(boolean ignored) {
-		close();
 	}
 
 	@Override

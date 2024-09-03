@@ -114,7 +114,7 @@ public class CodeDraw extends Image implements AutoCloseable {
 
 		CodeDraw cd = new CodeDraw(width, height);
 		CodeDrawGUI.run(animation, cd.gui, cd, framesPerSecond, simulationsPerSecond);
-		cd.close(false);
+		cd.close();
 	}
 
 	/**
@@ -345,14 +345,6 @@ public class CodeDraw extends Image implements AutoCloseable {
 	@Override
 	public void close() {
 		gui.close();
-	}
-
-	/**
-	 * Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void close(boolean ignored) {
-		close();
 	}
 
 	@Override

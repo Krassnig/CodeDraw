@@ -74,7 +74,7 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 
 		BorderlessWindow bw = new BorderlessWindow(width, height);
 		CodeDrawGUI.run(animation, bw.gui, bw, framesPerSecond, simulationsPerSecond);
-		bw.close(false);
+		bw.close();
 	}
 
 
@@ -264,14 +264,6 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 	@Override
 	public void close() {
 		gui.close();
-	}
-
-	/**
-	 * Use {@link #close()} instead.
-	 */
-	@Deprecated
-	public void close(boolean ignored) {
-		close();
 	}
 
 	@Override
