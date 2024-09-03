@@ -203,11 +203,12 @@ class CodeDrawGUI implements AutoCloseable {
 	}
 
 	private void checkIsClosed() {
-		if (isClosed)
-			throw new RuntimeException(
-					"This CodeDraw window has already been closed. " +
-					"The methods associated with the graphical user interface can no longer be used."
-			);
+		if (!isClosed) return;
+
+		throw new RuntimeException(
+				"This CodeDraw window has already been closed" + (isCloseRequested ? " by the user" : "") + "." +
+				"The methods associated with this window can no longer be used."
+		);
 	}
 
 	public static void run(Animation animation, CodeDrawGUI gui, Image image, int framesPerSecond, int simulationsPerSecond) {
