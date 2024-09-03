@@ -19,16 +19,6 @@ class CanvasPanel extends JPanel implements AutoCloseable {
 	private final Semaphore renderLock = new Semaphore(1);
 	private final CloseableSemaphore waitForDisplay = new CloseableSemaphore(1);
 
-	private boolean isInstantDraw = false;
-
-	public boolean isInstantDraw() {
-		return isInstantDraw;
-	}
-
-	public void setInstantDraw(boolean isInstantDraw) {
-		this.isInstantDraw = isInstantDraw;
-	}
-
 	public void show(Image image) {
 		waitForDisplay.acquire();
 		waitForDisplay.emptySemaphore();
@@ -43,11 +33,11 @@ class CanvasPanel extends JPanel implements AutoCloseable {
 		copyToClipboardLock.release();
 
 		repaint(10);
+	}
 
-		if (isInstantDraw) {
-			waitForDisplay.acquire();
-			waitForDisplay.release();
-		}
+	public void waitForDisplay() {
+		waitForDisplay.acquire();
+		waitForDisplay.release();
 	}
 
 	public void copyCanvasToClipboard() {

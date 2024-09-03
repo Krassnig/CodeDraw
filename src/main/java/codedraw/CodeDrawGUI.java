@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 class CodeDrawGUI implements AutoCloseable {
+	private static final Semaphore guiCountLock = new Semaphore(1);
+	private static int guiCount = 0;
+
 	public static CodeDrawGUI createWindow(int width, int height) {
 		CodeDrawGUI gui = new CodeDrawGUI(width, height);
 		JFrame frame = gui.frame;
@@ -13,8 +16,7 @@ class CodeDrawGUI implements AutoCloseable {
 		gui.jFrameCorrector = new JFrameCorrector(frame, frame.getPreferredSize());
 		frame.setLocationByPlatform(true);
 
-		gui.finishConstructor();
-		return gui;
+		return gui.finishConstructor();
 	}
 
 	public static CodeDrawGUI createBorderlessWindow(int width, int height) {
@@ -25,8 +27,7 @@ class CodeDrawGUI implements AutoCloseable {
 		frame.setUndecorated(true);
 		frame.setLocationByPlatform(true);
 
-		gui.finishConstructor();
-		return gui;
+		return gui.finishConstructor();
 	}
 
 	public static CodeDrawGUI createFullscreen(Screen screen) {
@@ -38,8 +39,7 @@ class CodeDrawGUI implements AutoCloseable {
 		frame.setUndecorated(true);
 		screen.attachGUI(frame);
 
-		gui.finishConstructor();
-		return gui;
+		return gui.finishConstructor();
 	}
 
 	private CodeDrawGUI(int width, int height) {
@@ -56,20 +56,23 @@ class CodeDrawGUI implements AutoCloseable {
 		setTitle("CodeDraw");
 		setCursorStyle(CursorStyle.DEFAULT);
 		setInstantDraw(false);
-	}
 
+		guiCountLock.acquire();
+		guiCount++;
+		guiCountLock.release();
+	}
 	/*
 		The constructor must be split in two parts because the things above and below this comment must
 		be executed both before and after the execution logic of each type of window.
 	*/
-	private void finishConstructor() {
+	private CodeDrawGUI finishConstructor() {
 		frame.setLayout(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.toFront();
-		// must be instantiated after creating the window,
-		// otherwise the canvas and window positions cannot be initialized inside EventHandler
-		eventHandler = new EventHandler(frame, panel, () -> isCloseRequested = true);
+		// must be instantiated last otherwise the positions cannot be initialized inside EventHandler
+		eventHandler = new EventHandler(frame, panel, this::close);
+		return this;
 	}
 
 	private final JFrame frame;
@@ -80,8 +83,8 @@ class CodeDrawGUI implements AutoCloseable {
 	private JFrameCorrector jFrameCorrector = null;
 	private Screen screen = null;
 
+	private boolean isInstantDraw = false;
 	private boolean isClosed = false;
-	private boolean isCloseRequested = false;
 
 	public Screen getScreen() {
 		checkIsClosed();
@@ -104,12 +107,12 @@ class CodeDrawGUI implements AutoCloseable {
 
 	public boolean isInstantDraw() {
 		checkIsClosed();
-		return panel.isInstantDraw();
+		return isInstantDraw;
 	}
 
 	public void setInstantDraw(boolean isInstantDraw) {
 		checkIsClosed();
-		panel.setInstantDraw(isInstantDraw);
+		this.isInstantDraw = isInstantDraw;
 	}
 
 	public boolean isAlwaysOnTop() {
@@ -180,34 +183,41 @@ class CodeDrawGUI implements AutoCloseable {
 		checkIsClosed();
 
 		panel.show(image);
+
+		if (isInstantDraw) {
+			panel.waitForDisplay();
+		}
 	}
 
 	public boolean isClosed() {
-		if (isCloseRequested) {
-			close();
-		}
-
 		return isClosed;
+	}
+
+	// this method can be called from both the awt/swing thread and the main thread.
+	private Semaphore closeLock = new Semaphore(1);
+	public void close(boolean terminateOnLastClose) {
+		closeLock.acquire();
+		if (!isClosed) {
+			isClosed = true;
+			if (jFrameCorrector != null) jFrameCorrector.close();
+			if (screen != null) screen.detachGUI(frame);
+			frame.dispose();
+			panel.close();
+			eventHandler.close();
+
+			guiCountLock.acquire();
+			guiCount--;
+			if (guiCount == 0 && terminateOnLastClose) {
+				System.exit(0);
+			}
+			guiCountLock.release();
+		}
+		closeLock.release();
 	}
 
 	@Override
 	public void close() {
-		if (isClosed) return;
-
-		isClosed = true;
-		if (jFrameCorrector != null) jFrameCorrector.close();
-		if (screen != null) screen.detachGUI(frame);
-		frame.dispose();
-		panel.close();
-		eventHandler.close();
-	}
-
-	private void checkIsClosed() {
-		if (isClosed)
-			throw new RuntimeException(
-					"This CodeDraw window has already been closed. " +
-					"The methods associated with the graphical user interface can no longer be used."
-			);
+		close(false);
 	}
 
 	public static void run(Animation animation, CodeDrawGUI gui, Image image, int framesPerSecond, int simulationsPerSecond) {
@@ -287,6 +297,14 @@ class CodeDrawGUI implements AutoCloseable {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void checkIsClosed() {
+		if (this.isClosed())
+			throw new RuntimeException(
+				"This CodeDraw window has already been closed. " +
+				"The methods associated with the graphical user interface can no longer be used."
+			);
 	}
 
 	private static IllegalArgumentException createParameterGreaterThanZeroException(String parameterName) {
