@@ -166,7 +166,7 @@ public class TransformationTest {
 		confirm.setConfirmationDialogue(
 			"Should draw a filled shape with an arc.\n" +
 			"The length of the arc can be modified with the mouse wheel.\n" +
-			"Click q mouse button to complete the test."
+			"Click a mouse button to complete the test."
 		);
 
 		EventScanner es = cd.getEventScanner();

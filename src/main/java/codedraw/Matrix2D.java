@@ -159,7 +159,7 @@ public class Matrix2D {
 
 	/**
 	 * Rotates the coordinate system at the (0, 0) coordinate.
-	 * @param angleRadians Angle in radians. The angle goes counter-clockwise.
+	 * @param angleRadians Angle in radians. The angle rotates objects clockwise.
 	 * @return The rotated matrix.
 	 */
 	public Matrix2D rotate(double angleRadians) {
@@ -174,7 +174,7 @@ public class Matrix2D {
 	 * Rotates the coordinate system at the specified coordinate.
 	 * @param x Coordinate to rotate around.
 	 * @param y Coordinate to rotate around.
-	 * @param radians Angle in radians.
+	 * @param radians Angle in radians. The angle rotates objects clockwise.
 	 * @return The rotated matrix.
 	 */
 	public Matrix2D rotateAt(double x, double y, double radians) {
@@ -237,7 +237,7 @@ public class Matrix2D {
 	 * Mirrors the coordinate system at the (0, 0) coordinate.
 	 * An angle with the value 0 would mirror the coordinate system along the x-axis.
 	 * An angle with the value Math.PI / 2 would mirror the coordinate system along the y-axis.
-	 * @param angleRadians The angle which represents an infinite line that passes through the (0, 0) coordinate.
+	 * @param angleRadians The angle which represents an infinite line that passes through the (0, 0) coordinate. The mirror line
 	 * @return A new matrix with the mirrored coordinate system.
 	 */
 	public Matrix2D mirror(double angleRadians) {
