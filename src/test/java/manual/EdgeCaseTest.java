@@ -30,7 +30,7 @@ public class EdgeCaseTest {
 		CodeDraw cd1 = new CodeDraw();
 		CodeDraw cd2 = new CodeDraw();
 
-		cd1.close(true);
+		cd1.close();
 		cd2.close();
 
 		try {
