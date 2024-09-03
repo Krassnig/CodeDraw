@@ -30,10 +30,16 @@ public class Matrix2D {
 	);
 
 	public static Matrix2D fromRowMajor(double[][] matrix) {
-		return new Matrix2D(matrix);
+		throwIfInvalidMatrix(matrix);
+		return new Matrix2D(new double[][] {
+				{ matrix[0][0], matrix[0][1], matrix[0][2] },
+				{ matrix[1][0], matrix[1][1], matrix[1][2] },
+				{ matrix[2][0], matrix[2][1], matrix[2][2] },
+		});
 	}
 
 	public static Matrix2D fromColumnMajor(double[][] matrix) {
+		throwIfInvalidMatrix(matrix);
 		return new Matrix2D(new double[][] {
 				{ matrix[0][0], matrix[1][0], matrix[2][0] },
 				{ matrix[0][1], matrix[1][1], matrix[2][1] },
@@ -50,11 +56,21 @@ public class Matrix2D {
 	}
 
 	public static Matrix2D fromColumnMajor(double r0c0, double r1c0, double r2c0, double r0c1, double r1c1, double r2c1, double r0c2, double r1c2, double r2c2) {
-		return new Matrix2D(new double[][]{
+		return new Matrix2D(new double[][] {
 				{ r0c0, r0c1, r0c2 },
 				{ r1c0, r1c1, r1c2 },
 				{ r2c0, r2c1, r2c2 }
 		});
+	}
+
+	private static void throwIfInvalidMatrix(double[][] matrix) {
+		if (matrix == null) throw new IllegalArgumentException("Argument matrix cannot be null.");
+		if (matrix.length != 3) throw new IllegalArgumentException("Argument matrix must be length 3.");
+
+		for (int i = 0; i < 3; i++) {
+			if (matrix[i] == null) throw new IllegalArgumentException("Inner array inside matrix cannot be null.");
+			if (matrix[i].length != 3) throw new IllegalArgumentException("Inner array inside matrix must be length 3.");
+		}
 	}
 
 	/**
@@ -62,19 +78,7 @@ public class Matrix2D {
 	 * @param matrix A 3x3 double array.
 	 */
 	private Matrix2D(double[][] matrix) {
-		if (matrix.length != 3) throw new IllegalArgumentException("matrix must be 3x3 in length");
-
-		this.matrix = new double[3][3];
-
-		for (int r = 0; r < 3; r++) {
-			double[] row = matrix[r];
-			if (row == null) throw new NullPointerException("Inner row in matrix is null");
-			if (row.length != 3) throw new IllegalArgumentException("matrix must be 3x3 in length");
-
-			for (int c = 0; c < 3; c++) {
-				this.matrix[r][c] = row[c];
-			}
-		}
+		this.matrix = matrix;
 	}
 
 	private final double[][] matrix;
