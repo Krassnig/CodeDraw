@@ -267,13 +267,11 @@ public class BorderlessWindow extends Image implements AutoCloseable {
 	}
 
 	/**
-	 * Closes the window and disposes all resources associated with this instance.
-	 * Any methods associated with the graphical user interface can no longer be accessed afterwards.
-	 * @param terminateProcess When true terminates the process when all CodeDraw instances are closed.
-	 *                         When false lets the process continue even though all CodeDraw instances have been closed.
+	 * Use {@link #close()} instead.
 	 */
-	public void close(boolean terminateProcess) {
-		gui.close(terminateProcess);
+	@Deprecated
+	public void close(boolean ignored) {
+		close();
 	}
 
 	@Override
