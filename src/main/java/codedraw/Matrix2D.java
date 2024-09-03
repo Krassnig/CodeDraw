@@ -14,7 +14,7 @@ public class Matrix2D {
 	/**
 	 * The zero matrix where all values are 0.
 	 */
-	public static final Matrix2D ZERO = new Matrix2D(
+	public static final Matrix2D ZERO = fromRowMajor(
 		0, 0, 0,
 		0, 0, 0,
 		0, 0, 0
@@ -23,51 +23,58 @@ public class Matrix2D {
 	/**
 	 * The identity matrix. This matrix would not modify a coordinate system.
 	 */
-	public static final Matrix2D IDENTITY = new Matrix2D(
+	public static final Matrix2D IDENTITY = fromRowMajor(
 		1, 0, 0,
 		0, 1, 0,
 		0, 0, 1
 	);
 
+	public static Matrix2D fromRowMajor(double[][] matrix) {
+		return new Matrix2D(matrix);
+	}
+
+	public static Matrix2D fromColumnMajor(double[][] matrix) {
+		return new Matrix2D(new double[][] {
+				{ matrix[0][0], matrix[1][0], matrix[2][0] },
+				{ matrix[0][1], matrix[1][1], matrix[2][1] },
+				{ matrix[0][2], matrix[1][2], matrix[2][2] },
+		});
+	}
+
+	public static Matrix2D fromRowMajor(double r0c0, double r0c1, double r0c2, double r1c0, double r1c1, double r1c2, double r2c0, double r2c1, double r2c2) {
+		return new Matrix2D(new double[][] {
+				{ r0c0, r0c1, r0c2 },
+				{ r1c0, r1c1, r1c2 },
+				{ r2c0, r2c1, r2c2 }
+		});
+	}
+
+	public static Matrix2D fromColumnMajor(double r0c0, double r1c0, double r2c0, double r0c1, double r1c1, double r2c1, double r0c2, double r1c2, double r2c2) {
+		return new Matrix2D(new double[][]{
+				{ r0c0, r0c1, r0c2 },
+				{ r1c0, r1c1, r1c2 },
+				{ r2c0, r2c1, r2c2 }
+		});
+	}
+
 	/**
-	 * Creates a new matrix from a 3x3 double array.
+	 * Creates a new row major matrix from a 3x3 double array.
 	 * @param matrix A 3x3 double array.
 	 */
-	public Matrix2D(double[][] matrix) {
-		if (matrix == null) throw new NullPointerException();
-		if (matrix.length != 3) throw new IllegalArgumentException();
+	private Matrix2D(double[][] matrix) {
+		if (matrix.length != 3) throw new IllegalArgumentException("matrix must be 3x3 in length");
 
 		this.matrix = new double[3][3];
 
 		for (int r = 0; r < 3; r++) {
 			double[] row = matrix[r];
-			if (row == null) throw new NullPointerException();
-			if (row.length != 3) throw new IllegalArgumentException();
+			if (row == null) throw new NullPointerException("Inner row in matrix is null");
+			if (row.length != 3) throw new IllegalArgumentException("matrix must be 3x3 in length");
 
 			for (int c = 0; c < 3; c++) {
 				this.matrix[r][c] = row[c];
 			}
 		}
-	}
-
-	/**
-	 * Creates a new matrix from the values provided.
-	 * @param v00 The value at position (0, 0).
-	 * @param v01 The value at position (0, 1).
-	 * @param v02 The value at position (0, 2).
-	 * @param v10 The value at position (1, 0).
-	 * @param v11 The value at position (1, 1).
-	 * @param v12 The value at position (1, 2).
-	 * @param v20 The value at position (2, 0).
-	 * @param v21 The value at position (2, 1).
-	 * @param v22 The value at position (2, 2).
-	 */
-	public Matrix2D(double v00, double v01, double v02, double v10, double v11, double v12, double v20, double v21, double v22) {
-		this.matrix = new double[][] {
-			{ v00, v01, v02 },
-			{ v10, v11, v12 },
-			{ v20, v21, v22 }
-		};
 	}
 
 	private final double[][] matrix;
@@ -117,7 +124,7 @@ public class Matrix2D {
 	 * @return A new matrix with the translated coordinate system.
 	 */
 	public Matrix2D translate(double tx, double ty) {
-		return new Matrix2D(
+		return fromRowMajor(
 			1, 0, tx,
 			0, 1, ty,
 			0, 0, 1
@@ -130,7 +137,7 @@ public class Matrix2D {
 	 * @return The rotated matrix.
 	 */
 	public Matrix2D rotate(double angleRadians) {
-		return new Matrix2D(
+		return fromRowMajor(
 			Math.cos(angleRadians), -Math.sin(angleRadians), 0,
 			Math.sin(angleRadians), Math.cos(angleRadians), 0,
 			0, 0, 1
@@ -155,7 +162,7 @@ public class Matrix2D {
 	 * @return A new matrix with the scaled coordinate system.
 	 */
 	public Matrix2D scale(double xScale, double yScale) {
-		return new Matrix2D(
+		return fromRowMajor(
 			xScale, 0, 0,
 			0, yScale, 0,
 			0, 0, 1
@@ -181,7 +188,7 @@ public class Matrix2D {
 	 * @return A new matrix with the sheared coordinate system.
 	 */
 	public Matrix2D shear(double shearX, double shearY) {
-		return new Matrix2D(
+		return fromRowMajor(
 			1, shearX, 0,
 			shearY, 1, 0,
 			0, 0, 1
@@ -359,7 +366,7 @@ public class Matrix2D {
 	}
 
 	private Matrix2D divide(double divisor) {
-		return new Matrix2D(
+		return fromRowMajor(
 			get(0, 0) / divisor, get(0, 1) / divisor, get(0, 2) / divisor,
 			get(1, 0) / divisor, get(1, 1) / divisor, get(1, 2) / divisor,
 			get(2, 0) / divisor, get(2, 1) / divisor, get(2, 2) / divisor
@@ -385,7 +392,7 @@ public class Matrix2D {
 	}
 
 	private Matrix2D transpose() {
-		return new Matrix2D(
+		return fromRowMajor(
 				get(0, 0), get(1, 0), get(2, 0),
 				get(0, 1), get(1, 1), get(2, 1),
 				get(0, 2), get(1, 2), get(2, 2)
@@ -403,7 +410,7 @@ public class Matrix2D {
 		double m21 = get(2, 1);
 		double m22 = get(2, 2);
 
-		return new Matrix2D(
+		return fromRowMajor(
 			m11 * m22 - m21 * m12,
 			m10 * m22 - m20 * m12,
 			m10 * m21 - m20 * m11,
@@ -419,7 +426,7 @@ public class Matrix2D {
 	}
 
 	private Matrix2D cofactor() {
-		return new Matrix2D(
+		return fromRowMajor(
 				+get(0, 0), -get(0, 1), +get(0, 2),
 				-get(1, 0), +get(1, 1), -get(1, 2),
 				+get(2, 0), -get(2, 1), +get(2, 2)
