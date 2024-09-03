@@ -29,6 +29,12 @@ public class Matrix2D {
 		0, 0, 1
 	);
 
+	/**
+	 * Creates a new matrix from a 3x3 row major matrix.
+	 * If in doubt you probably want to use row-major as it visually aligns with most examples.
+	 * @param matrix 3x3 matrix
+	 * @return the matrix.
+	 */
 	public static Matrix2D fromRowMajor(double[][] matrix) {
 		throwIfInvalidMatrix(matrix);
 		return new Matrix2D(new double[][] {
@@ -38,6 +44,12 @@ public class Matrix2D {
 		});
 	}
 
+	/**
+	 * Creates a new matrix from a 3x3 column major matrix.
+	 * If in doubt you probably want to use row-major as it visually aligns with most examples.
+	 * @param matrix 3x3 matrix
+	 * @return the matrix.
+	 */
 	public static Matrix2D fromColumnMajor(double[][] matrix) {
 		throwIfInvalidMatrix(matrix);
 		return new Matrix2D(new double[][] {
@@ -47,6 +59,11 @@ public class Matrix2D {
 		});
 	}
 
+	/**
+	 * Creates a new matrix from a 3x3 row major matrix.
+	 * If in doubt you probably want to use row-major as it visually aligns with most examples.
+	 * @return the matrix.
+	 */
 	public static Matrix2D fromRowMajor(double r0c0, double r0c1, double r0c2, double r1c0, double r1c1, double r1c2, double r2c0, double r2c1, double r2c2) {
 		return new Matrix2D(new double[][] {
 				{ r0c0, r0c1, r0c2 },
@@ -55,6 +72,11 @@ public class Matrix2D {
 		});
 	}
 
+	/**
+	 * Creates a new matrix from a 3x3 column major matrix.
+	 * If in doubt you probably want to use row-major as it visually aligns with most examples.
+	 * @return the matrix.
+	 */
 	public static Matrix2D fromColumnMajor(double r0c0, double r1c0, double r2c0, double r0c1, double r1c1, double r2c1, double r0c2, double r1c2, double r2c2) {
 		return new Matrix2D(new double[][] {
 				{ r0c0, r0c1, r0c2 },
@@ -90,8 +112,8 @@ public class Matrix2D {
 	 * @return The value.
 	 */
 	public double get(int row, int column) {
-		if (row < 0 || 3 <= row) throw new IllegalArgumentException();
-		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
+		if (row < 0 || 3 <= row) throw new IllegalArgumentException("Row index can only be 0, 1 or 2.");
+		if (column < 0 || 3 <= column) throw new IllegalArgumentException("Column index can only be 0, 1 or 2.");
 
 		return matrix[row][column];
 	}
@@ -104,10 +126,10 @@ public class Matrix2D {
 	 * @return The new matrix with the changed value.
 	 */
 	public Matrix2D set(int row, int column, double value) {
-		if (row < 0 || 3 <= row) throw new IllegalArgumentException();
-		if (column < 0 || 3 <= column) throw new IllegalArgumentException();
+		if (row < 0 || 3 <= row) throw new IllegalArgumentException("Row index can only be 0, 1 or 2.");
+		if (column < 0 || 3 <= column) throw new IllegalArgumentException("Column index can only be 0, 1 or 2.");
 
-		Matrix2D result = new Matrix2D(matrix);
+		Matrix2D result = fromRowMajor(matrix);
 		result.matrix[row][column] = value;
 		return result;
 	}
@@ -396,11 +418,8 @@ public class Matrix2D {
 	}
 
 	private Matrix2D transpose() {
-		return fromRowMajor(
-				get(0, 0), get(1, 0), get(2, 0),
-				get(0, 1), get(1, 1), get(2, 1),
-				get(0, 2), get(1, 2), get(2, 2)
-		);
+		// this.matrix is in row major order
+		return fromColumnMajor(this.matrix);
 	}
 
 	private Matrix2D minor() {
