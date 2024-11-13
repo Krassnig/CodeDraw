@@ -7,6 +7,9 @@ import java.awt.event.MouseEvent;
  */
 public class MouseClickEvent extends Event {
 	MouseClickEvent(MouseEvent e) {
+		if (e.getButton() == MouseEvent.NOBUTTON) {
+			throw new RuntimeException("MouseClickEvent was created from awt.event.MouseEvent even though there no button was pressed.");
+		}
 		this.e = e;
 	}
 
@@ -33,7 +36,8 @@ public class MouseClickEvent extends Event {
 	 * @return a mouse button.
 	 */
 	public MouseButton getMouseButton() {
-		return MouseButton.values()[e.getButton()];
+		// must be e.getButton() - 1 because e.getButton() == 0 is for mouse events where no button was pressed
+		return MouseButton.values()[e.getButton() - 1];
 	}
 
 	@Override
