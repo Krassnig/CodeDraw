@@ -88,9 +88,9 @@ For guidance on configuring a `build.gradle` or `build.gradle.kts`, please refer
 ### Kotlin 
 To use CodeDraw as a Gradle dependency, add the following lines to your `build.gradle.kts`.
 ```kotlin
-    repositories {
-        maven { url = "https://jitpack.io" }
-    }
+repositories {
+    maven { url = "https://jitpack.io" }
+}
 ```
 
 ```kotlin
