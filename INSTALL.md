@@ -120,7 +120,7 @@ application {
 }
 ```
 
-### Grovy
+### Groovy
 To use CodeDraw as a Gradle dependency, add the following lines to your `build.gradle`.
 ```groovy
 allprojects {
