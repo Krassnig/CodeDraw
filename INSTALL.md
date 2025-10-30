@@ -81,8 +81,47 @@ For guidance on configuring a `pom.xml`, please refer to the
 
 ## Gradle
 
-To use CodeDraw as a Gradle dependency, add the following lines to your `build.gradle`.
 
+For guidance on configuring a `build.gradle` or `build.gradle.kts`, please refer to the
+[official Gradle documentation](https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files).
+
+### Kotlin 
+To use CodeDraw as a Gradle dependency, add the following lines to your `build.gradle.kts`.
+```kotlin
+repositories {
+    maven { url = "https://jitpack.io" }
+}
+```
+
+```kotlin
+dependencies {
+	implementation("com.github.Krassnig:CodeDraw:latest.release")
+}
+```
+
+After adding CodeDraw as a dependency, your `build.gradle.kts` might look like the example below.
+
+```kotlin
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.Krassnig:CodeDraw:latest.release'
+}
+
+application {
+    mainClass = 'demo.App' //Enter path to your Main class
+}
+```
+
+### Groovy
+To use CodeDraw as a Gradle dependency, add the following lines to your `build.gradle`.
 ```groovy
 allprojects {
     repositories {
@@ -117,6 +156,3 @@ application {
     mainClass = 'demo.App' //Enter path to your Main class
 }
 ```
-
-For guidance on configuring a `build.gradle`, please refer to the
-[official Gradle documentation](https://docs.gradle.org/current/samples/sample_building_java_applications.html#review_the_project_files).
