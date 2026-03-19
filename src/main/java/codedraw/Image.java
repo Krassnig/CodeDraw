@@ -56,7 +56,7 @@ public class Image {
 	 * This function might be very slow depending on speed of the network connection
 	 * or the availability of the server.
 	 * <pre>{@code
-	 * Image image = Image.fromUrl("https://exmaple.com/example-image.png");
+	 * Image image = Image.fromUrl("https://example.com/example-image.png");
 	 * }</pre>
 	 * Supported image formats:
 	 *      .jpg or .jpeg (JPEG), .bmp (Bitmap), .gif (Graphics Interchange Format),
@@ -245,7 +245,7 @@ public class Image {
 	}
 
 	/**
-	 * Increases or decrease the size of the image given as a parameter.
+	 * Increases or decreases the size of the image given as a parameter.
 	 * For example a scale of 0.5 would half the image and a size of 2 would double its size.
 	 * If the resulting image resolution is too small this function will throw an exception.
 	 * @param source The source image to create the larger or smaller image.
@@ -261,7 +261,7 @@ public class Image {
 	}
 
 	/**
-	 * Increases or decrease the size of the image given as a parameter.
+	 * Increases or decreases the size of the image given as a parameter.
 	 * For example a scale of 0.5 would half the image and a size of 2 would double its size.
 	 * If the resulting image resolution is too small this function will throw an exception.
 	 * @param source The source image to create the larger or smaller image.
@@ -462,14 +462,14 @@ public class Image {
 	}
 
 	/**
-	 * This width of this image.
+	 * The width of this image.
 	 * This value cannot be changed once set via the constructor.
 	 * @return the width of the canvas in pixel.
 	 */
 	public int getWidth() { return width; }
 
 	/**
-	 * This height of this image.
+	 * The height of this image.
 	 * This value cannot be changed once set via the constructor.
 	 * @return the height of the canvas in pixel.
 	 */

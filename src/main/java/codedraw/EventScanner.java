@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 /**
  * The EventScanner can be used to handle events that are produced in CodeDraw.
- * There is two ways to consume events from the EventScanner, either through the {@link Iterable<Event>} interface or
+ * There are two ways to consume events from the EventScanner, either through the {@link Iterable<Event>} interface or
  * through the {@link java.util.Scanner} like structure by calling <i>has</i>- and <i>next</i>-methods.
  * <br><br>
  * The example below displays the current mouse position and the amount the mouse has been pressed.
@@ -24,20 +24,20 @@ import java.util.NoSuchElementException;
  * int mouseY = 0;
  * int clickCount = 0;
  *
- * while (!es.isClosed()) {
- *     for (var e : cd.getEventScanner()) {
- *         switch (e) {
- *             case MouseMoveEvent a -> {
- *                 mouseX = a.getX();
- *                 mouseY = a.getY();
+ * while (!cd.isClosed()) {
+ *     for (var event : cd.getEventScanner()) {
+ *         switch (event) {
+ *             case MouseMoveEvent mouseMoveEvent -> {
+ *                 mouseX = mouseMoveEvent.getX();
+ *                 mouseY = mouseMoveEvent.getY();
  *             }
- *             case MouseClickEvent a -> clickCount++;
+ *             case MouseClickEvent mouseClickEvent -> clickCount++;
  *             default -> { }
  *         }
  *     }
  *
  *     cd.clear();
- *     cd.drawText(100, 100, "Position: " + x + " " + y + "\nClick: " + clickCount);
+ *     cd.drawText(100, 100, "Position: " + mouseX + " " + mouseY + "\nClick: " + clickCount);
  *     cd.show();
  * }
  * }</pre>
@@ -64,12 +64,12 @@ import java.util.NoSuchElementException;
  * int mouseY = 0;
  * int clickCount = 0;
  *
- * while (!es.isClosed()) {
+ * while (!cd.isClosed()) {
  *     while (es.hasEventNow()) {
  *         if (es.hasMouseMoveEvent()) {
- *             MouseMoveEvent a = es.nextMouseMoveEvent();
- *             mouseX = a.getX();
- *             mouseY = a.getY();
+ *             MouseMoveEvent mouseMoveEvent = es.nextMouseMoveEvent();
+ *             mouseX = mouseMoveEvent.getX();
+ *             mouseY = mouseMoveEvent.getY();
  *         }
  *         else if (es.hasMouseClickEvent()) {
  *             es.nextEvent();

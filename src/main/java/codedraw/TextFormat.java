@@ -205,7 +205,7 @@ public final class TextFormat {
 
 	/**
 	 * Tests whether the font is available on the current system.
-	 * If this method returns for a given font, {@link #setFontName(String, String...)} will not use the fallback fonts.
+	 * If this method returns true for a given font, {@link #setFontName(String, String...)} will not use the fallback fonts.
 	 * @param fontName any font name.
 	 * @return whether the font is available.
 	 */
