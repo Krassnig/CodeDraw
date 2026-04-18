@@ -140,7 +140,11 @@ public class Matrix2D {
 	 * @return The inverse of this matrix.
 	 */
 	public Matrix2D inverse() {
-		return adjunct().divide(determinant());
+		double det = determinant();
+		if (Math.abs(det) <= 1e-15) {
+			throw new ArithmeticException("This matrix is not invertible.");
+		}
+		return adjunct().divide(det);
 	}
 
 	/**
