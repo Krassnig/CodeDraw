@@ -935,7 +935,7 @@ public class Image {
 	/**
 	 * Draws a filled rectangle.
 	 * The corners can be changed with {@link #setCorner(Corner)}. For details see the {@link Corner} class.
-	 * @param x The distance in pixel from the left side of the canvas to the left size of the rectangle.
+	 * @param x The distance in pixel from the left side of the canvas to the left side of the rectangle.
 	 * @param y The distance in pixel from the top side of the canvas to the top side of the rectangle.
 	 * @param height The height of the rectangle in pixel.
 	 * @param width The width of the rectangle in pixel.
